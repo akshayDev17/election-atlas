@@ -20,6 +20,14 @@ on:
         required: true
         type: choice
         options: ['1', '2']
+      years:
+        description: 'Optional, comma-separated election years to import now (e.g. 2024,2014); empty = all of the day'
+        required: false
+        default: ''
+      max_rows:
+        description: 'Refuse the import if its estimated rows written exceed this (what is left of the 100,000 a day)'
+        required: true
+        default: '90000'
 
 permissions:
   contents: read
@@ -42,6 +50,8 @@ jobs:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       DAY: ${{ inputs.day }}
+      YEARS: ${{ inputs.years }}
+      MAX_ROWS: ${{ inputs.max_rows }}
     steps:
       - uses: actions/checkout@v4
       - name: Read the pinned atlas source
@@ -89,7 +99,9 @@ jobs:
 
       - name: Validate every record and write the SQL (documents not yet in D1)
         run: |
+          set -o pipefail
           python3 d1/ingest.py --data ../atlas-source/work/election-atlas/data --day "$DAY" \
+            ${YEARS:+--years "$YEARS"} --max-rows "$MAX_ROWS" \
             --skip-present present.txt --out "day$DAY.sql" | tee plan.txt
           if ! grep -q '^INSERT INTO document ' "day$DAY.sql"; then
             echo "nothing to import for day $DAY: every document is already in D1"
