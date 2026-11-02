@@ -471,9 +471,10 @@ td .d{font-weight:500;letter-spacing:.02em}
 
 <script type="module">
 import {
-  fetchOptional, loadAvailability, byelAvailable, lsDetailAvailable, stateRoster, acCycles, notAvailable, voidHTML,
+  fetchOptional, loadAvailability, byelAvailable, lsDetailAvailable, lsResultsAvailable, stateRoster, acCycles,
+  notAvailable, voidHTML,
   ECI, CMO_UP, markUnavailable, membersAvailable, monogramHTML, officialPhotoHTML,
-} from '../lib/atlas.js?v=89698364';
+} from '../lib/atlas.js?v=f019cfe4';
 import { resolveSeat, tallyStands } from './stands.js?v=b5ba9cf0';
 import { cardBody } from './card.js?v=a6c8c8a1';
 const NS = 'http://www.w3.org/2000/svg';
@@ -1241,6 +1242,8 @@ function applyTense() {
 }
 
 async function loadLS(year) {
+  /* A year whose result has not been added is never requested (no 404). */
+  if (!lsResultsAvailable(avail, year)) throw new Error(`no Lok Sabha result file for ${year}`);
   const res = await fetchOptional(`../data/results/ls/pc/${year}.json`);
   if (!res.ok) throw new Error(`no Lok Sabha result file for ${year}`);
   const pcRows = Object.fromEntries(Object.entries(res.doc.constituencies).filter(([, c]) => c.st === stateCode));

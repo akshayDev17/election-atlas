@@ -104,6 +104,9 @@ main{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;padding:0 var
 .year[aria-pressed="true"]{color:var(--ink);border-bottom-color:var(--ink)}
 .year:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:2px}
 .year[disabled]{opacity:.4;cursor:default}
+/* a year whose result has not been added: still selectable, it shows "not available yet" */
+.year.na{color:var(--rule-3);text-decoration:line-through;text-decoration-thickness:1px}
+.year.na[aria-pressed="true"]{color:var(--muted)}
 .mh-tools{display:flex;align-items:baseline;justify-content:flex-end;gap:var(--s5);flex-wrap:wrap}
 /* The tense is the page's mode: as counted on polling day, or as the term
    actually ended up. It is a sibling of the year selector — same instrument
@@ -204,7 +207,7 @@ main{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;padding:0 var
 /* Constituency fill. No stroke: a boundary is only visible where two adjacent
    seats were won by different parties, which is the whole point of shading at
    this granularity. */
-#map .pc{fill:var(--c);stroke:none;transition:fill .22s var(--ease)}
+#map .pc{fill:var(--c,var(--paper-2));stroke:none;transition:fill .22s var(--ease)}
 /* A by-election seat wears a dashed --ink outline — a scar, not a hue. The
    dashed edge is the one device left over: fill is hover, the leading edge is
    selection, the solid stroke is the state boundary. Vacant is the same dash
@@ -613,9 +616,9 @@ main{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;padding:0 var
 
 <script type="module">
 import {
-  fetchOptional, loadAvailability, byelAvailable, unionRoster, notAvailable, PRESIDENT,
-  monogramHTML, officialPhotoHTML,
-} from './lib/atlas.js?v=89698364';
+  fetchOptional, loadAvailability, byelAvailable, lsResultsAvailable, unionRoster, notAvailable, PRESIDENT,
+  ECI, markUnavailable, monogramHTML, officialPhotoHTML,
+} from './lib/atlas.js?v=f019cfe4';
 const NS = 'http://www.w3.org/2000/svg';
 const $ = s => document.querySelector(s);
 const el = (t, c) => { const n = document.createElement(t); if (c) n.className = c; return n; };
@@ -1132,6 +1135,7 @@ function renderNational() {
    real party that did neither (RLD 2019, VBA/PMK 2024) and the message must not
    claim the user's query failed. */
 function noMatchMessage() {
+  if (!agg && shownYear) return resultsMissing(shownYear);
   if (!partyQuery || !agg) return 'No party matches your search.';
   const below = [...agg.national.keys()].filter(partyMatches);
   if (!below.length) return 'No party matches your search.';
@@ -1319,6 +1323,8 @@ let electedSeats = new Map();          // party -> seats as elected
 let standsSeats = new Map();           // party -> seats under the tense
 let deltaByParty = new Map();          // party -> net change (stands - elected)
 async function loadYear(y) {
+  /* A year whose result has not been added is never requested (no 404). */
+  if (!lsResultsAvailable(avail, y)) throw new Error(`${y} is not published`);
   /* manifest paths are relative to the data directory, not to the page */
   const url = 'data/' + pcLevel.results.replace('{year}', y);
   if (!yearCache.has(y)) yearCache.set(y, fetchOptional(url).then(res => {
@@ -1364,7 +1370,11 @@ function syncTenseAvailability(y) {
   }
 }
 
+const resultsMissing = y => notAvailable(`the ${y} Lok Sabha results`, ECI, 'have');
+let shownYear = null;
+
 async function selectYear(y) {
+  shownYear = y;
   for (const b of yearsEl.children) { b.setAttribute('aria-pressed', String(+b.dataset.year === y)); b.disabled = true; }
   hideCard();
   try {
@@ -1382,9 +1392,11 @@ async function selectYear(y) {
   } catch (err) {
     currentYear = null; agg = null; byeData = null; cabinet = { elected: null, stands: null };
     resolved = new Map(); electedSeats = new Map(); standsSeats = new Map(); deltaByParty = new Map();
-    noteEl.textContent = `${y} has no constituency result file yet.`;
+    noteEl.textContent = resultsMissing(y);
     for (const p of pcPaths.values()) { p.style.setProperty('--c', 'var(--paper-2)'); p.classList.remove('bye', 'vacant'); }
     for (const p of statePaths.values()) p.removeAttribute('aria-label');
+    /* The council of ministers does not depend on the seat result. */
+    cabinet = await loadCabinet(y).catch(() => ({ elected: null, stands: null }));
     renderNational();
     renderBelt();
   } finally {
@@ -1481,8 +1493,10 @@ function showCabCard(m, x, y) {
 }
 
 function renderBelt() {
-  if (!currentYear) { beltEl.hidden = true; return; }
-  const y = currentYear.year;
+  /* The council of ministers is its own record: it shows even for a year whose
+     seat result has not been added yet. */
+  const y = currentYear ? currentYear.year : shownYear;
+  if (y == null) { beltEl.hidden = true; return; }
   const doc = cabinetDoc();
   beltEl.hidden = false;
   beltTitle.textContent = `Union council of ministers · ${y}`;
@@ -1569,6 +1583,7 @@ for (const y of manifest.elections.ls.years) {
   const b = el('button', 'year');
   b.type = 'button'; b.dataset.year = y; b.textContent = y;
   b.setAttribute('aria-pressed', 'false');
+  if (!lsResultsAvailable(avail, y)) markUnavailable(b, `${y} Lok Sabha results not available yet`);
   b.addEventListener('click', () => selectYear(y));
   yearsEl.appendChild(b);
 }

@@ -7,6 +7,11 @@ name: Deploy
 
 on:
   workflow_dispatch:
+    inputs:
+      pending_ok:
+        description: 'Deploy before every import day has run: list the data files D1 does not hold yet as pending (the pages show "not available yet") instead of failing'
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -70,7 +75,12 @@ jobs:
             --compare atlas-source/work/election-atlas/data --overlay backend/d1/inputs
 
       - name: Assemble the site
-        run: python3 backend/build_site.py --out dist --data-from exported --complete-against atlas-source/work/election-atlas/data
+        env:
+          PENDING_OK: ${{ inputs.pending_ok && '--pending-ok' || '' }}
+        run: |
+          # shellcheck disable=SC2086
+          python3 backend/build_site.py --out dist --data-from exported \
+            --complete-against atlas-source/work/election-atlas/data $PENDING_OK
 
       - name: Provenance gate over the export and over D1
         run: python3 tools/check_provenance.py dist/work/election-atlas/data --db d1.sqlite
@@ -96,8 +106,18 @@ jobs:
           python3 -m unittest discover -s backend/d1 -p 'test_*.py' -v
           python3 -m unittest discover -s tools -p 'test_check_provenance.py' -v
 
+      # With every file present the committed index must already be right; with
+      # files pending it is rebuilt for the site from the files it actually has.
       - name: availability.json matches the files present
-        run: python3 dist/work/election-atlas/tools/build-availability.py --check
+        env:
+          PENDING_OK: ${{ inputs.pending_ok }}
+        run: |
+          if [ "$PENDING_OK" = true ]; then
+            python3 dist/work/election-atlas/tools/build-availability.py
+            jq -c .ls dist/work/election-atlas/data/availability.json
+          else
+            python3 dist/work/election-atlas/tools/build-availability.py --check
+          fi
 
       - name: Static-asset limits (20,000 files, 25 MiB each)
         run: |
@@ -114,7 +134,7 @@ jobs:
           base=$(grep -oE 'https://[a-z0-9.-]+\.workers\.dev' deploy.log | head -1)
           echo "preview: $base/work/election-atlas/"
           test -n "$base"
-          for p in / data/manifest.json data/availability.json data/results/ls/pc/2024.json state/; do
+          for p in / data/manifest.json data/availability.json data/results/ac/IN-UP/2022.json state/; do
             code=$(curl -s -o /dev/null -w '%{http_code}' "$base/work/election-atlas/$p")
             echo "$code $p"; test "$code" = 200
           done
