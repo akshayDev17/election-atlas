@@ -134,11 +134,17 @@ jobs:
           base=$(grep -oE 'https://[a-z0-9.-]+\.workers\.dev' deploy.log | head -1)
           echo "preview: $base/work/election-atlas/"
           test -n "$base"
-          for p in / data/manifest.json data/availability.json data/results/ac/IN-UP/2022.json state/; do
-            code=$(curl -s -o /dev/null -w '%{http_code}' "$base/work/election-atlas/$p")
-            echo "$code $p"; test "$code" = 200
-          done
           echo "$base" > preview-base.txt
+          # A new deploy can take a few seconds to answer on workers.dev: wait for the
+          # atlas root (up to 2 minutes) before judging anything.
+          for _ in $(seq 1 24); do
+            [ "$(curl -s -o /dev/null -w '%{http_code}' "$base/work/election-atlas/")" = 200 ] && break
+            sleep 5
+          done
+          for p in "" data/manifest.json data/availability.json data/results/ac/IN-UP/2022.json state/; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "$base/work/election-atlas/$p")
+            echo "$code /work/election-atlas/$p"; test "$code" = 200
+          done
 
       - name: Provenance gate over what the preview serves
         run: python3 tools/check_provenance.py dist/work/election-atlas/data --remote "$(cat preview-base.txt)/work/election-atlas/"

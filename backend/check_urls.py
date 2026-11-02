@@ -23,7 +23,10 @@ Checks, for every /work/election-atlas row of the inventory:
             it with the query string intact.
 
 Paths revision §7 dropped from the new repository (tools/vendor/, tools/tessdata/)
-are expected to answer 404 and are counted separately. Every asset in --dist
+are expected to answer 404 and are counted separately. So are the data files a
+deploy listed as pending (--pending, the PENDING lines of build_site.py
+--pending-ok): not in D1 yet, they answer 404 and the pages say "not available
+yet" for them. Every asset in --dist
 that the inventory does not list (files added since it was taken) must also
 answer 200 with the same bytes. Exits 1 on any failure.
 """
@@ -103,9 +106,12 @@ def check_pdf(base, rel, entry):
     return 'ok', '206 range ok; length matches'
 
 
-def check_row(base, row, dist, pdfs):
+def check_row(base, row, dist, pdfs, pending=frozenset()):
     kind, url = row['kind'], row['url']
     rel = url[len(ATLAS):] if url.startswith(ATLAS) else ''
+    if rel in pending:
+        status, _h, _b = get(base + url, read=False)
+        return 'pending (not in D1 yet)', ('ok' if status == 404 else 'FAIL'), f'{status}'
     if kind == 'file' and rel.startswith(RETIRED_BY_S7):
         status, _h, _b = get(base + url, read=False)
         return 'retired-s7', ('ok' if status == 404 else 'FAIL'), f'{status} (dropped by revision §7)'
@@ -115,7 +121,7 @@ def check_row(base, row, dist, pdfs):
         verdict, detail = check_pdf(base, rel, pdfs[rel])
         return kind, verdict, detail
     if kind == 'retired' and (dist / url.lstrip('/')).exists():
-        _k, verdict, detail = check_row(base, {**row, 'kind': 'file'}, dist, pdfs)
+        _k, verdict, detail = check_row(base, {**row, 'kind': 'file'}, dist, pdfs, pending)
         return 'retired path, now published data', verdict, detail
     if kind == 'file':
         status, h, body = get(base + url)
@@ -166,10 +172,20 @@ def main(argv=None):
     ap.add_argument('--manifests', required=True, help='data/state-legislation of the pinned atlas')
     ap.add_argument('--out', help='write one TSV line per check here')
     ap.add_argument('--jobs', type=int, default=16)
+    ap.add_argument('--pending', help='a file listing the data files the deploy reported pending '
+                    '(lines "PENDING data/..." or plain "data/..." paths)')
     args = ap.parse_args(argv)
     base = args.base.rstrip('/')
     dist = Path(args.dist)
     pdfs = pdf_manifest(args.manifests)
+    pending = set()
+    if args.pending:
+        for line in Path(args.pending).read_text(encoding='utf-8').splitlines():
+            line = line.strip()
+            if line.startswith('PENDING '):
+                line = line[len('PENDING '):]
+            if line.startswith('data/'):
+                pending.add(line)
     rows = [r for r in read_inventory(args.inventory) if r['url'].startswith('/work/election-atlas')]
     listed = {r['url'] for r in rows}
     extra = [{'kind': 'file', 'url': '/' + p.relative_to(dist).as_posix(), 'expect': '200'}
@@ -179,7 +195,7 @@ def main(argv=None):
         r['_new'] = True
     todo = rows + extra
     with ThreadPoolExecutor(args.jobs) as pool:
-        results = list(pool.map(lambda r: (r, *check_row(base, r, dist, pdfs)), todo))
+        results = list(pool.map(lambda r: (r, *check_row(base, r, dist, pdfs, pending)), todo))
     summary = {}
     lines = []
     for r, kind, verdict, detail in results:
