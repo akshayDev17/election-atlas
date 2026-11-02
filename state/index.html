@@ -473,9 +473,9 @@ td .d{font-weight:500;letter-spacing:.02em}
 import {
   fetchOptional, loadAvailability, byelAvailable, lsDetailAvailable, stateRoster, acCycles, notAvailable, voidHTML,
   ECI, CMO_UP, markUnavailable, membersAvailable, monogramHTML, officialPhotoHTML,
-} from '../lib/atlas.js';
-import { resolveSeat, tallyStands } from './stands.js';
-import { cardBody } from './card.js';
+} from '../lib/atlas.js?v=89698364';
+import { resolveSeat, tallyStands } from './stands.js?v=b5ba9cf0';
+import { cardBody } from './card.js?v=a6c8c8a1';
 const NS = 'http://www.w3.org/2000/svg';
 const $ = s => document.querySelector(s);
 const nf = n => Math.round(n).toLocaleString('en-IN');
@@ -485,8 +485,8 @@ const titleCase = s => (s || '').toLowerCase().replace(/\b\w/g, c => c.toUpperCa
 let geo, topojson;
 try {
   [geo, topojson] = await Promise.all([
-    import('../vendor/d3-geo.js'),
-    import('../vendor/topojson-client.js'),
+    import('../vendor/d3-geo.js?v=e30a4b79'),
+    import('../vendor/topojson-client.js?v=fa670b81'),
   ]);
 } catch (err) { $('#eyebrow').textContent = 'Election Atlas of India'; throw err; }
 

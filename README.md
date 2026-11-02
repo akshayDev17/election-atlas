@@ -22,11 +22,8 @@ history, no bill PDFs and no stored portraits. `CONTEXT.md` defines the terms us
 
 - **D1 `election-atlas` is the system of record for results and councils of ministers.** `backend/migrations/0001_init.sql` is the schema. Every fact row is `provenance = 'published'` by a CHECK constraint and names a `source` row: an allow-listed government publisher, an https URL, the sha256 of the fetched file and when it was fetched.
 - **The JSON under `data/results/` and `data/cabinet/` is a build artifact.** The deploy exports it from D1 (`backend/d1/export.py`) at the same paths and in the same shape the pages have always read.
-- **Some files stay committed and are not in D1** (`python3 backend/d1/ingest.py --data <dir> --list-static`):
-  - The Lok Sabha state files for 1980 to 2004 (`data/results/ls/{1980,…,2004}.json`). Their Election Commission sources are recorded in `backend/d1/ls-sources.json`, but the current builder does not reproduce them: their committed seat counts predate a fix to its winner rule, which moves 2 to 8 seats a year from IND to the real winner.
-  - `data/members/ls/2024.json`, whose source block names the Sansad directory without a sha256.
-
-  These files pass `check_provenance.py`. They cannot pass `validate_records.py` until they are re-harvested.
+- **Import inputs.** The import reads the data of the pinned github.io commit, except where `backend/d1/inputs/` holds a file at the same path. That covers the Lok Sabha 1980–2004 state files, rebuilt from the ECI reports after the move (`backend/d1/inputs/README.md`).
+- **`data/members/ls/2024.json` stays committed and is not in D1.** Its source block names the Sansad directory without a sha256, so it passes `check_provenance.py` but not `validate_records.py` until it is re-harvested.
 - **The state bill PDFs live in the R2 bucket `election-atlas-docs`.** They are stored under their atlas-relative path, and the Worker streams them with Range support at their old URLs. Each bill manifest (`data/state-legislation/IN-XX/bills/manifest.json`) records the source URL, sha256, size and fetch time of every PDF.
 
 ## The provenance gate

@@ -56,6 +56,13 @@ only place the registered electorate is recorded.
 }
 ```
 
+The 1980–2004 files are built by `tools/build-ls-results.py` from each year's ECI
+report PDF. Their `source` is that report, with its `sha256` and `fetched_at`, and
+`sources` lists the ECI party lists the builder reads party codes from. A region
+there may also carry `unopposed`: each seat the report prints as returned
+unopposed (one candidate, no votes), as `{ "no", "constituency", "party",
+"report_page" }`. Such a seat still counts in `seats`.
+
 ### `ls/pc/{year}.json` — constituency level
 
 Keyed by the `unique_id` carried on the geometry in `data/geo/india-pcs.json`

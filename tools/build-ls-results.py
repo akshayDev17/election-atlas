@@ -34,6 +34,9 @@ import os
 import re
 import sys
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from harvest_common import DEFAULT_CACHE, fetch  # noqa: E402
+
 try:
     import xlrd  # .xls  (BIFF) — the ECI files need ignore_workbook_corruption
 except ImportError:
@@ -136,6 +139,7 @@ YEARS = {
 ECI_OLD_STATE_NAMES = [
     "Orissa", "Pondicherry", "Delhi", "Andaman & Nicobar Islands",
     "Dadra & Nagar Haveli", "Daman & Diu", "Uttaranchal", "NCT of Delhi",
+    "National Capital Territory of Delhi", "Goa, Daman & Diu",
 ]
 
 ARCHIVE_STATE_ONLY = {
@@ -146,6 +150,32 @@ ARCHIVE_STATE_ONLY = {
     1996: ("general-election-1996-vol-i-ii_part1.pdf", 543),
     2004: ("general-election-2004-vol-i-ii-iii_part1.pdf", 543),
 }
+# Where each input a pre-2008 year reads was downloaded from: that year's report
+# (Vol I) and the three ECI party lists build_party_index() borrows its
+# ABBREVIATION <-> NAME bridge from. fetch_sources() downloads them into the harvest
+# cache, so the state file can record the url, sha256 and fetched_at of each.
+ECI_OLD_FILES = "https://old.eci.gov.in/files/file/"
+SOURCE_URLS = {
+    "eci_pdfs/general-election-1980-vol-i-ii_part1.pdf":
+        ECI_OLD_FILES + "4117-general-election-1980-vol-i-ii/?do=download&r=9752&confirm=1&t=1",
+    "eci_pdfs/general-election-1984-vol-i-ii_part1.pdf":
+        ECI_OLD_FILES + "4118-general-election-1984-vol-i-ii/?do=download&r=9755&confirm=1&t=1",
+    "eci_pdfs/general-election-1989-vol-i-ii_part1.pdf":
+        ECI_OLD_FILES + "4120-general-election-1989-vol-i-ii/?do=download&r=9761&confirm=1&t=1",
+    "eci_pdfs/general-election-1991-vol-i-ii_part1.pdf":
+        ECI_OLD_FILES + "4121-general-election-1991-vol-i-ii/?do=download&r=9764&confirm=1&t=1",
+    "eci_pdfs/general-election-1996-vol-i-ii_part1.pdf":
+        ECI_OLD_FILES + "4123-general-election-1996-vol-i-ii/?do=download&r=9770&confirm=1&t=1",
+    "eci_pdfs/general-election-2004-vol-i-ii-iii_part1.pdf":
+        ECI_OLD_FILES + "4126-general-election-2004-vol-i-ii-iii/?do=download&r=9780&confirm=1&t=1",
+    "ls2024_statistical/3-List-Of-Political-Parties-Participated.xlsx":
+        ECI_GE2024 + "3-List-Of-Political-Parties-Participated.xlsx",
+    "eci_pdfs/GE2019_3-list-of-political-parties-participated_part1.xls":
+        ECI_OLD_FILES + "13599-3-list-of-political-parties-participated/?do=download&r=37907&confirm=1&t=1",
+    "eci_pdfs/GE2014_list-of-political-parties-participated_part2.xlsx":
+        ECI_OLD_FILES + "2844-list-of-political-parties-participated/?do=download&r=6612&confirm=1&t=1",
+}
+
 for _y, (_f, _seats) in ARCHIVE_STATE_ONLY.items():
     YEARS[_y] = dict(
         detailed=None, pdf_detailed=f"eci_pdfs/{_f}",
@@ -356,6 +386,8 @@ class GeoIndex:
         self.state_alias = {
             "andaman nicobar islands": "Andaman & Nicobar",
             "nct delhi": "Delhi",
+            "national capital territory delhi": "Delhi",
+            "goa daman diu": "Goa",
             "delhi": "Delhi",
             "jammu kashmir": "Jammu & Kashmir",
             "dadra nagar haveli daman diu": "Dadra and Nagar Haveli and Daman and Diu",
@@ -658,6 +690,11 @@ def build_state_only_from_pdf(cfg, ix: PartyIndex, geo: GeoIndex, log):
         out[f"{region}#{st_hdr}#{no}#{name}"] = dict(
             st=region, p=win_code, v=win_votes, o=others,
             _name=name, _eci_state=st_hdr, _electors=blk.get("electors"))
+        # The report prints a seat returned unopposed as its one candidate with no
+        # votes; the seat counts, and the state file names it with the report page.
+        if len(cands) == 1 and win_votes == 0:
+            out[f"{region}#{st_hdr}#{no}#{name}"]["_unopposed"] = dict(
+                no=no, constituency=name, party=win_code, report_page=blk["page"])
     log["state_unmatched"] = dict(unmatched)
     log["state_count"] = len(out)
     return out
@@ -725,11 +762,14 @@ def state_from_pcs(pcs, states, ix, geo):
     'Independent'."""
     agg = collections.defaultdict(collections.Counter)
     seats = collections.defaultdict(collections.Counter)
+    unopposed = collections.defaultdict(list)
     for c in pcs.values():
         if "v" not in c:
             continue
         agg[c["st"]][c["p"]] += c["v"]
         seats[c["st"]][c["p"]] += 1
+        if c.get("_unopposed"):
+            unopposed[c["st"]].append(c["_unopposed"])
         for k, v in (c.get("o") or {}).items():
             agg[c["st"]][k] += v
     electors = {}
@@ -753,6 +793,8 @@ def state_from_pcs(pcs, states, ix, geo):
             electors=electors.get(region),
             parties=[{"code": k, "seats": seats[region].get(k, 0), "votes": v}
                      for k, v in parties.most_common()])
+        if unopposed[region]:
+            out[region]["unopposed"] = unopposed[region]
     return out
 
 
@@ -774,7 +816,41 @@ def state_from_table(states, ix, geo, log):
     return out
 
 
-def emit(year, cfg, pcs, states, ix, geo, log):
+def source_inputs(year, cfg):
+    """Every file a pre-2008 year reads: its report and the party lists it borrows."""
+    return [cfg["pdf_detailed"]] + [c["parties"][0] for k, c in YEARS.items()
+                                    if k != year and c.get("parties")]
+
+
+def require_inputs(year, cfg):
+    """--check reads what is already in _research/eci/ and downloads nothing."""
+    missing = [rel for rel in source_inputs(year, cfg)
+               if not os.path.exists(os.path.join(RESEARCH, rel))]
+    if missing:
+        raise SystemExit(f"--check {year}: input not in {RESEARCH} (run without --check "
+                         f"to download it): " + ", ".join(missing))
+
+
+def fetch_sources(year, cfg, cache=DEFAULT_CACHE):
+    """Download every input a pre-2008 year reads, and return a source block for each.
+
+    The bytes are fetched once into the harvest cache (where validate_records.py checks
+    each sha256) and copied to the _research/eci/ path the readers open, so the file
+    that is parsed is the file whose hash is recorded."""
+    blocks = []
+    for rel in source_inputs(year, cfg):
+        got = fetch(SOURCE_URLS[rel], cache)
+        dest = os.path.join(RESEARCH, rel)
+        os.makedirs(os.path.dirname(dest), exist_ok=True)
+        if not os.path.exists(dest) or open(dest, "rb").read() != got["bytes"]:
+            with open(dest, "wb") as f:
+                f.write(got["bytes"])
+        blocks.append({"publisher": "eci", "url": got["url"], "sha256": got["sha256"],
+                       "fetched_at": got["fetched_at"], "file": rel})
+    return blocks
+
+
+def emit(year, cfg, pcs, states, ix, geo, log, sources=None):
     # ── constituency file ──
     constituencies = {}
     for uid, c in sorted(pcs.items()):
@@ -814,7 +890,10 @@ def emit(year, cfg, pcs, states, ix, geo, log):
         region_data = state_from_pcs(pcs, states, ix, geo)
         src_note = ("state totals are the exact sum of every constituency in this "
                     "election's published detailed result. No constituency file is "
-                    "written for this year: its boundaries predate the atlas geometry")
+                    "written for this year: its boundaries predate the atlas geometry. "
+                    "A region's `unopposed` lists each seat the report records as returned "
+                    "unopposed (its one candidate, with no poll and so no votes), with the "
+                    "PDF page of the report that prints it")
     elif have_votes:
         region_data = state_from_pcs(pcs, states, ix, geo)
         src_note = ("state totals are the exact sum of the constituency file above; "
@@ -832,6 +911,8 @@ def emit(year, cfg, pcs, states, ix, geo, log):
             "electors": d["electors"],
             "parties": d["parties"],
         }
+        if d.get("unopposed"):
+            regions[region]["unopposed"] = d["unopposed"]
     st_doc = {
         "schema": 2, "provenance": "published", "election": "ls", "year": year,
         "note": ("PUBLISHED RESULT. Every value here is an ABSOLUTE COUNT. No percentage is "
@@ -844,6 +925,12 @@ def emit(year, cfg, pcs, states, ix, geo, log):
                    "derivation": "constituency" if have_votes else "state_table"},
         "regions": regions,
     }
+    if sources:
+        # the report itself is the source; the party lists it borrows codes from follow
+        st_doc["source"] = {**sources[0], "table": None, "detail_table": cfg["pdf_detailed"],
+                            "derivation": st_doc["source"]["derivation"]}
+        st_doc["sources"] = sources[1:]
+        st_doc["regions"] = st_doc.pop("regions")
     sp = os.path.join(DATA, "results", "ls", f"{year}.json")
     json.dump(st_doc, open(sp, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     log["state_file"] = sp
@@ -1042,7 +1129,9 @@ def propose_party_additions(years):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--year", type=int, action="append")
-    ap.add_argument("--check", action="store_true", help="report only, do not write")
+    ap.add_argument("--check", action="store_true",
+                    help="report only, do not write; reads inputs already in _research/eci "
+                         "and downloads nothing")
     ap.add_argument("--propose", action="store_true",
                     help="list parties that win seats but are missing from parties.json")
     args = ap.parse_args()
@@ -1060,6 +1149,11 @@ def main():
     for y in years:
         cfg = YEARS[y]
         log = {"year": y}
+        sources = None
+        if cfg.get("state_only") and args.check:
+            require_inputs(y, cfg)
+        elif cfg.get("state_only"):
+            sources = fetch_sources(y, cfg)
         ix = build_party_index(cfg, parties_doc,
                                borrow_from=[c for k, c in YEARS.items() if k != y])
         states = build_state_rows(cfg, geo, log)
@@ -1079,7 +1173,7 @@ def main():
         log["top_unresolved"] = ix.unresolved.most_common(10)
         verify_numbers(cfg, geo, log, y)
         if not args.check:
-            emit(y, cfg, pcs, states, ix, geo, log)
+            emit(y, cfg, pcs, states, ix, geo, log, sources)
             if pcs and states:
                 reconcile(y, cfg, pcs, states, ix, geo, log)
             elif pcs:

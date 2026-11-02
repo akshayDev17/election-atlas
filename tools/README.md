@@ -37,6 +37,10 @@ Each stops with an error on a source shape it does not expect.
 - `python3 tools/test_harvest_ac_results.py` and `python3 tools/test_harvest_ls_byel.py`:
   party codes, assembly colour entries (winner plus other parties' votes), and
   by-election term assembly.
+- `python3 tools/test_ls_legacy_results.py`: the 1980-2004 Lok Sabha state files put
+  Delhi and Goa, Daman & Diu in their own regions, read a winner whose long name runs
+  into the party column (Dhenkanal 1991, INC), and count Srinagar's unopposed return
+  (1980 and 1989, JKN) with its report page.
 - `node --test tools/test_stands.mjs`: the state page's "as it stands" seat tally
   (`state/stands.js`) adds up to each state's seat count.
 - `node --test tools/test_card.mjs`: the state page's hover card (`state/card.js`)
@@ -78,6 +82,14 @@ Each stops with an error on a source shape it does not expect.
 - output: `data/results/ls/pc/{year}.json` + state files
 - run: `python3 tools/build-ls-results.py --year 2024`
 - verify: `python3 tools/build-ls-results.py --year 2024 --check`
+- pre-2008 years (1980–2004, state level only): the script downloads each year's
+  report and the three party lists it reads into `_research/harvest/` and records
+  each file's `url`, `sha256` and `fetched_at` in the state file's `source` /
+  `sources`, so `validate_records.py` passes for them
+  - `--check` downloads nothing: it reads those inputs from `_research/eci/` and stops,
+    naming the file, if one is not there
+  - a seat the report records as returned unopposed (its one candidate, no votes)
+    still counts, and the region lists it under `unopposed` with the report's PDF page
 
 ### build-ls-detail.py
 
@@ -137,6 +149,21 @@ Each stops with an error on a source shape it does not expect.
 - negative tests: `python3 -m unittest discover -s tools -p 'test_*.py'`
 - CI: `.github/workflows/ci.yml` on every pull request, and `deploy.yml` over the D1
   export and D1 itself before every deploy
+
+### version_modules.py
+
+- stamps every JS module URL the pages load with a content hash, e.g.
+  `../lib/atlas.js?v=89698364`, in the pages' `<script>` imports and in the modules'
+  own imports (`vendor/d3-geo.js` -> `d3-array.js` -> `internmap.js`)
+- why: the live site caches the pages for 10 minutes but `.js` files for 4 hours, so
+  an unversioned module lets a returning visitor run a new page against an old module
+  (a missing export is a SyntaxError and the page stops)
+- versions are computed leaves first, so a change to any module changes the URL in
+  every module and page that reaches it
+- run after editing any page's imports or any `.js` file under `lib/`, `state/` or
+  `vendor/`: `python3 tools/version_modules.py`; never edit a `?v=` by hand
+- verify: `python3 tools/version_modules.py --check` (CI runs this)
+- tests: `python3 tools/test_version_modules.py`
 
 ## Data file conventions
 
