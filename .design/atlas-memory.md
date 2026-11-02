@@ -10,11 +10,17 @@ Direction files: `.design/atlas-direction.md` (level 1), `.design/atlas-level2-d
 
 No new tokens. The national table was built entirely from what level 1 already had.
 
-| token | value | job here |
+The colours and fonts belong to the shared site theme: each page's `:root` aliases them to
+the `site-themes` tokens (`--paper` → `--surface`, `--paper-2` → `--surface-2`, `--ink` →
+`--text`, `--muted` → `--text-muted`, `--rule`/`--rule-2`/`--rule-3` → `--line`/
+`--line-strong`/`--card-line`), so the values below are Classic Light's. Party colours and
+`--vacant` are data and stay fixed in every theme.
+
+| token | value (Classic Light) | job here |
 | --- | --- | --- |
 | `--paper` | `#EEF1F8` | ground |
-| `--paper-2` | `#E3E9F4` | the "dull" state — unselected parties, row hover, caveat surface |
-| `--ink` | `#0F1220` | text, state outlines, selection edge. 15.28:1 on `--paper-2` (APCA Lc 91.9) |
+| `--paper-2` | `#E2E8F4` | the "dull" state — unselected parties, row hover, caveat surface |
+| `--ink` | `#0F1220` | text, state outlines, selection edge. 15.15:1 on `--paper-2` (APCA Lc 91.4) |
 | `--muted` | `#525A6B` | labels; rows left out of a selection. 6.12:1 on `--paper` (APCA Lc 75.6 — the floor) |
 | `--rule` / `--rule-2` | `#D3D9E6` / `#BCC4D6` | hairlines |
 | `--table-w` | `clamp(16.5rem,20vw,19rem)` | the table measure. Fixed, never proportional |

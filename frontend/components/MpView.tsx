@@ -17,6 +17,7 @@ import {
 import type { PartiesDoc, RegionsDoc, SymbolsDoc } from '@/lib/types';
 import { Monogram, OfficialPhotoLink } from './Member';
 import { Pager } from './Pager';
+import { ThemePicker } from 'site-themes/react';
 
 type Query = { S: string; C: string };
 type Loaded = {
@@ -109,7 +110,10 @@ export default function MpView() {
       <div className="page">
         <header className="mh">
           <a className="back" id="back" href={pageURL('state', { s: query?.S })}>← State</a>
-          <p className="lbl">Election Atlas of India</p>
+          <div className="mh-tools">
+            <p className="lbl">Election Atlas of India</p>
+            <ThemePicker hideLabel />
+          </div>
         </header>
         <hr className="hair" />
 
@@ -330,8 +334,8 @@ export default function MpView() {
 const G_CX = 110, G_CY = 112, G_R = 74;
 const ease = (t: number) => 1 - Math.pow(1 - t, 3);
 const GRADIENTS = {
-  fun: ['var(--good)', 'var(--warn)', 'var(--bad)'],
-  work: ['var(--bad)', 'var(--warn)', 'var(--good)'],
+  fun: ['var(--good)', 'var(--caution)', 'var(--bad)'],
+  work: ['var(--bad)', 'var(--caution)', 'var(--good)'],
 } as const;
 
 function GaugeDial({ gauge }: { gauge: Gauge }) {

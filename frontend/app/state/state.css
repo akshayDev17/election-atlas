@@ -1,8 +1,14 @@
 :root{
-  --paper:#EEF1F8; --paper-2:#E3E9F4; --ink:#0F1220; --muted:#525A6B;
-  --rule:#D3D9E6; --rule-2:#BCC4D6; --rule-3:#7C8598;
-  --serif:"Newsreader",ui-serif,Georgia,serif;
-  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  /* The page's own names for the shared site-themes tokens (themes.css, loaded
+     first by the layout). The theme owns these colours and fonts; the fallback
+     in each var() is the Classic Light value. Do not define the package's own
+     names (--surface, --text, --warn, ...) here: a :root rule would override
+     every theme. */
+  --paper:var(--surface,#EEF1F8); --paper-2:var(--surface-2,#E2E8F4);
+  --ink:var(--text,#0F1220); --muted:var(--text-muted,#525A6B);
+  --rule:var(--line,#D3D9E6); --rule-2:var(--line-strong,#BCC4D6); --rule-3:var(--card-line,#818A9F);
+  --serif:var(--font-serif,"Newsreader",ui-serif,Georgia,serif);
+  --mono:var(--font-mono,"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace);
   --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px;
   --r2:6px;
   --col:86rem;
@@ -10,6 +16,7 @@
   --ease:cubic-bezier(.2,0,0,1);
   --map-h:clamp(16rem,78vh,46rem);
   --aspect:1;
+  /* Data, not theme: the vacant-seat fill stays the same in every theme. */
   --vacant:#C7CDD9;
   --belt-card-w:9rem;
   --belt-rows:2;
@@ -57,6 +64,11 @@ main{flex:1 1 auto;display:flex;flex-direction:column;padding:0 var(--pad)}
 
 h1{margin:0;font-weight:400}
 .mh-top{display:flex;align-items:baseline;justify-content:space-between;gap:var(--s5);flex-wrap:wrap}
+.mh-tools{display:flex;align-items:baseline;justify-content:flex-end;gap:var(--s5);flex-wrap:wrap}
+/* The shared theme picker (site-themes): a labelled native <select> that draws
+   itself from the theme tokens. Only its type is set here, to the masthead's
+   mono so it reads as one of the instruments beside it. */
+site-theme-picker::part(select){font-family:var(--mono);font-size:.6875rem;letter-spacing:.04em}
 /* The tense is the page's mode: as counted on polling day, or as the term
    actually ended up. Same idiom as the year selectors, page-wide. */
 .tense{display:flex;align-items:baseline;gap:2px}
@@ -139,8 +151,8 @@ h1{margin:0;font-weight:400}
      against the viewport rather than trusting min/max alone */
   min-width:min(22rem, calc(100vw - 16px));
   max-width:min(27rem, calc(100vw - 16px));
-  background:#fff;border:1px solid var(--rule-2);border-radius:var(--r2);
-  box-shadow:0 6px 26px rgba(15,18,32,.14);
+  background:var(--card);border:1px solid var(--rule-2);border-radius:var(--r2);
+  box-shadow:var(--shadow-hover);
   padding:14px 16px 12px;opacity:0;pointer-events:none;
   transition:opacity .14s var(--ease);
 }
@@ -171,7 +183,7 @@ h1{margin:0;font-weight:400}
 #card .cell{display:flex;align-items:center;gap:6px}
 #card td.name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:11rem}
 #card .sw{width:9px;height:9px;border-radius:2px;flex:0 0 auto;background:var(--c);
-  box-shadow:inset 0 0 0 1px rgba(15,18,32,.2)}
+  box-shadow:inset 0 0 0 1px color-mix(in oklab,var(--ink) 20%,transparent)}
 #card .more{color:var(--muted)}
 #card .bye-title{font-family:var(--mono);font-size:.5625rem;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);margin:10px 0 4px;padding-top:8px;border-top:1px solid var(--rule)}
 #card .bye table{font-family:var(--mono);font-size:.6875rem}
@@ -229,7 +241,7 @@ td .d{font-weight:500;letter-spacing:.02em}
 .pager button:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:var(--r2)}
 .pager-ell{color:var(--muted);padding:0 2px;font-family:var(--mono);font-size:.6875rem}
 .sw{width:9px;height:9px;border-radius:2px;flex:0 0 auto;background:var(--c);
-  box-shadow:inset 0 0 0 1px rgba(15,18,32,.2)}
+  box-shadow:inset 0 0 0 1px color-mix(in oklab,var(--ink) 20%,transparent)}
 .more{color:var(--muted)}
 
 /* ── the table rows are controls, exactly as on level one ─────────────── *
@@ -324,10 +336,10 @@ td .d{font-weight:500;letter-spacing:.02em}
   font-family:var(--serif);font-size:1.4rem;color:var(--muted);letter-spacing:.02em;
   overflow:hidden;
 }
-.belt-name{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:.8125rem;line-height:1.25;font-weight:500;color:#2E3440;margin:0}
+.belt-name{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:.8125rem;line-height:1.25;font-weight:500;color:var(--text-body);margin:0}
 .belt-role{font-family:var(--mono);font-size:.75rem;line-height:1.4;letter-spacing:.02em;color:var(--muted);margin:0}
 .belt-seat{font-family:var(--mono);font-size:.75rem;line-height:1.35;color:var(--muted);margin:0;display:flex;align-items:center;gap:6px}
-.belt .sw{width:9px;height:9px;border-radius:2px;flex:0 0 auto;background:var(--c);box-shadow:inset 0 0 0 1px rgba(15,18,32,.2)}
+.belt .sw{width:9px;height:9px;border-radius:2px;flex:0 0 auto;background:var(--c);box-shadow:inset 0 0 0 1px color-mix(in oklab,var(--ink) 20%,transparent)}
 .belt .belt-sym{flex:0 0 auto;max-width:18px;max-height:18px;width:auto;height:auto;display:block}
 
 /* ── not available yet, monograms, credits ────────────────────────────── */

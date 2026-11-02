@@ -11,6 +11,7 @@ import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { test } from 'node:test';
 import { fileURLToPath } from 'node:url';
+import { BOOT_CONFIG } from 'site-themes/boot';
 
 const BASE = '/elections/india';
 const out = fileURLToPath(new URL(`./${process.env.EXPORT_DIR ?? 'out'}/`, import.meta.url));
@@ -60,4 +61,20 @@ test('each page has its own title', () => {
   const titles = PAGES.map((p) => readFileSync(join(out, p), 'utf8').match(/<title>([^<]*)<\/title>/)?.[1]);
   for (const t of titles) assert.match(t ?? '', /Election Atlas of India/);
   assert.equal(new Set(titles).size, PAGES.length, titles.join(' | '));
+});
+
+// The shared site theme (site-themes, bundled at build time). Each page sets
+// <html data-theme> from an inline head script, so the first frame is themed and
+// nothing is fetched for it, and carries the picker in its header.
+test('each page inlines the theme boot script in <head> and has the picker in its header', () => {
+  for (const page of PAGES) {
+    const html = readFileSync(join(out, page), 'utf8');
+    const head = html.slice(0, html.indexOf('</head>'));
+    const inline = [...head.matchAll(/<script>([\s\S]*?)<\/script>/g)].map((m) => m[1]);
+    assert.ok(inline.some((js) => js.includes(`(window,${JSON.stringify(BOOT_CONFIG)})`)), `${page}: no inline boot script`);
+    assert.doesNotMatch(head, /<script[^>]*\bsrc="[^"]*site-theme/, `${page}: boot script must be inline`);
+    // the boot script owns data-theme; the server HTML must not pin one
+    assert.doesNotMatch(html.match(/<html[^>]*>/)?.[0] ?? '', /data-theme/, page);
+    assert.match(html, /<header[^>]*>(?:(?!<\/header>)[\s\S])*<site-theme-picker hide-label=""/, `${page}: no picker in header`);
+  }
 });

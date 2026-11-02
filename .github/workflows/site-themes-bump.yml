@@ -1,0 +1,117 @@
+name: Bump site-themes
+
+# The shared site themes are a build-time package, installed from a pinned git
+# tag of akshayDev17/site-themes (frontend/package.json). When a newer vX.Y.Z tag
+# lands there, this opens a pull request that moves the pin to it, after checking
+# that the frontend still builds and exports. Merging that PR and deploying is
+# the only way a new theme reaches the atlas: nothing is fetched at runtime.
+#
+# Opening the PR needs the repository setting "Allow GitHub Actions to create and
+# approve pull requests". With it off, the bump branch is still pushed and the
+# run fails with the compare link, so the PR is one click away.
+# A PR opened with GITHUB_TOKEN does not start other workflows, so CI runs on it
+# once someone pushes to the branch or closes and reopens the PR.
+#
+# GitHub disables a scheduled workflow after 60 days without repository
+# activity. Every run re-enables this workflow through the API with GITHUB_TOKEN
+# (actions: write), so the schedule keeps running with no keepalive commits.
+
+on:
+  schedule:
+    - cron: '17 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: site-themes-bump
+  cancel-in-progress: false
+
+env:
+  PACKAGE_REPO: akshayDev17/site-themes
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Keep the schedule enabled
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api --method PUT "repos/${{ github.repository }}/actions/workflows/site-themes-bump.yml/enable"
+
+      - uses: actions/checkout@v4
+
+      - name: Compare the pinned tag with the newest release tag
+        id: tags
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          spec=$(jq -r '.dependencies["site-themes"]' frontend/package.json)
+          pinned=${spec##*#}
+          latest=$(gh api --paginate "repos/$PACKAGE_REPO/tags" --jq '.[].name' \
+            | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -n 1)
+          echo "pinned: $pinned  newest tag: ${latest:-none}"
+          if ! [[ "$pinned" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::frontend/package.json pins site-themes as '$spec', not github:$PACKAGE_REPO#vX.Y.Z"
+            exit 1
+          fi
+          # a bump only ever moves forward
+          if [ -z "$latest" ] || [ "$(printf '%s\n%s\n' "$pinned" "$latest" | sort -V | tail -n 1)" = "$pinned" ]; then
+            echo "up to date"
+            exit 0
+          fi
+          branch="site-themes/bump-$latest"
+          if git ls-remote --exit-code --heads origin "$branch" >/dev/null; then
+            echo "$branch already exists: the bump to $latest is waiting for review"
+            exit 0
+          fi
+          {
+            echo "latest=$latest"
+            echo "pinned=$pinned"
+            echo "branch=$branch"
+          } >> "$GITHUB_OUTPUT"
+
+      - uses: actions/setup-node@v4
+        if: steps.tags.outputs.latest
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Move the pin and check the frontend still builds
+        if: steps.tags.outputs.latest
+        working-directory: frontend
+        env:
+          LATEST: ${{ steps.tags.outputs.latest }}
+        run: |
+          npm ci
+          npm install "github:$PACKAGE_REPO#$LATEST"
+          npm run build
+          npm run test:export
+
+      - name: Push the bump branch and open the pull request
+        if: steps.tags.outputs.latest
+        env:
+          GH_TOKEN: ${{ github.token }}
+          LATEST: ${{ steps.tags.outputs.latest }}
+          PINNED: ${{ steps.tags.outputs.pinned }}
+          BRANCH: ${{ steps.tags.outputs.branch }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          base=$(git rev-parse --abbrev-ref HEAD)   # the default branch, which checkout took
+          git switch -c "$BRANCH"
+          git add frontend/package.json frontend/package-lock.json
+          git commit -m "chore(deps): bump site-themes from $PINNED to $LATEST"
+          git push origin "$BRANCH"
+          body="Moves the pinned build-time theme package from \`$PINNED\` to \`$LATEST\`: https://github.com/$PACKAGE_REPO/releases/tag/$LATEST
+
+          The frontend built and passed the export contract with the new tag in this run. CI does not start on a pull request opened by GITHUB_TOKEN: push to the branch, or close and reopen this PR, to run it."
+          if ! gh pr create --base "$base" --head "$BRANCH" \
+              --title "chore(deps): bump site-themes from $PINNED to $LATEST" --body "$body"; then
+            echo "::error::Could not open the pull request (is \"Allow GitHub Actions to create and approve pull requests\" off?). The branch is pushed: ${{ github.server_url }}/${{ github.repository }}/compare/$base...$BRANCH?expand=1"
+            exit 1
+          fi
