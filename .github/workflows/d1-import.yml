@@ -95,15 +95,18 @@ jobs:
         run: |
           $WRANGLER d1 execute election-atlas --remote --file "day$DAY.sql" --yes | tee import.log
 
+      # One row of scalar subqueries: D1 refuses a compound SELECT of more than a
+      # few UNION terms ("too many terms in compound SELECT").
       - name: What D1 now holds
         run: |
           $WRANGLER d1 execute election-atlas --remote --command "
-            SELECT 'document' AS t, count(*) AS n FROM document UNION ALL
-            SELECT 'source', count(*) FROM source UNION ALL
-            SELECT 'contest', count(*) FROM contest UNION ALL
-            SELECT 'candidacy', count(*) FROM candidacy UNION ALL
-            SELECT 'region_party_tally', count(*) FROM region_party_tally UNION ALL
-            SELECT 'minister_tenure', count(*) FROM minister_tenure UNION ALL
-            SELECT 'not published', (SELECT count(*) FROM term WHERE provenance <> 'published')
-              + (SELECT count(*) FROM contest WHERE provenance <> 'published')
-              + (SELECT count(*) FROM document WHERE provenance <> 'published')"
+            SELECT
+              (SELECT count(*) FROM document) AS documents,
+              (SELECT count(*) FROM source) AS sources,
+              (SELECT count(*) FROM contest) AS contests,
+              (SELECT count(*) FROM candidacy) AS candidacies,
+              (SELECT count(*) FROM region_party_tally) AS region_party_tallies,
+              (SELECT count(*) FROM minister_tenure) AS minister_tenures,
+              (SELECT count(*) FROM term WHERE provenance <> 'published')
+                + (SELECT count(*) FROM contest WHERE provenance <> 'published')
+                + (SELECT count(*) FROM document WHERE provenance <> 'published') AS not_published"
