@@ -1,0 +1,73 @@
+:root{
+  --paper:#EEF1F8; --paper-2:#E3E9F4; --ink:#0F1220; --muted:#525A6B;
+  --rule:#D3D9E6; --rule-2:#BCC4D6;
+  --serif:"Newsreader",ui-serif,Georgia,serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px;
+  --r2:6px;
+  --good:#16A34A; --warn:#F59E0B; --bad:#DC2626;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:var(--paper);color:var(--ink);
+  font-family:var(--serif);font-optical-sizing:auto;font-size:1.0625rem;line-height:1.6;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;
+  padding:var(--s6) clamp(var(--s4),4vw,var(--s6)) var(--s7);
+}
+.lbl{font-family:var(--mono);font-size:.625rem;line-height:1.4;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin:0}
+a{color:var(--ink)}
+
+.page{max-width:52rem;margin:0 auto;display:flex;flex-direction:column;gap:var(--s4)}
+.mh{display:flex;align-items:baseline;justify-content:space-between;gap:var(--s4);flex-wrap:wrap}
+.back{font-family:var(--mono);font-size:.625rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);text-decoration:none}
+.back:hover{color:var(--ink)}
+.hair{height:1px;background:var(--rule);border:0;margin:var(--s3) 0 0}
+
+.title{margin:0;font-size:2.25rem;font-weight:400;line-height:1.1;letter-spacing:-.02em}
+.sub{font-family:var(--mono);font-size:.6875rem;letter-spacing:.06em;color:var(--muted);margin:4px 0 0}
+
+.caveat{font-family:var(--mono);font-size:.6875rem;line-height:1.5;color:var(--ink);
+  background:var(--paper-2);border-inline-start:3px solid var(--ink);
+  padding:var(--s3) var(--s4);border-radius:var(--r2)}
+
+/* hero */
+.hero{display:flex;gap:var(--s5);align-items:flex-start}
+.face{flex:0 0 9rem;aspect-ratio:3/4;background:var(--paper-2);border:1px solid var(--rule);
+  border-radius:var(--r2);display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:2.4rem;color:var(--muted);letter-spacing:.02em}
+.ident{min-width:0;flex:1 1 auto;padding-top:var(--s2)}
+.who{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.psym{width:auto;height:auto;max-width:20px;max-height:20px;flex:0 0 auto;object-fit:contain;display:block}
+.name{margin:0;font-size:1.7rem;font-weight:400;line-height:1.15;letter-spacing:-.01em}
+.role{font-family:var(--mono);font-size:.6875rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:4px 0 0}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,auto));gap:var(--s3) var(--s5);margin-top:var(--s5)}
+.fact .k{font-family:var(--mono);font-size:.5625rem;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
+.fact .v{font-family:var(--mono);font-size:.875rem;margin-top:2px}
+
+/* cross-link band */
+.cross{display:flex;align-items:center;justify-content:space-between;gap:var(--s3);
+  padding:var(--s3) var(--s4);border:1px solid var(--rule-2);border-radius:var(--r2);background:var(--paper-2);
+  font-family:var(--mono);font-size:.6875rem}
+.cross a{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+
+/* section + empty state */
+.block{border-top:1px solid var(--rule);padding-top:var(--s4)}
+.block h3{margin:0;font-family:var(--mono);font-size:.625rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:400}
+.void{min-height:7rem;display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--rule);border-radius:var(--r2);padding:var(--s5);margin-top:var(--s4)}
+.void p{max-width:44ch;text-align:center;font-family:var(--mono);font-size:.6875rem;
+  line-height:1.7;color:var(--muted);margin:0}
+
+.face .monogram{display:flex;align-items:center;justify-content:center;width:100%;height:100%;
+  background:var(--mono-bg,transparent);color:var(--mono-ink,var(--muted));font-family:var(--serif);letter-spacing:.02em}
+.credits{max-width:52rem;margin:var(--s6) auto 0;padding-top:var(--s3);border-top:1px solid var(--rule);
+  font-family:var(--mono);font-size:.5625rem;line-height:1.5;letter-spacing:.04em;color:var(--muted)}
+.credits p{margin:0}
+.credits a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+
+@media (max-width:48rem){
+  .hero{flex-direction:column}
+  .face{width:100%;max-width:12rem;aspect-ratio:3/4}
+  .facts{grid-template-columns:1fr 1fr}
+}
