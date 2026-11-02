@@ -76,6 +76,10 @@ export const formedLater = (year: StateYearDoc, code: string, parents: ReadonlyM
 
 export const partOfText = (parent: string, year: number): string => `Part of ${parent} in ${year}`;
 
+/* A count with its noun, singular for exactly one: countOf(1, 'seat') is
+   "1 seat", countOf(3, 'party', 'parties') is "3 parties". */
+export const countOf = (n: number, one: string, many = `${one}s`): string => `${n} ${n === 1 ? one : many}`;
+
 /* What a state-level seat count covers when it is not the present outline's own:
    the whole state it was part of, or the present-day states it included. */
 export const coverNote = (partOf: string | null, includes: readonly string[]): string =>

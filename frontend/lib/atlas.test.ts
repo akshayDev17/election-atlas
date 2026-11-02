@@ -4,7 +4,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import {
-  acCycles, byelAvailable, coverNote, formedLater, inkOn, initials, lsResultsAvailable, lsStateAvailable, notAvailable,
+  acCycles, countOf, byelAvailable, coverNote, formedLater, inkOn, initials, lsResultsAvailable, lsStateAvailable, notAvailable,
   parentsOf, partOfText, resultRegion, sansadMemberURL, unionRoster,
 } from './atlas.ts';
 import { readData } from './testData.ts';
@@ -73,4 +73,12 @@ test('a year’s file decides whether a state was part of another: its own entry
   assert.equal(coverNote('Andhra Pradesh', []), ' across Andhra Pradesh');
   assert.equal(coverNote(null, ['Telangana']), ', including present-day Telangana');
   assert.equal(coverNote(null, []), '');
+});
+
+test('countOf is singular for exactly one and plural otherwise', () => {
+  assert.equal(countOf(1, 'seat'), '1 seat');
+  assert.equal(countOf(0, 'seat'), '0 seats');
+  assert.equal(countOf(80, 'seat'), '80 seats');
+  assert.equal(countOf(1, 'constituency', 'constituencies'), '1 constituency');
+  assert.equal(countOf(543, 'constituency', 'constituencies'), '543 constituencies');
 });

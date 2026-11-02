@@ -274,3 +274,10 @@ test('paging: at least one page, ten rows a page', () => {
   assert.equal(pageCountOf(10), 1);
   assert.equal(pageCountOf(11), 2);
 });
+
+test('a one-seat state reads "1 seat", never "1 seats"', () => {
+  const one = { kind: 'pc' as const, seats: 1, regionName: 'Sikkim', partOf: null, includes: [] };
+  assert.equal(pcCaption({ ...one, tense: 'elected', byeKnown: true, byeSeats: [] }), '1 seat');
+  assert.equal(missingCaption(1), '1 seat · not available yet');
+  assert.equal(missingCaption(2), '2 seats · not available yet');
+});

@@ -12,7 +12,7 @@ import {
   type CSSProperties, type ReactNode,
 } from 'react';
 import {
-  ECI, PRESIDENT, byelAvailable, coverNote, fetchOptional, formedLater, getListed, loadAvailability, lsResultsAvailable,
+  countOf, ECI, PRESIDENT, byelAvailable, coverNote, fetchOptional, formedLater, getListed, loadAvailability, lsResultsAvailable,
   lsStateAvailable, nf, notAvailable, parentsOf, partOfText, pc1, resultRegion, titleCase, unionRoster,
 } from '@/lib/atlas';
 import { DATA, pageURL } from '@/lib/base';
@@ -269,7 +269,7 @@ export default function NationalView() {
           <h2>{region.name}</h2>
           <p className="meta">
             {parent && <>{partOfText(parent, data.year)} · </>}
-            {totalSeats} constituencies{coverNote(parent, includes)} · {nf(totalVotes)} votes polled
+            {countOf(totalSeats, 'constituency', 'constituencies')}{coverNote(parent, includes)} · {nf(totalVotes)} votes polled
           </p>
           <p className="open">Open {parent ? `${parent} ${data.year}` : region.name} →</p>
           <table>
@@ -544,7 +544,7 @@ const NationalMap = memo(function NationalMap(props: {
     const unit = unitCode(code);
     const m = agg?.byRegion.get(unit);
     const lead = m ? [...m.entries()].sort((a, b) => b[1].seats - a[1].seats)[0] : null;
-    const won = lead ? `${lead[0]} won ${lead[1].seats} constituencies` : '';
+    const won = lead ? `${lead[0]} won ${countOf(lead[1].seats, 'constituency', 'constituencies')}` : '';
     if (unit !== code) return `${nameOf(code)}. ${partOfText(nameOf(unit), data.year)}${won ? `, where ${won}` : ''}.`;
     const includes = data.states ? formedLater(data.states, code, core.parents).map(nameOf) : [];
     return lead ? `${nameOf(code)}${coverNote(null, includes)}. ${won}.` : `${nameOf(code)}. No result for this year.`;

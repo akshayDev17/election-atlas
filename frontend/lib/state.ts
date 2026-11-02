@@ -3,7 +3,7 @@
    every "not available yet" sentence. Explicit input, explicit output; the page
    holds the inputs (state, years, tense, sort, selection) and renders these. */
 import {
-  ECI, byelAvailable, coverNote, formedLater, seatFold, lsResultsAvailable, lsStateAvailable, notAvailable, resultRegion, stateRoster,
+  ECI, countOf, byelAvailable, coverNote, formedLater, seatFold, lsResultsAvailable, lsStateAvailable, notAvailable, resultRegion, stateRoster,
 } from './atlas.ts';
 import type { Candidate, SeatResolved } from './card.ts';
 import type { Sort, Tense } from './national.ts';
@@ -224,7 +224,7 @@ export function pcCaption(o: {
   partOf: string | null;
   includes: readonly string[];
 }): string {
-  let txt = `${o.seats} seats${coverNote(o.partOf, o.includes)}`;
+  let txt = `${countOf(o.seats, 'seat')}${coverNote(o.partOf, o.includes)}`;
   if (o.kind === 'state') txt += ' · state-level result: this election’s constituency boundaries predate the atlas map';
   if (o.tense !== 'stands') return txt;
   if (!o.byeKnown) return txt + ' · by-election record not available yet, so seats show as elected';
@@ -234,7 +234,7 @@ export function pcCaption(o: {
     : ` · as it stands · none in ${o.regionName}`);
 }
 
-export const missingCaption = (seatCount: number): string => `${seatCount} seats · not available yet`;
+export const missingCaption = (seatCount: number): string => `${countOf(seatCount, 'seat')} · not available yet`;
 
 /* The Lok Sabha panel with nothing to draw. A year whose file is not in the data
    is not available yet. A state-level year whose file was read but holds no entry
@@ -243,7 +243,7 @@ export const missingCaption = (seatCount: number): string => `${seatCount} seats
 export const lsVoid = (o: { regionName: string; year: number; seatCount: number; fileRead: boolean }):
   { caption: string; text: string } => (o.fileRead
   ? {
-    caption: `${o.seatCount} seats · no result for this year`,
+    caption: `${countOf(o.seatCount, 'seat')} · no result for this year`,
     text: `No ${o.year} Lok Sabha result for ${o.regionName} in ${ECI} report for this election.`,
   }
   : { caption: missingCaption(o.seatCount), text: notAvailable(`${o.regionName} ${o.year} Lok Sabha results`, ECI, 'have') });

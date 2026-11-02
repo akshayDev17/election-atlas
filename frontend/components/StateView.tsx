@@ -14,7 +14,7 @@ import {
   type CSSProperties, type ReactNode,
 } from 'react';
 import {
-  CMO_UP, ECI, acCycles, byelAvailable, fetchOptional, getListed, loadAvailability, lsDetailAvailable,
+  countOf, CMO_UP, ECI, acCycles, byelAvailable, fetchOptional, getListed, loadAvailability, lsDetailAvailable,
   lsStateAvailable, membersAvailable, nf, notAvailable, parentsOf, partOfText, pc1, seatFold, stateRoster, titleCase,
 } from '@/lib/atlas';
 import { DATA, pageURL } from '@/lib/base';
@@ -456,7 +456,7 @@ export default function StateView() {
     if (acData.missing) {
       capAc = missingCaption(core.acShapes.length);
       acVoid = notAvailable(acData.year != null ? `${name} ${acData.year} assembly results` : `${name} assembly results`, ECI, 'have');
-    } else capAc = `${Object.keys(acData.acRows).length} seats`;
+    } else capAc = countOf(Object.keys(acData.acRows).length, 'seat');
   }
 
   const focusOn = (which: Which) => {
@@ -724,7 +724,7 @@ function SeatCardBody({ head, foot, face, colour }: {
           <p className="sub">{head.sub}</p>
           <h3>{head.name}</h3>
           {head.kind === 'result' && (
-            <p className="meta"><span>{head.candidates} candidates</span><span>{nf(head.polled)} votes polled</span></p>
+            <p className="meta"><span>{countOf(head.candidates, 'candidate')}</span><span>{nf(head.polled)} votes polled</span></p>
           )}
           {(head.kind === 'noResult' || head.kind === 'noDetail') && <p className="meta"><span>{head.note}</span></p>}
         </div>

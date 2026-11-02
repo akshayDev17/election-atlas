@@ -15,9 +15,14 @@
 //     The atlas's old address. Every URL there answers a permanent redirect (308)
 //     to the same path under /elections/india/, query kept, so old links, deep
 //     links and bill PDF URLs keep working.
+//
+//   /elections, /elections/
+//     No page lives there; both answer a permanent redirect (308) to
+//     /elections/india/, query kept. Other /elections/* paths are not claimed.
 
 const ATLAS_ROOT = "/elections/india/";
 const OLD_ROOT = "/work/election-atlas";
+const ELECTIONS_ROOT = "/elections";
 const DOCS_PREFIX = `${ATLAS_ROOT}data/state-legislation/`;
 
 export default {
@@ -33,11 +38,14 @@ export default {
 };
 
 /**
- * Where an old-address URL lives now: /work/election-atlas[/rest][?query] is
- * /elections/india/[rest][?query] on the same host. null for any other URL.
+ * Where a redirected URL lives now: /work/election-atlas[/rest][?query] is
+ * /elections/india/[rest][?query] on the same host, and the bare /elections or
+ * /elections/ (no page lives there) is /elections/india/[?query]. null for any
+ * other URL.
  */
 export function movedTo(url) {
   const { pathname } = url;
+  if (pathname === ELECTIONS_ROOT || pathname === `${ELECTIONS_ROOT}/`) return `${url.origin}${ATLAS_ROOT}${url.search}`;
   if (pathname !== OLD_ROOT && !pathname.startsWith(`${OLD_ROOT}/`)) return null;
   const rest = pathname.slice(OLD_ROOT.length).replace(/^\//, "");
   return `${url.origin}${ATLAS_ROOT}${rest}${url.search}`;
