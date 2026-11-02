@@ -1,10 +1,11 @@
 # Election Atlas
 
 A data-driven map of India's elected representatives, from India to state to MP or MLA, built only from published government sources. It is served at
-[akshayprabhakant.com/work/election-atlas](https://akshayprabhakant.com/work/election-atlas/)
-(GitHub Pages, from `akshayDev17/akshayDev17.github.io`) until this repository's Worker is routed there.
-The Worker serves the atlas at `/elections/india/` and answers the old address,
-`/work/election-atlas/*`, with a permanent redirect (308) to the same path there, query kept.
+[akshayprabhakant.com/elections/india](https://akshayprabhakant.com/elections/india/)
+by this repository's Worker.
+The Worker answers the old address, `/work/election-atlas/*`, with a permanent redirect (308)
+to the same path under `/elections/india/`, and the bare `/elections` and `/elections/` with
+a permanent redirect to `/elections/india/`, query kept in both.
 
 This repository started from a single commit of that site's `work/election-atlas` tree
 (`backend/atlas-source.json` names the commit), carrying published data only: no
@@ -46,7 +47,7 @@ Nothing but published data reaches D1, the exported files or the site:
 | `d1-import.yml` | manual, `day` = 1 or 2 | applies migrations, then imports one day (1: assembly, cabinets, by-elections; 2: Lok Sabha), printing D1's rows written; the free plan allows 100,000 a day |
 | `deploy.yml` | manual | builds the frontend, exports D1, diffs it against the committed JSON, runs the gate, deploys the Worker, and smoke-tests the preview (including the old address's redirect) |
 
-The Worker config (`backend/wrangler.jsonc`) carries **no routes**, and CI and the deploy refuse one that does (`backend/check_no_routes.py`). Until the owner's approved routes (`akshayprabhakant.com/elections`, `/elections/*`, `/work/election-atlas` and `/work/election-atlas/*`) are attached, in a step of their own, the Worker answers only on its workers.dev preview URL.
+The Worker config (`backend/wrangler.jsonc`) carries **no routes**, and CI and the deploy refuse one that does (`backend/check_no_routes.py`). The owner's approved routes (`akshayprabhakant.com/elections`, `/elections/*`, `/work/election-atlas` and `/work/election-atlas/*`) are attached outside this config, in a step of their own.
 
 `backend/check_urls.py` replays the URL inventory (`.atlas-cutover/url-inventory.tsv` in the github.io repository) against any host: every old URL must redirect to its `/elections/india/` twin, which must then serve what it served before.
 
