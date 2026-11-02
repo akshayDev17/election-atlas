@@ -16,8 +16,8 @@
 //     to the same path under /elections/india/, query kept, so old links, deep
 //     links and bill PDF URLs keep working.
 
-export const ATLAS_ROOT = "/elections/india/";
-export const OLD_ROOT = "/work/election-atlas";
+const ATLAS_ROOT = "/elections/india/";
+const OLD_ROOT = "/work/election-atlas";
 const DOCS_PREFIX = `${ATLAS_ROOT}data/state-legislation/`;
 
 export default {

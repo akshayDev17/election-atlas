@@ -2,7 +2,9 @@
 
 A data-driven map of India's elected representatives, from India to state to MP or MLA, built only from published government sources. It is served at
 [akshayprabhakant.com/work/election-atlas](https://akshayprabhakant.com/work/election-atlas/)
-(GitHub Pages, from `akshayDev17/akshayDev17.github.io`, until this repository's Worker is routed there).
+(GitHub Pages, from `akshayDev17/akshayDev17.github.io`) until this repository's Worker is routed there.
+The Worker serves the atlas at `/elections/india/` and answers the old address,
+`/work/election-atlas/*`, with a permanent redirect (308) to the same path there, query kept.
 
 This repository started from a single commit of that site's `work/election-atlas` tree
 (`backend/atlas-source.json` names the commit), carrying published data only: no
@@ -12,7 +14,7 @@ history, no bill PDFs and no stored portraits. `CONTEXT.md` defines the terms us
 
 | path | what |
 |---|---|
-| `index.html`, `state/`, `mp/`, `mla/`, `lib/`, `vendor/` | the pages; every data fetch is relative, so they work under any mount path |
+| `frontend/` | the pages: Next.js 15 + React 19 + TypeScript, a static export with basePath `/elections/india` (national, `state/`, `mp/`, `mla/`), built the way the other apps on the site build theirs |
 | `data/` | data the pages read that is not in D1: geometry, regions, parties, MPLADS, Sansad records, member directory, bill indexes, `manifest.json`, `availability.json` |
 | `tools/` | the harvesters and the provenance gate (`tools/README.md`) |
 | `backend/` | the Cloudflare Worker, its D1 schema, import and export, and the deploy checks |
@@ -39,14 +41,14 @@ Nothing but published data reaches D1, the exported files or the site:
 
 | workflow | trigger | does |
 |---|---|---|
-| `ci.yml` | pull request, push | gate tests, Worker tests, and the full JSON → D1 → JSON round trip in a local SQLite; no Cloudflare access |
+| `ci.yml` | pull request, push | gate tests, Worker tests, the full JSON → D1 → JSON round trip in a local SQLite, and the frontend (type-checked build, library tests, export contract, browser smoke over the assembled site); no Cloudflare access |
 | `r2-upload.yml` | manual | uploads every manifest-listed PDF of the pinned commit to R2, verifying sha256 before and after |
 | `d1-import.yml` | manual, `day` = 1 or 2 | applies migrations, then imports one day (1: assembly, cabinets, by-elections; 2: Lok Sabha), printing D1's rows written; the free plan allows 100,000 a day |
-| `deploy.yml` | manual | exports D1, diffs it against the committed JSON, runs the gate, deploys the Worker, and smoke-tests the preview |
+| `deploy.yml` | manual | builds the frontend, exports D1, diffs it against the committed JSON, runs the gate, deploys the Worker, and smoke-tests the preview (including the old address's redirect) |
 
-The Worker config (`backend/wrangler.jsonc`) carries **no routes**, and CI and the deploy refuse one that does (`backend/check_no_routes.py`). Until the owner approves routing `akshayprabhakant.com/work/election-atlas` to it, the Worker answers only on its workers.dev preview URL.
+The Worker config (`backend/wrangler.jsonc`) carries **no routes**, and CI and the deploy refuse one that does (`backend/check_no_routes.py`). Until the owner's approved routes (`akshayprabhakant.com/elections`, `/elections/*`, `/work/election-atlas` and `/work/election-atlas/*`) are attached, in a step of their own, the Worker answers only on its workers.dev preview URL.
 
-`backend/check_urls.py` replays the URL inventory (`.atlas-cutover/url-inventory.tsv` in the github.io repository) against any host.
+`backend/check_urls.py` replays the URL inventory (`.atlas-cutover/url-inventory.tsv` in the github.io repository) against any host: every old URL must redirect to its `/elections/india/` twin, which must then serve what it served before.
 
 ## Local checks
 
@@ -55,6 +57,15 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 python3 -m unittest discover -s backend/d1 -p 'test_*.py'
 node --test backend/src/test_index.mjs
 python3 tools/check_provenance.py data
+
+# the frontend (Node 22)
+npm --prefix frontend ci
+npm --prefix frontend run build            # type-checks; static export in frontend/out
+npm --prefix frontend run test:export
+python3 backend/build_site.py --out dist --data-from <exported data dir>
+cp -R <exported data dir>/. data/           # the library tests read the exported results
+npm --prefix frontend run test:lib
+CHROME_PATH=<chrome binary> npm --prefix frontend run test:smoke   # serves dist/
 ```
 
 Changes reach `main` through pull requests.

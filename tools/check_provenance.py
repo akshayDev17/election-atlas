@@ -2,9 +2,9 @@
 """The provenance gate: fail if anything but published data reaches the atlas.
 
     python3 tools/check_provenance.py data            # exit 0 = clean, 1 = violations
-    python3 tools/check_provenance.py dist/work/election-atlas/data --db d1.sqlite
-    python3 tools/check_provenance.py dist/work/election-atlas/data \
-        --remote https://akshayprabhakant.com/work/election-atlas/
+    python3 tools/check_provenance.py dist/elections/india/data --db d1.sqlite
+    python3 tools/check_provenance.py dist/elections/india/data \
+        --remote https://akshayprabhakant.com/elections/india/
 
 Checks, each listed in full before the exit:
 
@@ -16,8 +16,9 @@ Checks, each listed in full before the exit:
    any key named note*, source*, _note, caveat or provenance, at any depth.
    Free text is not scanned: real Sansad answers and MPLADS work titles
    contain words like "synthetic rubbers" and "synthetic track".
-3. The four atlas pages, the shared page module and manifest.json never
-   contain the word "synthetic".
+3. The four atlas pages (the frontend's static export: each page's HTML and
+   the JavaScript chunks under _next/static/ that carry the page code) and
+   manifest.json never contain the word "synthetic".
 4. The dummy files removed from the atlas never come back: no file under the
    data directory has the exact bytes of one of them, and a file at one of
    their paths must be published data for a real election (an assembly or
@@ -29,9 +30,10 @@ Checks, each listed in full before the exit:
    sha256 and a fetched_at. The schema's CHECK constraints already refuse such
    rows; this catches a schema that drifted away from them.
 6. With --remote BASE: checks 1 to 4 run over what BASE actually serves. Every
-   JSON file under DATA_DIR, the pages and manifest.json are fetched from BASE
-   (the atlas root URL) and checked as served; a file BASE does not answer 200
-   for is a violation. DATA_DIR then only lists which files to fetch.
+   JSON file under DATA_DIR, the pages, the chunks the served pages load and
+   manifest.json are fetched from BASE (the atlas root URL) and checked as
+   served; a file BASE does not answer 200 for is a violation. DATA_DIR then only
+   lists which files to fetch.
 """
 import argparse
 import hashlib
@@ -55,7 +57,9 @@ ALLOWED_HOSTS = {
 FORBIDDEN = re.compile(r'\b(synthetic|dummy|invented|placeholder|fake|mock)', re.I)
 METADATA_KEY = re.compile(r'^(note.*|source.*|_note|caveat|provenance)$', re.I)
 PROVENANCE_DIRS = ('results', 'cabinet', 'members')
-PAGES = ('index.html', 'state/index.html', 'mp/index.html', 'mla/index.html', 'lib/atlas.js')
+PAGES = ('index.html', 'state/index.html', 'mp/index.html', 'mla/index.html')
+CHUNKS = '_next/static'
+SCRIPT_SRC = re.compile(r'<script\b[^>]*\bsrc="([^"]+\.js)"', re.I)
 
 # The 53 files that held dummy data until they were deleted, with the sha256 of
 # the bytes they held (work/election-atlas/data at 4c64517).
@@ -193,9 +197,15 @@ def check_retired(rel, raw, cycles):
     return errs
 
 
+def page_code(atlas_dir):
+    """The page code: the JavaScript chunks of the static export."""
+    chunks = Path(atlas_dir) / CHUNKS
+    return tuple(p.relative_to(atlas_dir).as_posix() for p in sorted(chunks.rglob('*.js'))) if chunks.is_dir() else ()
+
+
 def check_pages(atlas_dir):
     errs = []
-    for rel in PAGES + ('data/manifest.json',):
+    for rel in PAGES + page_code(atlas_dir) + ('data/manifest.json',):
         p = atlas_dir / rel
         if not p.is_file():
             continue
@@ -281,8 +291,14 @@ def fetch_mirror(base, data_dir, mirror):
     data_dir = Path(data_dir)
     rels = ['data/' + p.relative_to(data_dir).as_posix() for p in sorted(data_dir.rglob('*.json'))]
     rels += [r for r in PAGES if (data_dir.parent / r).is_file()]
+    base_path = urlparse(base).path
     errs = []
-    for rel in rels:
+    seen = set()
+    while rels:
+        rel = rels.pop(0)
+        if rel in seen:
+            continue
+        seen.add(rel)
         url = base + rel
         try:
             req = urllib.request.Request(url, headers={'user-agent': 'check_provenance/1'})
@@ -294,7 +310,13 @@ def fetch_mirror(base, data_dir, mirror):
         dest = Path(mirror) / rel
         dest.parent.mkdir(parents=True, exist_ok=True)
         dest.write_bytes(body)
-    print(f'remote: fetched {len(rels) - len(errs)} of {len(rels)} files from {base}')
+        if rel in PAGES:
+            # the page code the served page actually loads
+            for src in SCRIPT_SRC.findall(body.decode('utf-8', 'replace')):
+                path = urlparse(src).path
+                if path.startswith(base_path + CHUNKS + '/'):
+                    rels.append(path[len(base_path):])
+    print(f'remote: fetched {len(seen) - len(errs)} of {len(seen)} files from {base}')
     return errs
 
 

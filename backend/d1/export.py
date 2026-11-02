@@ -3,7 +3,7 @@
 
     npx wrangler d1 export election-atlas --remote --output d1.sql
     sqlite3 d1.sqlite < d1.sql
-    python3 backend/d1/export.py --db d1.sqlite --out dist/work/election-atlas/data
+    python3 backend/d1/export.py --db d1.sqlite --out exported
 
 Each row of `document` becomes one file at its old path, in its old shape: the
 file's own header (`document.head`) with its body rebuilt from the fact tables,

@@ -1,8 +1,8 @@
 # `data/photos/` — party symbols
 
 The atlas keeps **no member portraits**. Every MP, minister and MLA is shown as
-their initials on their party's colour (`monogramHTML` in `lib/atlas.js`, one
-helper shared by every page). Each MP and Lok Sabha minister carries a link,
+their initials on their party's colour (`Monogram` in
+`frontend/components/Member.tsx`, one component shared by every page). Each MP and Lok Sabha minister carries a link,
 "View official photo on sansad.in", to their own official page on sansad.in,
 built from their Sansad member number (`mpsno`):
 
