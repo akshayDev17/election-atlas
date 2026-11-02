@@ -39,8 +39,9 @@ test('chunks are content-hashed', () => {
   const chunks = all.filter((p) => p.startsWith('_next/static/') && /\.(js|css)$/.test(p));
   assert.ok(chunks.length > 0);
   for (const c of chunks) {
-    // a hash in the file name, or a per-build directory (the build id) that holds it
-    assert.match(c, /[-.][0-9a-f]{8,}\.(js|css)$|_next\/static\/[A-Za-z0-9_-]{10,}\//, c);
+    // a hash in the file name (name-<hash>.js, or <hash>.css), or a per-build
+    // directory (the build id) that holds it
+    assert.match(c, /(^|[-/.])[0-9a-f]{16}\.(js|css)$|^_next\/static\/[A-Za-z0-9_-]{16,}\//, c);
   }
 });
 

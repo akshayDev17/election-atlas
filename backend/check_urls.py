@@ -141,13 +141,17 @@ def check_row(base, row, dist, pdfs, pending=frozenset()):
         status, h, body = get(base + url)
         local = dist / url.lstrip('/')
         note = ''
-        if status in (301, 302, 307, 308) and url.endswith('/index.html'):
+        if status in (301, 302, 307, 308) and url.endswith('.html'):
+            # Workers static assets serve an explicit .html URL without its
+            # extension (index.html as its directory): one redirect, same bytes
             loc = urllib.parse.urljoin(base + url, header(h, 'location') or '')
-            if loc != base + url[:-len('index.html')]:
+            want = url[:-len('index.html')] if url.endswith('/index.html') else url[:-len('.html')]
+            if loc != base + want:
                 return kind, 'FAIL', f'{status} -> {loc}'
             status, h, body = get(loc)
-            note = f' (via {status} after the redirect to the directory)'
-            kind = 'file (index.html redirects to its directory)'
+            note = f' (via {status} after the redirect to {want})'
+            kind = ('file (index.html redirects to its directory)' if url.endswith('/index.html')
+                    else 'file (.html redirects to its extension-less URL)')
         if status != 200:
             return kind, 'FAIL', f'{status}'
         if not local.exists():
@@ -191,6 +195,9 @@ def check_moved(base, row, dist, pdfs, pending=frozenset()):
     loc = urllib.parse.urljoin(base + row['url'], header(h, 'location') or '')
     if status not in (301, 308) or loc != base + url:
         return row['kind'], 'FAIL', f'old address {row["url"]} -> {status} {loc} (want 308 -> {url})'
+    if row['kind'] == 'redirect' and url.endswith('/'):
+        # the bare old root moves straight to the new root's directory URL
+        row = {**row, 'kind': 'page'}
     kind, verdict, detail = check_row(base, {**row, 'url': url}, dist, pdfs, pending)
     return kind, verdict, f'{status} from the old address; {detail}'
 

@@ -61,8 +61,9 @@ after(async () => {
 });
 
 /* Open a page, wait for `ready` (a selector that only appears once the page has
-   drawn from its data), and return what went wrong on the way. */
-async function visit(path, ready) {
+   drawn) and for `expect` in its text (case-insensitive: some labels are
+   uppercased by CSS), and return what went wrong on the way. */
+async function visit(path, ready, expect) {
   const page = await browser.newPage();
   await page.setViewport({ width: 1440, height: 900 });
   const problems = [];
@@ -74,6 +75,8 @@ async function visit(path, ready) {
   });
   await page.goto(origin + path, { waitUntil: 'networkidle0' });
   await page.waitForSelector(ready, { timeout: 15000 });
+  await page.waitForFunction((src) => new RegExp(src, 'i').test(document.body.innerText), { timeout: 15000 }, expect.source)
+    .catch(() => {});
   const text = await page.evaluate(() => document.body.innerText);
   await page.close();
   return { problems, text };
@@ -81,22 +84,22 @@ async function visit(path, ready) {
 
 const PAGES = [
   ['national, 2024', '/elections/india/?y=2024', '#map path.pc', /Union council of ministers · 2024/],
-  ['national, 2024 as it stands', '/elections/india/?y=2024&t=stands', '#map path.pc', /As it stands/],
+  ['national, 2024 as it stands', '/elections/india/?y=2024&t=stands', '#map path.pc', /As it stands · \d+ by-election/],
   ['national, 1980 (state level)', '/elections/india/?y=1980', '#map path.stf', /state-level result/],
-  ['state, Uttar Pradesh 2024', '/elections/india/state/?s=IN-UP&y=2024', '#map path', /Uttar Pradesh/],
-  ['state, West Bengal 2014 as it stands', '/elections/india/state/?s=IN-WB&y=2014&t=stands', '#map path', /West Bengal/],
-  ['state, Bihar 1980 (state level)', '/elections/india/state/?s=IN-BR&y=1980', 'main', /Bihar/],
-  ['MP, Gorakhpur', '/elections/india/mp/?s=IN-UP&c=gorakhpur', 'main', /Gorakhpur/i],
-  ['MP, Bhatinda', '/elections/india/mp/?s=IN-PB&c=bhatinda', 'main', /Bhatinda|Bathinda/i],
-  ['MLA, Agiaon', '/elections/india/mla/?s=IN-BR&c=agiaon', 'main', /Agiaon/i],
+  ['state, Uttar Pradesh 2024', '/elections/india/state/?s=IN-UP&y=2024', '#map-pc path', /Uttar Pradesh/],
+  ['state, West Bengal 2014 as it stands', '/elections/india/state/?s=IN-WB&y=2014&t=stands', '#map-pc path', /West Bengal/],
+  ['state, Bihar 1980 (state level)', '/elections/india/state/?s=IN-BR&y=1980', '#map-pc', /state-level result/],
+  ['MP, Gorakhpur', '/elections/india/mp/?s=IN-UP&c=gorakhpur', '.page', /Gorakhpur/],
+  ['MP, Bhatinda', '/elections/india/mp/?s=IN-PB&c=bhatinda', '.page', /Bhatinda|Bathinda/],
+  ['MLA, Agiaon', '/elections/india/mla/?s=IN-BR&c=agiaon', '.page', /Agiaon/],
 ];
 
 for (const [name, path, ready, expect] of PAGES) {
   test(`${name}: draws with zero console errors`, async () => {
-    const { problems, text } = await visit(path, ready);
+    const { problems, text } = await visit(path, ready, expect);
     assert.deepEqual(problems, []);
-    assert.match(text, expect);
-    assert.doesNotMatch(text, /could not be loaded/);
+    assert.match(text, new RegExp(expect.source, 'i'));
+    assert.doesNotMatch(text, /could not be loaded/i);
   });
 }
 
