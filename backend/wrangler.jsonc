@@ -7,10 +7,10 @@
   // the date the sibling frontends use
   "compatibility_date": "2026-10-10",
 
-  // No "routes" here. This Worker answers only on its workers.dev preview URL
-  // until the owner's approved routes are attached in a separate step
-  // (akshayprabhakant.com/elections, /elections/*, /work/election-atlas and
-  // /work/election-atlas/*); the deploy workflow refuses a config with routes.
+  // No "routes" here. The owner's approved routes (akshayprabhakant.com/elections,
+  // /elections/*, /work/election-atlas and /work/election-atlas/*) are live but
+  // attached outside this config by portfolio-app; the deploy workflow refuses a
+  // config with routes.
   "workers_dev": true,
 
   "assets": {

@@ -3,9 +3,10 @@ name: Deploy
 # Builds the Next.js frontend, exports the atlas's data files from D1, refuses to
 # deploy unless they are what the pinned github.io commit committed and the
 # provenance gate passes over both the export and D1 itself, then deploys the
-# Worker. The atlas is served at /elections/india/; the old address
-# /work/election-atlas/* answers 308 to it. The config carries no routes: the
-# Worker answers only on its workers.dev preview URL.
+# Worker. The atlas is served at /elections/india/; the bare /elections and
+# /elections/ addresses and the old address /work/election-atlas/* answer 308 to
+# it. The config carries no routes: the four live routes are attached outside it
+# by portfolio-app.
 
 on:
   workflow_dispatch:
