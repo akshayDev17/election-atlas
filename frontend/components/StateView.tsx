@@ -22,7 +22,7 @@ import { cardModel, type Candidate, type CardFoot, type CardHead, type SeatResol
 import { memberMatches, pageList, seatLabel, sortMinisters, type Sort, type SortKey, type Tense } from '@/lib/national';
 import {
   DEFAULT_SORT, MEMBER_YEAR, PAGE_SIZE, acCardRows, aggregateFrom, aggregateStateLevel, beltAsOf, beltVoidText,
-  cabinetPublisher, cycleAvailable, firstLsYear, keyify, latestCycle, lsYearKind, missingCaption, mpKeysByName,
+  cabinetPublisher, cycleAvailable, firstLsYear, keyify, latestCycle, lsVoid, lsYearKind, missingCaption, mpKeysByName,
   pageCountOf, pcCaption, pcCardRows, resolvePcSeats, seatPaint, seatsByParty, standsAvailable, stateLeader,
   tableRows, tenseAfterLoad, unknownSeatsText,
   type AcRow, type AcYearDoc, type Coverage, type Cycle, type DetailDoc, type MembersDoc, type MpladsIndex,
@@ -68,7 +68,7 @@ type PcData =
   | { kind: 'pc'; year: number; pcRows: Record<string, PcRow>; agg: StateAgg; byeSeats: ByeSeat[]; byeKnown: boolean;
       cardRows: Map<string, Candidate[]> }
   | { kind: 'state'; year: number; agg: StateAgg; seats: number; partOf: string | null; includes: string[] }
-  | { kind: 'missing'; year: number };
+  | { kind: 'missing'; year: number; fileRead: boolean };
 type AcData = {
   year: number | null;
   missing: boolean;
@@ -157,7 +157,8 @@ async function loadCore(search: string): Promise<{ core: Core } | { fatal: strin
 /* A Lok Sabha year is drawn from its constituency file when there is one,
    otherwise from its state-level file (what that file holds, never a
    per-constituency figure; a state formed after that election reads the entry
-   of the state it was part of); with neither it says "not available yet". */
+   of the state it was part of; a file with neither entry has no result for the
+   state); with no file it says "not available yet". */
 async function loadLS(c: Core, y: number): Promise<PcData> {
   const kind = lsYearKind(c.avail, y);
   if (kind === 'pc') {
@@ -180,8 +181,9 @@ async function loadLS(c: Core, y: number): Promise<PcData> {
     const doc = await getListed<StateYearDoc>(lsStateAvailable(c.avail, y), `${DATA}results/ls/${y}.json`);
     const s = doc ? aggregateStateLevel(doc, c.stateCode, c.parents) : null;
     if (s) return { kind: 'state', year: y, ...s };
+    if (doc) return { kind: 'missing', year: y, fileRead: true };
   }
-  return { kind: 'missing', year: y };
+  return { kind: 'missing', year: y, fileRead: false };
 }
 
 /* One assembly cycle. A cycle that has not been added, or whose files cannot be
@@ -436,8 +438,9 @@ export default function StateView() {
   if (fatal) capPc = fatal;
   else if (core && pcData) {
     if (pcData.kind === 'missing') {
-      capPc = missingCaption(core.pcShapes.length);
-      pcVoid = notAvailable(`${name} ${pcData.year} Lok Sabha results`, ECI, 'have');
+      const v = lsVoid({ regionName: name, year: pcData.year, seatCount: core.pcShapes.length, fileRead: pcData.fileRead });
+      capPc = v.caption;
+      pcVoid = v.text;
     } else {
       const regionNameOf = (code: string) => core.regionByCode.get(code)?.name ?? code;
       const parent = pcData.kind === 'state' && pcData.partOf ? pcData.partOf : null;

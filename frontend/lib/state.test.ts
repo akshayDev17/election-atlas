@@ -6,7 +6,7 @@ import { test } from 'node:test';
 import { CMO_UP, acCycles, parentsOf } from './atlas.ts';
 import {
   DEFAULT_SORT, acCardRows, aggregateFrom, aggregateStateLevel, beltAsOf, beltVoidText, cabinetPublisher,
-  cycleAvailable, firstLsYear, keyify, latestCycle, lsYearKind, missingCaption, mpKeysByName, pageCountOf,
+  cycleAvailable, firstLsYear, keyify, latestCycle, lsVoid, lsYearKind, missingCaption, mpKeysByName, pageCountOf,
   pcCaption, pcCardRows, resolvePcSeats, seatPaint, seatsByParty, standsAvailable, stateLeader, tableRows,
   tenseAfterLoad, unknownSeatsText, type AcYearDoc, type DetailDoc,
 } from './state.ts';
@@ -62,6 +62,30 @@ test('a state the state-level file holds no entry for, nor for a state it was pa
   assert.equal(aggregateStateLevel(doc, 'IN-TG', parents), null);
   assert.equal(aggregateStateLevel(doc, 'IN-KL', parents), null);
   assert.equal(stateLeader(null), null);
+});
+
+test('the empty Lok Sabha panel: not available yet only when the year’s file is not in the data', () => {
+  const base = { regionName: 'Assam', year: 1989, seatCount: 14 };
+  assert.deepEqual(lsVoid({ ...base, fileRead: true }), {
+    caption: '14 seats · no result for this year',
+    text: 'No 1989 Lok Sabha result for Assam in the Election Commission of India report for this election.',
+  });
+  assert.deepEqual(lsVoid({ ...base, fileRead: false }), {
+    caption: '14 seats · not available yet',
+    text: 'Not available yet — Assam 1989 Lok Sabha results have not been added from the Election Commission of India.',
+  });
+});
+
+test('Assam 1989 and Ladakh/Jammu and Kashmir 1991: in the report’s file, with no entry, so no result rather than not added', () => {
+  const y1989 = readData<StateYearDoc>('results/ls/1989.json');
+  assert.equal(lsYearKind(avail, 1989), 'state');
+  assert.equal(aggregateStateLevel(y1989, 'IN-AS', parents), null);
+  const y1991 = readData<StateYearDoc>('results/ls/1991.json');
+  assert.equal(lsYearKind(avail, 1991), 'state');
+  assert.equal(aggregateStateLevel(y1991, 'IN-JK', parents), null);
+  assert.equal(aggregateStateLevel(y1991, 'IN-LA', parents), null, 'Ladakh reads Jammu and Kashmir, which has no 1991 entry');
+  assert.equal(lsVoid({ regionName: 'Ladakh', year: 1991, seatCount: 1, fileRead: true }).text,
+    'No 1991 Lok Sabha result for Ladakh in the Election Commission of India report for this election.');
 });
 
 const SPLITS = [['IN-TG', 'IN-AP'], ['IN-UT', 'IN-UP'], ['IN-CT', 'IN-MP'], ['IN-JH', 'IN-BR']] as const;

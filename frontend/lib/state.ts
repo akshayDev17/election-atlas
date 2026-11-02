@@ -3,7 +3,7 @@
    every "not available yet" sentence. Explicit input, explicit output; the page
    holds the inputs (state, years, tense, sort, selection) and renders these. */
 import {
-  byelAvailable, coverNote, formedLater, lsResultsAvailable, lsStateAvailable, notAvailable, resultRegion, stateRoster,
+  ECI, byelAvailable, coverNote, formedLater, lsResultsAvailable, lsStateAvailable, notAvailable, resultRegion, stateRoster,
 } from './atlas.ts';
 import type { Candidate, SeatResolved } from './card.ts';
 import type { Sort, Tense } from './national.ts';
@@ -257,6 +257,18 @@ export function pcCaption(o: {
 }
 
 export const missingCaption = (seatCount: number): string => `${seatCount} seats · not available yet`;
+
+/* The Lok Sabha panel with nothing to draw. A year whose file is not in the data
+   is not available yet. A state-level year whose file was read but holds no entry
+   for the state, nor for the state it was part of, has no result in that report:
+   nothing will be added, so it says so instead. */
+export const lsVoid = (o: { regionName: string; year: number; seatCount: number; fileRead: boolean }):
+  { caption: string; text: string } => (o.fileRead
+  ? {
+    caption: `${o.seatCount} seats · no result for this year`,
+    text: `No ${o.year} Lok Sabha result for ${o.regionName} in ${ECI} report for this election.`,
+  }
+  : { caption: missingCaption(o.seatCount), text: notAvailable(`${o.regionName} ${o.year} Lok Sabha results`, ECI, 'have') });
 
 export const cabinetPublisher = (stateCode: string, regionName: string, cmoUP: string): string =>
   stateCode === 'IN-UP' ? cmoUP : `the Government of ${regionName}`;
