@@ -1,29 +1,47 @@
 // election-atlas Worker.
 //
-// Everything the atlas publishes is a static asset under /work/election-atlas/,
+// The atlas is a static export (frontend/, Next.js) under /elections/india/,
 // served by Cloudflare's asset layer without invoking this script. The script runs
 // only for the paths listed in wrangler.jsonc `assets.run_worker_first`:
 //
-//   /work/election-atlas/data/state-legislation/*
+//   /elections/india/data/state-legislation/*
+//     The state bill PDFs there live in the R2 bucket election-atlas-docs under the
+//     same path relative to the atlas root (data/state-legislation/IN-XX/bills/
+//     documents/<hash>-bills.pdf); they are streamed from R2 with Range support.
+//     Every other file under that prefix (the bill index and manifest JSON) is a
+//     static asset and falls through to it.
 //
-// The state bill PDFs there live in the R2 bucket election-atlas-docs under the
-// same path relative to the atlas root (data/state-legislation/IN-XX/bills/
-// documents/<hash>-bills.pdf); they are streamed from R2 with Range support.
-// Every other file under that prefix (the bill index and manifest JSON) is a
-// static asset and falls through to it.
+//   /work/election-atlas, /work/election-atlas/*
+//     The atlas's old address. Every URL there answers a permanent redirect (308)
+//     to the same path under /elections/india/, query kept, so old links, deep
+//     links and bill PDF URLs keep working.
 
-const ATLAS_ROOT = "/work/election-atlas/";
+export const ATLAS_ROOT = "/elections/india/";
+export const OLD_ROOT = "/work/election-atlas";
 const DOCS_PREFIX = `${ATLAS_ROOT}data/state-legislation/`;
 
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    const moved = movedTo(url);
+    if (moved) return Response.redirect(moved, 308);
     if (url.pathname.startsWith(DOCS_PREFIX) && url.pathname.endsWith(".pdf")) {
       return servePdf(request, env, url);
     }
     return env.ASSETS.fetch(request);
   },
 };
+
+/**
+ * Where an old-address URL lives now: /work/election-atlas[/rest][?query] is
+ * /elections/india/[rest][?query] on the same host. null for any other URL.
+ */
+export function movedTo(url) {
+  const { pathname } = url;
+  if (pathname !== OLD_ROOT && !pathname.startsWith(`${OLD_ROOT}/`)) return null;
+  const rest = pathname.slice(OLD_ROOT.length).replace(/^\//, "");
+  return `${url.origin}${ATLAS_ROOT}${rest}${url.search}`;
+}
 
 /** The R2 key for a PDF URL, or null when the path is not a plain relative key. */
 export function r2Key(pathname) {

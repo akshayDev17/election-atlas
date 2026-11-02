@@ -2,10 +2,14 @@
    general-election winner and its by-election events in date order. A
    by-election whose result is not available (winner null) leaves the holder
    unknown rather than falling back to the general-election winner. */
-export function resolveSeat(generalP, events) {
+import type { ByeEvent, ByeSeat } from './types.ts';
+
+export type Holder = { p: string | null; vacant: boolean; unknown: boolean };
+
+export function resolveSeat(generalP: string, events: readonly ByeEvent[]): Holder {
   const last = events[events.length - 1];
   if (last && last.type === 'vacated') return { p: null, vacant: true, unknown: false };
-  const byes = events.filter(e => e.type === 'bye');
+  const byes = events.filter((e): e is Extract<ByeEvent, { type: 'bye' }> => e.type === 'bye');
   if (!byes.length) return { p: generalP, vacant: false, unknown: false };
   const w = byes[byes.length - 1].winner;
   return { p: w ? w.p : null, vacant: false, unknown: !w };
@@ -15,9 +19,12 @@ export function resolveSeat(generalP, events) {
    election, and how many seats have no known holder. Unknown seats count for no
    party and change no party's figure; together with the party seats and any
    vacancies they add up to the number of seats. */
-export function tallyStands(pcRows, byeSeats) {
+export function tallyStands(
+  pcRows: Record<string, { p: string }>,
+  byeSeats: readonly Pick<ByeSeat, 'uid' | 'events'>[],
+): { seats: Map<string, number>; delta: Map<string, number>; unknown: number } {
   const eventsOf = new Map(byeSeats.map(s => [s.uid, s.events]));
-  const seats = new Map(), delta = new Map();
+  const seats = new Map<string, number>(), delta = new Map<string, number>();
   let unknown = 0;
   for (const [uid, c] of Object.entries(pcRows)) {
     const r = resolveSeat(c.p, eventsOf.get(uid) || []);
