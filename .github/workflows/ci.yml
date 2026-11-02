@@ -62,13 +62,16 @@ jobs:
           import sqlite3
           con = sqlite3.connect('d1.sqlite')
           con.execute('PRAGMA foreign_keys = ON')
-          con.executescript(open('backend/migrations/0001_init.sql').read())
+          import glob
+          for m in sorted(glob.glob('backend/migrations/*.sql')):
+              con.executescript(open(m).read())
           for day in ('day1.sql', 'day2.sql'):
               con.executescript('BEGIN;' + open(day).read() + 'COMMIT;')
           bad = con.execute('PRAGMA foreign_key_check').fetchall()
           assert not bad, bad
           PY
-          python3 backend/d1/export.py --db d1.sqlite --out exported --compare atlas-source/work/election-atlas/data
+          python3 backend/d1/export.py --db d1.sqlite --out exported --compare atlas-source/work/election-atlas/data \
+            --overlay backend/d1/inputs
 
       # The data files are build artifacts here: materialize them from the export
       # so the tools that read data/results and data/cabinet can be tested.
@@ -77,6 +80,9 @@ jobs:
           python3 backend/build_site.py --out dist --data-from exported --complete-against atlas-source/work/election-atlas/data
           python3 tools/check_provenance.py dist/work/election-atlas/data --db d1.sqlite
           python3 dist/work/election-atlas/tools/build-availability.py --check
+
+      - name: JS module URLs carry current content-hash versions
+        run: python3 tools/version_modules.py --check
 
       - name: Tool tests, with the exported data in place
         run: |

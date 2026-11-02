@@ -3,6 +3,8 @@
 
     python3 tools/check_provenance.py data            # exit 0 = clean, 1 = violations
     python3 tools/check_provenance.py dist/work/election-atlas/data --db d1.sqlite
+    python3 tools/check_provenance.py dist/work/election-atlas/data \
+        --remote https://akshayprabhakant.com/work/election-atlas/
 
 Checks, each listed in full before the exit:
 
@@ -26,6 +28,10 @@ Checks, each listed in full before the exit:
    every source is an allow-listed publisher on an allowed https host with a
    sha256 and a fetched_at. The schema's CHECK constraints already refuse such
    rows; this catches a schema that drifted away from them.
+6. With --remote BASE: checks 1 to 4 run over what BASE actually serves. Every
+   JSON file under DATA_DIR, the pages and manifest.json are fetched from BASE
+   (the atlas root URL) and checked as served; a file BASE does not answer 200
+   for is a violation. DATA_DIR then only lists which files to fetch.
 """
 import argparse
 import hashlib
@@ -33,6 +39,9 @@ import json
 import re
 import sqlite3
 import sys
+import tempfile
+import urllib.error
+import urllib.request
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -265,12 +274,42 @@ def check_db(db_path):
     return errs
 
 
+def fetch_mirror(base, data_dir, mirror):
+    """Fetch from `base` every JSON file under data_dir and the pages, into `mirror`
+    laid out like the atlas root. Returns the violations for files not served."""
+    base = base.rstrip('/') + '/'
+    data_dir = Path(data_dir)
+    rels = ['data/' + p.relative_to(data_dir).as_posix() for p in sorted(data_dir.rglob('*.json'))]
+    rels += [r for r in PAGES if (data_dir.parent / r).is_file()]
+    errs = []
+    for rel in rels:
+        url = base + rel
+        try:
+            req = urllib.request.Request(url, headers={'user-agent': 'check_provenance/1'})
+            with urllib.request.urlopen(req, timeout=60) as r:
+                body = r.read()
+        except (urllib.error.URLError, OSError) as e:
+            errs.append(f'remote: {url} not served ({e})')
+            continue
+        dest = Path(mirror) / rel
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_bytes(body)
+    print(f'remote: fetched {len(rels) - len(errs)} of {len(rels)} files from {base}')
+    return errs
+
+
 def main(argv):
     ap = argparse.ArgumentParser(description=__doc__.split('\n\n')[0])
     ap.add_argument('data_dir')
     ap.add_argument('--db', help='SQLite copy of the election-atlas D1 database')
+    ap.add_argument('--remote', metavar='BASE', help='check what BASE (the atlas root URL) serves instead')
     args = ap.parse_args(argv[1:])
-    errs = check(args.data_dir)
+    if args.remote:
+        with tempfile.TemporaryDirectory() as mirror:
+            errs = fetch_mirror(args.remote, args.data_dir, mirror)
+            errs += check(Path(mirror) / 'data')
+    else:
+        errs = check(args.data_dir)
     if args.db:
         errs += check_db(args.db)
     for e in errs:

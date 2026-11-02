@@ -46,13 +46,18 @@ def contests(con, term_id, general=True):
 
 def body_ls_rollup(con, doc):
     regions = OrderedDict()
-    for code, seats, electors in con.execute(
-            'SELECT region_code, seats, electors FROM region_tally WHERE term_id = ? ORDER BY position',
+    for code, seats, electors, extra in con.execute(
+            'SELECT region_code, seats, electors, extra FROM region_tally WHERE term_id = ? ORDER BY position',
             (doc['term_id'],)):
         parties = [OrderedDict(code=p, seats=s, votes=v) for p, s, v in con.execute(
             '''SELECT party_code, seats, votes FROM region_party_tally
                WHERE term_id = ? AND region_code = ? ORDER BY position''', (doc['term_id'], code))]
-        regions[code] = OrderedDict(seats=seats, electors=electors, parties=parties)
+        columns = dict(seats=seats, electors=electors, parties=parties)
+        if extra is None:
+            regions[code] = OrderedDict(columns)
+        else:
+            extra = loads(extra)
+            regions[code] = OrderedDict((k, columns[k] if k in columns else extra[k]) for k in extra['_keys'])
     return regions
 
 
@@ -138,11 +143,14 @@ def export(db_path):
     return files
 
 
-def compare(files, old_dir):
-    """Per-file verdict against the committed data: 'bytes', 'semantic' or 'DIFFERENT'."""
+def compare(files, old_dir, overlay=None):
+    """Per-file verdict against the committed data: 'bytes', 'semantic' or 'DIFFERENT'.
+    A file under `overlay` (backend/d1/inputs) is the committed one where it exists."""
     verdicts = {}
     for rel, raw in files.items():
         old = Path(old_dir) / rel
+        if overlay and (Path(overlay) / rel).is_file():
+            old = Path(overlay) / rel
         if not old.exists():
             verdicts[rel] = 'DIFFERENT (no committed file)'
         elif old.read_bytes() == raw:
@@ -159,6 +167,7 @@ def main(argv=None):
     ap.add_argument('--db', required=True, help='SQLite copy of the D1 database')
     ap.add_argument('--out', required=True, help='data directory to write the files into')
     ap.add_argument('--compare', help='committed data directory to compare the export against')
+    ap.add_argument('--overlay', help='files here are the committed ones where they exist (backend/d1/inputs)')
     args = ap.parse_args(argv)
     files = export(args.db)
     for rel, raw in files.items():
@@ -168,7 +177,11 @@ def main(argv=None):
     print(f'exported {len(files)} files from {args.db}')
     if not args.compare:
         return 0
-    verdicts = compare(files, args.compare)
+    verdicts = compare(files, args.compare, args.overlay)
+    if args.overlay:
+        over = sorted(r for r in files if (Path(args.overlay) / r).is_file())
+        if over:
+            print(f'compared against {args.overlay} instead: ' + ', '.join(over))
     counts = {}
     for rel, v in verdicts.items():
         counts[v] = counts.get(v, 0) + 1

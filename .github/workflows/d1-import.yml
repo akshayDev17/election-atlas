@@ -7,9 +7,10 @@ name: Import into D1
 #   day 1  assembly results, councils of ministers, Lok Sabha by-elections
 #   day 2  Lok Sabha general elections
 #
-# Applies outstanding migrations first, refuses a day that is already imported,
-# validates every record (tools/validate_records.py) before any SQL exists, and
-# prints D1's own rows-written count for the import.
+# Applies outstanding migrations first, leaves out every document of the day that
+# D1 already holds (so a re-run, or a file added later, imports only what is
+# missing), validates every record (tools/validate_records.py) before any SQL
+# exists, and prints D1's own rows-written count for the import.
 
 on:
   workflow_dispatch:
@@ -79,19 +80,24 @@ jobs:
       - name: Apply migrations
         run: $WRANGLER d1 migrations apply election-atlas --remote
 
-      - name: Refuse a day that is already imported
+      - name: List the documents D1 already holds
         run: |
-          if [ "$DAY" = 1 ]; then fams="'ac','ac-detail','cabinet','ls-byel'"; else fams="'ls-rollup','ls-pc','ls-detail'"; fi
           $WRANGLER d1 execute election-atlas --remote --json \
-            --command "SELECT count(*) AS n FROM document WHERE family IN ($fams)" > present.json
-          n=$(jq '.[0].results[0].n' present.json)
-          echo "documents of day $DAY already in D1: $n"
-          if [ "$n" != 0 ]; then echo "::error::day $DAY is already imported"; exit 1; fi
+            --command "SELECT path FROM document" > present.json
+          jq -r '.[0].results[].path' present.json > present.txt
+          echo "documents already in D1: $(wc -l < present.txt)"
 
-      - name: Validate every record and write the SQL
-        run: python3 d1/ingest.py --data ../atlas-source/work/election-atlas/data --day "$DAY" --out "day$DAY.sql"
+      - name: Validate every record and write the SQL (documents not yet in D1)
+        run: |
+          python3 d1/ingest.py --data ../atlas-source/work/election-atlas/data --day "$DAY" \
+            --skip-present present.txt --out "day$DAY.sql" | tee plan.txt
+          if ! grep -q '^INSERT INTO document ' "day$DAY.sql"; then
+            echo "nothing to import for day $DAY: every document is already in D1"
+            echo "empty=1" >> "$GITHUB_ENV"
+          fi
 
       - name: Import
+        if: env.empty != '1'
         run: |
           $WRANGLER d1 execute election-atlas --remote --file "day$DAY.sql" --yes | tee import.log
 

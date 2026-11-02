@@ -615,7 +615,7 @@ main{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;padding:0 var
 import {
   fetchOptional, loadAvailability, byelAvailable, unionRoster, notAvailable, PRESIDENT,
   monogramHTML, officialPhotoHTML,
-} from './lib/atlas.js';
+} from './lib/atlas.js?v=89698364';
 const NS = 'http://www.w3.org/2000/svg';
 const $ = s => document.querySelector(s);
 const el = (t, c) => { const n = document.createElement(t); if (c) n.className = c; return n; };
@@ -626,8 +626,8 @@ const titleCase = s => (s || '').toLowerCase().replace(/\b\w/g, c => c.toUpperCa
 let geo, topojson;
 try {
   [geo, topojson] = await Promise.all([
-    import('./vendor/d3-geo.js'),
-    import('./vendor/topojson-client.js'),
+    import('./vendor/d3-geo.js?v=e30a4b79'),
+    import('./vendor/topojson-client.js?v=fa670b81'),
   ]);
 } catch (err) {
   $('#mapnote').textContent = 'The map library could not be loaded, so the atlas cannot draw.';

@@ -3,14 +3,40 @@
  "provenance": "published",
  "election": "ls",
  "year": 1989,
- "note": "PUBLISHED RESULT. Every value here is an ABSOLUTE COUNT. No percentage is stored anywhere: the page derives every share from these numbers. `electors` is the registered electorate. state totals are the exact sum of every constituency in this election's published detailed result. No constituency file is written for this year: its boundaries predate the atlas geometry. Election Commission of India, General Election 1989 — statistical report (published as PDF only). State-level totals. The constituency boundaries of this election predate the atlas geometry, so no per-constituency file is produced for it.",
+ "note": "PUBLISHED RESULT. Every value here is an ABSOLUTE COUNT. No percentage is stored anywhere: the page derives every share from these numbers. `electors` is the registered electorate. state totals are the exact sum of every constituency in this election's published detailed result. No constituency file is written for this year: its boundaries predate the atlas geometry. A region's `unopposed` lists each seat the report records as returned unopposed (its one candidate, with no poll and so no votes), with the PDF page of the report that prints it. Election Commission of India, General Election 1989 — statistical report (published as PDF only). State-level totals. The constituency boundaries of this election predate the atlas geometry, so no per-constituency file is produced for it.",
  "source": {
-  "publisher": "Election Commission of India",
-  "url": "https://www.eci.gov.in/statistical-reports",
+  "publisher": "eci",
+  "url": "https://old.eci.gov.in/files/file/4120-general-election-1989-vol-i-ii/?do=download&r=9761&confirm=1&t=1",
+  "sha256": "e67c8f9fa3058bbc51579dfe45c7665ea7eb5092378e412d85318d6350980b3b",
+  "fetched_at": "2026-11-02T09:57:48Z",
+  "file": "eci_pdfs/general-election-1989-vol-i-ii_part1.pdf",
   "table": null,
-  "detail_table": null,
+  "detail_table": "eci_pdfs/general-election-1989-vol-i-ii_part1.pdf",
   "derivation": "constituency"
  },
+ "sources": [
+  {
+   "publisher": "eci",
+   "url": "https://www.eci.gov.in/eci-backend/public/all_files/GE-2024-statistical-report/3-List-Of-Political-Parties-Participated.xlsx",
+   "sha256": "88af41cdee72ad51a5a9563dca69f5966fc2012995a78db6d9a889cdb39244aa",
+   "fetched_at": "2026-11-02T09:56:01Z",
+   "file": "ls2024_statistical/3-List-Of-Political-Parties-Participated.xlsx"
+  },
+  {
+   "publisher": "eci",
+   "url": "https://old.eci.gov.in/files/file/13599-3-list-of-political-parties-participated/?do=download&r=37907&confirm=1&t=1",
+   "sha256": "ffbb50e92a9ea05635ad45f3d4888c31f4c12b605297c170d459216d500109b8",
+   "fetched_at": "2026-11-02T09:56:02Z",
+   "file": "eci_pdfs/GE2019_3-list-of-political-parties-participated_part1.xls"
+  },
+  {
+   "publisher": "eci",
+   "url": "https://old.eci.gov.in/files/file/2844-list-of-political-parties-participated/?do=download&r=6612&confirm=1&t=1",
+   "sha256": "009c9309f7d14b15c5f353f4ab95ec974533a8ddf7db31bfd9ec5ea8be3a9386",
+   "fetched_at": "2026-11-02T09:56:02Z",
+   "file": "eci_pdfs/GE2014_list-of-political-parties-participated_part2.xlsx"
+  }
+ ],
  "regions": {
   "IN-AP": {
    "seats": 42,
@@ -343,7 +369,7 @@
     {
      "code": "IND",
      "seats": 0,
-     "votes": 372974
+     "votes": 374804
     },
     {
      "code": "DMM",
@@ -379,11 +405,6 @@
      "code": "RPK",
      "seats": 0,
      "votes": 3217
-    },
-    {
-     "code": "5YOGIRAVINDRAN",
-     "seats": 0,
-     "votes": 1830
     },
     {
      "code": "GJP",
@@ -515,7 +536,7 @@
    ]
   },
   "IN-JK": {
-   "seats": 5,
+   "seats": 6,
    "electors": null,
    "parties": [
     {
@@ -540,7 +561,7 @@
     },
     {
      "code": "JKN",
-     "seats": 2,
+     "seats": 3,
      "votes": 71194
     },
     {
@@ -562,6 +583,14 @@
      "code": "PBI",
      "seats": 0,
      "votes": 1718
+    }
+   ],
+   "unopposed": [
+    {
+     "no": 2,
+     "constituency": "SRINAGAR",
+     "party": "JKN",
+     "report_page": 186
     }
    ]
   },
@@ -814,7 +843,7 @@
    "parties": [
     {
      "code": "INC",
-     "seats": 27,
+     "seats": 28,
      "votes": 12496088
     },
     {
@@ -829,7 +858,7 @@
     },
     {
      "code": "IND",
-     "seats": 4,
+     "seats": 3,
      "votes": 2266560
     },
     {
@@ -1495,7 +1524,7 @@
     },
     {
      "code": "INC",
-     "seats": 13,
+     "seats": 15,
      "votes": 12393934
     },
     {
@@ -1505,12 +1534,12 @@
     },
     {
      "code": "IND",
-     "seats": 5,
+     "seats": 2,
      "votes": 3264907
     },
     {
      "code": "BJP",
-     "seats": 7,
+     "seats": 8,
      "votes": 2957951
     },
     {
@@ -1824,13 +1853,44 @@
    ]
   },
   "IN-DH": {
-   "seats": 9,
+   "seats": 2,
+   "electors": null,
+   "parties": [
+    {
+     "code": "IND",
+     "seats": 2,
+     "votes": 46810
+    },
+    {
+     "code": "INC",
+     "seats": 0,
+     "votes": 28682
+    },
+    {
+     "code": "JD",
+     "seats": 0,
+     "votes": 6732
+    },
+    {
+     "code": "CPM",
+     "seats": 0,
+     "votes": 5604
+    },
+    {
+     "code": "BSP",
+     "seats": 0,
+     "votes": 708
+    }
+   ]
+  },
+  "IN-DL": {
+   "seats": 7,
    "electors": null,
    "parties": [
     {
      "code": "INC",
      "seats": 2,
-     "votes": 1351558
+     "votes": 1322876
     },
     {
      "code": "BJP",
@@ -1840,17 +1900,17 @@
     {
      "code": "JD",
      "seats": 1,
-     "votes": 502739
+     "votes": 496007
     },
     {
      "code": "IND",
-     "seats": 2,
-     "votes": 332499
+     "seats": 0,
+     "votes": 285689
     },
     {
      "code": "BSP",
      "seats": 0,
-     "votes": 111977
+     "votes": 111269
     },
     {
      "code": "DDP",
@@ -1866,11 +1926,6 @@
      "code": "JNPJP",
      "seats": 0,
      "votes": 5622
-    },
-    {
-     "code": "CPM",
-     "seats": 0,
-     "votes": 5604
     },
     {
      "code": "RPI",

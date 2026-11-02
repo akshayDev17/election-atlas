@@ -123,6 +123,52 @@ class ProvenanceGate(unittest.TestCase):
         self.assertIn('exact bytes of a removed dummy file', r.stdout)
 
 
+class Remote(unittest.TestCase):
+    """--remote checks what a host serves: here a local server over a fixture tree."""
+
+    def setUp(self):
+        import functools
+        import http.server
+        import threading
+        self.tmp = tempfile.TemporaryDirectory()
+        self.served = Path(self.tmp.name) / 'served'
+        self.listed = Path(self.tmp.name) / 'listed'
+        for root in (self.served, self.listed):
+            write(root / 'data', 'manifest.json', MANIFEST)
+            write(root / 'data', 'results/ls/pc/2024.json', PUBLISHED_PC)
+            write(root, 'index.html', '<p>Results: Election Commission of India.</p>')
+        handler = functools.partial(http.server.SimpleHTTPRequestHandler, directory=str(self.served))
+        handler.log_message = lambda *a: None
+        self.server = http.server.ThreadingHTTPServer(('127.0.0.1', 0), handler)
+        threading.Thread(target=self.server.serve_forever, daemon=True).start()
+        self.base = f'http://127.0.0.1:{self.server.server_address[1]}/'
+
+    def tearDown(self):
+        self.server.shutdown()
+        self.server.server_close()
+        self.tmp.cleanup()
+
+    def run_remote(self):
+        return subprocess.run([sys.executable, str(CHECKER), str(self.listed / 'data'), '--remote', self.base],
+                              capture_output=True, text=True)
+
+    def test_clean_host_passes(self):
+        r = self.run_remote()
+        self.assertEqual(r.returncode, 0, r.stdout)
+
+    def test_host_serving_synthetic_data_fails(self):
+        write(self.served / 'data', 'results/ls/pc/2024.json', {**PUBLISHED_PC, 'provenance': 'synthetic'})
+        r = self.run_remote()
+        self.assertEqual(r.returncode, 1, r.stdout)
+        self.assertIn("provenance is 'synthetic'", r.stdout)
+
+    def test_file_the_host_does_not_serve_fails(self):
+        (self.served / 'data' / 'results/ls/pc/2024.json').unlink()
+        r = self.run_remote()
+        self.assertEqual(r.returncode, 1, r.stdout)
+        self.assertIn('not served', r.stdout)
+
+
 class RealData(unittest.TestCase):
     def test_atlas_data_passes_the_gate(self):
         r = run_checker(REAL_DATA)

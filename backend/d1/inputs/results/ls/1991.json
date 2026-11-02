@@ -3,14 +3,40 @@
  "provenance": "published",
  "election": "ls",
  "year": 1991,
- "note": "PUBLISHED RESULT. Every value here is an ABSOLUTE COUNT. No percentage is stored anywhere: the page derives every share from these numbers. `electors` is the registered electorate. state totals are the exact sum of every constituency in this election's published detailed result. No constituency file is written for this year: its boundaries predate the atlas geometry. Election Commission of India, General Election 1991 — statistical report (published as PDF only). State-level totals. The constituency boundaries of this election predate the atlas geometry, so no per-constituency file is produced for it.",
+ "note": "PUBLISHED RESULT. Every value here is an ABSOLUTE COUNT. No percentage is stored anywhere: the page derives every share from these numbers. `electors` is the registered electorate. state totals are the exact sum of every constituency in this election's published detailed result. No constituency file is written for this year: its boundaries predate the atlas geometry. A region's `unopposed` lists each seat the report records as returned unopposed (its one candidate, with no poll and so no votes), with the PDF page of the report that prints it. Election Commission of India, General Election 1991 — statistical report (published as PDF only). State-level totals. The constituency boundaries of this election predate the atlas geometry, so no per-constituency file is produced for it.",
  "source": {
-  "publisher": "Election Commission of India",
-  "url": "https://www.eci.gov.in/statistical-reports",
+  "publisher": "eci",
+  "url": "https://old.eci.gov.in/files/file/4121-general-election-1991-vol-i-ii/?do=download&r=9764&confirm=1&t=1",
+  "sha256": "02f1f8d0a4c5efff83e880700dbfb39942cdec62911fd0dcfc6eeb0087c81130",
+  "fetched_at": "2026-11-02T09:56:01Z",
+  "file": "eci_pdfs/general-election-1991-vol-i-ii_part1.pdf",
   "table": null,
-  "detail_table": null,
+  "detail_table": "eci_pdfs/general-election-1991-vol-i-ii_part1.pdf",
   "derivation": "constituency"
  },
+ "sources": [
+  {
+   "publisher": "eci",
+   "url": "https://www.eci.gov.in/eci-backend/public/all_files/GE-2024-statistical-report/3-List-Of-Political-Parties-Participated.xlsx",
+   "sha256": "88af41cdee72ad51a5a9563dca69f5966fc2012995a78db6d9a889cdb39244aa",
+   "fetched_at": "2026-11-02T09:56:01Z",
+   "file": "ls2024_statistical/3-List-Of-Political-Parties-Participated.xlsx"
+  },
+  {
+   "publisher": "eci",
+   "url": "https://old.eci.gov.in/files/file/13599-3-list-of-political-parties-participated/?do=download&r=37907&confirm=1&t=1",
+   "sha256": "ffbb50e92a9ea05635ad45f3d4888c31f4c12b605297c170d459216d500109b8",
+   "fetched_at": "2026-11-02T09:56:02Z",
+   "file": "eci_pdfs/GE2019_3-list-of-political-parties-participated_part1.xls"
+  },
+  {
+   "publisher": "eci",
+   "url": "https://old.eci.gov.in/files/file/2844-list-of-political-parties-participated/?do=download&r=6612&confirm=1&t=1",
+   "sha256": "009c9309f7d14b15c5f353f4ab95ec974533a8ddf7db31bfd9ec5ea8be3a9386",
+   "fetched_at": "2026-11-02T09:56:02Z",
+   "file": "eci_pdfs/GE2014_list-of-political-parties-participated_part2.xlsx"
+  }
+ ],
  "regions": {
   "IN-AP": {
    "seats": 42,
@@ -34,7 +60,7 @@
     {
      "code": "IND",
      "seats": 0,
-     "votes": 1043312
+     "votes": 1044005
     },
     {
      "code": "CPM",
@@ -95,11 +121,6 @@
      "code": "NBP",
      "seats": 0,
      "votes": 787
-    },
-    {
-     "code": "12KOMMINENISAM",
-     "seats": 0,
-     "votes": 693
     },
     {
      "code": "SRP",
@@ -602,7 +623,7 @@
      "votes": 831
     },
     {
-     "code": "9RAJYAGURURAJE",
+     "code": "SMP",
      "seats": 0,
      "votes": 694
     },
@@ -797,7 +818,7 @@
     {
      "code": "IND",
      "seats": 0,
-     "votes": 427254
+     "votes": 427640
     },
     {
      "code": "CPI",
@@ -853,11 +874,6 @@
      "code": "KNP",
      "seats": 0,
      "votes": 576
-    },
-    {
-     "code": "20APPAYYAALIAS",
-     "seats": 0,
-     "votes": 386
     },
     {
      "code": "CKN",
@@ -1104,7 +1120,7 @@
    "parties": [
     {
      "code": "INC",
-     "seats": 37,
+     "seats": 38,
      "votes": 11280003
     },
     {
@@ -1124,8 +1140,8 @@
     },
     {
      "code": "IND",
-     "seats": 1,
-     "votes": 974002
+     "seats": 0,
+     "votes": 974914
     },
     {
      "code": "BRP",
@@ -1251,16 +1267,6 @@
      "code": "NP",
      "seats": 0,
      "votes": 768
-    },
-    {
-     "code": "16MANOHARKRUSH",
-     "seats": 0,
-     "votes": 606
-    },
-    {
-     "code": "18MAMASAHEBALI",
-     "seats": 0,
-     "votes": 306
     },
     {
      "code": "AHF",
@@ -1404,8 +1410,8 @@
    "parties": [
     {
      "code": "INC",
-     "seats": 12,
-     "votes": 4328686
+     "seats": 13,
+     "votes": 4598809
     },
     {
      "code": "JD",
@@ -1426,11 +1432,6 @@
      "code": "JP",
      "seats": 0,
      "votes": 309594
-    },
-    {
-     "code": "1RAJAKAMAKHYAP",
-     "seats": 1,
-     "votes": 270123
     },
     {
      "code": "IND",
@@ -2233,28 +2234,64 @@
    ]
   },
   "IN-DH": {
-   "seats": 9,
+   "seats": 2,
+   "electors": null,
+   "parties": [
+    {
+     "code": "INC",
+     "seats": 1,
+     "votes": 38530
+    },
+    {
+     "code": "BJP",
+     "seats": 1,
+     "votes": 29237
+    },
+    {
+     "code": "IND",
+     "seats": 0,
+     "votes": 16568
+    },
+    {
+     "code": "JD",
+     "seats": 0,
+     "votes": 1036
+    },
+    {
+     "code": "BSP",
+     "seats": 0,
+     "votes": 876
+    },
+    {
+     "code": "DDP",
+     "seats": 0,
+     "votes": 129
+    }
+   ]
+  },
+  "IN-DL": {
+   "seats": 7,
    "electors": null,
    "parties": [
     {
      "code": "BJP",
      "seats": 5,
-     "votes": 1200393
+     "votes": 1171156
     },
     {
      "code": "INC",
-     "seats": 3,
-     "votes": 1191157
+     "seats": 2,
+     "votes": 1152627
     },
     {
      "code": "JD",
      "seats": 0,
-     "votes": 414969
+     "votes": 413933
     },
     {
      "code": "IND",
-     "seats": 1,
-     "votes": 91302
+     "seats": 0,
+     "votes": 74734
     },
     {
      "code": "JP",
@@ -2264,7 +2301,7 @@
     {
      "code": "BSP",
      "seats": 0,
-     "votes": 27741
+     "votes": 26865
     },
     {
      "code": "SADM",
@@ -2307,14 +2344,14 @@
      "votes": 1401
     },
     {
-     "code": "DDP",
-     "seats": 0,
-     "votes": 1287
-    },
-    {
      "code": "BLMD",
      "seats": 0,
      "votes": 1217
+    },
+    {
+     "code": "DDP",
+     "seats": 0,
+     "votes": 1158
     },
     {
      "code": "JKMP",

@@ -121,8 +121,13 @@ def bucket(row):
 
 
 AGE_CAT = re.compile(r"^\d{1,3}\s+(?:GEN|SC|ST)\s*$", re.I)
-PCT = re.compile(r"^\d+(?:\.\d+)?\s*%$")
+# A lone candidate returned unopposed polled no votes, and the report prints the share
+# as the spreadsheet error '#Num!' (Srinagar 1980 and 1989).
+PCT = re.compile(r"^(?:\d+(?:\.\d+)?\s*%|#Num!)$")
 SEXWORD = re.compile(r"^[MFO]$")
+# A name long enough to run into the next column arrives as ONE fragment carrying the
+# serial, name, sex and party: '1 . RAJA KAMAKHYA PRASAD SINGHDEO MAHINDR BAHADUR M INC'.
+GLUED = re.compile(r"^\d{1,3}\s*\.\s*(\S.*?)\s+([MFO])\s+(\S+(?:\s+\([^)]*\))?)$")
 
 
 def read_row(frags):
@@ -220,7 +225,7 @@ def read_row(frags):
         if votes > MAX_PLAUSIBLE_VOTES:
             continue
 
-        sex, party = "", ""
+        sex, party, glued = "", "", None
         for k in range(j - 1, -1, -1):
             txt = fr[k][2].strip()
             if HEADER_NOISE.search(txt) or txt in (".", "-"):
@@ -233,6 +238,10 @@ def read_row(frags):
             if m2 and not party:
                 sex = m2.group(1)
                 continue
+            glued = GLUED.match(txt)
+            if glued:
+                sex, party = glued.group(2), glued.group(3)
+                break
             if not NUM.match(txt) and not party:
                 party = txt
                 break
@@ -251,8 +260,25 @@ def read_row(frags):
             parts.append(txt)
         name = re.sub(r"^[\s.]+", "", " ".join(parts)).strip()
         name = re.sub(r"^\d{1,3}\s*[.\s]\s*", "", name).strip()   # drop leading serial
+        if glued:
+            name = glued.group(1).strip()
         return dict(name=name, party=party, agecat="", sex=sex,
                     general=None, postal=None, total=votes)
+    return None
+
+
+def state_header(row, states_norm):
+    """The state a section-header row names, or None.
+
+    In 1962-2004 the header is centred rather than left-aligned, so this reads the
+    whole row. A row is a header only when its entire text is a state's name: the
+    reports print most in capitals, but 1984 prints 'Delhi' and the 1980-2004 reports
+    'NATIONAL CAPITAL TERRITORY OF DELHI', so case and length are not tested."""
+    joined = " ".join(t for _, _, t in sorted(row, key=lambda f: f[0])).strip()
+    if (joined and not any(NUM.match(f[2]) for f in row)
+            and not HEADER_NOISE.search(joined)
+            and norm_bare(joined) in states_norm):
+        return joined
     return None
 
 
@@ -275,20 +301,15 @@ def parse_pdf(path, verbose=False, state_names=None):
     current_state = None
     stats = collections.Counter()
 
-    for page in extract_pages(path):
+    for pno, page in enumerate(extract_pages(path), 1):
         for row in page_rows(page):
             name_frags = bucket(row)
 
-            # A state section header: an ALL-CAPS line naming a state. In 1962-2004 it
-            # is centred rather than left-aligned, so this scans the whole row rather
-            # than just the name band. It is what lets those years carry their state
-            # directly instead of inferring it from where the numbering restarts.
-            joined = " ".join(t for _, _, t in sorted(row, key=lambda f: f[0])).strip()
-            if (joined and not any(NUM.match(f[2]) for f in row)
-                    and joined.upper() == joined and 2 < len(joined) < 34
-                    and not HEADER_NOISE.search(joined)
-                    and norm_bare(joined) in states_norm):
-                current_state = joined.strip()
+            # A state section header is what lets 1962-2004 carry their state directly
+            # instead of inferring it from where the numbering restarts.
+            header = state_header(row, states_norm)
+            if header:
+                current_state = header
                 stats["state headers"] += 1
 
             # The marker is 'CONSTITUENCY :' (2009/2014) or 'Constituency  :' (1962-2004).
@@ -326,7 +347,8 @@ def parse_pdf(path, verbose=False, state_names=None):
                 key = (current_state, no, name)
                 current = pcs.setdefault(key, {"no": no, "name": name,
                                                "electors": elec, "candidates": [],
-                                               "state_header": current_state})
+                                               "state_header": current_state,
+                                               "page": pno})
                 if elec and not current.get("electors"):
                     current["electors"] = elec
                 if current_state and not current.get("state_header"):

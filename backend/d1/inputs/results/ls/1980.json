@@ -3,14 +3,40 @@
  "provenance": "published",
  "election": "ls",
  "year": 1980,
- "note": "PUBLISHED RESULT. Every value here is an ABSOLUTE COUNT. No percentage is stored anywhere: the page derives every share from these numbers. `electors` is the registered electorate. state totals are the exact sum of every constituency in this election's published detailed result. No constituency file is written for this year: its boundaries predate the atlas geometry. Election Commission of India, General Election 1980 — statistical report (published as PDF only). State-level totals. The constituency boundaries of this election predate the atlas geometry, so no per-constituency file is produced for it.",
+ "note": "PUBLISHED RESULT. Every value here is an ABSOLUTE COUNT. No percentage is stored anywhere: the page derives every share from these numbers. `electors` is the registered electorate. state totals are the exact sum of every constituency in this election's published detailed result. No constituency file is written for this year: its boundaries predate the atlas geometry. A region's `unopposed` lists each seat the report records as returned unopposed (its one candidate, with no poll and so no votes), with the PDF page of the report that prints it. Election Commission of India, General Election 1980 — statistical report (published as PDF only). State-level totals. The constituency boundaries of this election predate the atlas geometry, so no per-constituency file is produced for it.",
  "source": {
-  "publisher": "Election Commission of India",
-  "url": "https://www.eci.gov.in/statistical-reports",
+  "publisher": "eci",
+  "url": "https://old.eci.gov.in/files/file/4117-general-election-1980-vol-i-ii/?do=download&r=9752&confirm=1&t=1",
+  "sha256": "c739cb72c63c645b1a3e00b1c1ba125cc7dff2e897f5474a865da705b59f0f76",
+  "fetched_at": "2026-11-02T09:57:47Z",
+  "file": "eci_pdfs/general-election-1980-vol-i-ii_part1.pdf",
   "table": null,
-  "detail_table": null,
+  "detail_table": "eci_pdfs/general-election-1980-vol-i-ii_part1.pdf",
   "derivation": "constituency"
  },
+ "sources": [
+  {
+   "publisher": "eci",
+   "url": "https://www.eci.gov.in/eci-backend/public/all_files/GE-2024-statistical-report/3-List-Of-Political-Parties-Participated.xlsx",
+   "sha256": "88af41cdee72ad51a5a9563dca69f5966fc2012995a78db6d9a889cdb39244aa",
+   "fetched_at": "2026-11-02T09:56:01Z",
+   "file": "ls2024_statistical/3-List-Of-Political-Parties-Participated.xlsx"
+  },
+  {
+   "publisher": "eci",
+   "url": "https://old.eci.gov.in/files/file/13599-3-list-of-political-parties-participated/?do=download&r=37907&confirm=1&t=1",
+   "sha256": "ffbb50e92a9ea05635ad45f3d4888c31f4c12b605297c170d459216d500109b8",
+   "fetched_at": "2026-11-02T09:56:02Z",
+   "file": "eci_pdfs/GE2019_3-list-of-political-parties-participated_part1.xls"
+  },
+  {
+   "publisher": "eci",
+   "url": "https://old.eci.gov.in/files/file/2844-list-of-political-parties-participated/?do=download&r=6612&confirm=1&t=1",
+   "sha256": "009c9309f7d14b15c5f353f4ab95ec974533a8ddf7db31bfd9ec5ea8be3a9386",
+   "fetched_at": "2026-11-02T09:56:02Z",
+   "file": "eci_pdfs/GE2014_list-of-political-parties-participated_part2.xlsx"
+  }
+ ],
  "regions": {
   "IN-AP": {
    "seats": 42,
@@ -116,28 +142,28 @@
    ]
   },
   "IN-BR": {
-   "seats": 56,
+   "seats": 54,
    "electors": null,
    "parties": [
     {
      "code": "INC",
      "seats": 30,
-     "votes": 7420613
+     "votes": 7377583
     },
     {
      "code": "JnP",
      "seats": 8,
-     "votes": 4792701
+     "votes": 4768323
     },
     {
      "code": "JNPS",
      "seats": 5,
-     "votes": 3370670
+     "votes": 3358613
     },
     {
      "code": "IND",
      "seats": 2,
-     "votes": 1547352
+     "votes": 1498639
     },
     {
      "code": "CPI",
@@ -146,8 +172,8 @@
     },
     {
      "code": "INCU",
-     "seats": 5,
-     "votes": 1464358
+     "seats": 4,
+     "votes": 1366819
     },
     {
      "code": "CPM",
@@ -158,11 +184,6 @@
      "code": "JKD",
      "seats": 1,
      "votes": 142447
-    },
-    {
-     "code": "MAG",
-     "seats": 1,
-     "votes": 127188
     },
     {
      "code": "FBL",
@@ -193,6 +214,42 @@
      "code": "RRP",
      "seats": 0,
      "votes": 1364
+    }
+   ]
+  },
+  "IN-GA": {
+   "seats": 2,
+   "electors": null,
+   "parties": [
+    {
+     "code": "MAG",
+     "seats": 1,
+     "votes": 127188
+    },
+    {
+     "code": "INCU",
+     "seats": 1,
+     "votes": 97539
+    },
+    {
+     "code": "IND",
+     "seats": 0,
+     "votes": 48713
+    },
+    {
+     "code": "INC",
+     "seats": 0,
+     "votes": 43030
+    },
+    {
+     "code": "JnP",
+     "seats": 0,
+     "votes": 24378
+    },
+    {
+     "code": "JNPS",
+     "seats": 0,
+     "votes": 12057
     }
    ]
   },
@@ -320,12 +377,12 @@
    ]
   },
   "IN-JK": {
-   "seats": 5,
+   "seats": 6,
    "electors": null,
    "parties": [
     {
      "code": "JKN",
-     "seats": 2,
+     "seats": 3,
      "votes": 493143
     },
     {
@@ -347,6 +404,14 @@
      "code": "JnP",
      "seats": 0,
      "votes": 115503
+    }
+   ],
+   "unopposed": [
+    {
+     "no": 2,
+     "constituency": "SRINAGAR",
+     "party": "JKN",
+     "report_page": 159
     }
    ]
   },
@@ -407,7 +472,7 @@
     },
     {
      "code": "CPM",
-     "seats": 6,
+     "seats": 7,
      "votes": 1754387
     },
     {
@@ -417,7 +482,7 @@
     },
     {
      "code": "IND",
-     "seats": 2,
+     "seats": 1,
      "votes": 881694
     },
     {
@@ -530,7 +595,7 @@
     {
      "code": "IND",
      "seats": 0,
-     "votes": 919576
+     "votes": 920752
     },
     {
      "code": "PWP",
@@ -576,11 +641,6 @@
      "code": "FBL",
      "seats": 0,
      "votes": 4253
-    },
-    {
-     "code": "6HAUSHIRAMALIA",
-     "seats": 0,
-     "votes": 1176
     }
    ]
   },
@@ -590,7 +650,7 @@
    "parties": [
     {
      "code": "IND",
-     "seats": 1,
+     "seats": 0,
      "votes": 187660
     },
     {
@@ -610,7 +670,7 @@
     },
     {
      "code": "CPI",
-     "seats": 0,
+     "seats": 1,
      "votes": 69670
     },
     {
@@ -985,13 +1045,13 @@
     },
     {
      "code": "JnP",
-     "seats": 2,
+     "seats": 3,
      "votes": 6394164
     },
     {
      "code": "IND",
-     "seats": 2,
-     "votes": 2449441
+     "seats": 1,
+     "votes": 2452079
     },
     {
      "code": "CPI",
@@ -1042,11 +1102,6 @@
      "code": "BSP",
      "seats": 0,
      "votes": 7000
-    },
-    {
-     "code": "13NARESHCHANDR",
-     "seats": 0,
-     "votes": 2638
     },
     {
      "code": "SUC",
@@ -1194,18 +1249,44 @@
    ]
   },
   "IN-DH": {
-   "seats": 8,
+   "seats": 1,
    "electors": null,
    "parties": [
     {
      "code": "INC",
-     "seats": 7,
-     "votes": 1009281
+     "seats": 1,
+     "votes": 19277
+    },
+    {
+     "code": "JnP",
+     "seats": 0,
+     "votes": 5697
+    },
+    {
+     "code": "IND",
+     "seats": 0,
+     "votes": 4390
+    },
+    {
+     "code": "INCU",
+     "seats": 0,
+     "votes": 1782
+    }
+   ]
+  },
+  "IN-DL": {
+   "seats": 7,
+   "electors": null,
+   "parties": [
+    {
+     "code": "INC",
+     "seats": 6,
+     "votes": 990004
     },
     {
      "code": "JnP",
      "seats": 1,
-     "votes": 750135
+     "votes": 744438
     },
     {
      "code": "JNPS",
@@ -1215,12 +1296,12 @@
     {
      "code": "IND",
      "seats": 0,
-     "votes": 71352
+     "votes": 66962
     },
     {
      "code": "INCU",
      "seats": 0,
-     "votes": 18025
+     "votes": 16243
     },
     {
      "code": "CPI",

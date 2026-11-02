@@ -17,10 +17,11 @@ Every document passes tools/validate_records.py before any SQL is written; one
 violation refuses the whole run. The Lok Sabha files that predate the harvest
 schema carry no sha256 in their own `source` block; their sources come from
 backend/d1/ls-sources.json: the files re-fetched from the Election Commission on
-2026-11-02 that rebuild them byte for byte. A Lok Sabha file the registry does not
-mark reproduced (1980-2004: their committed seat counts predate a fix to the
-builder's winner rule) stays a committed static file and is not imported
-(see --list-static).
+2026-11-02 that rebuild them byte for byte. A Lok Sabha file with neither its own
+sha256 nor a reproduced registry entry is not imported (see --list-static).
+
+A file under backend/d1/inputs/ replaces the pinned data file at the same path:
+the Lok Sabha 1980-2004 state files, rebuilt after the move, are imported from there.
 
 Row ids are 48-bit hashes of natural keys, so rows shared by both days (sources,
 parties, regions, terms, seats) are written with INSERT OR IGNORE and get the same
@@ -40,6 +41,8 @@ sys.path.insert(0, str(REPO / 'tools'))
 from validate_records import validate  # noqa: E402
 
 LS_SOURCES = HERE / 'ls-sources.json'
+INPUTS = HERE / 'inputs'
+SHA256 = re.compile(r'^[0-9a-f]{64}$')
 DELIMITATION = 2008
 STATEMENT_BYTES = 90_000          # D1 caps one SQL statement at 100 KB
 
@@ -79,18 +82,49 @@ def load_json(path):
     return json.loads(Path(path).read_text(encoding='utf-8'), object_pairs_hook=OrderedDict)
 
 
-def d1_documents(data_dir, registry):
-    """{rel path: doc} for every file D1 holds, and the Lok Sabha files left static."""
+class Inputs:
+    """The import's input files: the pinned atlas data directory, with any file under
+    the overlay directory (backend/d1/inputs) replacing the one at the same path."""
+
+    def __init__(self, data_dir, overlay=None):
+        self.data_dir = Path(data_dir)
+        self.overlay = Path(overlay) if overlay and Path(overlay).is_dir() else None
+
+    def path(self, rel):
+        if self.overlay is not None and (self.overlay / rel).is_file():
+            return self.overlay / rel
+        return self.data_dir / rel
+
+    def json_files(self):
+        rels = {p.relative_to(self.data_dir).as_posix() for p in self.data_dir.rglob('*.json')}
+        if self.overlay is not None:
+            rels |= {p.relative_to(self.overlay).as_posix() for p in self.overlay.rglob('*.json')}
+        return sorted(rels)
+
+    def overlaid(self):
+        return [] if self.overlay is None else sorted(
+            p.relative_to(self.overlay).as_posix() for p in self.overlay.rglob('*.json'))
+
+
+def uses_registry(rel, doc):
+    """A Lok Sabha file built before the harvest schema names its source without a
+    sha256; its verified sources come from backend/d1/ls-sources.json instead."""
+    src = doc.get('source') if isinstance(doc, dict) else None
+    return family_of(rel) in LS_LEGACY and not (isinstance(src, dict) and SHA256.match(src.get('sha256') or ''))
+
+
+def d1_documents(inputs, registry, skip=()):
+    """{rel path: doc} for every file D1 holds (less `skip`), and the files left static."""
     docs, static = OrderedDict(), []
-    for p in sorted(Path(data_dir).rglob('*.json')):
-        rel = p.relative_to(data_dir).as_posix()
+    for rel in inputs.json_files():
         fam = family_of(rel)
-        if fam is None:
+        if fam is None or rel in skip:
             continue
-        if fam in LS_LEGACY and not registry_sources(registry, rel):
+        doc = load_json(inputs.path(rel))
+        if uses_registry(rel, doc) and not registry_sources(registry, rel):
             static.append(rel)
             continue
-        docs[rel] = load_json(p)
+        docs[rel] = doc
     return docs, static
 
 
@@ -103,7 +137,7 @@ def registry_sources(registry, rel):
 
 def doc_sources(rel, doc, registry):
     """The ordered source blocks a document stands on (position 0 is its primary)."""
-    if family_of(rel) in LS_LEGACY:
+    if uses_registry(rel, doc):
         return [{k: s[k] for k in ('publisher', 'url', 'sha256', 'fetched_at')}
                 for s in registry_sources(registry, rel)]
     blocks = [doc['source']] + list(doc.get('sources') or [])
@@ -115,7 +149,7 @@ def validate_all(docs, registry):
     record checked is its own metadata plus the registry's sources."""
     report = []
     for rel, doc in docs.items():
-        if family_of(rel) in LS_LEGACY:
+        if uses_registry(rel, doc):
             srcs = doc_sources(rel, doc, registry)
             record = {k: v for k, v in doc.items() if k not in ('source', FAMILY_BODY[family_of(rel)])}
             record.update(source=srcs[0], sources=srcs[1:])
@@ -132,16 +166,16 @@ def validate_all(docs, registry):
 class Model:
     SHARED = ('source', 'region', 'party', 'house', 'term', 'seat')
 
-    def __init__(self, data_dir):
+    def __init__(self, inputs):
         self.rows = OrderedDict((t, OrderedDict()) for t in (
             'source', 'region', 'party', 'house', 'term', 'seat', 'ministry', 'document',
             'document_source', 'region_tally', 'region_party_tally', 'contest', 'candidacy',
             'seat_holding', 'minister_tenure'))
         self.day = {}                 # (table, key) -> first day that needs the row
         self.byel_events = []         # (term, seat, event, winner, contest, day)
-        regions = load_json(Path(data_dir) / 'regions.json')['regions']
+        regions = load_json(inputs.path('regions.json'))['regions']
         self.region_info = {r['code']: r for r in regions}
-        parties = load_json(Path(data_dir) / 'parties.json')
+        parties = load_json(inputs.path('parties.json'))
         self.party_info = {p['code']: p for p in parties['parties']}
 
     def put(self, table, key, row, day, shared=False):
@@ -238,14 +272,15 @@ def ls_seat_ids(model, rel, cons, day, label_key=None):
     return ids
 
 
-def build(data_dir, registry):
-    docs, static = d1_documents(data_dir, registry)
+def build(inputs, registry, skip=()):
+    docs, static = d1_documents(inputs, registry, skip)
     validate_all(docs, registry)
-    model = Model(data_dir)
+    model = Model(inputs)
     # the state of each Lok Sabha seat, for the detail files, which are keyed by uid only
     model.uid_region = {}
-    for p in sorted((Path(data_dir) / 'results' / 'ls' / 'pc').glob('*.json')):
-        model.uid_region.update({u: c['st'] for u, c in load_json(p)['constituencies'].items()})
+    for rel in inputs.json_files():
+        if rel.startswith('results/ls/pc/'):
+            model.uid_region.update({u: c['st'] for u, c in load_json(inputs.path(rel))['constituencies'].items()})
 
     # day order, then path: the first document to need a shared row decides its values
     ordered = sorted(docs.items(), key=lambda kv: (DAY_OF_FAMILY[family_of(kv[0])], kv[0]))
@@ -275,15 +310,18 @@ def build(data_dir, registry):
                     general_holders[(term_id, seat_id)] = holding(model, seat_id, term_id, w['n'], w['p'],
                                                                   'general', None, cid, day)
             else:
-                check_ac_summary(rel, doc, Path(data_dir) / rel.replace('.json', '-detail.json'))
+                check_ac_summary(rel, doc, inputs.path(rel.replace('.json', '-detail.json')))
 
         elif fam == 'ls-rollup':
             term_id = model.term('ls', doc['year'], None, primary, day)
             for pos, (code, reg) in enumerate(body.items()):
                 model.region(code, day)
+                more = OrderedDict((k, v) for k, v in reg.items() if k not in ('seats', 'electors', 'parties'))
+                extra = None if not more else json.dumps(
+                    OrderedDict([('_keys', list(reg))] + list(more.items())), ensure_ascii=False)
                 model.put('region_tally', (term_id, code), dict(
                     term_id=term_id, region_code=code, position=pos, seats=reg['seats'],
-                    electors=reg['electors'], source_id=primary), day)
+                    electors=reg['electors'], extra=extra, source_id=primary), day)
                 for i, p in enumerate(reg['parties']):
                     model.party(p['code'], day)
                     model.put('region_party_tally', (term_id, code, i), dict(
@@ -373,7 +411,7 @@ def build(data_dir, registry):
 
         model.put('document', rel, dict(path=rel, family=fam, term_id=term_id, ministry_id=ministry_id,
                                         head=json.dumps(head, ensure_ascii=False),
-                                        layout=json.dumps(layout_of(Path(data_dir) / rel, doc)),
+                                        layout=json.dumps(layout_of(inputs.path(rel), doc)),
                                         source_id=primary), day)
         for i, s in enumerate(src_ids):
             model.put('document_source', (rel, i), dict(path=rel, position=i, source_id=s), day)
@@ -469,7 +507,7 @@ COLUMNS = {
     'ministry': ('id', 'scope', 'region_code', 'cycle', 'term_id', 'sworn_in', 'ended', 'source_id'),
     'document': ('path', 'family', 'term_id', 'ministry_id', 'head', 'layout', 'source_id'),
     'document_source': ('path', 'position', 'source_id'),
-    'region_tally': ('term_id', 'region_code', 'position', 'seats', 'electors', 'source_id'),
+    'region_tally': ('term_id', 'region_code', 'position', 'seats', 'electors', 'extra', 'source_id'),
     'region_party_tally': ('term_id', 'region_code', 'position', 'party_code', 'seats', 'votes', 'source_id'),
     'contest': ('id', 'term_id', 'seat_id', 'seq', 'position', 'label', 'held_on', 'reason', 'uncontested',
                 'extra', 'source_id'),
@@ -576,11 +614,19 @@ def main(argv=None):
     ap.add_argument('--day', choices=('1', '2', 'all'), help='which import day to emit')
     ap.add_argument('--out', help='write the SQL here')
     ap.add_argument('--registry', default=str(LS_SOURCES))
+    ap.add_argument('--inputs', default=str(INPUTS),
+                    help='files here replace the data directory\'s at the same path (default backend/d1/inputs)')
+    ap.add_argument('--skip-present', help='a file of document paths already in D1 (one per line); '
+                    'they and their rows are left out')
     ap.add_argument('--list-static', action='store_true',
                     help='print the Lok Sabha files the registry does not cover (kept as static files)')
     args = ap.parse_args(argv)
     registry = load_json(args.registry) if Path(args.registry).exists() else {}
-    model, static = build(args.data, registry)
+    skip = set()
+    if args.skip_present:
+        skip = {l.strip() for l in Path(args.skip_present).read_text(encoding='utf-8').splitlines() if l.strip()}
+    inputs = Inputs(args.data, args.inputs)
+    model, static = build(inputs, registry, skip)
     if args.list_static:
         print('\n'.join(static))
         return 0
@@ -591,6 +637,11 @@ def main(argv=None):
     Path(args.out).write_text(sql, encoding='utf-8')
     for t, n in counts.items():
         print(f'{t:20s} {n:7d}')
+    if skip:
+        print(f'left out, already in D1: {len(skip)} documents')
+    if inputs.overlaid():
+        print('read from ' + str(inputs.overlay) + ' instead of the data directory:')
+        print('\n'.join('  ' + r for r in inputs.overlaid()))
     print(f'estimated rows written (rows x (1 + secondary indexes)): {estimate_rows_written(counts)}')
     if static:
         print('not imported (no verified source yet; served as committed static files):')

@@ -16,7 +16,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parent.parent
-MIGRATION = REPO / 'backend' / 'migrations' / '0001_init.sql'
+MIGRATIONS = sorted((REPO / 'backend' / 'migrations').glob('*.sql'))
 sys.path.insert(0, str(HERE))
 import export  # noqa: E402
 import ingest  # noqa: E402
@@ -66,14 +66,16 @@ def fixture(root):
 
 def run_ingest(data, out, registry=None):
     args = [sys.executable, str(HERE / 'ingest.py'), '--data', str(data), '--day', 'all', '--out', str(out),
-            '--registry', str(registry or Path(data) / 'no-registry.json')]
+            '--registry', str(registry or Path(data) / 'no-registry.json'),
+            '--inputs', str(Path(data) / 'no-inputs')]
     return subprocess.run(args, capture_output=True, text=True)
 
 
 def load(db, *sql_files):
     con = sqlite3.connect(db)
     con.execute('PRAGMA foreign_keys = ON')
-    con.executescript(MIGRATION.read_text())
+    for m in MIGRATIONS:
+        con.executescript(m.read_text())
     for f in sql_files:
         con.executescript(Path(f).read_text())
     con.commit()
@@ -91,6 +93,70 @@ class RoundTrip(unittest.TestCase):
             files = export.export(Path(t) / 'd1.sqlite')
             self.assertEqual(sorted(files), ['results/ac/IN-CT/2023-detail.json', 'results/ac/IN-CT/2023.json'])
             self.assertEqual(set(export.compare(files, data).values()), {'bytes'})
+
+
+LS_1980_SOURCE = {
+    'publisher': 'eci',
+    'url': 'https://old.eci.gov.in/files/file/4117-general-election-1980-vol-i-ii/?do=download&r=9752&confirm=1&t=1',
+    'sha256': 'c739cb72c63c645b1a3e00b1c1ba125cc7dff2e897f5474a865da705b59f0f76',
+    'fetched_at': '2026-11-02T09:57:47Z',
+    'file': 'eci_pdfs/general-election-1980-vol-i-ii_part1.pdf',
+}
+# Jammu and Kashmir in the rebuilt 1980 state file (two of its parties): Srinagar
+# was returned unopposed.
+LS_1980_JK = {'seats': 6, 'electors': None, 'parties': [
+    {'code': 'JKN', 'seats': 3, 'votes': 493143}, {'code': 'IND', 'seats': 1, 'votes': 284459}],
+    'unopposed': [{'no': 2, 'constituency': 'SRINAGAR', 'party': 'JKN', 'report_page': 159}]}
+
+
+def ls_1980(regions):
+    return {'schema': 2, 'provenance': 'published', 'election': 'ls', 'year': 1980,
+            'note': 'Published result.', 'source': dict(LS_1980_SOURCE), 'regions': regions}
+
+
+class InputsOverlayAndExtras(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.root = Path(self.tmp.name)
+        self.data = self.root / 'data'
+        fixture(self.data)
+        regions = load_json_text(self.data / 'regions.json')
+        regions['regions'].append({'code': 'IN-JK', 'name': 'Jammu and Kashmir', 'type': 'ut'})
+        write(self.data, 'regions.json', regions)
+
+    def tearDown(self):
+        self.tmp.cleanup()
+
+    def ingest(self, *extra):
+        args = [sys.executable, str(HERE / 'ingest.py'), '--data', str(self.data), '--day', 'all',
+                '--out', str(self.root / 'all.sql'), '--registry', str(self.root / 'none.json'),
+                '--inputs', str(self.root / 'inputs'), *extra]
+        return subprocess.run(args, capture_output=True, text=True)
+
+    def test_an_input_replaces_the_pinned_file_and_its_region_extras_round_trip(self):
+        # pinned: no unopposed list; the committed input carries one
+        write(self.data, 'results/ls/1980.json', ls_1980({'IN-JK': {k: v for k, v in LS_1980_JK.items() if k != 'unopposed'}}))
+        write(self.root / 'inputs', 'results/ls/1980.json', ls_1980({'IN-JK': LS_1980_JK}))
+        r = self.ingest()
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertIn('results/ls/1980.json', r.stdout)
+        load(self.root / 'd1.sqlite', self.root / 'all.sql').close()
+        files = export.export(self.root / 'd1.sqlite')
+        verdicts = export.compare(files, self.data, self.root / 'inputs')
+        self.assertEqual(verdicts['results/ls/1980.json'], 'bytes')
+        self.assertEqual(json.loads(files['results/ls/1980.json'])['regions']['IN-JK']['unopposed'],
+                         LS_1980_JK['unopposed'])
+
+    def test_documents_already_in_d1_are_left_out(self):
+        present = self.root / 'present.txt'
+        present.write_text('results/ac/IN-CT/2023-detail.json\nresults/ac/IN-CT/2023.json\n')
+        r = self.ingest('--skip-present', str(present))
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertNotIn('INSERT INTO document', (self.root / 'all.sql').read_text())
+
+
+def load_json_text(path):
+    return json.loads(Path(path).read_text(encoding='utf-8'))
 
 
 class IngestRefuses(unittest.TestCase):

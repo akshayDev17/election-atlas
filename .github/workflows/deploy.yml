@@ -65,7 +65,9 @@ jobs:
           python3 -c "import sqlite3; c = sqlite3.connect('../d1.sqlite'); c.executescript(open('../d1.sql').read()); c.commit()"
 
       - name: Write the data files from D1 and diff them against the committed JSON
-        run: python3 backend/d1/export.py --db d1.sqlite --out exported --compare atlas-source/work/election-atlas/data
+        run: |
+          python3 backend/d1/export.py --db d1.sqlite --out exported \
+            --compare atlas-source/work/election-atlas/data --overlay backend/d1/inputs
 
       - name: Assemble the site
         run: python3 backend/build_site.py --out dist --data-from exported --complete-against atlas-source/work/election-atlas/data
@@ -116,3 +118,7 @@ jobs:
             code=$(curl -s -o /dev/null -w '%{http_code}' "$base/work/election-atlas/$p")
             echo "$code $p"; test "$code" = 200
           done
+          echo "$base" > preview-base.txt
+
+      - name: Provenance gate over what the preview serves
+        run: python3 tools/check_provenance.py dist/work/election-atlas/data --remote "$(cat preview-base.txt)/work/election-atlas/"
