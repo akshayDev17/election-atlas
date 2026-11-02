@@ -95,3 +95,49 @@ for (const [name, path, ready, expect] of PAGES) {
     assert.doesNotMatch(text, /could not be loaded/i);
   });
 }
+
+/* The shared site theme. A stored choice must already be on <html> at the first
+   frame (the head boot script runs before anything paints), and a choice made
+   with the header picker on one page must hold on the next page, through the one
+   `site-theme` localStorage key every app on the origin shares. */
+test('theme: a stored choice is on the first frame of every page', async () => {
+  // its own profile, so the stored choice does not leak into the other tests
+  const context = await browser.createBrowserContext();
+  for (const [name, path, ready] of PAGES) {
+    const page = await context.newPage();
+    await page.evaluateOnNewDocument(() => {
+      localStorage.setItem('site-theme', 'classic-dark');
+      // the first animation frame runs before the first paint
+      requestAnimationFrame(() => { window.__firstFrameTheme = document.documentElement.dataset.theme; });
+    });
+    await page.goto(origin + path, { waitUntil: 'networkidle0' });
+    await page.waitForSelector(ready, { timeout: 15000 });
+    assert.equal(await page.evaluate(() => window.__firstFrameTheme), 'classic-dark', name);
+    await page.close();
+  }
+  await context.close();
+});
+
+test('theme: a choice made with the header picker carries over to the next page', async () => {
+  const context = await browser.createBrowserContext();
+  const page = await context.newPage();
+  const problems = [];
+  page.on('console', (m) => { if (m.type() === 'error') problems.push(`console: ${m.text()}`); });
+  page.on('pageerror', (e) => problems.push(`exception: ${e.message}`));
+  const pickerValue = () => page.evaluate(() =>
+    document.querySelector('header site-theme-picker')?.shadowRoot?.querySelector('select')?.value);
+  await page.goto(`${origin}/elections/india/?y=2024`, { waitUntil: 'networkidle0' });
+  await page.waitForFunction(() => document.querySelector('header site-theme-picker')?.shadowRoot?.querySelector('select'));
+  assert.equal(await pickerValue(), 'system');
+  const select = await page.evaluateHandle(() => document.querySelector('header site-theme-picker').shadowRoot.querySelector('select'));
+  // labelled for screen readers: the select sits inside a <label> whose text is "Theme"
+  assert.equal(await select.evaluate((s) => s.labels?.[0]?.firstElementChild?.textContent), 'Theme');
+  await select.select('slate-dark');
+  assert.equal(await page.evaluate(() => document.documentElement.dataset.theme), 'slate-dark');
+  await page.goto(`${origin}/elections/india/state/?s=IN-UP&y=2024`, { waitUntil: 'networkidle0' });
+  await page.waitForFunction(() => document.querySelector('header site-theme-picker')?.shadowRoot?.querySelector('select'));
+  assert.equal(await page.evaluate(() => document.documentElement.dataset.theme), 'slate-dark');
+  assert.equal(await pickerValue(), 'slate-dark');
+  await context.close();
+  assert.deepEqual(problems, []);
+});

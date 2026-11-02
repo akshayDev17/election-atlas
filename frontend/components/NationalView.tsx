@@ -7,6 +7,7 @@ import { geoMercator, geoPath, type GeoPath, type GeoPermissibleObjects } from '
 import type { Feature, FeatureCollection, Geometry } from 'geojson';
 import { feature } from 'topojson-client';
 import type { Topology } from 'topojson-specification';
+import { ThemePicker } from 'site-themes/react';
 import {
   memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState,
   type CSSProperties, type ReactNode,
@@ -356,6 +357,7 @@ export default function NationalView() {
                   );
                 })}
               </div>
+              <ThemePicker hideLabel />
             </div>
           </div>
           <hr className="hair" style={{ marginTop: 'var(--s4)' }} />

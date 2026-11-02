@@ -9,6 +9,7 @@ import { geoMercator, geoPath } from 'd3-geo';
 import type { Feature, FeatureCollection, Geometry } from 'geojson';
 import { feature } from 'topojson-client';
 import type { Topology } from 'topojson-specification';
+import { ThemePicker } from 'site-themes/react';
 import {
   memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState,
   type CSSProperties, type ReactNode,
@@ -479,23 +480,26 @@ export default function StateView() {
               <a className="back" href={pageURL('')}>← India</a>
               <h1 className="lbl" id="eyebrow">{name ? `Election Atlas of ${name}` : 'Election Atlas of India'}</h1>
             </div>
-            <div className="tense" id="tense" role="group" aria-label="Result as elected or as it stands" hidden={!core}>
-              {([['elected', 'As elected'], ['stands', 'As it stands']] as const).map(([val, label]) => {
-                const off = val === 'stands' && !standsOk;
-                return (
-                  <button
-                    key={val} type="button" className="tense-opt" data-tense={val}
-                    aria-pressed={effTense === val}
-                    aria-disabled={off || undefined}
-                    title={off ? `By-election record for ${lsYear} not available yet` : undefined}
-                    onClick={() => {
-                      if (off || tense === val) return;
-                      setTense(val);
-                      setPage(p => ({ ...p, pc: 0 }));
-                    }}
-                  >{label}</button>
-                );
-              })}
+            <div className="mh-tools">
+              <div className="tense" id="tense" role="group" aria-label="Result as elected or as it stands" hidden={!core}>
+                {([['elected', 'As elected'], ['stands', 'As it stands']] as const).map(([val, label]) => {
+                  const off = val === 'stands' && !standsOk;
+                  return (
+                    <button
+                      key={val} type="button" className="tense-opt" data-tense={val}
+                      aria-pressed={effTense === val}
+                      aria-disabled={off || undefined}
+                      title={off ? `By-election record for ${lsYear} not available yet` : undefined}
+                      onClick={() => {
+                        if (off || tense === val) return;
+                        setTense(val);
+                        setPage(p => ({ ...p, pc: 0 }));
+                      }}
+                    >{label}</button>
+                  );
+                })}
+              </div>
+              <ThemePicker hideLabel />
             </div>
           </div>
           <hr className="hair" style={{ marginTop: 'var(--s4)' }} />
