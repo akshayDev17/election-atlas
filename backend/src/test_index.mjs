@@ -125,6 +125,26 @@ test("a HEAD or ranged request to the old address is redirected too, never serve
   assert.equal(res.status, 308);
 });
 
+test("the bare /elections address answers 308 to /elections/india/, query kept", async () => {
+  const cases = [
+    ["https://x/elections", "https://x/elections/india/"],
+    ["https://x/elections/", "https://x/elections/india/"],
+    ["https://x/elections?y=2024", "https://x/elections/india/?y=2024"],
+    ["https://x/elections/?s=IN-UP&y=2024", "https://x/elections/india/?s=IN-UP&y=2024"],
+  ];
+  for (const [from, to] of cases) {
+    const res = await call(from);
+    assert.equal(res.status, 308, from);
+    assert.equal(res.headers.get("location"), to, from);
+  }
+});
+
+test("other /elections paths are not redirected", () => {
+  for (const u of ["https://x/elections/usa/", "https://x/elections/india", "https://x/electionsx", "https://x/elections//"]) {
+    assert.equal(movedTo(new URL(u)), null, u);
+  }
+});
+
 test("only the old atlas prefix moves", () => {
   assert.equal(movedTo(new URL("https://x/work/election-atlasx/")), null);
   assert.equal(movedTo(new URL("https://x/work/")), null);

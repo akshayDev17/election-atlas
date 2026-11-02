@@ -7,10 +7,10 @@
   // the date the sibling frontends use
   "compatibility_date": "2026-10-10",
 
-  // No "routes" here. This Worker answers only on its workers.dev preview URL
-  // until the owner's approved routes are attached in a separate step
-  // (akshayprabhakant.com/elections, /elections/*, /work/election-atlas and
-  // /work/election-atlas/*); the deploy workflow refuses a config with routes.
+  // No "routes" here. The owner's approved routes (akshayprabhakant.com/elections,
+  // /elections/*, /work/election-atlas and /work/election-atlas/*) are live but
+  // attached outside this config by portfolio-app; the deploy workflow refuses a
+  // config with routes.
   "workers_dev": true,
 
   "assets": {
@@ -19,9 +19,11 @@
     "directory": "../dist",
     "binding": "ASSETS",
     // Assets first (free, no Worker invocation); the Worker runs only for the
-    // bill PDFs, which it streams from R2, and for the old address, which it
-    // redirects (308) to /elections/india/.
+    // bill PDFs, which it streams from R2, and for the old address and the bare
+    // /elections address, which it redirects (308) to /elections/india/.
     "run_worker_first": [
+      "/elections",
+      "/elections/",
       "/elections/india/data/state-legislation/*",
       "/work/election-atlas",
       "/work/election-atlas/*"

@@ -3,10 +3,10 @@
 
     python3 backend/check_no_routes.py backend/wrangler.jsonc
 
-Until the owner's approved routes (akshayprabhakant.com/elections, /elections/*,
-/work/election-atlas and /work/election-atlas/*) are attached in their own step,
-this Worker may answer only on its workers.dev preview URL: the config must
-carry no `route`/`routes` (top level or in any environment) and no custom domain.
+The owner's approved routes (akshayprabhakant.com/elections, /elections/*,
+/work/election-atlas and /work/election-atlas/*) are live but attached outside
+this config by portfolio-app, so the config must carry no `route`/`routes`
+(top level or in any environment) and no custom domain.
 """
 import json
 import re
@@ -48,8 +48,8 @@ def main(argv):
         print('refusing: the Worker config attaches routes (' + ', '.join(found) + ').')
         print('Routing akshayprabhakant.com to this Worker is a separate step the owner approves.')
         return 1
-    print(f'{argv[1]}: no routes; the Worker answers only on workers.dev '
-          f'(workers_dev = {config.get("workers_dev")})')
+    print(f'{argv[1]}: no routes; the live routes are attached outside this '
+          f'config by portfolio-app (workers_dev = {config.get("workers_dev")})')
     return 0
 
 

@@ -5,7 +5,7 @@
    some constituencies only, and availability.json says which, so a missing one
    shows "not available yet" and never stops the rest of the page. */
 import { Fragment, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { fold, getListed, listed, loadAvailability, lsDetailAvailable, membersAvailable, nf, titleCase } from '@/lib/atlas';
+import { countOf, fold, getListed, listed, loadAvailability, lsDetailAvailable, membersAvailable, nf, titleCase } from '@/lib/atlas';
 import { DATA, pageURL } from '@/lib/base';
 import {
   MPLADS_MISSING, QUESTIONS_PAGE, QUESTION_FILTERS, RECORD_MISSING, WORKS_PAGE, WORK_FILTERS,
@@ -231,7 +231,7 @@ export default function MpView() {
                     <>
                       <div className="ls-stat">
                         <span className="ls-num" style={{ color: record.attGood ? 'var(--good)' : 'var(--bad)' }}>{record.attPct.toFixed(1)}%</span>
-                        <span className="ls-cap">Attendance · {record.signedDays} of {record.totalDays} days</span>
+                        <span className="ls-cap">Attendance · {record.signedDays} of {record.totalDays} {record.totalDays === 1 ? 'day' : 'days'}</span>
                         <div className="att-bar">
                           <span className={record.attGood ? 'att-fill good' : 'att-fill'} style={{ width: `${record.attPct}%` }} />
                           <span className="att-tick" style={{ left: '85%' }}><span>good ≥85%</span></span>
@@ -301,7 +301,7 @@ export default function MpView() {
         </section>
 
         <section className="block">
-          <h3 id="ac-heading">{acs && acs.length ? `Made of ${acs.length} assembly seats` : 'Assembly seats'}</h3>
+          <h3 id="ac-heading">{acs && acs.length ? `Made of ${countOf(acs.length, 'assembly seat')}` : 'Assembly seats'}</h3>
           <div className="cross ac-list" id="ac-cross">
             {loaded && (acs === null ? 'Assembly seats unavailable for this state.'
               : !acs.length ? 'No assembly seats matched this constituency.'
