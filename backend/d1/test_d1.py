@@ -147,6 +147,19 @@ class InputsOverlayAndExtras(unittest.TestCase):
         self.assertEqual(json.loads(files['results/ls/1980.json'])['regions']['IN-JK']['unopposed'],
                          LS_1980_JK['unopposed'])
 
+    def test_years_select_documents_and_max_rows_refuses_an_overrun(self):
+        write(self.data, 'results/ls/1980.json', ls_1980({'IN-JK': LS_1980_JK}))
+        r = self.ingest('--years', '1980')
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        sql = (self.root / 'all.sql').read_text()
+        self.assertIn("'results/ls/1980.json'", sql)
+        self.assertNotIn("'results/ac/IN-CT/2023.json'", sql)
+        (self.root / 'all.sql').unlink()
+        r = self.ingest('--max-rows', '10')
+        self.assertNotEqual(r.returncode, 0)
+        self.assertIn('exceeds --max-rows 10', r.stdout + r.stderr)
+        self.assertFalse((self.root / 'all.sql').exists(), 'SQL was written for a refused import')
+
     def test_documents_already_in_d1_are_left_out(self):
         present = self.root / 'present.txt'
         present.write_text('results/ac/IN-CT/2023-detail.json\nresults/ac/IN-CT/2023.json\n')

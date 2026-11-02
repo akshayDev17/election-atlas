@@ -616,6 +616,10 @@ def main(argv=None):
     ap.add_argument('--registry', default=str(LS_SOURCES))
     ap.add_argument('--inputs', default=str(INPUTS),
                     help='files here replace the data directory\'s at the same path (default backend/d1/inputs)')
+    ap.add_argument('--years', help='comma-separated election years: import only those years\' documents '
+                    '(e.g. 2024,2014 to fit a day\'s write allowance); others are left for a later run')
+    ap.add_argument('--max-rows', type=int, help='refuse (exit 1, no SQL written) if the estimated rows written '
+                    'exceed this, e.g. what is left of the free plan\'s 100,000 a day')
     ap.add_argument('--skip-present', help='a file of document paths already in D1 (one per line); '
                     'they and their rows are left out')
     ap.add_argument('--list-static', action='store_true',
@@ -626,6 +630,10 @@ def main(argv=None):
     if args.skip_present:
         skip = {l.strip() for l in Path(args.skip_present).read_text(encoding='utf-8').splitlines() if l.strip()}
     inputs = Inputs(args.data, args.inputs)
+    if args.years:
+        wanted = {y.strip() for y in args.years.split(',') if y.strip()}
+        skip |= {rel for rel in inputs.json_files()
+                 if family_of(rel) and not set(re.findall(r'(?<!\d)(\d{4})(?!\d)', rel)) & wanted}
     model, static = build(inputs, registry, skip)
     if args.list_static:
         print('\n'.join(static))
@@ -634,6 +642,11 @@ def main(argv=None):
         ap.error('--day and --out are required unless --list-static')
     day = args.day if args.day == 'all' else int(args.day)
     sql, counts = to_sql(model, day)
+    estimate = estimate_rows_written(counts)
+    if args.max_rows is not None and estimate > args.max_rows:
+        for t, n in counts.items():
+            print(f'{t:20s} {n:7d}')
+        raise SystemExit(f'refusing: an estimated {estimate} rows written exceeds --max-rows {args.max_rows}')
     Path(args.out).write_text(sql, encoding='utf-8')
     for t, n in counts.items():
         print(f'{t:20s} {n:7d}')
