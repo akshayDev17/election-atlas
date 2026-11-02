@@ -17,7 +17,9 @@ re-verified). The bill PDFs are not assets: the Worker streams them from R2.
 
 --complete-against <data dir> refuses a site that lacks any results/ or cabinet/
 file that directory holds: every data file the pages read before the move must
-be either exported from D1 or committed here.
+be either exported from D1 or committed here. With --pending-ok the missing files
+are listed as pending instead (a deploy made before every import day has run);
+the pages then show "not available yet" for them.
 """
 import argparse
 import shutil
@@ -85,10 +87,17 @@ def main(argv=None):
     ap.add_argument('--out', default=str(REPO / 'dist'))
     ap.add_argument('--data-from', help='directory of data files exported from D1')
     ap.add_argument('--complete-against', help='data directory whose results/ and cabinet/ files must all be present')
+    ap.add_argument('--pending-ok', action='store_true',
+                    help='list files missing against --complete-against as pending instead of failing')
     args = ap.parse_args(argv)
     site = build(args.out, args.data_from)
     if args.complete_against:
         missing = missing_against(site, args.complete_against)
+        if missing and args.pending_ok:
+            print(f'build_site: {len(missing)} data files pending (not in D1 yet; the pages say "not available yet"):')
+            for rel in missing:
+                print(f'  PENDING data/{rel}')
+            return 0
         for rel in missing:
             print(f'build_site: MISSING data/{rel} (neither exported from D1 nor committed)')
         if missing:
