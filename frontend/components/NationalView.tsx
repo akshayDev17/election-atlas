@@ -12,8 +12,8 @@ import {
   type CSSProperties, type ReactNode,
 } from 'react';
 import {
-  ECI, PRESIDENT, byelAvailable, fetchOptional, loadAvailability, lsResultsAvailable, lsStateAvailable,
-  nf, notAvailable, pc1, titleCase, unionRoster,
+  ECI, PRESIDENT, byelAvailable, coverNote, fetchOptional, formedLater, loadAvailability, lsResultsAvailable,
+  lsStateAvailable, nf, notAvailable, parentsOf, partOfText, pc1, resultRegion, titleCase, unionRoster,
 } from '@/lib/atlas';
 import { DATA, pageURL } from '@/lib/base';
 import {
@@ -35,6 +35,7 @@ type Core = {
   manifest: Manifest;
   avail: Availability;
   regionByCode: Map<string, Region>;
+  parents: Map<string, string>;
   regionBySource: Map<string, string>;
   partyByCode: Map<string, Party>;
   fallback: { name: string; colour: string };
@@ -77,6 +78,7 @@ async function loadCore(): Promise<Core | null> {
   return {
     manifest, avail, regionBySource, stateLevel,
     regionByCode: new Map(regionsDoc.regions.map(r => [r.code, r])),
+    parents: parentsOf(regionsDoc.regions),
     partyByCode: new Map(partiesDoc.parties.map(p => [p.code, p])),
     fallback: partiesDoc.fallback,
     symbols: symbolsRes.ok ? symbolsRes.doc : { symbols: {} },
@@ -194,11 +196,22 @@ export default function NationalView() {
   const { standsSeats, deltaByParty } = useMemo(() => seatMaps(data?.pc ?? null, resolved), [data, resolved]);
   const matches = useCallback((code: string) => partyMatches(partyQuery, code, core?.partyByCode ?? new Map()),
     [partyQuery, core]);
+  /* In a state-level year each present-day outline reads its own entry, or the
+     entry of the state it was part of that year. */
+  const unitOf = useMemo(() => {
+    const m = new Map<string, string>();
+    if (!core || data?.kind !== 'states' || !data.states) return m;
+    for (const code of core.regionByCode.keys()) {
+      const unit = resultRegion(data.states, code, core.parents);
+      if (unit) m.set(code, unit);
+    }
+    return m;
+  }, [core, data]);
   const leaders = useMemo(() => {
     const m = new Map<string, string | null>();
-    if (data?.kind === 'states' && agg) for (const [code, t] of agg.byRegion) m.set(code, regionLeader(t));
+    if (agg) for (const [code, unit] of unitOf) m.set(code, regionLeader(agg.byRegion.get(unit)));
     return m;
-  }, [data, agg]);
+  }, [unitOf, agg]);
 
   const rows = useMemo(() => nationalRows({ agg, tense, standsSeats, deltaByParty, sort, matches: partyQuery ? matches : undefined }),
     [agg, tense, standsSeats, deltaByParty, sort, partyQuery, matches]);
@@ -237,9 +250,10 @@ export default function NationalView() {
 
   /* ── the state card ── */
   const stateCard = useCallback((code: string): { node: ReactNode; title: string } | null => {
-    if (!core || !agg) return null;
+    if (!core || !agg || !data) return null;
     const MAX_ROWS = 7;
-    const list = [...(agg.byRegion.get(code) || new Map())]
+    const unit = unitOf.get(code) ?? code;
+    const list = [...(agg.byRegion.get(unit) || new Map())]
       .map(([p, v]) => ({ code: p, seats: v.seats, votes: v.votes }))
       .filter(r => r.seats > 0 || r.votes > 0)
       .sort((a, b) => b.seats - a.seats || b.votes - a.votes);
@@ -249,14 +263,22 @@ export default function NationalView() {
     const totalSeats = list.reduce((n, r) => n + r.seats, 0);
     const rest = list.slice(MAX_ROWS);
     const restVotes = rest.reduce((n, r) => n + r.votes, 0);
+    const nameOf = (c: string) => core.regionByCode.get(c)?.name ?? c;
+    const parent = unit === code ? null : nameOf(unit);
+    const includes = !parent && data.states ? formedLater(data.states, code, core.parents).map(nameOf) : [];
     return {
-      title: `${list[0].code} leads ${region.name} — ${partyName(list[0].code)}`,
+      title: parent
+        ? `${region.name}: ${partOfText(parent, data.year)}`
+        : `${list[0].code} leads ${region.name} — ${partyName(list[0].code)}`,
       node: (
         <>
           <p className="sub">{region.type === 'ut' ? 'Union territory' : 'State'}</p>
           <h2>{region.name}</h2>
-          <p className="meta">{totalSeats} constituencies · {nf(totalVotes)} votes polled</p>
-          <p className="open">Open {region.name} →</p>
+          <p className="meta">
+            {parent && <>{partOfText(parent, data.year)} · </>}
+            {totalSeats} constituencies{coverNote(parent, includes)} · {nf(totalVotes)} votes polled
+          </p>
+          <p className="open">Open {parent ? `${parent} ${data.year}` : region.name} →</p>
           <table>
             <thead><tr><th>Party</th><th>Seats won</th><th>Votes</th><th>Share</th></tr></thead>
             <tbody>
@@ -278,7 +300,7 @@ export default function NationalView() {
         </>
       ),
     };
-  }, [core, agg, colour, partyName]);
+  }, [core, agg, data, unitOf, colour, partyName]);
 
   const showStateCard = useCallback((code: string, x: number, y: number) => {
     const c = stateCard(code);
@@ -288,8 +310,8 @@ export default function NationalView() {
   const hideCard = useCallback(() => { card.current?.hide(); setFocused(null); }, []);
 
   const openState = useCallback((code: string) => {
-    location.href = pageURL('state', { s: code, y: data?.pc || data?.states ? data.year : '' });
-  }, [data]);
+    location.href = pageURL('state', { s: unitOf.get(code) ?? code, y: data?.pc || data?.states ? data.year : '' });
+  }, [data, unitOf]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -351,7 +373,7 @@ export default function NationalView() {
           <figure className="mapfig">
             {core ? (
               <NationalMap
-                core={core} data={data} tense={effectiveTense} resolved={resolved} leaders={leaders} agg={agg}
+                core={core} data={data} tense={effectiveTense} resolved={resolved} leaders={leaders} unitOf={unitOf} agg={agg}
                 leftOut={leftOut} colour={colour} focused={focused}
                 onStateFocus={(code, x, y) => { setFocused({ kind: 'state', value: code }); showStateCard(code, x, y); }}
                 onStateMove={(x, y) => { if (card.current?.isOn()) card.current.move(x, y); }}
@@ -462,6 +484,7 @@ const NationalMap = memo(function NationalMap(props: {
   tense: Tense;
   resolved: ReturnType<typeof resolveSeats>;
   leaders: Map<string, string | null>;
+  unitOf: Map<string, string>;
   agg: Aggregate | null;
   leftOut: (party: string | null) => boolean;
   colour: (code: string) => string;
@@ -471,7 +494,8 @@ const NationalMap = memo(function NationalMap(props: {
   onLeave: () => void;
   onOpen: (code: string) => void;
 }) {
-  const { core, data, tense, resolved, leaders, agg, leftOut, colour, focused } = props;
+  const { core, data, tense, resolved, leaders, unitOf, agg, leftOut, colour, focused } = props;
+  const unitCode = useCallback((code: string) => unitOf.get(code) ?? code, [unitOf]);
   const svg = useRef<SVGSVGElement>(null);
   const [size, setSize] = useState<{ W: number; H: number } | null>(null);
 
@@ -506,12 +530,15 @@ const NationalMap = memo(function NationalMap(props: {
 
   const focusD = useMemo(() => {
     if (!focused || !geom) return '';
-    if (focused.kind === 'state') return geom.states.find(s => s.code === focused.value)?.d ?? '';
+    if (focused.kind === 'state') {
+      const unit = unitCode(focused.value);
+      return geom.states.filter(s => s.code && unitCode(s.code) === unit).map(s => s.d).join(' ');
+    }
     const features: Feature<Geometry, GeoProps>[] = data?.kind === 'states'
       ? geom.states.filter(s => s.code && leaders.get(s.code) === focused.value).map(s => s.f)
       : core.pcs.features.filter(f => resolved.get(f.properties.unique_id)?.p === focused.value);
     return features.length ? (geom.pathGen as GeoPath<unknown, GeoPermissibleObjects>)({ type: 'FeatureCollection', features } as GeoPermissibleObjects) || '' : '';
-  }, [focused, geom, data, leaders, core, resolved]);
+  }, [focused, geom, data, leaders, core, resolved, unitCode]);
 
   const codeOf = (t: EventTarget | null) => {
     const p = t instanceof Element ? t.closest('path.st[data-region]') : null;
@@ -520,10 +547,14 @@ const NationalMap = memo(function NationalMap(props: {
 
   const stateLabel = (code: string): string | undefined => {
     if (!data || data.kind === 'missing') return undefined;
-    const name = core.regionByCode.get(code)?.name ?? code;
-    const m = agg?.byRegion.get(code);
+    const nameOf = (c: string) => core.regionByCode.get(c)?.name ?? c;
+    const unit = unitCode(code);
+    const m = agg?.byRegion.get(unit);
     const lead = m ? [...m.entries()].sort((a, b) => b[1].seats - a[1].seats)[0] : null;
-    return lead ? `${name}. ${lead[0]} won ${lead[1].seats} constituencies.` : `${name}. No result for this year.`;
+    const won = lead ? `${lead[0]} won ${lead[1].seats} constituencies` : '';
+    if (unit !== code) return `${nameOf(code)}. ${partOfText(nameOf(unit), data.year)}${won ? `, where ${won}` : ''}.`;
+    const includes = data.states ? formedLater(data.states, code, core.parents).map(nameOf) : [];
+    return lead ? `${nameOf(code)}${coverNote(null, includes)}. ${won}.` : `${nameOf(code)}. No result for this year.`;
   };
 
   const blur = geom ? Math.max(3.5, geom.W / 145) : 3.5;
@@ -585,7 +616,7 @@ const NationalMap = memo(function NationalMap(props: {
             {geom.states.map(s => (
               <path
                 key={s.key} d={s.d}
-                className={'st' + (focused?.kind === 'state' && s.code === focused.value ? ' is-active' : '')}
+                className={'st' + (focused?.kind === 'state' && s.code && unitCode(s.code) === unitCode(focused.value) ? ' is-active' : '')}
                 {...(s.code ? { 'data-region': s.code, tabIndex: 0, role: 'button', 'aria-label': stateLabel(s.code) } : {})}
               />
             ))}

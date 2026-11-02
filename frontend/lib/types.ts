@@ -17,7 +17,8 @@ export type Manifest = {
   };
 };
 
-export type Region = { code: string; name: string; type: 'state' | 'ut'; sourceNames: string[] };
+/* formedFrom: the state a state was carved out of (Telangana from Andhra Pradesh). */
+export type Region = { code: string; name: string; type: 'state' | 'ut'; sourceNames: string[]; formedFrom?: string };
 export type RegionsDoc = { regions: Region[] };
 
 export type Party = { code: string; name: string; colour: string; aliases?: string[] };

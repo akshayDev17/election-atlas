@@ -6,8 +6,9 @@ import {
   NAT_DEFAULT, aggregate, aggregateStates, belowCutMessage, byeNote, compactPortfolio, memberMatches, nationalRows,
   pageList, partyMatches, regionLeader, resolveSeats, seatMaps, sortMinisters,
 } from './national.ts';
+import { formedLater, parentsOf, resultRegion } from './atlas.ts';
 import { readData } from './testData.ts';
-import type { ByeDoc, Party, PcYearDoc, StateYearDoc } from './types.ts';
+import type { ByeDoc, Party, PcYearDoc, RegionsDoc, StateYearDoc } from './types.ts';
 
 const pc2024 = readData<PcYearDoc>('results/ls/pc/2024.json');
 const bye2024 = readData<ByeDoc>('results/ls/byel/2024.json');
@@ -93,6 +94,31 @@ test('the 1980 state-level file aggregates to 529 seats and colours each state b
   assert.equal(regionLeader(agg.byRegion.get('IN-UP')), 'INC');
   assert.equal(regionLeader(undefined), null, 'a state the file does not hold has no colour');
   assert.equal(regionLeader(new Map([['X', { seats: 0, votes: 9 }]])), null, 'votes alone lead nothing');
+});
+
+test('1980 map: a state formed later is painted with the state it was part of, as one unit', () => {
+  const parents = parentsOf(readData<RegionsDoc>('regions.json').regions);
+  const doc = readData<StateYearDoc>('results/ls/1980.json');
+  const agg = aggregateStates(doc);
+  for (const [successor, parent] of [['IN-TG', 'IN-AP'], ['IN-UT', 'IN-UP'], ['IN-CT', 'IN-MP'], ['IN-JH', 'IN-BR']]) {
+    const unit = resultRegion(doc, successor, parents);
+    assert.equal(unit, parent, successor);
+    assert.ok(regionLeader(agg.byRegion.get(unit!)), `${successor} has a fill`);
+    assert.equal(resultRegion(doc, parent, parents), parent);
+    assert.ok(formedLater(doc, parent, parents).includes(successor));
+  }
+  assert.deepEqual(formedLater(doc, 'IN-AP', parents), ['IN-TG']);
+});
+
+test('2004 and 2019 maps: each successor is painted from its own entry', () => {
+  const parents = parentsOf(readData<RegionsDoc>('regions.json').regions);
+  const y2004 = readData<StateYearDoc>('results/ls/2004.json');
+  for (const s of ['IN-UT', 'IN-CT', 'IN-JH']) assert.equal(resultRegion(y2004, s, parents), s);
+  for (const p of ['IN-UP', 'IN-MP', 'IN-BR']) assert.deepEqual(formedLater(y2004, p, parents), [], p);
+  assert.equal(resultRegion(y2004, 'IN-TG', parents), 'IN-AP');
+  const y2019 = readData<StateYearDoc>('results/ls/2019.json');
+  assert.equal(resultRegion(y2019, 'IN-TG', parents), 'IN-TG');
+  assert.deepEqual(formedLater(y2019, 'IN-AP', parents), []);
 });
 
 test('page numbers collapse to a window around the current page', () => {

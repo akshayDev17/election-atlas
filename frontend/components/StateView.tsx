@@ -15,7 +15,7 @@ import {
 } from 'react';
 import {
   CMO_UP, ECI, acCycles, byelAvailable, fetchOptional, loadAvailability, lsDetailAvailable,
-  lsStateAvailable, membersAvailable, nf, notAvailable, pc1, stateRoster, titleCase,
+  lsStateAvailable, membersAvailable, nf, notAvailable, parentsOf, partOfText, pc1, stateRoster, titleCase,
 } from '@/lib/atlas';
 import { DATA, pageURL } from '@/lib/base';
 import { cardModel, type Candidate, type CardFoot, type CardHead, type SeatResolved } from '@/lib/card';
@@ -44,6 +44,8 @@ type Shape = { key: string; f: GeoFeature; label: string };
 type Core = {
   stateCode: string;
   region: Region;
+  regionByCode: Map<string, Region>;
+  parents: Map<string, string>;
   avail: Availability;
   manifest: Manifest;
   partyByCode: Map<string, Party>;
@@ -65,7 +67,7 @@ type Cabinet = { elected: CabinetDoc | null; stands: CabinetDoc | null };
 type PcData =
   | { kind: 'pc'; year: number; pcRows: Record<string, PcRow>; agg: StateAgg; byeSeats: ByeSeat[]; byeKnown: boolean;
       cardRows: Map<string, Candidate[]> }
-  | { kind: 'state'; year: number; agg: StateAgg; seats: number }
+  | { kind: 'state'; year: number; agg: StateAgg; seats: number; partOf: string | null; includes: string[] }
   | { kind: 'missing'; year: number };
 type AcData = {
   year: number | null;
@@ -134,7 +136,7 @@ async function loadCore(search: string): Promise<{ core: Core } | { fatal: strin
 
   return {
     core: {
-      stateCode, region, avail, manifest, stateFeature,
+      stateCode, region, regionByCode, parents: parentsOf(regionsDoc.regions), avail, manifest, stateFeature,
       partyByCode: new Map(partiesDoc.parties.map(p => [p.code, p])),
       fallback: partiesDoc.fallback,
       symbols: symbolsRes.ok ? symbolsRes.doc : { symbols: {} },
@@ -154,7 +156,8 @@ async function loadCore(search: string): Promise<{ core: Core } | { fatal: strin
 
 /* A Lok Sabha year is drawn from its constituency file when there is one,
    otherwise from its state-level file (what that file holds, never a
-   per-constituency figure); with neither it says "not available yet". */
+   per-constituency figure; a state formed after that election reads the entry
+   of the state it was part of); with neither it says "not available yet". */
 async function loadLS(c: Core, y: number): Promise<PcData> {
   const kind = lsYearKind(c.avail, y);
   if (kind === 'pc') {
@@ -175,8 +178,8 @@ async function loadLS(c: Core, y: number): Promise<PcData> {
     }
   } else if (kind === 'state') {
     const doc = await getListed<StateYearDoc>(lsStateAvailable(c.avail, y), `${DATA}results/ls/${y}.json`);
-    const s = doc ? aggregateStateLevel(doc, c.stateCode) : null;
-    if (s) return { kind: 'state', year: y, agg: s.agg, seats: s.seats };
+    const s = doc ? aggregateStateLevel(doc, c.stateCode, c.parents) : null;
+    if (s) return { kind: 'state', year: y, ...s };
   }
   return { kind: 'missing', year: y };
 }
@@ -429,18 +432,26 @@ export default function StateView() {
   const name = region?.name ?? regionName;
 
   /* ── captions and "not available yet" ── */
-  let capPc = '—', pcVoid: string | null = null;
+  let capPc = '—', pcVoid: string | null = null, partOf: ReactNode = null;
   if (fatal) capPc = fatal;
   else if (core && pcData) {
     if (pcData.kind === 'missing') {
       capPc = missingCaption(core.pcShapes.length);
       pcVoid = notAvailable(`${name} ${pcData.year} Lok Sabha results`, ECI, 'have');
     } else {
+      const regionNameOf = (code: string) => core.regionByCode.get(code)?.name ?? code;
+      const parent = pcData.kind === 'state' && pcData.partOf ? pcData.partOf : null;
       capPc = pcCaption({
         kind: pcData.kind, seats: pcData.kind === 'pc' ? Object.keys(pcData.pcRows).length : pcData.seats,
         tense: effTense, byeKnown: pcData.kind === 'pc' && pcData.byeKnown,
         byeSeats: pcData.kind === 'pc' ? pcData.byeSeats : [], regionName: name,
+        partOf: parent && regionNameOf(parent),
+        includes: pcData.kind === 'state' ? pcData.includes.map(regionNameOf) : [],
       });
+      if (parent) {
+        partOf = <><a id="part-of" href={pageURL('state', { s: parent, y: pcData.year })}>
+          {partOfText(regionNameOf(parent), pcData.year)}</a> · </>;
+      }
     }
   }
   let capAc = '—', acVoid: string | null = null;
@@ -557,7 +568,7 @@ export default function StateView() {
                   );
                 })}
               </div>
-              <p className="tier"><span className="name">Lok Sabha</span><span className="sep">·</span><span id="cap-pc">{capPc}</span></p>
+              <p className="tier"><span className="name">Lok Sabha</span><span className="sep">·</span><span id="cap-pc">{partOf}{capPc}</span></p>
             </div>
             <figure>
               {core ? (

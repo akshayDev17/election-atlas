@@ -1,6 +1,6 @@
 /* Shared by the four atlas pages: optional data, the "not available yet" state,
    and member monograms. */
-import type { Availability, Roster } from './types.ts';
+import type { Availability, Region, Roster, StateYearDoc } from './types.ts';
 
 export type Optional<T> = { ok: true; doc: T } | { ok: false; reason: 'absent' | 'error' };
 
@@ -43,6 +43,34 @@ export const acCycles = (av: Availability, state: string): { year: number; ok: b
 export const listed = (av: Availability, kind: 'parliament' | 'mplads', state: string, key: string): boolean =>
   !!av[kind]?.[state]?.includes(key);
 export const membersAvailable = (av: Availability, year: number | string): boolean => !!av.members?.ls?.[year];
+
+/* ── states formed after an election ─────────────────────────────────
+   A state carved out of another (regions.json `formedFrom`) has no entry of its
+   own in a state-level year held before it existed: its seats were counted in
+   the state it was formed from, and the two outlines are one result. Which years
+   that holds for is read from each year's file, never listed. */
+export const parentsOf = (regions: readonly Region[]): Map<string, string> =>
+  new Map(regions.flatMap(r => (r.formedFrom ? [[r.code, r.formedFrom] as [string, string]] : [])));
+
+/* The entry of a state-level year's file that holds a present-day state's result:
+   the state's own, else the state it was formed from when the file has that one
+   instead; null when the file holds neither. */
+export function resultRegion(year: StateYearDoc, code: string, parents: ReadonlyMap<string, string>): string | null {
+  if (year.regions[code]) return code;
+  const parent = parents.get(code);
+  return parent && year.regions[parent] ? parent : null;
+}
+
+/* The present-day states whose result that year is counted in `code`'s entry. */
+export const formedLater = (year: StateYearDoc, code: string, parents: ReadonlyMap<string, string>): string[] =>
+  [...parents.keys()].filter(s => s !== code && resultRegion(year, s, parents) === code);
+
+export const partOfText = (parent: string, year: number): string => `Part of ${parent} in ${year}`;
+
+/* What a state-level seat count covers when it is not the present outline's own:
+   the whole state it was part of, or the present-day states it included. */
+export const coverNote = (partOf: string | null, includes: readonly string[]): string =>
+  partOf ? ` across ${partOf}` : includes.length ? `, including present-day ${includes.join(', ')}` : '';
 
 /* The one sentence a view shows when its data has not been added. It names what
    is missing and who publishes it; it never shows a number, a name or a zero. */

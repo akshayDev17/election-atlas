@@ -3,7 +3,7 @@
 // "not available yet" sentences that stand in for absent data.
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { CMO_UP, acCycles } from './atlas.ts';
+import { CMO_UP, acCycles, parentsOf } from './atlas.ts';
 import {
   DEFAULT_SORT, acCardRows, aggregateFrom, aggregateStateLevel, beltAsOf, beltVoidText, cabinetPublisher,
   cycleAvailable, firstLsYear, keyify, latestCycle, lsYearKind, missingCaption, mpKeysByName, pageCountOf,
@@ -11,11 +11,12 @@ import {
   tenseAfterLoad, unknownSeatsText, type AcYearDoc, type DetailDoc,
 } from './state.ts';
 import { readData } from './testData.ts';
-import type { Availability, ByeSeat, Manifest, PcYearDoc, StateYearDoc } from './types.ts';
+import type { Availability, ByeSeat, Manifest, PcYearDoc, RegionsDoc, StateYearDoc } from './types.ts';
 
 type PcTopo = { objects: { pcs: { geometries: { properties: { unique_id: string; ls_seat_code: string | number } }[] } } };
 
 const avail = readData<Availability>('availability.json');
+const parents = parentsOf(readData<RegionsDoc>('regions.json').regions);
 const manifest = readData<Manifest>('manifest.json');
 
 const uidToSeatOf = (st: string) => new Map(readData<PcTopo>(`geo/ls/${st}.json`).objects.pcs.geometries
@@ -43,9 +44,11 @@ test('a year carried from the India map is honoured only when the strip has it',
 
 test('Uttar Pradesh 1980 state-level: what the file holds, the seats adding up to 85', () => {
   const doc = readData<StateYearDoc>('results/ls/1980.json');
-  const up = aggregateStateLevel(doc, 'IN-UP');
+  const up = aggregateStateLevel(doc, 'IN-UP', parents);
   assert.ok(up);
   assert.equal(up.seats, 85);
+  assert.equal(up.partOf, null);
+  assert.deepEqual(up.includes, ['IN-UT'], 'the 1980 entry covers present-day Uttarakhand');
   assert.equal([...up.agg.m.values()].reduce((n, t) => n + t.seats, 0), 85);
   assert.equal(up.agg.total, doc.regions['IN-UP'].parties.reduce((n, p) => n + p.votes, 0));
   assert.equal(stateLeader(up.agg), 'INC');
@@ -54,10 +57,56 @@ test('Uttar Pradesh 1980 state-level: what the file holds, the seats adding up t
   assert.ok(rows.every(r => r.seats > 0 || r.votes > 0));
 });
 
-test('a state the state-level file does not hold gets no figures at all', () => {
-  const doc = readData<StateYearDoc>('results/ls/1980.json');
-  assert.equal(aggregateStateLevel(doc, 'IN-TG'), null);
+test('a state the state-level file holds no entry for, nor for a state it was part of, gets no figures at all', () => {
+  const doc: StateYearDoc = { year: 1980, regions: { 'IN-UP': { seats: 85, electors: null, parties: [] } } };
+  assert.equal(aggregateStateLevel(doc, 'IN-TG', parents), null);
+  assert.equal(aggregateStateLevel(doc, 'IN-KL', parents), null);
   assert.equal(stateLeader(null), null);
+});
+
+const SPLITS = [['IN-TG', 'IN-AP'], ['IN-UT', 'IN-UP'], ['IN-CT', 'IN-MP'], ['IN-JH', 'IN-BR']] as const;
+const STATE_LEVEL = ' · state-level result: this election’s constituency boundaries predate the atlas map';
+
+test('1980: Telangana, Uttarakhand, Chhattisgarh and Jharkhand read the entry of the state they were part of', () => {
+  const doc = readData<StateYearDoc>('results/ls/1980.json');
+  for (const [successor, parent] of SPLITS) {
+    assert.equal(doc.regions[successor], undefined, `${successor} has no 1980 entry of its own`);
+    const own = aggregateStateLevel(doc, successor, parents);
+    const whole = aggregateStateLevel(doc, parent, parents);
+    assert.ok(own && whole, successor);
+    assert.equal(own.partOf, parent);
+    assert.deepEqual(own.includes, []);
+    assert.equal(own.seats, doc.regions[parent].seats);
+    assert.equal(stateLeader(own.agg), stateLeader(whole.agg), `${successor} takes ${parent}'s fill`);
+    assert.equal(whole.partOf, null);
+    assert.ok(whole.includes.includes(successor), `${parent} 1980 includes present-day ${successor}`);
+  }
+  const tg = aggregateStateLevel(doc, 'IN-TG', parents)!;
+  const ap = aggregateStateLevel(doc, 'IN-AP', parents)!;
+  assert.equal(ap.seats, 42);
+  const caption = { kind: 'state' as const, tense: 'elected' as const, byeKnown: false, byeSeats: [] };
+  assert.equal(pcCaption({ ...caption, seats: tg.seats, regionName: 'Telangana', partOf: 'Andhra Pradesh', includes: [] }),
+    '42 seats across Andhra Pradesh' + STATE_LEVEL);
+  assert.equal(pcCaption({ ...caption, seats: ap.seats, regionName: 'Andhra Pradesh', partOf: null, includes: ['Telangana'] }),
+    '42 seats, including present-day Telangana' + STATE_LEVEL);
+});
+
+test('after each split a state reads its own entry and its parent no longer includes it', () => {
+  const y2004 = readData<StateYearDoc>('results/ls/2004.json');
+  for (const [successor, parent] of SPLITS.filter(([s]) => s !== 'IN-TG')) {
+    const own = aggregateStateLevel(y2004, successor, parents);
+    assert.ok(own, successor);
+    assert.equal(own.partOf, null, `${successor} has its own 2004 entry`);
+    assert.equal(own.seats, y2004.regions[successor].seats);
+    assert.ok(!aggregateStateLevel(y2004, parent, parents)!.includes.includes(successor));
+  }
+  assert.equal(aggregateStateLevel(y2004, 'IN-TG', parents)?.partOf, 'IN-AP', 'Telangana was still part of Andhra Pradesh in 2004');
+  const y2019 = readData<StateYearDoc>('results/ls/2019.json');
+  const tg = aggregateStateLevel(y2019, 'IN-TG', parents);
+  assert.ok(tg);
+  assert.equal(tg.partOf, null);
+  assert.equal(tg.seats, y2019.regions['IN-TG'].seats);
+  assert.deepEqual(aggregateStateLevel(y2019, 'IN-AP', parents)?.includes, []);
 });
 
 test('as elected, the 2024 Uttar Pradesh table adds up to its 80 seats', () => {
@@ -107,7 +156,7 @@ test('Uttar Pradesh 2014 as it stands: the by-election changes show as deltas', 
 });
 
 test('the Lok Sabha caption: a by-election count only from a record that exists', () => {
-  const base = { kind: 'pc' as const, seats: 80, regionName: 'Uttar Pradesh' };
+  const base = { kind: 'pc' as const, seats: 80, regionName: 'Uttar Pradesh', partOf: null, includes: [] };
   const byes = byeSeatsOf(2014, 'IN-UP');
   assert.equal(pcCaption({ ...base, tense: 'elected', byeKnown: true, byeSeats: byes }), '80 seats');
   assert.equal(pcCaption({ ...base, tense: 'stands', byeKnown: false, byeSeats: [] }),

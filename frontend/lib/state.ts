@@ -2,7 +2,9 @@
    from, what each seat holds under the tense, the seat tables, the captions, and
    every "not available yet" sentence. Explicit input, explicit output; the page
    holds the inputs (state, years, tense, sort, selection) and renders these. */
-import { byelAvailable, lsResultsAvailable, lsStateAvailable, notAvailable, stateRoster } from './atlas.ts';
+import {
+  byelAvailable, coverNote, formedLater, lsResultsAvailable, lsStateAvailable, notAvailable, resultRegion, stateRoster,
+} from './atlas.ts';
 import type { Candidate, SeatResolved } from './card.ts';
 import type { Sort, Tense } from './national.ts';
 import { resolveSeat, tallyStands } from './stands.ts';
@@ -51,11 +53,15 @@ export function aggregateFrom(cs: Record<string, { p: string; v: number; o?: Rec
 }
 
 /* The state's party seats and votes from the state-level file, the only Lok
-   Sabha result for an election whose boundaries predate the atlas geometry.
-   null when the file holds no entry for the state. */
-export function aggregateStateLevel(doc: StateYearDoc, state: string): { agg: StateAgg; seats: number } | null {
-  const r = doc.regions[state];
-  if (!r) return null;
+   Sabha result for an election whose boundaries predate the atlas geometry. A
+   state formed after that election reads the entry of the state it was part of
+   (`partOf`); a state's entry may include states formed from it since
+   (`includes`). null when the file holds neither entry. */
+export function aggregateStateLevel(doc: StateYearDoc, state: string, parents: ReadonlyMap<string, string>):
+  { agg: StateAgg; seats: number; partOf: string | null; includes: string[] } | null {
+  const unit = resultRegion(doc, state, parents);
+  if (!unit) return null;
+  const r = doc.regions[unit];
   const m = new Map<string, Tally>();
   let total = 0;
   for (const t of r.parties) {
@@ -63,7 +69,10 @@ export function aggregateStateLevel(doc: StateYearDoc, state: string): { agg: St
     w.seats += t.seats; w.votes += t.votes; total += t.votes;
     m.set(t.code, w);
   }
-  return { agg: { m, total }, seats: r.seats };
+  return {
+    agg: { m, total }, seats: r.seats,
+    partOf: unit === state ? null : unit, includes: formedLater(doc, state, parents),
+  };
 }
 
 /* Which file a Lok Sabha year is drawn from: its constituency file, else its
@@ -225,7 +234,8 @@ export const unknownSeatsText = (n: number): string =>
 /* The Lok Sabha caption carries the by-election status under "As it stands": a
    count only from a by-election record that exists, and "none" only when that
    record exists and lists none. A state-level year says why there is no
-   constituency map. */
+   constituency map, and what its seat count covers when the state's present
+   outline was part of another state that year, or included states since formed. */
 export function pcCaption(o: {
   kind: 'pc' | 'state';
   seats: number;
@@ -233,8 +243,10 @@ export function pcCaption(o: {
   byeKnown: boolean;
   byeSeats: readonly ByeSeat[];
   regionName: string;
+  partOf: string | null;
+  includes: readonly string[];
 }): string {
-  let txt = `${o.seats} seats`;
+  let txt = `${o.seats} seats${coverNote(o.partOf, o.includes)}`;
   if (o.kind === 'state') txt += ' · state-level result: this election’s constituency boundaries predate the atlas map';
   if (o.tense !== 'stands') return txt;
   if (!o.byeKnown) return txt + ' · by-election record not available yet, so seats show as elected';
