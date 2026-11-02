@@ -4,7 +4,7 @@
 
 No portrait file may be committed, no data file may point at one, and every
 Lok Sabha member the pages link to has a Sansad member number to build that
-link from. The link itself is covered by tools/test_member_link.mjs.
+link from. The link itself is covered by frontend/lib/atlas.test.ts.
 """
 import json
 import unittest

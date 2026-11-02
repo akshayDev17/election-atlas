@@ -4,8 +4,7 @@
 //   CHROME_PATH  a Chrome or Chromium binary (CI: /usr/bin/google-chrome)
 //
 // Serves SMOKE_DIST the way the Worker's asset layer does (a directory URL serves
-// its index.html, a directory without its slash redirects to it, query kept) and
-// opens the national, state, MP and MLA pages in a real browser. Each page must
+// its index.html) and opens the national, state, MP and MLA pages in a real browser. Each page must
 // draw its content with zero console errors, no uncaught exception and no failed
 // request: a page fetches only the files availability.json lists, so even a
 // missing file never costs a 404.
