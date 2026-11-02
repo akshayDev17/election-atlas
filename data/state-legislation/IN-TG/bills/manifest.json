@@ -1,0 +1,109 @@
+{
+  "state": "IN-TG",
+  "section": "bills",
+  "ok": 10,
+  "failed": 0,
+  "total_bytes": 24251447,
+  "entries": [
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/telangana/2026/Bill22of2026TG.pdf",
+      "path": "documents/8693bf9369-bills.pdf",
+      "sha256": "869fa1aec102fec9c76bb400454a3cc6fe647eecba6e1d41a7b2ba740a5b544c",
+      "bytes": 2818442,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:20:17.588170+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/telangana/2026/Bill21of2026TG.pdf",
+      "path": "documents/8b3c360e18-bills.pdf",
+      "sha256": "986430b6d2ccc623c3811ed7b878c078e80c902d2f4e97aeeea264088f87be72",
+      "bytes": 8262472,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:20:17.593929+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/telangana/2026/Bill19of2026TG.pdf",
+      "path": "documents/438d2d1043-bills.pdf",
+      "sha256": "24874554e558d5b21adabaff682588e2395fc494d4d81bbf705d376de8f4f719",
+      "bytes": 843574,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:20:17.702771+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/telangana/2026/Bill18of2026TG.pdf",
+      "path": "documents/e7bd9f83a9-bills.pdf",
+      "sha256": "ac1bc1b95b84117028fa941ae8d8a35ec5f93e3680f4a4d927efaa31d54350c8",
+      "bytes": 3402016,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:20:17.703967+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/telangana/2026/Bill17of2026TG.pdf",
+      "path": "documents/531880b561-bills.pdf",
+      "sha256": "48830b605e3c1e6907831fe14ac95c3148079734058507c5c678d412698e0c4a",
+      "bytes": 900999,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:20:17.706662+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/telangana/2026/Bill16of2026TG.pdf",
+      "path": "documents/d5ca4816f9-bills.pdf",
+      "sha256": "3461fc44c16f725fcb672fcd8f12ab6ee38d9c5a9d34a5de2ae4227c0aa3c7ca",
+      "bytes": 1488007,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:20:17.708360+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/telangana/2026/Bill15of2026TG.pdf",
+      "path": "documents/d9e1c83709-bills.pdf",
+      "sha256": "f7230d80dd428b0960ffb1f643b119c2c8dbffca214e7dafa20034feb0382353",
+      "bytes": 4389590,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:20:17.709629+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/telangana/2026/Bill14of2026TG.pdf",
+      "path": "documents/4e1ca06982-bills.pdf",
+      "sha256": "5b2c75444a8f1de8cb511a3e5dc0664f568382dc0ce75650d6fa8702b886a301",
+      "bytes": 967736,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:20:17.716533+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/telangana/2026/Bill13of2026TG.pdf",
+      "path": "documents/1072ee14dd-bills.pdf",
+      "sha256": "8d1f74ac582dc2d621116ed3f8fc3be5a1d7f0929f7f8afc2b8027449f917607",
+      "bytes": 575114,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:20:17.719805+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/telangana/2026/Bill12of2026TG.pdf",
+      "path": "documents/197ec2f568-bills.pdf",
+      "sha256": "35a059e717525170b2456204dd968cb49d27950b35323d63164b08c801ed6b55",
+      "bytes": 603497,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:20:17.720294+00:00",
+      "ok": true,
+      "reason": ""
+    }
+  ]
+}

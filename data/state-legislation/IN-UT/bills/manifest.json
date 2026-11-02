@@ -1,0 +1,109 @@
+{
+  "state": "IN-UT",
+  "section": "bills",
+  "ok": 10,
+  "failed": 0,
+  "total_bytes": 27605715,
+  "entries": [
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/uttarakhand/2026/Ord3of2026UK.pdf",
+      "path": "documents/17ec6b3af4-bills.pdf",
+      "sha256": "222520c299631d6bf0f3e5b30c2ab1aea0a3876ba5af7704e84c236a41cb50a1",
+      "bytes": 2009587,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:35.254637+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/uttarakhand/2026/Ord2of2026UK.pdf",
+      "path": "documents/8f3ff8e449-bills.pdf",
+      "sha256": "8aab7de8d8fcd3d2a63b890cc64b539b71e21975ee55dea137f008f5a4f513f7",
+      "bytes": 2762619,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:35.256027+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/uttarakhand/2026/Ord1of2026UK.pdf",
+      "path": "documents/910e379dfa-bills.pdf",
+      "sha256": "b890af845383013c6700c9d94bf3e40f7c2be7a5c543f6680488e984820f10ad",
+      "bytes": 3217600,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:35.257824+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/uttarakhand/2025/UK_Dependents_Ex_Serviceman_Bill_2025.pdf",
+      "path": "documents/4a9d787cb4-bills.pdf",
+      "sha256": "68641c492c29c63012e840c4032f4508a78af24a798ec1b3c10763a00a73207b",
+      "bytes": 3160430,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:35.260026+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/uttarakhand/2025/UK_Town_Country_Planning(A)_Bill_2025.pdf",
+      "path": "documents/da1cfb9872-bills.pdf",
+      "sha256": "b0b3924a7e626c54445200ae945f15990840cc323aefc8c72dedcf2dbe8c9593",
+      "bytes": 3377436,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:35.262739+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/uttarakhand/2025/UK_Depositors_Protection_Repeal_Bill_2025.pdf",
+      "path": "documents/e6017c0410-bills.pdf",
+      "sha256": "27ee00fdfb96978d9efff797e17e8c46130a19b635911bdda2953f124b7d84ad",
+      "bytes": 1536414,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:35.265804+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/uttarakhand/2025/UK_Special_Provisions_Bill_2025.pdf",
+      "path": "documents/2e08eb7e51-bills.pdf",
+      "sha256": "1a5ec02e36f4b764bc1f5af2b6a19a51be7e4d14853b4ae3ef61327d2b3c5096",
+      "bytes": 639241,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:35.267403+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/uttarakhand/2025/UK_MLAs(Pension)_Bill_2025.pdf",
+      "path": "documents/47e38208cd-bills.pdf",
+      "sha256": "faadccd05a5fa756ef83bd81a60d232adead6bb1c619efea3cedac2e905d529e",
+      "bytes": 977139,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:35.268430+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/uttarakhand/2025/UK_Repealing_(A)_Bill_2025.pdf",
+      "path": "documents/5f6a0145c1-bills.pdf",
+      "sha256": "9e600685ba66358b261e7c73da11342ed92826adaab49834a6c3056b94d216b2",
+      "bytes": 2057216,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:35.268789+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/uttarakhand/2025/UK_GST_(A)_Bill_2025.pdf",
+      "path": "documents/45c2a1df12-bills.pdf",
+      "sha256": "24cc7185c56b5952851b56e2e8c72b5ad9975b9eb08843fed9268c4a5a602469",
+      "bytes": 7868033,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:35.271421+00:00",
+      "ok": true,
+      "reason": ""
+    }
+  ]
+}

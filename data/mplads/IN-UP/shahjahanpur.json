@@ -1,0 +1,166 @@
+{
+ "const_id": 477,
+ "constituency": "SHAHJAHANPUR(SC)",
+ "constituency_key": "shahjahanpur",
+ "mp_id": 3017471,
+ "mp_name": "Shri Arun Kumar Sagar",
+ "tiles": {
+  "Allocated Limit for Hon'ble MPs": [
+   "14,70,00,000.00",
+   "14.70 Crore"
+  ],
+  "Expenditure on Completed and On-going Works as on Date": [
+   "13,87,23,000.00",
+   "13.87 Crore"
+  ],
+  "Works Recommended": [
+   "8",
+   "14,63,76,200.00",
+   "14.64 Crore"
+  ],
+  "Works Completed": [
+   "5",
+   "12,83,43,000.00",
+   "12.83 Crore"
+  ],
+  "Works Sanctioned": [
+   "7",
+   "14,58,76,200.00",
+   "14.59 Crore"
+  ],
+  "Amount consented for Calamity": [
+   "0",
+   "0.00",
+   "0.00 Crore"
+  ],
+  "Current Tenure": [
+   {
+    "ID": 7,
+    "CAPTION": "18th Lok Sabha"
+   }
+  ]
+ },
+ "charts": {
+  "Development Fund": {
+   "title": "Development Fund",
+   "Allocated Limit": 146376200.0,
+   "Available Limit": 623800.0
+  },
+  "Location wise Development Work Recommendation": {
+   "title": "Location wise Development Work Recommendation",
+   "Rural": 3500000.0,
+   "Urban": 142876200.0
+  },
+  "Development Work Recommendation Status": {
+   "title": "Development Work Recommendation Status",
+   "Unsanctioned": 500000.0,
+   "Completed": 128343000.0,
+   "On Going": 17533200.0
+  },
+  "Work Category wise Development Work Recommendation": {
+   "title": "Work Category wise Development Work Recommendation",
+   "Normal and Others": 142876200.0,
+   "Trust or Society | Bar Association": 3500000.0,
+   "Bar Association (Exclusively for Purchase of Books for Library)": 0.0,
+   "Repair and Renovation": 0.0
+  }
+ },
+ "works": [
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP492/2024-2025/134981-Construction of bus-sheds or bus-stops",
+   "description": "15 Yatri Tin/Bus shades List for rural and Urban Areas as per enclosed List",
+   "agency": "SHAHJAHANPUR(DISTRICT MAGISTRAE SHAHJAHANAPUR_IDA)",
+   "recommended_amount": 9900000.0,
+   "sanctioned_amount": 9900000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "07-Aug-2024",
+   "sanctioned_date": "28-Aug-2024",
+   "letter_no": "LN/MP492/2024-2025/108"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP492/2024-2025/134984-Lighting of public spaces",
+   "description": "Installation of 156 LED Highmast Lights for Rural and Urban areas as per enclosed List",
+   "agency": "SHAHJAHANPUR(DISTRICT MAGISTRAE SHAHJAHANAPUR_IDA)",
+   "recommended_amount": 37908000.0,
+   "sanctioned_amount": 37908000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "07-Aug-2024",
+   "sanctioned_date": "28-Aug-2024",
+   "letter_no": "LN/MP492/2024-2025/109"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP492/2025-2026/189846-Construction of bus-sheds or bus-stops",
+   "description": "14 Yatri Tin Bus shades List for rural and Urban Areas as per enclosed List",
+   "agency": "SHAHJAHANPUR(DISTRICT MAGISTRAE SHAHJAHANAPUR_IDA)",
+   "recommended_amount": 9240000.0,
+   "sanctioned_amount": 9240000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "07-Apr-2025",
+   "sanctioned_date": "09-May-2025",
+   "letter_no": "LN/MP492/2025-2026/111"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP492/2025-2026/194809-Lighting of public spaces",
+   "description": "Installation of 165 LED Highmast Lights for rural and urban areas as per enclosed list",
+   "agency": "SHAHJAHANPUR(DISTRICT MAGISTRAE SHAHJAHANAPUR_IDA)",
+   "recommended_amount": 40095000.0,
+   "sanctioned_amount": 40095000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "27-Apr-2025",
+   "sanctioned_date": "09-May-2025",
+   "letter_no": "LN/MP492/2025-2026/112"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP492/2026-2027/282269-Lighting of public spaces",
+   "description": "Installation of 125 LED Semi Highmast Lights for rural and urban areas as per enclosed list",
+   "agency": "SHAHJAHANPUR(DISTRICT MAGISTRAE SHAHJAHANAPUR_IDA)",
+   "recommended_amount": 31200000.0,
+   "sanctioned_amount": 31200000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "20-May-2026",
+   "sanctioned_date": "15-Jun-2026",
+   "letter_no": "LN/MP492/2026-2027/114"
+  },
+  {
+   "category": "Trust and Society",
+   "activity": "WS/MP492/2026-2027/282327-Construction of community centers and community halls",
+   "description": "for the Construction of Rooms at College Hostel, Powayan",
+   "agency": "SHAHJAHANPUR(DISTRICT MAGISTRAE SHAHJAHANAPUR_IDA)",
+   "recommended_amount": 3000000.0,
+   "sanctioned_amount": 3000000.0,
+   "stage": "Vendor Identification",
+   "recommended_date": "20-May-2026",
+   "sanctioned_date": "27-Jul-2026",
+   "letter_no": "LN/MP492/2026-2027/115"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP492/2026-2027/294027-Construction of bus-sheds or bus-stops",
+   "description": "22 Yatri Tin Bus shades List for rural and Urban Areas as per enclosed List",
+   "agency": "SHAHJAHANPUR(DISTRICT MAGISTRAE SHAHJAHANAPUR_IDA)",
+   "recommended_amount": 14533200.0,
+   "sanctioned_amount": 14533200.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "10-Jul-2026",
+   "sanctioned_date": "14-Aug-2026",
+   "letter_no": "LN/MP492/2026-2027/116"
+  },
+  {
+   "category": "Trust and Society",
+   "activity": "NA-Setting up of laboratories",
+   "description": "Setting up a functional Computer Lab",
+   "agency": "SHAHJAHANPUR(DISTRICT MAGISTRAE SHAHJAHANAPUR_IDA)",
+   "recommended_amount": 500000.0,
+   "sanctioned_amount": 500000.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "10-Sep-2026",
+   "sanctioned_date": "NA",
+   "letter_no": "LN/MP492/2026-2027/117"
+  }
+ ]
+}

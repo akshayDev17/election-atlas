@@ -1,0 +1,109 @@
+{
+  "state": "IN-PB",
+  "section": "bills",
+  "ok": 10,
+  "failed": 0,
+  "total_bytes": 29126724,
+  "entries": [
+    {
+      "url": "https://punjabassembly.gov.in/images/docs/AssemblyFiles/16/184/20260310/Documents/1-PLA-2026.pdf",
+      "path": "documents/5ed5f0c6d2-bills.pdf",
+      "sha256": "d64450a4094b9430eac6b7a6798054ef87f2b610660cfc1c562ad1c673ff633f",
+      "bytes": 815271,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:52:47.426988+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://punjabassembly.gov.in/images/docs/AssemblyFiles/16/184/20260310/Documents/1-PLA-2026%20Punjabi.pdf",
+      "path": "documents/e2b8eaec90-bills.pdf",
+      "sha256": "f40347406c697de6c66a6aa7f86ecb5c4b8189410dc351534d249266c1441eb3",
+      "bytes": 5210206,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:52:47.431507+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://punjabassembly.gov.in/images/docs/AssemblyFiles/16/184/20260310/Documents/2-PLA-2026.pdf",
+      "path": "documents/bc1aa3b742-bills.pdf",
+      "sha256": "c51e4007509fcaf9de4ea11294ba7e625bfc0d3ffeb953d9d3ac7ba463c8177b",
+      "bytes": 642119,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:52:47.437209+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://punjabassembly.gov.in/images/docs/AssemblyFiles/16/184/20260310/Documents/L6_2.pdf",
+      "path": "documents/8b2a6df219-bills.pdf",
+      "sha256": "b934b34b10fee2e8cbc809cd2715b3c497ffdc49b5894bd439f0adcde5e980ef",
+      "bytes": 1278292,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:52:47.438491+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://punjabassembly.gov.in/images/docs/AssemblyFiles/16/184/20260311/Documents/3-PLA-2026.pdf",
+      "path": "documents/1272631e99-bills.pdf",
+      "sha256": "1c4f898fb4d1f43f889b025fc1c63c8295b2f595835806084d65cb2f82540ba7",
+      "bytes": 3139582,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:52:47.439962+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://punjabassembly.gov.in/images/docs/AssemblyFiles/16/184/20260316/Documents/B.No.%204-PLA-2026%20The%20Shri%20Guru%20Teg%20Bahadur%20World%20Class%20University,%20Punjab%20Bill,%202026.pdf",
+      "path": "documents/43e1566bd7-bills.pdf",
+      "sha256": "2fdb637091a3885ad9511db6bab72e795db6fff778eedfd30fb338a5d4bbacc5",
+      "bytes": 606548,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:52:47.442784+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://punjabassembly.gov.in/images/docs/AssemblyFiles/16/184/20260413/Documents/The%20Jaagat%20Jot%20Sri%20Guru%20Granth%20Sahib%20Satkar%20(Amendment)%20Bill,%202026%20(2)%20(1).pdf",
+      "path": "documents/68d0bdfaa1-bills.pdf",
+      "sha256": "84270300f41cbd638b30defc53811be77eb47ae55a319e5365c179f7fcf84786",
+      "bytes": 465628,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:52:47.443885+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://punjabassembly.gov.in/images/docs/AssemblyFiles/14/153/20161219/Documents/intro%2054.pdf",
+      "path": "documents/70c4094359-bills.pdf",
+      "sha256": "6662c6dec1e4585df42fd9a35a1dbb961e86658fb12a1439d49e863f98ce377d",
+      "bytes": 15967262,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:52:47.444882+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://punjabassembly.gov.in/images/docs/AssemblyFiles/16/184/20260501/Documents/Punjab%20Prisons%20and%20Correctional%20Services%20Bill,%202026.pdf",
+      "path": "documents/317b027b18-bills.pdf",
+      "sha256": "6e3234caa7023fd5db0051bbb3e10b1b4ddf865df9a2bcd46d92395ccc056ec7",
+      "bytes": 631822,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:52:47.454587+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://punjabassembly.gov.in/images/docs/AssemblyFiles/16/184/20260804/Documents/The%20Punjab%20Common%20Infrastructure%20(Regulation%20and%20Maintenance)%20Amendment%20Bill,%202026.pdf",
+      "path": "documents/28fd1bc849-bills.pdf",
+      "sha256": "b4929605f1d3a0966b0cce84bd567cb4a85e925bd770fcdb253974783daefc39",
+      "bytes": 369994,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:52:47.455327+00:00",
+      "ok": true,
+      "reason": ""
+    }
+  ]
+}

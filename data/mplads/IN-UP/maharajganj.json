@@ -1,0 +1,658 @@
+{
+ "const_id": 479,
+ "constituency": "MAHARAJGANJ_UP",
+ "constituency_key": "maharajganj",
+ "mp_id": 3019207,
+ "mp_name": "Pankaj Chowdhary",
+ "tiles": {
+  "Allocated Limit for Hon'ble MPs": [
+   "14,70,00,000.00",
+   "14.70 Crore"
+  ],
+  "Expenditure on Completed and On-going Works as on Date": [
+   "9,56,76,373.00",
+   "9.57 Crore"
+  ],
+  "Works Recommended": [
+   "49",
+   "9,75,60,284.00",
+   "9.76 Crore"
+  ],
+  "Works Completed": [
+   "42",
+   "9,04,22,552.00",
+   "9.04 Crore"
+  ],
+  "Works Sanctioned": [
+   "49",
+   "9,75,60,284.00",
+   "9.76 Crore"
+  ],
+  "Amount consented for Calamity": [
+   "0",
+   "0.00",
+   "0.00 Crore"
+  ],
+  "Current Tenure": [
+   {
+    "ID": 7,
+    "CAPTION": "18th Lok Sabha"
+   }
+  ]
+ },
+ "charts": {
+  "Development Fund": {
+   "title": "Development Fund",
+   "Allocated Limit": 97560284.0,
+   "Available Limit": 49439716.0
+  },
+  "Location wise Development Work Recommendation": {
+   "title": "Location wise Development Work Recommendation",
+   "Rural": 87426628.0,
+   "Urban": 10133656.0
+  },
+  "Development Work Recommendation Status": {
+   "title": "Development Work Recommendation Status",
+   "Unsanctioned": 0.0,
+   "Completed": 41543552.0,
+   "On Going": 56016732.0
+  },
+  "Work Category wise Development Work Recommendation": {
+   "title": "Work Category wise Development Work Recommendation",
+   "Normal and Others": 97560284.0,
+   "Trust or Society | Bar Association": 0.0,
+   "Bar Association (Exclusively for Purchase of Books for Library)": 0.0,
+   "Repair and Renovation": 0.0
+  }
+ },
+ "works": [
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2024-2025/154613-Improvement of electricity distribution infrastructure",
+   "description": "Village Madhubani me Uttima Devi Ramnayan Das Intermideat College tak Taar, Poll, and 25 KVA Transformer",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 337732.0,
+   "sanctioned_amount": 337732.0,
+   "stage": "Vendor Identification",
+   "recommended_date": "26-Nov-2024",
+   "sanctioned_date": "07-Dec-2024",
+   "letter_no": "LN/MP799/2024-2025/12"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2024-2025/154632-Construction of culverts and bridges",
+   "description": "Village Gerahva me Virendra Gupta ke Khet ke pass 1X4 meter span ki Rcc Puliya ka nirman",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 2319998.0,
+   "sanctioned_amount": 2319998.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "26-Nov-2024",
+   "sanctioned_date": "11-Dec-2024",
+   "letter_no": "LN/MP799/2024-2025/13"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2024-2025/154633-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Village Chakdah Tola Belbhar me sohrat ke ghar se roshan ke ghar tak 200 meter CC Road",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 2306546.0,
+   "sanctioned_amount": 2306546.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "26-Nov-2024",
+   "sanctioned_date": "11-Dec-2024",
+   "letter_no": "LN/MP799/2024-2025/13"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2024-2025/154634-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Village Karmahwa devpur kashiram mahdewa marg se karmahwa gaow tak 200 meter CC Road ",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 2186304.0,
+   "sanctioned_amount": 2186304.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "26-Nov-2024",
+   "sanctioned_date": "11-Dec-2024",
+   "letter_no": "LN/MP799/2024-2025/13"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2024-2025/154635-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Village madhubani kurmi tola subhas chaudhary ke ghar ke aage tak 200 meter CC Road",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 2453928.0,
+   "sanctioned_amount": 2453928.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "26-Nov-2024",
+   "sanctioned_date": "11-Dec-2024",
+   "letter_no": "LN/MP799/2024-2025/13"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2024-2025/154636-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Village karmahwa Ravindra yadav ke ghar se gulab chaurasiya ke ghar tak 140 meter CC Road",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 1770236.0,
+   "sanctioned_amount": 1770236.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "26-Nov-2024",
+   "sanctioned_date": "11-Dec-2024",
+   "letter_no": "LN/MP799/2024-2025/13"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2024-2025/154637-Construction of additional rooms and halls in the existing public and community building",
+   "description": "Village Bodna Tola Naudihawa me one piece Baarat ghar nirman",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 2338000.0,
+   "sanctioned_amount": 2338000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "26-Nov-2024",
+   "sanctioned_date": "11-Dec-2024",
+   "letter_no": "LN/MP799/2024-2025/13"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2024-2025/154638-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "VIllage Belsad narad chauhan ke ghar se murgi form panchayat bhwan tak 200 meter CC Road",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 2627388.0,
+   "sanctioned_amount": 2627388.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "26-Nov-2024",
+   "sanctioned_date": "11-Dec-2024",
+   "letter_no": "LN/MP799/2024-2025/13"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2024-2025/154639-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "VIllage Sonchiraia hanuman pandey ke ghar sr rishi muni ray ke ghar tak 200 meter CC Road",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 2073024.0,
+   "sanctioned_amount": 2073024.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "26-Nov-2024",
+   "sanctioned_date": "11-Dec-2024",
+   "letter_no": "LN/MP799/2024-2025/13"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2024-2025/154640-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Village Pipara bari me pramod ke ghar se hira lal ke ghar tak 200 meter CC Road",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 2189844.0,
+   "sanctioned_amount": 2189844.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "26-Nov-2024",
+   "sanctioned_date": "11-Dec-2024",
+   "letter_no": "LN/MP799/2024-2025/13"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2024-2025/154641-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Village Mahuawa me jharan ke ghar se ram muni ke ghar tak CC Road 210 meter",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 2278934.0,
+   "sanctioned_amount": 2278934.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "26-Nov-2024",
+   "sanctioned_date": "11-Dec-2024",
+   "letter_no": "LN/MP799/2024-2025/13"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2024-2025/154642-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "VIllage khoriya me awadh ram ke ghar se dinesh ke ghar tak 200 meter CC Road ",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 2122112.0,
+   "sanctioned_amount": 2122112.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "26-Nov-2024",
+   "sanctioned_date": "11-Dec-2024",
+   "letter_no": "LN/MP799/2024-2025/13"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2024-2025/154643-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Village Mishrauliya me PWD Road se motichand gaow tak 200 meter CC Road",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 2307018.0,
+   "sanctioned_amount": 2307018.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "26-Nov-2024",
+   "sanctioned_date": "11-Dec-2024",
+   "letter_no": "LN/MP799/2024-2025/13"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2024-2025/154644-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Village Hanuman Garhiya me samay mata sthan se shamshan ghar tak 200 meter CC Road",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 2557060.0,
+   "sanctioned_amount": 2557060.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "26-Nov-2024",
+   "sanctioned_date": "11-Dec-2024",
+   "letter_no": "LN/MP799/2024-2025/13"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2024-2025/154645-Construction of additional rooms and halls in the existing public and community building",
+   "description": "Village Dhamur me one piece Baarat ghar nirman kary",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 2335000.0,
+   "sanctioned_amount": 2335000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "26-Nov-2024",
+   "sanctioned_date": "11-Dec-2024",
+   "letter_no": "LN/MP799/2024-2025/13"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2024-2025/154646-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Village Jungle Gulahariya me sewak maury ke ghar se rajeshwar chauhan ke ghar tak 200 meter CC Road",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 2605086.0,
+   "sanctioned_amount": 2605086.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "26-Nov-2024",
+   "sanctioned_date": "11-Dec-2024",
+   "letter_no": "LN/MP799/2024-2025/13"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2024-2025/154647-Construction of additional rooms and halls in the existing public and community building",
+   "description": "Village Kishunpur me one piece baarat ghar ke nirman",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 2340000.0,
+   "sanctioned_amount": 2340000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "26-Nov-2024",
+   "sanctioned_date": "11-Dec-2024",
+   "letter_no": "LN/MP799/2024-2025/13"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2024-2025/154648-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Village Mahuawa adda me gas agency ke bagal se bhartoliya tole tak 250 meter CC Road ",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 2926872.0,
+   "sanctioned_amount": 2926872.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "26-Nov-2024",
+   "sanctioned_date": "11-Dec-2024",
+   "letter_no": "LN/MP799/2024-2025/13"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2024-2025/154649-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Village Parsauni avrar ke khet se green mount school tak 200 meter CC Road",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 2714708.0,
+   "sanctioned_amount": 2714708.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "26-Nov-2024",
+   "sanctioned_date": "11-Dec-2024",
+   "letter_no": "LN/MP799/2024-2025/13"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2024-2025/154650-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Village Vishwanath pur padwaniya me shiv mandir se vinod dharikar ke ghar tak 90 meter CC Road",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 921226.0,
+   "sanctioned_amount": 921226.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "26-Nov-2024",
+   "sanctioned_date": "11-Dec-2024",
+   "letter_no": "LN/MP799/2024-2025/13"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2024-2025/154651-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "NPP Nautanwa ward No 13 mahendra nagar sanjay ke ghar se harishankar jaiswal ke ghar tak 200 meter CC Road",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 2132142.0,
+   "sanctioned_amount": 2132142.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "26-Nov-2024",
+   "sanctioned_date": "11-Dec-2024",
+   "letter_no": "LN/MP799/2024-2025/13"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2024-2025/174103-Construction of rooms and halls in school and colleges",
+   "description": "NPP NAUTANWA WARN NO 21 RAJENDRA NAGAR ME USHA KE GHAR SE RAMJANAM BHARATI KE GHAR TAK CC ROAD",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 1076514.0,
+   "sanctioned_amount": 1076514.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "07-Feb-2025",
+   "sanctioned_date": "26-Mar-2025",
+   "letter_no": "LN/MP799/2024-2025/14"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2024-2025/174104-Construction of culverts and bridges",
+   "description": "VILLAGE SEKHUI KE PASCHIM MUKHY MARG PAR 3 METER BRIDGE",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 1974612.0,
+   "sanctioned_amount": 1974612.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "07-Feb-2025",
+   "sanctioned_date": "26-Mar-2025",
+   "letter_no": "LN/MP799/2024-2025/14"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2025-2026/244898-Construction of rooms and halls in school and colleges",
+   "description": "Mile Stone Academy Sabaya me Bhawan Nirman",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 1300000.0,
+   "sanctioned_amount": 1300000.0,
+   "stage": "Vendor Identification",
+   "recommended_date": "18-Nov-2025",
+   "sanctioned_date": "30-Dec-2025",
+   "letter_no": "LN/MP799/2025-2026/15"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2026-2027/244899-Construction of rooms and halls in school and colleges",
+   "description": "Sarswati Shishu Mandir Siswa Bazar me Bhawan Nirman",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 500000.0,
+   "sanctioned_amount": 500000.0,
+   "stage": "Vendor Identification",
+   "recommended_date": "18-Nov-2025",
+   "sanctioned_date": "13-Apr-2026",
+   "letter_no": "LN/MP799/2025-2026/15"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2026-2027/244900-Construction of rooms and halls in school and colleges",
+   "description": "Shishu Sadan Nichlaul me Bhawan Nirman",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 1000000.0,
+   "sanctioned_amount": 1000000.0,
+   "stage": "Vendor Identification",
+   "recommended_date": "18-Nov-2025",
+   "sanctioned_date": "13-Apr-2026",
+   "letter_no": "LN/MP799/2025-2026/15"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2026-2027/244901-Construction of rooms and halls in school and colleges",
+   "description": "Sarswati Vidhya Mandir Inter College Mathura Nagar Anand Nagar me Bhawan Nirman",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 2000000.0,
+   "sanctioned_amount": 2000000.0,
+   "stage": "Vendor Identification",
+   "recommended_date": "18-Nov-2025",
+   "sanctioned_date": "09-Apr-2026",
+   "letter_no": "LN/MP799/2025-2026/15"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2026-2027/244903-Construction of rooms and halls in school and colleges",
+   "description": "Sarswati Shishu Vidhya Mandir Partawal Bazar me Bhawan Nirman ",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 1000000.0,
+   "sanctioned_amount": 1000000.0,
+   "stage": "Vendor Identification",
+   "recommended_date": "18-Nov-2025",
+   "sanctioned_date": "13-Apr-2026",
+   "letter_no": "LN/MP799/2025-2026/15"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2025-2026/244904-Construction of rooms and halls in school and colleges",
+   "description": "Swami Vivekanand Inter College Thuthibari me Bhawan Nirman ",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 1000000.0,
+   "sanctioned_amount": 1000000.0,
+   "stage": "Vendor Identification",
+   "recommended_date": "18-Nov-2025",
+   "sanctioned_date": "30-Dec-2025",
+   "letter_no": "LN/MP799/2025-2026/15"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2025-2026/247313-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Gram Kamasin Khurd Main Road se Rajesh Yadav ke Ghar tak 200 meter CC Road",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 2163000.0,
+   "sanctioned_amount": 2163000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "18-Nov-2025",
+   "sanctioned_date": "20-Jan-2026",
+   "letter_no": "LN/MP799/2025-2026/15"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2025-2026/247314-Construction of culverts and bridges",
+   "description": "BMCT Road se Amahwa ke Bich 3 meter RCC Puliya",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 2000000.0,
+   "sanctioned_amount": 2000000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "18-Nov-2025",
+   "sanctioned_date": "20-Jan-2026",
+   "letter_no": "LN/MP799/2025-2026/15"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2025-2026/247317-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Gram Jungal Jaralaha kanchanpur Tole par Jharela ke Ghar tak 200 meter CC Road",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 1930000.0,
+   "sanctioned_amount": 1930000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "18-Nov-2025",
+   "sanctioned_date": "01-Jan-2026",
+   "letter_no": "LN/MP799/2025-2026/15"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2025-2026/247318-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Gram Jungal Gulahariya me Rajeshwar Chauhan ke Ghar main Road tak 200 meter CC Road",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 2454000.0,
+   "sanctioned_amount": 2454000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "18-Nov-2025",
+   "sanctioned_date": "01-Jan-2026",
+   "letter_no": "LN/MP799/2025-2026/15"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2025-2026/247320-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Gram pokharbhinda tola Nagesarpur me Omprakash ke ghar tak 200 meter CC Rorad",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 2482000.0,
+   "sanctioned_amount": 2482000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "18-Nov-2025",
+   "sanctioned_date": "20-Jan-2026",
+   "letter_no": "LN/MP799/2025-2026/15"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2025-2026/247326-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Nagar Palika Nautanwa ward no 13 me mistri ke ghar se subhash prajapati ke ghar se hote huye guddu malik ke ghar tak CC Road ",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 2425000.0,
+   "sanctioned_amount": 2425000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "18-Nov-2025",
+   "sanctioned_date": "20-Jan-2026",
+   "letter_no": "LN/MP799/2025-2026/15"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2025-2026/247328-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Gram karmahva tola satorpur PWD road se dinesh ke ghar tak 200 meter CC ROad",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 2481000.0,
+   "sanctioned_amount": 2481000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "18-Nov-2025",
+   "sanctioned_date": "20-Jan-2026",
+   "letter_no": "LN/MP799/2025-2026/15"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2025-2026/247331-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Gram Shishghrah me Primary Vidhyalay se Rajaram Prajapati ke ghar tak 200 meter CC ROad",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 2426000.0,
+   "sanctioned_amount": 2426000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "18-Nov-2025",
+   "sanctioned_date": "20-Jan-2026",
+   "letter_no": "LN/MP799/2025-2026/15"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2025-2026/247461-Construction of flood control embankments/ protection walls along riverbanks, hilltops, roadsides",
+   "description": "Gram Ramnagar me Parsohiya pokhar ka 60 meter Retaining wall",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 1540000.0,
+   "sanctioned_amount": 1540000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "18-Nov-2025",
+   "sanctioned_date": "20-Jan-2026",
+   "letter_no": "LN/MP799/2025-2026/15"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2025-2026/247464-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Gram Madhwapur me sonai ke ghar se dayadeen sahani ke ghar tak 200 meter CC Road",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 2481000.0,
+   "sanctioned_amount": 2481000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "18-Nov-2025",
+   "sanctioned_date": "20-Jan-2026",
+   "letter_no": "LN/MP799/2025-2026/15"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2025-2026/247465-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Gram kushwa pokhare ke main road se aliram nai and indresen ke ghar tak 200 meter cc road",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 2454000.0,
+   "sanctioned_amount": 2454000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "18-Nov-2025",
+   "sanctioned_date": "20-Jan-2026",
+   "letter_no": "LN/MP799/2025-2026/15"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2025-2026/247467-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Gram Parsauni me sarfuddin ke ghar se nahar tak 125 meter CC Road ",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 1555000.0,
+   "sanctioned_amount": 1555000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "18-Nov-2025",
+   "sanctioned_date": "20-Jan-2026",
+   "letter_no": "LN/MP799/2025-2026/15"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2025-2026/247468-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Gram Parsauni me vikram ke khet se tajimul ke ghar tak 90 meter CC Road",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 980000.0,
+   "sanctioned_amount": 980000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "18-Nov-2025",
+   "sanctioned_date": "20-Jan-2026",
+   "letter_no": "LN/MP799/2025-2026/15"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2025-2026/247470-Construction of culverts and bridges",
+   "description": "Gram Sohgaura me samay Tola ke uttar taraf 3 meter puliya",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 2089000.0,
+   "sanctioned_amount": 2089000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "18-Nov-2025",
+   "sanctioned_date": "20-Jan-2026",
+   "letter_no": "LN/MP799/2025-2026/15"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2025-2026/247472-Construction of culverts and bridges",
+   "description": "Gram Pipra munderi me main road se paschim PP pratham ke raste par 2 meter puliya",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 1171000.0,
+   "sanctioned_amount": 1171000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "18-Nov-2025",
+   "sanctioned_date": "20-Jan-2026",
+   "letter_no": "LN/MP799/2025-2026/15"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2025-2026/247473-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Gram Barwa Fahim me kamlesh yadav ke ghar se chhotelal chauhan ke ghar tak 150 meter CC Road",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 1864000.0,
+   "sanctioned_amount": 1864000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "18-Nov-2025",
+   "sanctioned_date": "20-Jan-2026",
+   "letter_no": "LN/MP799/2025-2026/15"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2025-2026/247475-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Gram Mahuawa Adda me Baburam ke ghar se harijan basti tak 200 meter cc road",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 2484000.0,
+   "sanctioned_amount": 2484000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "18-Nov-2025",
+   "sanctioned_date": "01-Jan-2026",
+   "letter_no": "LN/MP799/2025-2026/15"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2025-2026/247476-Construction of culverts and bridges",
+   "description": "Gram Patrengawan Tola Arnahawa me Bhim rao Ambedkar park ke Dakshin marg par 3 meter Puliya",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 1942000.0,
+   "sanctioned_amount": 1942000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "18-Nov-2025",
+   "sanctioned_date": "20-Jan-2026",
+   "letter_no": "LN/MP799/2025-2026/15"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2025-2026/247485-Construction of culverts and bridges",
+   "description": "Gram Pipraich urf Pachrukhiya me Shambhu ke khet ke pass 4 meter puliya",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 2453000.0,
+   "sanctioned_amount": 2453000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "18-Nov-2025",
+   "sanctioned_date": "20-Jan-2026",
+   "letter_no": "LN/MP799/2025-2026/15"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP799/2025-2026/256578-Construction of culverts and bridges",
+   "description": "Village Bishunpur me Rajdev ke khet ke pass 1x4 meter RCC Puliya",
+   "agency": "Mahrajganj(DISTRICT MAGISTRAE MAHARAJGANJ_IDA)",
+   "recommended_amount": 2492000.0,
+   "sanctioned_amount": 2492000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "01-Jan-2026",
+   "sanctioned_date": "01-Jan-2026",
+   "letter_no": "LN/MP799/2025-2026/16"
+  }
+ ]
+}

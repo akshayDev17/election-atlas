@@ -1,0 +1,109 @@
+{
+  "state": "IN-CG",
+  "section": "bills",
+  "ok": 10,
+  "failed": 0,
+  "total_bytes": 29233948,
+  "entries": [
+    {
+      "url": "postback:gvReport$ctl02$lnkOpenPdf",
+      "path": "documents/670263bccc-bills.pdf",
+      "sha256": "2eaa2f5d56a80ff9d45171de3248d698dd6ac9c7cf0fa72be37c6c80b15d9341",
+      "bytes": 9890314,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T08:35:35.286714+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "postback:gvReport$ctl16$lnkOpenPdf",
+      "path": "documents/669aeb8b15-bills.pdf",
+      "sha256": "54b6824c61b0d495157f3b5f1d0570692b81a1d7eca5716d5f606ff98328386a",
+      "bytes": 1962844,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T08:35:35.306019+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/chhattisgarh/2026/Bill15of2026CG.pdf",
+      "path": "documents/c58b6e66ad-bills.pdf",
+      "sha256": "8af6dd66322dd8214d9c8b0f41537d38fd8482a0c0a36abfb307edd993a5a124",
+      "bytes": 3822839,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T08:35:35.309204+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "postback:gvReport$ctl03$lnkOpenPdf",
+      "path": "documents/3bd241acd8-bills.pdf",
+      "sha256": "3938edeb8f70a9f87e8ca43b433e46b15f403ea917f171b0a5f2571a34f3df7a",
+      "bytes": 4804470,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T08:35:35.318569+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "postback:gvReport$ctl15$lnkOpenPdf",
+      "path": "documents/95567ba4da-bills.pdf",
+      "sha256": "3f3878b55240112a5ee962711c6e1844cfc978d0b3ccc14ddf1e0543023702dd",
+      "bytes": 1294339,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T08:35:35.324356+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/chhattisgarh/2026/Bill14of2026CG.pdf",
+      "path": "documents/b8685b9b39-bills.pdf",
+      "sha256": "21e6db847e3012d4e98e7010dc67c2028322cb9cb1a1e881e2ac4b4a4367713b",
+      "bytes": 1886641,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T08:35:35.326609+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "postback:gvReport$ctl04$lnkOpenPdf",
+      "path": "documents/34d44fe87a-bills.pdf",
+      "sha256": "be41275f4c3a2f0e6a0a5e3d5f0838b0fd91c7ec81d37e66caf9801d06dda277",
+      "bytes": 1218217,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T08:35:35.329109+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "postback:gvReport$ctl14$lnkOpenPdf",
+      "path": "documents/ba3e0854fa-bills.pdf",
+      "sha256": "b88de145ea4a795e5da63e7fad91bb6596e25f97874dd47879609a314398fc30",
+      "bytes": 2224272,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T08:35:35.331159+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/chhattisgarh/2026/Bill13of2026CG.pdf",
+      "path": "documents/71d2e913ff-bills.pdf",
+      "sha256": "c8b290c76162694e616f866a9ed0c1337c0e5a1e4febbadd978dba4d577f5eaa",
+      "bytes": 488877,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T08:35:35.333197+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "postback:gvReport$ctl05$lnkOpenPdf",
+      "path": "documents/32d48c6b45-bills.pdf",
+      "sha256": "80fd73c5508ee5c76bcc549184115242f8616115300464d100e7190df3d00f34",
+      "bytes": 1641135,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T08:35:35.334260+00:00",
+      "ok": true,
+      "reason": ""
+    }
+  ]
+}

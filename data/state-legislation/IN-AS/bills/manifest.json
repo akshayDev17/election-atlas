@@ -1,0 +1,109 @@
+{
+  "state": "IN-AS",
+  "section": "bills",
+  "ok": 10,
+  "failed": 0,
+  "total_bytes": 83627582,
+  "entries": [
+    {
+      "url": "https://assambidhansabha.org/assets/uploads/bills/en/En_IWOLG1779694425.pdf",
+      "path": "documents/7290d30ee1-bills.pdf",
+      "sha256": "6cc75c8b8948b4534dbe7328d19d20cd9bffd112a9dc0cc25ca4940a2d6ac71c",
+      "bytes": 13406442,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:49:09.461793+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://assambidhansabha.org/assets/uploads/bills/en/En_XBBPM1779778262.pdf",
+      "path": "documents/1849195100-bills.pdf",
+      "sha256": "56c2ea4abb5274e980fda8efbc6f173551575fa836f38fa1e5074c79451de3c2",
+      "bytes": 141889,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:49:09.480284+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://assambidhansabha.org/assets/uploads/bills/en/En_EXNQD1783332494.pdf",
+      "path": "documents/6e80e9a07a-bills.pdf",
+      "sha256": "2bb3ef7ccc2966f532ba999b36bd45e67d7eec4085fbec44ca228fe24bed08b9",
+      "bytes": 660632,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:49:09.482418+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://assambidhansabha.org/assets/uploads/bills/en/En_NJWWR1787736860.pdf",
+      "path": "documents/088d190a8d-bills.pdf",
+      "sha256": "df69a5fd5068d5af09350c8fdf6cdf584245880d08a25a0443a31165f48684c8",
+      "bytes": 10408110,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:49:09.483612+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://assambidhansabha.org/assets/uploads/bills/en/En_LQQFL1783332572.pdf",
+      "path": "documents/81b9fc2157-bills.pdf",
+      "sha256": "53c056bd3b14c8c08cead91dac9754020336200b53cbe2b4cd75315b8044fee9",
+      "bytes": 2398557,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:49:09.492377+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://assambidhansabha.org/assets/uploads/bills/en/En_IEKIR1787736907.pdf",
+      "path": "documents/c2e20d155f-bills.pdf",
+      "sha256": "e5d0cc5f3217a9d4a270876c4598349151f383c5ae84b1e7c3d5739e861e8d99",
+      "bytes": 16428732,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:49:09.495270+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://assambidhansabha.org/assets/uploads/bills/en/En_XNJIJ1783593627.pdf",
+      "path": "documents/cfe8b53834-bills.pdf",
+      "sha256": "72cb38d396f6c69e6f85605ed1521240ca0bec5f4e651dcf80531ed7881c275e",
+      "bytes": 33102381,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:49:09.510747+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://assambidhansabha.org/assets/uploads/bills/en/En_BZVLR1787736933.pdf",
+      "path": "documents/9b59576f4b-bills.pdf",
+      "sha256": "07fd3807dbd59b854bc487bb9d16a903828946c9b0c9b21fc416bafadaaabcdd",
+      "bytes": 3196378,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:49:09.535030+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://assambidhansabha.org/assets/uploads/bills/en/En_MUMRB1783593658.pdf",
+      "path": "documents/6de1be2fa4-bills.pdf",
+      "sha256": "76977d6c8d5446443e411384002859d69c01c7261b9fe5e929fa76caac04f9ce",
+      "bytes": 2543890,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:49:09.539609+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://assambidhansabha.org/assets/uploads/bills/en/En_YWZHG1787736957.pdf",
+      "path": "documents/15c20255a3-bills.pdf",
+      "sha256": "b6b20d346638c84f6c1cf60858d81c0313ce3cd905a6153c74865d74029a4ba1",
+      "bytes": 1340571,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:49:09.544901+00:00",
+      "ok": true,
+      "reason": ""
+    }
+  ]
+}

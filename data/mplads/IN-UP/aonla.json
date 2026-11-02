@@ -1,0 +1,502 @@
+{
+ "const_id": 470,
+ "constituency": "AONLA",
+ "constituency_key": "aonla",
+ "mp_id": 3042489,
+ "mp_name": "NEERAJ MAURYA",
+ "tiles": {
+  "Allocated Limit for Hon'ble MPs": [
+   "14,70,00,000.00",
+   "14.70 Crore"
+  ],
+  "Expenditure on Completed and On-going Works as on Date": [
+   "9,74,88,644.00",
+   "9.75 Crore"
+  ],
+  "Works Recommended": [
+   "36",
+   "14,69,10,629.00",
+   "14.69 Crore"
+  ],
+  "Works Completed": [
+   "17",
+   "9,65,58,369.00",
+   "9.66 Crore"
+  ],
+  "Works Sanctioned": [
+   "19",
+   "9,79,33,229.00",
+   "9.79 Crore"
+  ],
+  "Amount consented for Calamity": [
+   "0",
+   "0.00",
+   "0.00 Crore"
+  ],
+  "Current Tenure": [
+   {
+    "ID": 7,
+    "CAPTION": "18th Lok Sabha"
+   }
+  ]
+ },
+ "charts": {
+  "Development Fund": {
+   "title": "Development Fund",
+   "Allocated Limit": 146910629.0,
+   "Available Limit": 89371.0
+  },
+  "Location wise Development Work Recommendation": {
+   "title": "Location wise Development Work Recommendation",
+   "Rural": 69573029.0,
+   "Urban": 77337600.0
+  },
+  "Development Work Recommendation Status": {
+   "title": "Development Work Recommendation Status",
+   "Unsanctioned": 48977400.0,
+   "Completed": 96558369.0,
+   "On Going": 1374860.0
+  },
+  "Work Category wise Development Work Recommendation": {
+   "title": "Work Category wise Development Work Recommendation",
+   "Normal and Others": 146910629.0,
+   "Trust or Society | Bar Association": 0.0,
+   "Bar Association (Exclusively for Purchase of Books for Library)": 0.0,
+   "Repair and Renovation": 0.0
+  }
+ },
+ "works": [
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18201/2024-2025/141045-Street lights",
+   "description": "supply and installation of led semi high mast light at 274 different places in district budaun",
+   "agency": "BUDAUN(DISTRICT MAGISTRATE BUDAUN_IDA)",
+   "recommended_amount": 46470400.0,
+   "sanctioned_amount": 46470400.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "15-Sep-2024",
+   "sanctioned_date": "23-Nov-2024",
+   "letter_no": "LN/MP18201/2024-2025/1"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18201/2025-2026/166240-Lighting of public spaces",
+   "description": "supply  of led semi high mast light at different places in budaun",
+   "agency": "BUDAUN(DISTRICT MAGISTRATE BUDAUN_IDA)",
+   "recommended_amount": 2374400.0,
+   "sanctioned_amount": 2374400.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "17-Jan-2025",
+   "sanctioned_date": "22-Apr-2025",
+   "letter_no": "LN/MP18201/2024-2025/2"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18201/2025-2026/194865-Lighting of public spaces",
+   "description": "supply and installation of led semi high mast light as per list enclosed",
+   "agency": "BUDAUN(DISTRICT MAGISTRATE BUDAUN_IDA)",
+   "recommended_amount": 21030400.0,
+   "sanctioned_amount": 21030400.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "28-Apr-2025",
+   "sanctioned_date": "02-Jun-2025",
+   "letter_no": "LN/MP18201/2025-2026/3"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18201/2025-2026/210436-Lighting of public spaces",
+   "description": "VIKAS KHAND KYARA KE 8 VILLAGE ME LED SEMI HIGH MAST LIGHT INSTALLATION(TOTAL 118)",
+   "agency": "BAREILLY(DISTRICT MAGISTRAE BAREILLY_IDA)",
+   "recommended_amount": 1569599.0,
+   "sanctioned_amount": 1569599.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "19-Jun-2025",
+   "sanctioned_date": "30-Jun-2025",
+   "letter_no": "LN/MP18201/2025-2026/5"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18201/2025-2026/210437-Lighting of public spaces",
+   "description": "VIKAS KHAND BITHRI KE 11 VILLAGE ME LED SEMI HIGH MAST LIGHT INSTALLATION(TOTAL 118)",
+   "agency": "BAREILLY(DISTRICT MAGISTRAE BAREILLY_IDA)",
+   "recommended_amount": 2158197.0,
+   "sanctioned_amount": 2158197.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "19-Jun-2025",
+   "sanctioned_date": "30-Jun-2025",
+   "letter_no": "LN/MP18201/2025-2026/5"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18201/2025-2026/210438-Lighting of public spaces",
+   "description": "VIKAS KHAND BITHRI KE 11 VILLAGE ME LED SEMI HIGH MAST LIGHT INSTALLATION(TOTAL 118)",
+   "agency": "BAREILLY(DISTRICT MAGISTRAE BAREILLY_IDA)",
+   "recommended_amount": 2158197.0,
+   "sanctioned_amount": 2158197.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "19-Jun-2025",
+   "sanctioned_date": "30-Jun-2025",
+   "letter_no": "LN/MP18201/2025-2026/5"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18201/2025-2026/210439-Lighting of public spaces",
+   "description": "VIKAS KHAND ALAMPUR KE 9 VILLAGE ME LED SEMI HIGH MAST LIGHT INSTALLATION(TOTAL 118)",
+   "agency": "BAREILLY(DISTRICT MAGISTRAE BAREILLY_IDA)",
+   "recommended_amount": 1765798.0,
+   "sanctioned_amount": 1765798.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "19-Jun-2025",
+   "sanctioned_date": "30-Jun-2025",
+   "letter_no": "LN/MP18201/2025-2026/5"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18201/2025-2026/210440-Lighting of public spaces",
+   "description": "VIKAS KHAND MAJHGAWAN KE 10 VILLAGE ME LED SEMI HIGH MAST LIGHT INSTALLATION(TOTAL 118)",
+   "agency": "BAREILLY(DISTRICT MAGISTRAE BAREILLY_IDA)",
+   "recommended_amount": 1961997.0,
+   "sanctioned_amount": 1961997.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "19-Jun-2025",
+   "sanctioned_date": "30-Jun-2025",
+   "letter_no": "LN/MP18201/2025-2026/5"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18201/2025-2026/210441-Lighting of public spaces",
+   "description": "VIKAS KHAND MAJHGAWAN KE 10 VILLAGE ME LED SEMI HIGH MAST LIGHT INSTALLATION(TOTAL 118)",
+   "agency": "BAREILLY(DISTRICT MAGISTRAE BAREILLY_IDA)",
+   "recommended_amount": 1961998.0,
+   "sanctioned_amount": 1961998.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "19-Jun-2025",
+   "sanctioned_date": "30-Jun-2025",
+   "letter_no": "LN/MP18201/2025-2026/5"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18201/2025-2026/210442-Lighting of public spaces",
+   "description": "VIKAS KHAND RAMNAGAR KE 13 VILLAGE ME LED SEMI HIGH MAST LIGHT INSTALLATION(TOTAL 118)",
+   "agency": "BAREILLY(DISTRICT MAGISTRAE BAREILLY_IDA)",
+   "recommended_amount": 2550597.0,
+   "sanctioned_amount": 2550597.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "19-Jun-2025",
+   "sanctioned_date": "30-Jun-2025",
+   "letter_no": "LN/MP18201/2025-2026/5"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18201/2025-2026/210443-Lighting of public spaces",
+   "description": "VIKAS KHAND RAMNAGAR KE 12 VILLAGE ME LED SEMI HIGH MAST LIGHT INSTALLATION(TOTAL 118)",
+   "agency": "BAREILLY(DISTRICT MAGISTRAE BAREILLY_IDA)",
+   "recommended_amount": 2354397.0,
+   "sanctioned_amount": 2354397.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "19-Jun-2025",
+   "sanctioned_date": "30-Jun-2025",
+   "letter_no": "LN/MP18201/2025-2026/5"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18201/2025-2026/210444-Lighting of public spaces",
+   "description": "VIKAS KHAND FARIDPUR KE 12 VILLAGE ME LED SEMI HIGH MAST LIGHT INSTALLATION(TOTAL 118)",
+   "agency": "BAREILLY(DISTRICT MAGISTRAE BAREILLY_IDA)",
+   "recommended_amount": 2354397.0,
+   "sanctioned_amount": 2354397.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "19-Jun-2025",
+   "sanctioned_date": "30-Jun-2025",
+   "letter_no": "LN/MP18201/2025-2026/5"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18201/2025-2026/210445-Lighting of public spaces",
+   "description": "VIKAS KHAND FARIDPUR KE 12 VILLAGE ME LED SEMI HIGH MAST LIGHT INSTALLATION(TOTAL 118)",
+   "agency": "BAREILLY(DISTRICT MAGISTRAE BAREILLY_IDA)",
+   "recommended_amount": 2354397.0,
+   "sanctioned_amount": 2354397.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "19-Jun-2025",
+   "sanctioned_date": "30-Jun-2025",
+   "letter_no": "LN/MP18201/2025-2026/5"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18201/2025-2026/210446-Lighting of public spaces",
+   "description": "VIKAS KHAND BHUTA KE 10 VILLAGE ME LED SEMI HIGH MAST LIGHT INSTALLATION(TOTAL 118)",
+   "agency": "BAREILLY(DISTRICT MAGISTRAE BAREILLY_IDA)",
+   "recommended_amount": 1961997.0,
+   "sanctioned_amount": 1961997.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "19-Jun-2025",
+   "sanctioned_date": "30-Jun-2025",
+   "letter_no": "LN/MP18201/2025-2026/5"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18201/2026-2027/271033-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "gram badrai kuyian mei shree mishan pal singh ke ghar ke pass va shree rahul kumar singh ke ghar ke pass interlocking ka karya 54 meter amount 424150",
+   "agency": "BAREILLY(DISTRICT MAGISTRAE BAREILLY_IDA)",
+   "recommended_amount": 424150.0,
+   "sanctioned_amount": 424150.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "25-Feb-2026",
+   "sanctioned_date": "04-Apr-2026",
+   "letter_no": "LN/MP18201/2025-2026/6"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18201/2026-2027/271034-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "gram hafizganj aonla me jaidayal ke ghar ke pass se barat ghar tak interlocking b naali nirman 150 meter 950710",
+   "agency": "BAREILLY(DISTRICT MAGISTRAE BAREILLY_IDA)",
+   "recommended_amount": 950710.0,
+   "sanctioned_amount": 950710.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "25-Feb-2026",
+   "sanctioned_date": "04-Apr-2026",
+   "letter_no": "LN/MP18201/2025-2026/6"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18201/2026-2027/273175-Lighting of public spaces",
+   "description": "vikas khand ram nagar me 8 led semi high mast light ke karya",
+   "agency": "BAREILLY(DISTRICT MAGISTRAE BAREILLY_IDA)",
+   "recommended_amount": 1569599.0,
+   "sanctioned_amount": 1569599.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "09-Mar-2026",
+   "sanctioned_date": "13-Apr-2026",
+   "letter_no": "LN/MP18201/2025-2026/7"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18201/2026-2027/273176-Lighting of public spaces",
+   "description": "vikas khand majhgawan me 7 led semi high mast light ka karya total 18 lights",
+   "agency": "BAREILLY(DISTRICT MAGISTRAE BAREILLY_IDA)",
+   "recommended_amount": 1373399.0,
+   "sanctioned_amount": 1373399.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "09-Mar-2026",
+   "sanctioned_date": "13-Apr-2026",
+   "letter_no": "LN/MP18201/2025-2026/7"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18201/2026-2027/273177-Lighting of public spaces",
+   "description": "vikas khand alampur jafra bad me 3 led light ka karya total 18 light",
+   "agency": "BAREILLY(DISTRICT MAGISTRAE BAREILLY_IDA)",
+   "recommended_amount": 588600.0,
+   "sanctioned_amount": 588600.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "09-Mar-2026",
+   "sanctioned_date": "13-Apr-2026",
+   "letter_no": "LN/MP18201/2025-2026/7"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "NA-Lighting of public spaces",
+   "description": "supply and installation of led semi high mast light at 44 different places block dataganj",
+   "agency": "BUDAUN(DISTRICT MAGISTRATE BUDAUN_IDA)",
+   "recommended_amount": 7462400.0,
+   "sanctioned_amount": 7462400.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "06-Aug-2026",
+   "sanctioned_date": "NA",
+   "letter_no": "LN/MP18201/2026-2027/8"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "NA-Lighting of public spaces",
+   "description": "supply and installation of led semi high mast light at 31 different places block samrer",
+   "agency": "BUDAUN(DISTRICT MAGISTRATE BUDAUN_IDA)",
+   "recommended_amount": 5257600.0,
+   "sanctioned_amount": 5257600.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "06-Aug-2026",
+   "sanctioned_date": "NA",
+   "letter_no": "LN/MP18201/2026-2027/8"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "NA-Lighting of public spaces",
+   "description": "supply and installation of led semi high mast light at 33 different places block usawan",
+   "agency": "BUDAUN(DISTRICT MAGISTRATE BUDAUN_IDA)",
+   "recommended_amount": 5596800.0,
+   "sanctioned_amount": 5596800.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "06-Aug-2026",
+   "sanctioned_date": "NA",
+   "letter_no": "LN/MP18201/2026-2027/8"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "NA-Lighting of public spaces",
+   "description": "supply and installation of led semi high mast light at 21 different places block kadarchowk",
+   "agency": "BUDAUN(DISTRICT MAGISTRATE BUDAUN_IDA)",
+   "recommended_amount": 3561600.0,
+   "sanctioned_amount": 3561600.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "06-Aug-2026",
+   "sanctioned_date": "NA",
+   "letter_no": "LN/MP18201/2026-2027/8"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "NA-Lighting of public spaces",
+   "description": "supply and installation of led semi high mast light at 36 different places block miaun",
+   "agency": "BUDAUN(DISTRICT MAGISTRATE BUDAUN_IDA)",
+   "recommended_amount": 6105600.0,
+   "sanctioned_amount": 6105600.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "06-Aug-2026",
+   "sanctioned_date": "NA",
+   "letter_no": "LN/MP18201/2026-2027/8"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "NA-Lighting of public spaces",
+   "description": "Gram Kangaon se gram sirohi led light ka karya  1 se 12 alampur jafrabaad block",
+   "agency": "BAREILLY(DISTRICT MAGISTRAE BAREILLY_IDA)",
+   "recommended_amount": 2354400.0,
+   "sanctioned_amount": 2354400.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "15-Aug-2026",
+   "sanctioned_date": "NA",
+   "letter_no": "LN/MP18201/2026-2027/9"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "NA-Lighting of public spaces",
+   "description": "Gram Kudda se gram devi me led light ka karya 13 se 24 alampur jafrabad",
+   "agency": "BAREILLY(DISTRICT MAGISTRAE BAREILLY_IDA)",
+   "recommended_amount": 2354400.0,
+   "sanctioned_amount": 2354400.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "15-Aug-2026",
+   "sanctioned_date": "NA",
+   "letter_no": "LN/MP18201/2026-2027/9"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "NA-Lighting of public spaces",
+   "description": "Gram tukri se ballia me led light ka karya 25 se 30 block jafrabad",
+   "agency": "BAREILLY(DISTRICT MAGISTRAE BAREILLY_IDA)",
+   "recommended_amount": 1177200.0,
+   "sanctioned_amount": 1177200.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "15-Aug-2026",
+   "sanctioned_date": "NA",
+   "letter_no": "LN/MP18201/2026-2027/9"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "NA-Lighting of public spaces",
+   "description": "Gram chaubari se gram hebatpur me led light ka karya 1 se 12 block kyara",
+   "agency": "BAREILLY(DISTRICT MAGISTRAE BAREILLY_IDA)",
+   "recommended_amount": 2354400.0,
+   "sanctioned_amount": 2354400.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "15-Aug-2026",
+   "sanctioned_date": "NA",
+   "letter_no": "LN/MP18201/2026-2027/9"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "NA-Lighting of public spaces",
+   "description": "Gram sundarpur me ed light ka karya 13 se 16 block kyara",
+   "agency": "BAREILLY(DISTRICT MAGISTRAE BAREILLY_IDA)",
+   "recommended_amount": 784800.0,
+   "sanctioned_amount": 784800.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "15-Aug-2026",
+   "sanctioned_date": "NA",
+   "letter_no": "LN/MP18201/2026-2027/9"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "NA-Lighting of public spaces",
+   "description": "Gram naryabal se gram lohiya me led light ka karya 1 se 9",
+   "agency": "BAREILLY(DISTRICT MAGISTRAE BAREILLY_IDA)",
+   "recommended_amount": 1765800.0,
+   "sanctioned_amount": 1765800.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "15-Aug-2026",
+   "sanctioned_date": "NA",
+   "letter_no": "LN/MP18201/2026-2027/9"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "NA-Lighting of public spaces",
+   "description": "Gram Kishanpura m bhuda  basetpura se kishanpur me led light ka karya 1 se 12 block majhgawan",
+   "agency": "BAREILLY(DISTRICT MAGISTRAE BAREILLY_IDA)",
+   "recommended_amount": 2354400.0,
+   "sanctioned_amount": 2354400.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "15-Aug-2026",
+   "sanctioned_date": "NA",
+   "letter_no": "LN/MP18201/2026-2027/9"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "NA-Lighting of public spaces",
+   "description": "Gra rajpurakala se kalyanpur me led light ka karya 13 se 24",
+   "agency": "BAREILLY(DISTRICT MAGISTRAE BAREILLY_IDA)",
+   "recommended_amount": 2354400.0,
+   "sanctioned_amount": 2354400.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "15-Aug-2026",
+   "sanctioned_date": "NA",
+   "letter_no": "LN/MP18201/2026-2027/9"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "NA-Lighting of public spaces",
+   "description": "Gram fulasi se naugawan brahnan me led light ka karya 25 se 36 block majhgawan",
+   "agency": "BAREILLY(DISTRICT MAGISTRAE BAREILLY_IDA)",
+   "recommended_amount": 2354400.0,
+   "sanctioned_amount": 2354400.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "15-Aug-2026",
+   "sanctioned_date": "NA",
+   "letter_no": "LN/MP18201/2026-2027/9"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "NA-Lighting of public spaces",
+   "description": "Gram jalalpur se shivpuri me led light ka karya 37 se 39",
+   "agency": "BAREILLY(DISTRICT MAGISTRAE BAREILLY_IDA)",
+   "recommended_amount": 588600.0,
+   "sanctioned_amount": 588600.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "15-Aug-2026",
+   "sanctioned_date": "NA",
+   "letter_no": "LN/MP18201/2026-2027/9"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "NA-Lighting of public spaces",
+   "description": "Gram rajpuri nawada se padoli me led light ka karya 1 se 12 block bhuta",
+   "agency": "BAREILLY(DISTRICT MAGISTRAE BAREILLY_IDA)",
+   "recommended_amount": 2354400.0,
+   "sanctioned_amount": 2354400.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "15-Aug-2026",
+   "sanctioned_date": "NA",
+   "letter_no": "LN/MP18201/2026-2027/9"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "NA-Lighting of public spaces",
+   "description": "Gram bhuta me led light ka karya  13  ",
+   "agency": "BAREILLY(DISTRICT MAGISTRAE BAREILLY_IDA)",
+   "recommended_amount": 196200.0,
+   "sanctioned_amount": 196200.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "15-Aug-2026",
+   "sanctioned_date": "NA",
+   "letter_no": "LN/MP18201/2026-2027/9"
+  }
+ ]
+}

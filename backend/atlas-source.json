@@ -1,0 +1,6 @@
+{
+  "note": "The github.io commit whose work/election-atlas tree this repository started from. The D1 import reads its data JSON, the R2 upload reads its bill PDFs, and the deploy compares the D1 export against its committed JSON.",
+  "repository": "akshayDev17/akshayDev17.github.io",
+  "commit": "6799f3838b86a1bfb0b2da07e0a71dcc69eea0a0",
+  "path": "work/election-atlas"
+}

@@ -1,0 +1,109 @@
+{
+  "state": "IN-RJ",
+  "section": "bills",
+  "ok": 10,
+  "failed": 0,
+  "total_bytes": 18663366,
+  "entries": [
+    {
+      "url": "https://assembly.rajasthan.gov.in/BillInformationSystem/BillReport/142026.pdf",
+      "path": "documents/393dbb8bbd-bills.pdf",
+      "sha256": "8a5115f1c60ebbfd80854d7d55ba6d283611efa398acf49e26d3b6b098f93336",
+      "bytes": 922765,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:52:01.968993+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/rajasthan/2026/Bill14of2026RJ.pdf",
+      "path": "documents/860296f01d-bills.pdf",
+      "sha256": "8a5115f1c60ebbfd80854d7d55ba6d283611efa398acf49e26d3b6b098f93336",
+      "bytes": 922765,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:52:01.969495+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://assembly.rajasthan.gov.in/BillInformationSystem/BillReport/132026.pdf",
+      "path": "documents/ed29240959-bills.pdf",
+      "sha256": "e53ee03f73e4c60add968e39e6115c59f65b858b27bdd6f5b4852cf26d119e81",
+      "bytes": 3704751,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:52:01.970978+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/rajasthan/2026/Bill13of2026RJ.pdf",
+      "path": "documents/889521970a-bills.pdf",
+      "sha256": "e53ee03f73e4c60add968e39e6115c59f65b858b27bdd6f5b4852cf26d119e81",
+      "bytes": 3704751,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:52:01.971711+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://assembly.rajasthan.gov.in/BillInformationSystem/BillReport/122026.pdf",
+      "path": "documents/8241f13de2-bills.pdf",
+      "sha256": "9b6c81f32a80b5f4cd5d8ba3b62c6ce53eead845b7c28659d2583de0a8651156",
+      "bytes": 1359859,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:52:01.973702+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/rajasthan/2026/Bill12of2026RJ.pdf",
+      "path": "documents/67cc0e0683-bills.pdf",
+      "sha256": "9b6c81f32a80b5f4cd5d8ba3b62c6ce53eead845b7c28659d2583de0a8651156",
+      "bytes": 1359859,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:52:01.974674+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://assembly.rajasthan.gov.in/BillInformationSystem/BillReport/112026.pdf",
+      "path": "documents/6c5b7f7b93-bills.pdf",
+      "sha256": "228f1ca0be34b167459d10630cd2bad19d0f3c324fe11ca9c6c96a27c86932c9",
+      "bytes": 1108982,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:52:01.975279+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/rajasthan/2026/Bill11of2026RJ.pdf",
+      "path": "documents/80b59f5a27-bills.pdf",
+      "sha256": "228f1ca0be34b167459d10630cd2bad19d0f3c324fe11ca9c6c96a27c86932c9",
+      "bytes": 1108982,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:52:01.975926+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://assembly.rajasthan.gov.in/BillInformationSystem/BillReport/102026.pdf",
+      "path": "documents/3c0099d735-bills.pdf",
+      "sha256": "80ac800acc052f3efbc6af913f03de4324fe22570666270f5a9ce96c5b19bb75",
+      "bytes": 2644028,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:52:01.976763+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://assembly.rajasthan.gov.in/BillInformationSystem/BillReport/92026.pdf",
+      "path": "documents/47e498c1b6-bills.pdf",
+      "sha256": "d366af7479fdd73968549cfb7403340f7398fee11e5aac891bd0c59e7c517151",
+      "bytes": 1826624,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:52:01.979502+00:00",
+      "ok": true,
+      "reason": ""
+    }
+  ]
+}

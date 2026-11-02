@@ -1,0 +1,238 @@
+{
+ "const_id": 454,
+ "constituency": "MIRZAPUR",
+ "constituency_key": "mirzapur",
+ "mp_id": 3019225,
+ "mp_name": "Smt Anupriya Patel",
+ "tiles": {
+  "Allocated Limit for Hon'ble MPs": [
+   "14,70,00,000.00",
+   "14.70 Crore"
+  ],
+  "Expenditure on Completed and On-going Works as on Date": [
+   "5,17,32,584.00",
+   "5.17 Crore"
+  ],
+  "Works Recommended": [
+   "14",
+   "10,27,87,232.00",
+   "10.28 Crore"
+  ],
+  "Works Completed": [
+   "0",
+   "0.00",
+   "0.00 Crore"
+  ],
+  "Works Sanctioned": [
+   "10",
+   "7,12,28,000.00",
+   "7.12 Crore"
+  ],
+  "Amount consented for Calamity": [
+   "0",
+   "0.00",
+   "0.00 Crore"
+  ],
+  "Current Tenure": [
+   {
+    "ID": 7,
+    "CAPTION": "18th Lok Sabha"
+   }
+  ]
+ },
+ "charts": {
+  "Development Fund": {
+   "title": "Development Fund",
+   "Allocated Limit": 102787232.0,
+   "Available Limit": 44212768.0
+  },
+  "Location wise Development Work Recommendation": {
+   "title": "Location wise Development Work Recommendation",
+   "Rural": 102787232.0,
+   "Urban": 0.0
+  },
+  "Development Work Recommendation Status": {
+   "title": "Development Work Recommendation Status",
+   "Unsanctioned": 31559232.0,
+   "Completed": 0.0,
+   "On Going": 67321000.0
+  },
+  "Work Category wise Development Work Recommendation": {
+   "title": "Work Category wise Development Work Recommendation",
+   "Normal and Others": 102787232.0,
+   "Trust or Society | Bar Association": 0.0,
+   "Bar Association (Exclusively for Purchase of Books for Library)": 0.0,
+   "Repair and Renovation": 0.0
+  }
+ },
+ "works": [
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP817/2025-2026/184919-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "SERIAL NUMBER 03 WORK OF LETTER NUMBER 1609 DATED 17 FEB 2025 OF PD DRDA MIRZAPUR",
+   "agency": "MIRZAPUR(DISTRICT MAGISTRATE MIRZAPUR_IDA)",
+   "recommended_amount": 3636000.0,
+   "sanctioned_amount": 3636000.0,
+   "stage": "Vendor Identification",
+   "recommended_date": "20-Mar-2025",
+   "sanctioned_date": "02-May-2025",
+   "letter_no": "LN/MP817/2024-2025/23"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP817/2025-2026/184920-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "SERIAL NUMBER 09 OF LETTER NUMBER 1609 DATED 17 FEB 2025 OF PD DRDA MIRZAPUR",
+   "agency": "MIRZAPUR(DISTRICT MAGISTRATE MIRZAPUR_IDA)",
+   "recommended_amount": 3907000.0,
+   "sanctioned_amount": 3907000.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "20-Mar-2025",
+   "sanctioned_date": "02-May-2025",
+   "letter_no": "LN/MP817/2024-2025/24"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP817/2025-2026/229414-Lighting of public spaces",
+   "description": "works recomonded in letter no 217 for Sikhar block ",
+   "agency": "MIRZAPUR(DISTRICT MAGISTRATE MIRZAPUR_IDA)",
+   "recommended_amount": 11576000.0,
+   "sanctioned_amount": 11576000.0,
+   "stage": "Vendor Identification",
+   "recommended_date": "26-Aug-2025",
+   "sanctioned_date": "17-Sep-2025",
+   "letter_no": "LN/MP817/2025-2026/25"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP817/2025-2026/229416-Lighting of public spaces",
+   "description": "works recomonded in letter no 216 for jamalpur block ",
+   "agency": "MIRZAPUR(DISTRICT MAGISTRATE MIRZAPUR_IDA)",
+   "recommended_amount": 22131000.0,
+   "sanctioned_amount": 22131000.0,
+   "stage": "Vendor Identification",
+   "recommended_date": "26-Aug-2025",
+   "sanctioned_date": "11-Sep-2025",
+   "letter_no": "LN/MP817/2025-2026/26"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP817/2025-2026/229418-Lighting of public spaces",
+   "description": "recommended work in letter number 215 for narayanpur block ",
+   "agency": "MIRZAPUR(DISTRICT MAGISTRATE MIRZAPUR_IDA)",
+   "recommended_amount": 19747300.0,
+   "sanctioned_amount": 19747300.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "26-Aug-2025",
+   "sanctioned_date": "11-Sep-2025",
+   "letter_no": "LN/MP817/2025-2026/27"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP817/2025-2026/229419-Lighting of public spaces",
+   "description": "works recommended in letter no 218 for majhawa block ",
+   "agency": "MIRZAPUR(DISTRICT MAGISTRATE MIRZAPUR_IDA)",
+   "recommended_amount": 2723800.0,
+   "sanctioned_amount": 2723800.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "26-Aug-2025",
+   "sanctioned_date": "11-Sep-2025",
+   "letter_no": "LN/MP817/2025-2026/28"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP817/2025-2026/229420-Lighting of public spaces",
+   "description": "works recommended in letter no 219 for kon block ",
+   "agency": "MIRZAPUR(DISTRICT MAGISTRATE MIRZAPUR_IDA)",
+   "recommended_amount": 7149900.0,
+   "sanctioned_amount": 7149900.0,
+   "stage": "Vendor Identification",
+   "recommended_date": "26-Aug-2025",
+   "sanctioned_date": "11-Sep-2025",
+   "letter_no": "LN/MP817/2025-2026/29"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP817/2025-2026/229638-Lighting of public spaces",
+   "description": "supply and installation of solar high mast in PHC at village negura ribai singh of kishunpur gram panchayat ",
+   "agency": "MIRZAPUR(DISTRICT MAGISTRATE MIRZAPUR_IDA)",
+   "recommended_amount": 119000.0,
+   "sanctioned_amount": 119000.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "27-Aug-2025",
+   "sanctioned_date": "08-Oct-2025",
+   "letter_no": "LN/MP817/2025-2026/30"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP817/2025-2026/229639-Lighting of public spaces",
+   "description": "supply and installation of solar high mast near shiv mandir complex at village negura ribai singh of kishunpur gram panchayat ",
+   "agency": "MIRZAPUR(DISTRICT MAGISTRATE MIRZAPUR_IDA)",
+   "recommended_amount": 119000.0,
+   "sanctioned_amount": 119000.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "27-Aug-2025",
+   "sanctioned_date": "08-Oct-2025",
+   "letter_no": "LN/MP817/2025-2026/31"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP817/2025-2026/229640-Lighting of public spaces",
+   "description": "supply and installation of solar high mast near primari school at  village negura ribai singh of kishunpur gram panchayat ",
+   "agency": "MIRZAPUR(DISTRICT MAGISTRATE MIRZAPUR_IDA)",
+   "recommended_amount": 119000.0,
+   "sanctioned_amount": 119000.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "27-Aug-2025",
+   "sanctioned_date": "08-Oct-2025",
+   "letter_no": "LN/MP817/2025-2026/32"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "NA-Construction of rooms and halls in school and colleges",
+   "description": "rooms and verandah in om sai janta janardan inter college kalwari khurd madihan mirzapur vide letter no 249 dated 05 september 2026",
+   "agency": "MIRZAPUR(DISTRICT MAGISTRATE MIRZAPUR_IDA)",
+   "recommended_amount": 1000000.0,
+   "sanctioned_amount": 1000000.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "07-Sep-2026",
+   "sanctioned_date": "NA",
+   "letter_no": "LN/MP817/2026-2027/33"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "NA-Lighting of public spaces",
+   "description": "semi high mast installation in several places chhanbe block of district mirzapur vide letter number 900 DATED 25 AUGUST 2026 of PD DRDA Mirzapur",
+   "agency": "MIRZAPUR(DISTRICT MAGISTRATE MIRZAPUR_IDA)",
+   "recommended_amount": 26556660.0,
+   "sanctioned_amount": 26556660.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "07-Sep-2026",
+   "sanctioned_date": "NA",
+   "letter_no": "LN/MP817/2026-2027/34"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "NA-Installing hand pumps",
+   "description": "HANDPUMP installation in several places OF block RAJGARH,LALAGANJ,JAMALPUR,SIKHAD,PAHADI,CITY,HALIA,MAJHAWA AND PATEHARA  of district mirzapur vide letter number 900 DATED 25 AUGUST 2026 of PD DRDA Mirzapur",
+   "agency": "MIRZAPUR(DISTRICT MAGISTRATE MIRZAPUR_IDA)",
+   "recommended_amount": 1572439.0,
+   "sanctioned_amount": 1572439.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "07-Sep-2026",
+   "sanctioned_date": "NA",
+   "letter_no": "LN/MP817/2026-2027/35"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "NA-Installing hand pumps",
+   "description": "HANDPUMP installation in several places OF block LALAGANJ,PAHADI,CITY,HALIA, AND PATEHARA  of district mirzapur vide letter number 900 DATED 25 AUGUST 2026 of PD DRDA Mirzapur",
+   "agency": "MIRZAPUR(DISTRICT MAGISTRATE MIRZAPUR_IDA)",
+   "recommended_amount": 2430133.0,
+   "sanctioned_amount": 2430133.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "07-Sep-2026",
+   "sanctioned_date": "NA",
+   "letter_no": "LN/MP817/2026-2027/36"
+  }
+ ]
+}

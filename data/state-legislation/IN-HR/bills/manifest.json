@@ -1,0 +1,109 @@
+{
+  "state": "IN-HR",
+  "section": "bills",
+  "ok": 10,
+  "failed": 0,
+  "total_bytes": 6741502,
+  "entries": [
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/haryana/2026/Bill24of2026HR.pdf",
+      "path": "documents/46bc7e7341-bills.pdf",
+      "sha256": "a34d97e19dbaa4f127af20418d8fd425739f2d34aa35e81889f88c61c7fe5c62",
+      "bytes": 826749,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:21.266504+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/haryana/2026/Bill22of2026HR.pdf",
+      "path": "documents/984e2ef325-bills.pdf",
+      "sha256": "5789f6314b4883adc485c83e729faab781ba047d2ee9cd08a9cc3f84ef763600",
+      "bytes": 643624,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:21.270423+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/haryana/2026/Bill21of2026HR.pdf",
+      "path": "documents/0ea525302b-bills.pdf",
+      "sha256": "ae6eac60e9c51b4af9ff5d57c9c90cb07373c712eb5de10f7d38ca924c79aa27",
+      "bytes": 553782,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:21.272564+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/haryana/2026/Bill20of2026HR.pdf",
+      "path": "documents/7922146529-bills.pdf",
+      "sha256": "449239b40ce384d322881f0c3ed0a6ac3a56baea68c4c6e36108d7308264ba28",
+      "bytes": 642650,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:21.274169+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/haryana/2026/Bill19of2026HR.pdf",
+      "path": "documents/8c3c8f9d46-bills.pdf",
+      "sha256": "3e6e90a4e1e369aa9a98fbae088bb6eb2b96d81c09d65feb090dac13f4644e85",
+      "bytes": 656455,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:21.275847+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/haryana/2026/Bill18of2026HR.pdf",
+      "path": "documents/06569f96b1-bills.pdf",
+      "sha256": "411e9bb8c62f8e1b1c9ea11772839e9552f87aca630b212a76636a0393385469",
+      "bytes": 645278,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:21.276769+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/haryana/2026/Bill17of2026HR.pdf",
+      "path": "documents/4d04953af0-bills.pdf",
+      "sha256": "afc6d0ba33b715d68c9a32c2f03745f1ca5be00af00fd279ad4be83bf2895e1d",
+      "bytes": 642439,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:21.278153+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/haryana/2026/Bill16of2026HR.pdf",
+      "path": "documents/6b63a69c84-bills.pdf",
+      "sha256": "b7780e9b370c9ac7336e084e8518d3644f20bbcc413efb647276e6be59f0fd2b",
+      "bytes": 766251,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:21.279354+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/haryana/2026/Bill15of2026HR.pdf",
+      "path": "documents/b2432e7834-bills.pdf",
+      "sha256": "6b08782e1d66b853e60872e048a2ef3a1b31ec326fbd4fddfded93a5d39077fe",
+      "bytes": 643051,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:21.280946+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/haryana/2026/Bill14of2026HR.pdf",
+      "path": "documents/2d18a72c7e-bills.pdf",
+      "sha256": "979343338eb903980899a7928740978229f4f65685346f598289b8bc6abdb5d4",
+      "bytes": 721223,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:21.282314+00:00",
+      "ok": true,
+      "reason": ""
+    }
+  ]
+}

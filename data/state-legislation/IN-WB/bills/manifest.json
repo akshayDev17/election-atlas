@@ -1,0 +1,109 @@
+{
+  "state": "IN-WB",
+  "section": "bills",
+  "ok": 10,
+  "failed": 0,
+  "total_bytes": 11701323,
+  "entries": [
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/west-bengal/2026/Bill16of2026WB.pdf",
+      "path": "documents/875302b2c0-bills.pdf",
+      "sha256": "d1d792dbd3ff2111c6ad702e468dd8ce8cd54626986267fdb3af98a425938aad",
+      "bytes": 79556,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:12.178500+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/west-bengal/2026/Bill15of2026WB.pdf",
+      "path": "documents/b2775e5908-bills.pdf",
+      "sha256": "9821aad1f5b4d1a4dd88cfed513b93892bebe90c5ca1104cf63efd7309f1fdb2",
+      "bytes": 93235,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:12.181897+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/west-bengal/2026/Bill14of2026WB.pdf",
+      "path": "documents/f8f87ced7c-bills.pdf",
+      "sha256": "5d309b9d2719bdbda96bd2a75204437db99862ef52a1cc1f8487645ddbcd8a46",
+      "bytes": 3305459,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:12.182992+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/west-bengal/2026/Bill13of2026WB.pdf",
+      "path": "documents/dacde1c39e-bills.pdf",
+      "sha256": "a250e4115a89cb19c681f66a4baead2a8720c1b7d0c66da2a8537f45a452dc24",
+      "bytes": 3398863,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:12.186213+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/west-bengal/2026/Bill12of2026WB.pdf",
+      "path": "documents/97f1b33c62-bills.pdf",
+      "sha256": "f7f8233454a1955f81f324f179842df030062641681d57cd81f66f0786e306a7",
+      "bytes": 1920437,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:12.189103+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/west-bengal/2026/Bill11of2026WB.pdf",
+      "path": "documents/6be43c9842-bills.pdf",
+      "sha256": "e895fb5d62f6d61532e1643c38e0490515d505a17cbe981444e2dd3163420a35",
+      "bytes": 752260,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:12.192309+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/west-bengal/2026/Bill10of2026WB.pdf",
+      "path": "documents/c2ab70d17b-bills.pdf",
+      "sha256": "703f95902dc0b702215dd4f3e9d46611ed13abb7d44acfa3fa241beb8287182e",
+      "bytes": 530342,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:12.193506+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/west-bengal/2026/Bill9of2026WB.pdf",
+      "path": "documents/e377ebb4ee-bills.pdf",
+      "sha256": "2d295608a74bdcbc6e62dfa0ae8115f20286301128c68deeef7b90591b3fa3cc",
+      "bytes": 1462983,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:12.194719+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/west-bengal/2026/Bill8of2026WB.pdf",
+      "path": "documents/14c2f6f21b-bills.pdf",
+      "sha256": "a3d0f3b0f0292eae659bc4203f4907a29c11228d6d94032fb9c6b6cbc8cc3c2a",
+      "bytes": 82874,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:12.196445+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/west-bengal/2026/Bill4of2026WB.pdf",
+      "path": "documents/5ed8d4ddae-bills.pdf",
+      "sha256": "a9064194aac37905be736e1f7aa0ecd089902307e92131bb6395e056f8e65225",
+      "bytes": 75314,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:12.197294+00:00",
+      "ok": true,
+      "reason": ""
+    }
+  ]
+}

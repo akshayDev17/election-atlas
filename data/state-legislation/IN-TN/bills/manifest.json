@@ -1,0 +1,109 @@
+{
+  "state": "IN-TN",
+  "section": "bills",
+  "ok": 10,
+  "failed": 0,
+  "total_bytes": 1520491,
+  "entries": [
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/tamil-nadu/2026/Bill19of2026TN.pdf",
+      "path": "documents/0d2d7cb5b9-bills.pdf",
+      "sha256": "74a5b1b7e2066aeca7ab9cfe4ed9e217b1c9f3895077bac852d646ed72e1dee7",
+      "bytes": 113186,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:20:11.604314+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/tamil-nadu/2026/Bill16of2026TN.pdf",
+      "path": "documents/fef5e32187-bills.pdf",
+      "sha256": "f8dab6c74ab388a394e2f33829c5b61e668a49ffe1e4372a82d5be5ede433780",
+      "bytes": 131041,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:20:11.608169+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/tamil-nadu/2026/Bill15of2026TN.pdf",
+      "path": "documents/3055c125a0-bills.pdf",
+      "sha256": "3aa27780e7e6bf06212f4b852db58fdc8bb65f33579f7650c7cb3924dbffa3cb",
+      "bytes": 107180,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:20:11.609772+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/tamil-nadu/2026/Bill14of2026TN.pdf",
+      "path": "documents/a6fe402d23-bills.pdf",
+      "sha256": "b0e55961d19dbde5ee3bfbac3d005e01706a0b187e53eb4f07ba5e60d782199d",
+      "bytes": 115518,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:20:11.610808+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/tamil-nadu/2026/Bill11of2026TN.pdf",
+      "path": "documents/1894e262de-bills.pdf",
+      "sha256": "d8bccd0d44c1a1b4c6cfdf673ab610e4f732f3aa652ca87fabf9709ab63ed81d",
+      "bytes": 110464,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:20:11.611499+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/tamil-nadu/2026/Bill10of2026TN.pdf",
+      "path": "documents/1fd24b282f-bills.pdf",
+      "sha256": "158c8427a262993295933493c7411ee5c0f1b05497182d1deb088fb6cdea0605",
+      "bytes": 180422,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:20:11.612151+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/tamil-nadu/2026/Bill9of2026TN.pdf",
+      "path": "documents/194e0d5776-bills.pdf",
+      "sha256": "a7008dc1f9925e58ddf562c9b06f880d2162cea6d6e43a9e388fe07c90a0e6c1",
+      "bytes": 150012,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:20:11.612890+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/tamil-nadu/2026/Bill8of2026TN.pdf",
+      "path": "documents/94cb9ce4c5-bills.pdf",
+      "sha256": "7854429c2ef24a1e51ae65fe482927b907273259146f1f569f53263d5e8e7612",
+      "bytes": 202624,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:20:11.613858+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/tamil-nadu/2026/Bill7of2026TN.pdf",
+      "path": "documents/4d966499bf-bills.pdf",
+      "sha256": "e773431ab8210581016a58e818ab44da1b7d9f412c91d323f186384839d91d8a",
+      "bytes": 151660,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:20:11.614827+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/tamil-nadu/2026/Bill6of2026TN.pdf",
+      "path": "documents/fe92fb9e94-bills.pdf",
+      "sha256": "ea7364f0100f5a4a2f6e28ad148bfc215aac7a4ff512a8c0e284b85047d0d6ee",
+      "bytes": 258384,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:20:11.615669+00:00",
+      "ok": true,
+      "reason": ""
+    }
+  ]
+}

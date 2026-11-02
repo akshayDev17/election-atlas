@@ -1,0 +1,1622 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>Election Atlas of India</title>
+<meta name="description" content="All 543 Lok Sabha constituencies, each shaded by the party that won it, with state borders drawn over them. Hover a state for its party-wise result. 2014, 2019 and 2024.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EEF1F8; --paper-2:#E3E9F4; --ink:#0F1220; --muted:#525A6B;
+  --rule:#D3D9E6; --rule-2:#BCC4D6; --rule-3:#7C8598; --vacant:#C7CDD9;
+  --serif:"Newsreader",ui-serif,Georgia,serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+
+  /* No accent colour on this page. Every hue here belongs to a party: an accent
+     would compete with the palette that carries the data. The one non-party
+     colour is --ink, used for the state outlines and the card's structure. */
+
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px; --s8:64px;
+  --r1:3px; --r2:6px;
+  --col:86rem;
+  /* The table's measure is fixed, not proportional: a table whose columns move
+     as the window changes is a table the reader has to re-read every time. */
+  --table-w:clamp(16.5rem,20vw,19rem);
+  /* The belt's two knobs: how wide each member card is, and how many rows
+     stack before the strip continues right. */
+  --belt-card-w:9.25rem;
+  --belt-rows:3;
+  --pad:max(clamp(1.25rem,4vw,4.5rem),calc((100vw - var(--col)) / 2));
+  --ease:cubic-bezier(.2,0,0,1);
+
+  /* The one dial. 1 = the map fits the screen exactly and never scrolls.
+     Raise it to trade vertical scroll for width: India is taller than wide, so
+     at 1 a laptop gives the map about half the screen width. */
+  --map-spill:1;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+html,body{height:100%}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--serif);font-optical-sizing:auto;
+  font-size:1.0625rem;line-height:1.65;
+  font-variant-numeric:tabular-nums;
+  -webkit-font-smoothing:antialiased;
+  /* One screen, and the browser does the arithmetic. There is no hand-tuned
+     chrome constant left to drift out of step with the masthead: main takes the
+     whole viewport, the masthead takes what it needs, and the map takes exactly
+     the remainder. */
+  display:flex;flex-direction:column;
+  min-height:100dvh;
+}
+p{margin:0}
+.lbl{
+  font-family:var(--mono);font-size:.625rem;line-height:1.4;
+  letter-spacing:.15em;text-transform:uppercase;color:var(--muted);
+}
+
+/* ── shell ────────────────────────────────────────────────────────────── */
+main{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;padding:0 var(--pad)}
+.hair{height:1px;background:var(--rule);border:0;margin:0}
+/* The caveat. It has to be read before any figure, so it sits in the masthead
+   and not in a footer, where on level two it would land below the maps it is
+   warning about. It takes a surface and an edge rather than a hue: every
+   saturated colour on this page is a party, and the obvious warning orange is
+   the one BJP already owns. --ink on --paper-2 is 15.28:1 (APCA Lc 91.9). */
+.caveat{
+  font-family:var(--mono);font-size:.6875rem;line-height:1.5;
+  color:var(--ink);background:var(--paper-2);
+  border-inline-start:3px solid var(--ink);
+  padding:var(--s3) var(--s4);
+  margin:var(--s4) 0 0;
+}
+
+/* ── masthead ─────────────────────────────────────────────────────────── */
+.masthead{flex:0 0 auto;padding-top:clamp(1rem,2.4vw,2rem)}
+.mh-top{display:flex;align-items:baseline;justify-content:space-between;gap:var(--s5);flex-wrap:wrap}
+.mh-top .lbl{margin:0}
+.mh-left{display:flex;align-items:baseline;gap:var(--s5);flex-wrap:wrap;margin:0}
+/* The way back. This page is reached from the portfolio and until now had no
+   route home again — the footer that carried it was deleted. Same type as the
+   eyebrow beside it, so it reads as part of the masthead rather than as chrome. */
+.back{
+  font-family:var(--mono);font-size:.625rem;line-height:1.4;
+  letter-spacing:.15em;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;
+  transition:color .18s var(--ease);
+}
+.back:hover{color:var(--ink)}
+.back:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:2px}
+.years{display:flex;align-items:baseline;gap:2px;margin-bottom:-6px}
+.year{
+  appearance:none;background:none;border:0;cursor:pointer;
+  font-family:var(--mono);font-size:.8125rem;letter-spacing:.06em;color:var(--muted);
+  padding:6px 10px 8px;border-bottom:2px solid transparent;
+  transition:color .18s var(--ease),border-color .18s var(--ease);
+}
+.year:hover{color:var(--ink)}
+.year[aria-pressed="true"]{color:var(--ink);border-bottom-color:var(--ink)}
+.year:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:2px}
+.year[disabled]{opacity:.4;cursor:default}
+.mh-tools{display:flex;align-items:baseline;justify-content:flex-end;gap:var(--s5);flex-wrap:wrap}
+/* The tense is the page's mode: as counted on polling day, or as the term
+   actually ended up. It is a sibling of the year selector — same instrument
+   cluster, same idiom, one row, so it costs the map no height. */
+.tense{display:flex;align-items:baseline;gap:2px;margin-bottom:-6px;
+  border-inline-start:1px solid var(--rule-2);padding-inline-start:var(--s4);margin-inline-start:var(--s3)}
+.tense-opt{
+  appearance:none;background:none;border:0;cursor:pointer;
+  font-family:var(--mono);font-size:.75rem;letter-spacing:.05em;color:var(--muted);
+  padding:6px 8px 8px;border-bottom:2px solid transparent;
+  transition:color .18s var(--ease),border-color .18s var(--ease);
+}
+.tense-opt:hover{color:var(--ink)}
+.tense-opt[aria-pressed="true"]{color:var(--ink);border-bottom-color:var(--ink)}
+.tense-opt:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:2px}
+
+/* ── search ───────────────────────────────────────────────────────────── *
+ * A query is a fill-in line, docked to the surface it searches: party search
+ * above the national table, minister search inside the belt head. The label
+ * sits above the line so the narrow columns stay legible. No accent enters:
+ * the active edge is --ink, the same colour as the selection edge and the
+ * state outlines. */
+.find{display:flex;flex-direction:column;gap:var(--s1)}
+.find-label{font-family:var(--mono);font-size:.5625rem;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--muted);cursor:pointer}
+.find-line{display:flex;align-items:baseline;gap:var(--s2);
+  border-bottom:1px solid var(--rule-3);
+  transition:border-color .18s var(--ease),box-shadow .18s var(--ease)}
+/* Focus is the underline thickening, not a rectangle: a 1px rule grows to a 2px
+   --ink line (border + shadow, so nothing shifts), the same idiom the year tabs
+   use. The caret already marks the field, so no outline is needed. */
+.find-line:focus-within{border-bottom-color:var(--ink);box-shadow:0 1px 0 0 var(--ink)}
+.find-line input{
+  appearance:none;background:none;border:0;outline:0;padding:5px 0 4px;margin:0;
+  font-family:var(--mono);font-size:.8125rem;color:var(--ink);
+  flex:1 1 auto;min-width:0;border-radius:0;
+}
+.find-line input::placeholder{color:var(--muted)}
+.search-count{font-family:var(--mono);font-size:.625rem;color:var(--muted);flex:0 0 auto;
+  white-space:nowrap;padding-bottom:5px}
+.search-clear{
+  appearance:none;background:none;border:0;cursor:pointer;padding:2px 6px 5px;min-height:24px;
+  font-family:var(--mono);font-size:.625rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted);transition:color .18s var(--ease);
+}
+.search-clear:hover{color:var(--ink)}
+.search-clear:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:2px}
+.search-clear[hidden]{display:none}
+.ntable .find{margin-bottom:var(--s3)}
+.belt .find{margin-bottom:var(--s3)}
+
+/* ── the plate and its key ────────────────────────────────────────────── *
+ * The map is height-bound: at 1440px it is 649px wide inside a 1325px column,
+ * because India is taller than wide and height is what binds. So the table is
+ * not taking room from the map — it is occupying ground the map could never
+ * have used. The map is left-justified so that vacated width lands where the
+ * table goes, instead of sitting as a gutter on both sides. */
+.field{
+  flex:1 1 auto;min-height:0;
+  /* max-content, not 1fr: the map is height-bound, so a fractional column takes
+     all the slack and pushes the table to the far edge — leaving a gap that
+     measured 76px at 900 wide and 421px at 1280. A fixed track keeps the table
+     beside the plate, and the slack falls past both as a trailing margin, which
+     is the one form of empty space a reader reads as intended. */
+  display:grid;grid-template-columns:max-content var(--table-w) minmax(0,1fr);
+  gap:clamp(1.25rem,2.6vw,3rem);
+  padding:clamp(.5rem,1.5vw,1rem) 0 clamp(.75rem,1.2vw,1.25rem);
+}
+.mapfig{
+  min-height:0;margin:0;
+  position:relative;
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:center;
+  /* One line is reserved below the map for the status readout, so the map's
+     height (and the width derived from it) accounts for the note instead of
+     the note overflowing the figure. */
+  padding-bottom:calc(var(--s3) + 0.875rem);
+}
+#map{
+  display:block;margin:0;overflow:visible;
+  /* India's projected extent is 0.8839 wide to 1 tall — taller than wide, which
+     is the whole problem. A map wide enough to fill a 1440px viewport is 1629px
+     tall; one that fits a 900px viewport is 795px wide. Width and height cannot
+     both be filled, so height is the binding constraint and width is derived:
+     whatever height the viewport can spare, times the ratio, capped by the
+     column so it can never spill sideways either.
+     0.8839 = geoMercator extent of lon 68.09..97.40 by lat 6.76..37.04. */
+  aspect-ratio:884 / 1000;
+  /* Height is the constraint, so it is the one that is set; width follows from
+     India's ratio. max-width catches the narrow screen where the derived width
+     would exceed the column — there the map is width-bound instead, and because
+     the svg letterboxes its own drawing, the map simply centres in the space
+     rather than distorting. */
+  height:calc(100% * var(--map-spill));
+  width:auto;
+  max-width:100%;
+}
+
+/* Constituency fill. No stroke: a boundary is only visible where two adjacent
+   seats were won by different parties, which is the whole point of shading at
+   this granularity. */
+#map .pc{fill:var(--c);stroke:none;transition:fill .22s var(--ease)}
+/* A by-election seat wears a dashed --ink outline — a scar, not a hue. The
+   dashed edge is the one device left over: fill is hover, the leading edge is
+   selection, the solid stroke is the state boundary. Vacant is the same dash
+   but with a grey fill, so the two never read as a party. */
+#map .pc.bye,#map .pc.vacant{stroke:var(--ink);stroke-width:.8;stroke-dasharray:2.5 2.5;stroke-opacity:.7}
+
+/* The only line the map draws. fill:none plus pointer-events:all makes the whole
+   area of a state hoverable while drawing nothing inside it. */
+#map .st{
+  fill:none;stroke:var(--ink);stroke-width:1.1;stroke-linejoin:round;
+  pointer-events:all;cursor:pointer;
+  transition:stroke-width .16s var(--ease),stroke-opacity .24s var(--ease);
+}
+#map .st:hover,#map .st.is-active{stroke-width:2.4}
+#map .st:focus-visible{outline:none;stroke-width:3.2}
+
+/* Clicking inside the map but not on a state leaves the click on the <svg> root,
+   and the browser focuses it and paints its default focus ring around the whole
+   element — which arrives in the OS accent colour, so it is orange on a machine
+   whose accent is orange and reads as a border this page drew. It does not come
+   from here; no rule below draws anything on the root.
+   Removing it costs no keyboard user anything. The root is not a tab stop, and
+   every element inside it that IS reachable by keyboard shows focus three other
+   ways at once: its stroke goes 1.1px -> 3.2px, it is the one region the scrim
+   does not wash, and it lifts off the plane on a cast shadow. */
+#map,#map .st:focus{outline:none}
+
+/* ── focus + context ──────────────────────────────────────────────────── *
+ * Highlighting a border alone asks the reader to find the difference between
+ * two 1px lines. Instead the map is divided into a focus and a context: the
+ * hovered state keeps its colour, and everything else recedes — the map plane
+ * is pushed back so the one region comes forward.
+ *
+ * Two layers, both sharing one mask whose hole is the hovered state:
+ *
+ *   .scrim  a wash of the page colour over the whole map. It desaturates the
+ *           context by moving it toward the background rather than toward grey,
+ *           so the country's shape stays legible while its colours stop
+ *           competing. The mask keeps the wash off the focus itself.
+ *
+ *   .lift   the same shape again, nudged down and blurred, and masked the same
+ *           way so only the part falling OUTSIDE the hovered state survives.
+ *           What is left is a cast shadow, which is what actually reads as
+ *           height — you are seeing the state lifted off the plane, not just
+ *           tinted differently.
+ *
+ * Both are one element each, updated by writing a `d` attribute, so the cost of
+ * hovering does not scale with 543 constituencies.
+ */
+#map .scrim,#map .lift{pointer-events:none;transition:opacity .24s var(--ease)}
+#map .scrim{fill:var(--paper);opacity:0}
+#map .lift{fill:var(--ink);opacity:0}
+#map.has-focus .scrim{opacity:.62}
+#map.has-focus .lift{opacity:.24}
+/* with one state brought forward, the other borders become noise */
+#map.has-focus .st:not(.is-active){stroke-opacity:.26}
+
+/* The note is a status line, not a caption: it holds the message when a year has
+   no result file, and takes no space at all the rest of the time. */
+.mapnote{position:absolute;inset-inline-start:0;inset-block-end:0;text-align:left}
+.mapnote:empty{display:none}
+
+/* ── the national table ───────────────────────────────────────────────── *
+ * The map shows the shape of a result; this shows its arithmetic and acts on
+ * the map rather than describing it. Rows are controls, so they have to look
+ * operable. Selection is --ink on a --paper-2 surface, never a hue: every
+ * saturated colour on this page belongs to a party, and a selection highlight
+ * in the usual warning orange would read as BJP. */
+.ntable{display:flex;flex-direction:column;min-height:0;font-family:var(--mono);align-self:start}
+/* The head holds only the two resets, and both are hidden until they apply, so
+   the row keeps a reserved height rather than letting the table jump down the
+   moment a reset appears. */
+.ntable-head{display:flex;align-items:baseline;justify-content:flex-end;
+  gap:var(--s3);min-height:1.25rem;padding:0 0 var(--s2)}
+/* Both resets stay hidden until they apply — but the one that escapes a
+   filtered map is the head's loudest control, not its quietest, so clearing a
+   selection is set at body scale in --ink while the sort reset stays a label. */
+.ntable-actions{display:flex;align-items:baseline;gap:var(--s3)}
+.reset{
+  appearance:none;background:none;border:0;cursor:pointer;padding:2px 4px;
+  font-family:var(--mono);font-size:.5625rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);transition:color .18s var(--ease);
+}
+.reset:hover{color:var(--ink)}
+.reset:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:2px}
+.reset[hidden]{display:none}
+.reset.loud{font-size:.6875rem;letter-spacing:.04em;text-transform:none;color:var(--ink)}
+/* No scrollbar. The fades below are the cue instead: a gradient from the page
+   ground at whichever edge still has content behind it, so the rows dissolve
+   rather than being cut by a hard line at the container's edge.
+   What that gives up is the position indicator and click-drag scrolling. Wheel,
+   trackpad and keyboard all still scroll, and tabbing to a row button brings it
+   into view, so every row stays reachable — but it is a real trade, not free. */
+/* With 10 rows a page, the table no longer fills the column or scrolls: it is
+   its own height, and the pager below it carries the rest of the rows. */
+.ntable-view{position:relative}
+.ntable-scroll{scrollbar-width:none}
+.ntable-scroll::-webkit-scrollbar{display:none}
+/* The fade exists only where there IS more: a container already at its end
+   claims no edge it does not have. */
+.ntable-view::before,.ntable-view::after{
+  content:'';position:absolute;inset-inline:0;height:var(--s6);z-index:2;
+  pointer-events:none;opacity:0;transition:opacity .2s var(--ease);
+}
+.ntable-view::before{
+  inset-block-start:0;
+  background:linear-gradient(to bottom,var(--paper) 25%,transparent);
+}
+.ntable-view::after{
+  inset-block-end:0;
+  background:linear-gradient(to top,var(--paper) 25%,transparent);
+}
+.ntable-view.more-up::before{opacity:1}
+.ntable-view.more-down::after{opacity:1}
+/* fixed layout: otherwise every column re-measures when a sort arrow changes
+   the header label, so the figures shift sideways on each sort. */
+.ntable table{width:100%;border-collapse:collapse;font-size:.6875rem;table-layout:fixed}
+.ntable th:nth-child(2){width:4.25rem}
+.ntable th:nth-child(3){width:5.75rem}
+.ntable th:nth-child(4){width:3.5rem}
+/* The tense delta rides the seats cell, not its own column: a dedicated track
+   squeezes the votes number out of a 288px table. Sign + weight carry it. */
+.ntable .d{font-weight:500;letter-spacing:.02em}
+.ntable th{
+  font-weight:400;font-size:.5625rem;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--muted);text-align:right;padding:0;border-bottom:1px solid var(--rule-2);
+}
+.ntable th button{
+  appearance:none;background:none;border:0;cursor:pointer;width:100%;text-align:right;
+  font:inherit;letter-spacing:inherit;text-transform:inherit;color:inherit;
+  padding:0 0 5px;transition:color .18s var(--ease);
+}
+.ntable th button:hover{color:var(--ink)}
+.ntable th button:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:2px}
+.ntable th[aria-sort="ascending"] button,
+.ntable th[aria-sort="descending"] button{color:var(--ink)}
+.ntable th:first-child button{text-align:left;cursor:default}
+.ntable td{
+  padding:5px 0;text-align:right;border-top:1px solid var(--rule);
+  transition:color .18s var(--ease);
+}
+.ntable tr:first-child td{border-top:0}
+.ntable th:first-child,.ntable td:first-child{text-align:left;padding-inline-start:var(--s2)}
+.ntable th+th,.ntable td+td{padding-inline-start:var(--s4)}
+.ntable .pick{
+  appearance:none;background:none;border:0;padding:0;cursor:pointer;font:inherit;
+  color:inherit;display:flex;align-items:center;gap:7px;width:100%;text-align:left;
+}
+.ntable .pick:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:2px}
+.ntable .sw{width:9px;height:9px;border-radius:2px;flex:0 0 auto;background:var(--c);
+  box-shadow:inset 0 0 0 1px rgba(15,18,32,.2);transition:opacity .18s var(--ease)}
+.ntable tbody tr{cursor:pointer;transition:background .14s var(--ease),color .18s var(--ease)}
+/* Hover and selection must never share a shape. Hover is a FILL; selection is a
+   LEADING EDGE. Sharing one surface meant that with a filter live, hovering a
+   row left out of the selection wore exactly what the selected rows were
+   wearing, and a 2px line was the only thing telling them apart. */
+.ntable tbody tr:hover{background:var(--paper-2)}
+.ntable tbody tr.sel{box-shadow:inset 2px 0 0 var(--ink)}
+/* with a selection standing, the rows left out of it say so quietly */
+.ntable tbody.has-sel tr:not(.sel){color:var(--muted)}
+.ntable tbody.has-sel tr:not(.sel) .sw{opacity:.4}
+/* Page numbers under the table: quiet, the current one filled. */
+.pager{display:flex;align-items:center;justify-content:flex-end;gap:var(--s2);margin-top:var(--s3)}
+.pager button{
+  appearance:none;background:none;border:0;cursor:pointer;
+  font-family:var(--mono);font-size:.6875rem;color:var(--muted);
+  min-width:1.5rem;height:1.5rem;padding:0 6px;border-radius:var(--r2);
+  transition:color .18s var(--ease),background .14s var(--ease);
+}
+.pager button:hover{color:var(--ink);background:var(--paper-2)}
+.pager button.cur{color:var(--ink);background:var(--paper-2);font-weight:500}
+.pager button:disabled{opacity:.35;cursor:default}
+.pager button:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:var(--r2)}
+.pager-ell{color:var(--muted);padding:0 2px;font-family:var(--mono);font-size:.6875rem}
+
+/* ── the hover card ───────────────────────────────────────────────────── */
+#card{
+  position:fixed;z-index:9;min-width:19rem;max-width:24rem;
+  background:#fff;border:1px solid var(--rule-2);border-radius:var(--r2);
+  box-shadow:0 6px 26px rgba(15,18,32,.14);
+  padding:14px 16px 12px;
+  opacity:0;pointer-events:none;
+  transition:opacity .14s var(--ease);
+}
+#card.on{opacity:1}
+#card .sub{font-family:var(--mono);font-size:.625rem;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--muted);margin:0 0 2px}
+#card h2{margin:0;font-size:1.125rem;font-weight:400;line-height:1.2;letter-spacing:-.01em}
+#card .meta{font-family:var(--mono);font-size:.6875rem;color:var(--muted);margin:4px 0 10px}
+#card table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:.6875rem}
+#card th{
+  font-weight:400;font-size:.5625rem;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--muted);text-align:right;padding:0 0 5px;border-bottom:1px solid var(--rule-2);
+}
+#card td{padding:4px 0;text-align:right;border-top:1px solid var(--rule)}
+#card tr:first-child td{border-top:0}
+/* The label column is the only one that is not a number, so it is the only one
+   that is left-aligned. Everything else right-aligns so digits line up on the
+   ones place — mixing the two made the party labels and the seat counts meet at
+   the same cell edge with no gap at all. */
+#card th:first-child,#card td:first-child{text-align:left}
+/* a gutter, so two columns cannot touch however narrow the card gets */
+#card th+th,#card td+td{padding-left:16px}
+#card td.p{display:flex;align-items:center;gap:7px}
+#card .sw{width:9px;height:9px;border-radius:2px;flex:0 0 auto;background:var(--c);
+  box-shadow:inset 0 0 0 1px rgba(15,18,32,.2)}
+#card .more{color:var(--muted)}
+#card .open{
+  font-family:var(--mono);font-size:.625rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink);margin:10px 0 0;padding-top:8px;border-top:1px solid var(--rule);
+}
+
+
+/* ── the tense delta ──────────────────────────────────────────────────── */
+/* A gain or loss is a sign, not a colour — no hue may enter the table, since
+   every saturated hue is a party. It is its own right-aligned track, not a
+   footnote riding the seats cell, so the shift is a first-class figure. */
+
+/* ── the cabinet belt ─────────────────────────────────────────────────── *
+ * The field's third track is land the height-bound map can never reach. The
+ * belt fills it downward first (grid-auto-flow:column), then continues right
+ * with horizontal scroll; the fades are the only cue there is more, and they
+ * exist only where overflow does. */
+.belt{display:flex;flex-direction:column;min-width:0;min-height:0}
+.belt-head{display:flex;flex-direction:column;gap:2px;padding:0 0 var(--s2)}
+.belt-title{font-family:var(--serif);font-size:.9375rem;line-height:1.25;color:var(--ink);margin:0}
+.belt-asof{font-family:var(--mono);font-size:.625rem;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
+.belt-view{position:relative;flex:1 1 auto;min-height:0}
+.belt-scroll{
+  height:100%;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;
+  display:grid;grid-auto-flow:column;grid-auto-columns:var(--belt-card-w);
+  grid-template-rows:repeat(var(--belt-rows),auto);align-content:start;
+  gap:var(--s3) var(--s4);overscroll-behavior-x:contain;padding:2px 2px var(--s3);
+  scroll-snap-type:x mandatory;
+}
+.belt-scroll::-webkit-scrollbar{display:none}
+/* The strip is its own keyboard control: tab to it, arrow-key scroll. */
+.belt-scroll:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:var(--r2)}
+.belt-view::before,.belt-view::after{
+  content:'';position:absolute;inset-block:0;width:var(--s6);z-index:2;
+  pointer-events:none;opacity:0;transition:opacity .2s var(--ease);
+}
+.belt-view::before{inset-inline-start:0;background:linear-gradient(to right,var(--paper) 18%,transparent)}
+.belt-view::after{inset-inline-end:0;background:linear-gradient(to left,var(--paper) 18%,transparent)}
+.belt-view.more-l::before{opacity:1}
+.belt-view.more-r::after{opacity:1}
+.belt-card{display:flex;flex-direction:column;gap:3px;min-width:0;scroll-snap-align:start}
+/* The minister search recedes non-matches the same way the map does: toward the
+   ground, not toward transparency. A raw opacity here put the names at 1.68:1.
+   Desaturating the face and muting the name keeps every dimmed value readable
+   while the colour is the thing that goes away. */
+.belt-card .belt-face,.belt-card .belt-name{transition:filter .22s var(--ease),color .22s var(--ease)}
+.belt-card.dim .belt-face{filter:saturate(.22) brightness(.92)}
+.belt-card.dim .belt-name{color:var(--muted)}
+.belt-face{
+  aspect-ratio:3/4;background:var(--paper-2);border:1px solid var(--rule);
+  border-radius:var(--r2);display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:1.4rem;color:var(--muted);letter-spacing:.02em;
+  overflow:hidden;
+}
+.belt-name{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:.8125rem;line-height:1.25;font-weight:500;color:#2E3440;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.belt-role{font-family:var(--mono);font-size:.75rem;line-height:1.4;letter-spacing:.02em;color:var(--muted);margin:0;display:flex;align-items:baseline;gap:4px;min-width:0}
+.belt-role-main{flex:1 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.belt-plus{flex:0 0 auto;color:var(--ink);font-weight:500}
+.belt-seat{font-family:var(--mono);font-size:.75rem;line-height:1.35;color:var(--muted);margin:0;display:flex;align-items:center;gap:6px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.belt .sw{width:9px;height:9px;border-radius:2px;flex:0 0 auto;background:var(--c);box-shadow:inset 0 0 0 1px rgba(15,18,32,.2)}
+.belt .belt-sym{flex:0 0 auto;max-width:18px;max-height:18px;width:auto;height:auto;display:block}
+.belt-empty{font-family:var(--mono);font-size:.6875rem;line-height:1.7;color:var(--muted);max-width:30ch}
+#card .min-list{list-style:none;margin:10px 0 0;padding:0;font-family:var(--mono);font-size:.6875rem;line-height:1.55;color:var(--muted)}
+#card .min-list li{padding:4px 0;border-top:1px solid var(--rule)}
+#card .min-list li:first-child{border-top:0}
+
+/* ── not available yet, monograms, credits ────────────────────────────── *
+ * A view whose data has not been added says so in one quiet sentence inside a
+ * hairline box: never a number, a name or a zero standing in for the data. */
+.void{display:flex;align-items:center;justify-content:center;min-height:8rem;
+  border:1px solid var(--rule);border-radius:var(--r2);padding:var(--s5)}
+.void p{max-width:34ch;text-align:center;font-family:var(--mono);font-size:.6875rem;
+  line-height:1.7;color:var(--muted)}
+.belt .void{flex:1 1 auto;align-self:stretch}
+.void[hidden],.find[hidden],.belt-view[hidden]{display:none}
+/* A tense with no record behind it stays in the row, plainly unavailable. */
+.tense-opt[aria-disabled="true"]{color:var(--rule-3);cursor:default;text-decoration:line-through;
+  text-decoration-thickness:1px}
+.tense-opt[aria-disabled="true"]:hover{color:var(--rule-3)}
+.monogram{display:flex;align-items:center;justify-content:center;width:100%;height:100%;
+  background:var(--mono-bg,var(--paper-2));color:var(--mono-ink,var(--muted));font-family:var(--serif);letter-spacing:.02em}
+.photo-link{display:block;font-family:var(--mono);font-size:.5625rem;line-height:1.4;
+  color:var(--muted);letter-spacing:.02em}
+.photo-link a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+.photo-link a:hover{color:var(--ink)}
+.credits{flex:0 0 auto;padding:var(--s2) var(--pad) var(--s3);font-family:var(--mono);
+  font-size:.5625rem;line-height:1.5;letter-spacing:.04em;color:var(--muted)}
+.credits a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+
+/* ── responsive ───────────────────────────────────────────────────────── */
+/* Side by side until the map can no longer hold its shape in the width left
+   over. Below that the table moves under the plate into a bounded region with
+   its own scroll, so the PAGE still never scrolls: the no-scroll rule is the
+   primary constraint here, so the table gives ground rather than the map. */
+@media (max-width:56rem){
+  .field{
+    grid-template-columns:minmax(0,1fr);
+    grid-template-rows:minmax(0,3fr) minmax(0,2fr);
+    gap:var(--s4);
+  }
+  .ntable{border-top:1px solid var(--rule-2);padding-top:var(--s2)}
+  /* The belt fills width the height-bound map can never use. On a narrow screen
+     the map is width-bound, so that land does not exist and the belt would only
+     squeeze the map — it is a desktop element here. The minister search lives
+     inside it, so it disappears with the belt rather than needing its own rule. */
+  .belt{display:none}
+}
+@media (max-width:44rem){
+  #card{min-width:0;max-width:calc(100vw - 20px)}
+}
+@media (prefers-reduced-motion:reduce){
+  #map .pc,#map .st,#map .scrim,#map .lift,.year,#card,
+  .ntable td,.ntable tbody tr,.ntable .sw,.tense-opt,
+  .belt-view::before,.belt-view::after,.belt-card .belt-face,.belt-card .belt-name,
+  .find-line,.search-clear,.pager button{transition:none}
+}
+</style>
+</head>
+<body>
+<main>
+  <header class="masthead">
+    <div class="mh-top">
+      <div class="mh-left">
+        <a class="back" href="/">← Akshay Prabhakant</a>
+        <p class="lbl">Election Atlas of India</p>
+      </div>
+      <div class="mh-tools">
+        <div class="years" id="years" role="group" aria-label="General election year"></div>
+        <div class="tense" id="tense" role="group" aria-label="Result as elected or as it stands" hidden></div>
+      </div>
+    </div>
+    <hr class="hair" style="margin-top:var(--s4)">
+    <p class="caveat">Results: Election Commission of India statistical reports. Cabinets: the Prime Minister’s Office and the Press Information Bureau. Where a view says “not available yet”, that data has not been added.</p>
+  </header>
+
+  <section class="field">
+    <figure class="mapfig">
+      <svg id="map" viewBox="0 0 884 1000" preserveAspectRatio="xMidYMid meet"
+           role="group" aria-label="Map of India. Each of the 543 parliamentary constituencies is filled with the colour of the party that won it; the borders drawn over them are state and union territory boundaries."></svg>
+      <p class="lbl mapnote" id="mapnote" role="status"></p>
+    </figure>
+
+    <section class="ntable" aria-label="National result">
+      <div class="find" role="search" aria-label="Find a party">
+        <label class="find-label" for="search-party">Find party</label>
+        <div class="find-line">
+          <input id="search-party" type="text" placeholder="e.g. BJP, Congress" autocomplete="off" spellcheck="false" enterkeyhint="search">
+          <span class="search-count" id="party-count" aria-live="polite"></span>
+          <button class="search-clear" id="clear-party" type="button" hidden>Clear</button>
+        </div>
+      </div>
+      <div class="ntable-head">
+        <span class="ntable-actions">
+          <button class="reset" id="reset-sort" type="button" hidden>default order</button>
+          <button class="reset loud" id="clear-sel" type="button" hidden>clear selection</button>
+        </span>
+      </div>
+      <div class="ntable-view">
+        <div class="ntable-scroll">
+          <table>
+            <thead>
+              <tr id="ntable-head-row">
+                <th>Party</th>
+                <th aria-sort="none"><button type="button" data-sort="seats" data-label="Seats">Seats</button></th>
+                <th aria-sort="none"><button type="button" data-sort="votes" data-label="Votes">Votes</button></th>
+                <th aria-sort="none"><button type="button" data-sort="share" data-label="Share">Share</button></th>
+              </tr>
+            </thead>
+            <tbody id="ntable-body"></tbody>
+          </table>
+        </div>
+      </div>
+      <nav class="pager" id="ntable-pager" aria-label="Table pages"></nav>
+    </section>
+
+    <section class="belt" id="belt" aria-label="Union council of ministers" hidden>
+      <div class="belt-head">
+        <h2 class="belt-title" id="belt-title">Union council of ministers</h2>
+        <span class="belt-asof" id="belt-asof"></span>
+      </div>
+      <div class="find" id="find-min" role="search" aria-label="Find a minister">
+        <label class="find-label" for="search-min">Find minister</label>
+        <div class="find-line">
+          <input id="search-min" type="text" placeholder="e.g. Amit Shah, Railways" autocomplete="off" spellcheck="false" enterkeyhint="search">
+          <span class="search-count" id="min-count" aria-live="polite"></span>
+          <button class="search-clear" id="clear-min" type="button" hidden>Clear</button>
+        </div>
+      </div>
+      <div class="belt-view">
+        <div class="belt-scroll" id="belt-scroll" tabindex="0" role="region" aria-label="Council of ministers. Use the arrow keys to scroll."></div>
+      </div>
+      <div class="void" id="belt-void" hidden><p></p></div>
+    </section>
+  </section>
+</main>
+<footer class="credits"><p>Member photos: linked to sansad.in, not stored here. Party symbols: Wikimedia Commons contributors (<a href="data/parties-symbols.json">licences listed</a>).</p></footer>
+
+
+<div id="card" role="status" aria-live="polite"></div>
+
+<script type="module">
+import {
+  fetchOptional, loadAvailability, byelAvailable, unionRoster, notAvailable, PRESIDENT,
+  monogramHTML, officialPhotoHTML,
+} from './lib/atlas.js';
+const NS = 'http://www.w3.org/2000/svg';
+const $ = s => document.querySelector(s);
+const el = (t, c) => { const n = document.createElement(t); if (c) n.className = c; return n; };
+const nf = n => Math.round(n).toLocaleString('en-IN');
+const pc1 = n => (n * 100).toFixed(1) + '%';
+const titleCase = s => (s || '').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+
+let geo, topojson;
+try {
+  [geo, topojson] = await Promise.all([
+    import('./vendor/d3-geo.js'),
+    import('./vendor/topojson-client.js'),
+  ]);
+} catch (err) {
+  $('#mapnote').textContent = 'The map library could not be loaded, so the atlas cannot draw.';
+  throw err;
+}
+
+const mapEl = $('#map'), noteEl = $('#mapnote'), yearsEl = $('#years'), card = $('#card');
+const tenseEl = $('#tense'), beltEl = $('#belt'), beltTitle = $('#belt-title'),
+  beltAsof = $('#belt-asof'), beltView = $('.belt-view'), beltScroll = $('#belt-scroll');
+
+/* ── fixed vocabularies and geometry ──────────────────────────────────── */
+/* These five draw the map at all; if one cannot be read the page says so and
+   stops, rather than throwing half-way through a paint. */
+const core = await Promise.all([
+  'data/manifest.json', 'data/regions.json', 'data/parties.json',
+  'data/geo/india-states.json', 'data/geo/india-pcs.json',
+].map(fetchOptional));
+if (!core.every(r => r.ok)) {
+  noteEl.textContent = 'The atlas data could not be loaded, so the map cannot draw.';
+  throw new Error('core atlas data unavailable');
+}
+const [manifest, regionsDoc, partiesDoc, statesTopo, pcsTopo] = core.map(r => r.doc);
+const avail = await loadAvailability('data/');
+
+const regionByCode = new Map(regionsDoc.regions.map(r => [r.code, r]));
+const regionBySource = new Map();
+for (const r of regionsDoc.regions) for (const s of r.sourceNames) regionBySource.set(s, r.code);
+
+const partyByCode = new Map(partiesDoc.parties.map(p => [p.code, p]));
+const fallback = partiesDoc.fallback;
+const colour = c => (partyByCode.get(c) || fallback).colour;
+const partyName = c => (partyByCode.get(c) || fallback).name;
+
+/* Party symbols are optional: a party with an image on file shows its emblem in
+   the cabinet instead of the colour square; one without keeps the square. The
+   manifest is fetched separately and can be absent or partially complete without
+   breaking the page. */
+const symbolsRes = await fetchOptional('data/parties-symbols.json');
+const symbolsDoc = symbolsRes.ok ? symbolsRes.doc : { symbols: {} };
+const symbolFor = code => {
+  const s = (symbolsDoc.symbols || {})[code];
+  return (s && s.file) ? 'data/' + s.file : null;
+};
+const partyMark = code => {
+  const sym = symbolFor(code);
+  if (!sym) return `<i class="sw" style="--c:${colour(code)}"></i>`;
+  return `<img class="belt-sym" src="${sym}" data-fallback="${colour(code)}" alt="" loading="lazy">`;
+};
+
+const level = manifest.levels.find(l => l.id === 'state');
+const pcLevel = manifest.levels.find(l => l.id === 'parliamentary');
+
+const states = topojson.feature(statesTopo, statesTopo.objects[level.topologyObject]);
+const pcs = topojson.feature(pcsTopo, pcsTopo.objects[pcLevel.topologyObject]);
+
+/* ── the constituency files carry counts; everything shown is derived ─── */
+function aggregate(year) {
+  const byRegion = new Map();
+  const national = new Map();
+  let totalVotes = 0;
+  const bump = (m, code, seats, votes) => {
+    const w = m.get(code) || { seats: 0, votes: 0 };
+    w.seats += seats; w.votes += votes; m.set(code, w);
+  };
+  for (const c of Object.values(year.constituencies)) {
+    let m = byRegion.get(c.st);
+    if (!m) byRegion.set(c.st, m = new Map());
+    bump(m, c.p, 1, c.v);
+    bump(national, c.p, 1, c.v);
+    totalVotes += c.v;
+    // parties that polled in the constituency but won nothing still count votes
+    for (const [code, v] of Object.entries(c.o || {})) {
+      bump(m, code, 0, v);
+      bump(national, code, 0, v);
+      totalVotes += v;
+    }
+  }
+  return { byRegion, national, totalVotes };
+}
+
+/* ── draw ─────────────────────────────────────────────────────────────── */
+const pcPaths = new Map();      // unique_id -> path
+const statePaths = new Map();   // region code -> path
+let projection, pathGen;
+let scrimEl, liftEl, maskHoleEl, focused = null;
+
+function drawMap() {
+  const box = mapEl.getBoundingClientRect();
+  const W = Math.max(320, Math.round(box.width));
+  const H = Math.max(260, Math.round(box.height));
+  mapEl.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  projection = geo.geoMercator().fitExtent([[2, 2], [W - 2, H - 2]], states);
+  pathGen = geo.geoPath(projection);
+  mapEl.textContent = '';
+  pcPaths.clear(); statePaths.clear();
+
+  /* The mask is the whole mechanism: white means the layer shows, and the hole
+     is the one state currently in focus. Both the scrim and the cast shadow read
+     from it, so moving the focus is two `d` writes rather than a repaint of 543
+     constituencies. */
+  /* A tight, dark shadow reads as a rim around the state; a wider, softer one
+     reads as height. Blur and offset are both proportional to the map so the
+     lift looks the same at any size. */
+  const blur = Math.max(3.5, W / 145);
+  const drop = Math.max(4, W / 105);
+  const defs = document.createElementNS(NS, 'defs');
+  defs.innerHTML =
+    `<mask id="focusMask" maskUnits="userSpaceOnUse" x="0" y="0" width="${W}" height="${H}">
+       <rect x="0" y="0" width="${W}" height="${H}" fill="#fff"/>
+       <path id="maskHole" fill="#000"/>
+     </mask>
+     <filter id="liftBlur" x="-30%" y="-30%" width="160%" height="160%">
+       <feGaussianBlur stdDeviation="${blur.toFixed(2)}"/>
+     </filter>`;
+  mapEl.appendChild(defs);
+
+  const gPC = document.createElementNS(NS, 'g');
+  for (const f of pcs.features) {
+    const p = document.createElementNS(NS, 'path');
+    p.setAttribute('d', pathGen(f));
+    p.setAttribute('class', 'pc');
+    p.dataset.uid = f.properties.unique_id;
+    gPC.appendChild(p);
+    pcPaths.set(f.properties.unique_id, p);
+  }
+  mapEl.appendChild(gPC);
+
+  // context muting: a wash of the page colour, held off the focused state by the mask
+  scrimEl = document.createElementNS(NS, 'rect');
+  scrimEl.setAttribute('class', 'scrim');
+  scrimEl.setAttribute('x', '0'); scrimEl.setAttribute('y', '0');
+  scrimEl.setAttribute('width', W); scrimEl.setAttribute('height', H);
+  scrimEl.setAttribute('mask', 'url(#focusMask)');
+  mapEl.appendChild(scrimEl);
+
+  // the lift: the same shape nudged down and blurred, masked so only the part
+  // outside the state survives. What remains is a cast shadow.
+  liftEl = document.createElementNS(NS, 'path');
+  liftEl.setAttribute('class', 'lift');
+  liftEl.setAttribute('mask', 'url(#focusMask)');
+  liftEl.setAttribute('filter', 'url(#liftBlur)');
+  liftEl.setAttribute('transform', `translate(0,${drop.toFixed(1)})`);
+  mapEl.appendChild(liftEl);
+
+  maskHoleEl = defs.querySelector('#maskHole');
+
+  const gST = document.createElementNS(NS, 'g');
+  for (const f of states.features) {
+    const code = regionBySource.get(f.properties[level.geometryKey]);
+    const p = document.createElementNS(NS, 'path');
+    p.setAttribute('d', pathGen(f));
+    p.setAttribute('class', 'st');
+    if (code) {
+      p.dataset.region = code;
+      p.setAttribute('tabindex', '0');
+      p.setAttribute('role', 'button');
+      statePaths.set(code, p);
+    }
+    gST.appendChild(p);
+  }
+  mapEl.appendChild(gST);
+
+  applyYear();
+  // a resize rebuilds every element, so the focus has to be re-stated
+  if (focused) paintFocus();
+}
+
+/* Labels select on the size of the shape, not on seats returned: selecting on
+   seats hid Ladakh, which is one seat and the largest shape on the map. */
+
+/* ── colour from the loaded year ──────────────────────────────────────── */
+
+/* Who is currently picked out. A selection is a FILTER ON THE COUNTRY, not a
+   highlight on a row: parties left out fall to --paper-2, so picking two
+   parties shows the two-party contest and its geography at a glance. */
+const selection = new Set();
+
+/* ── the tense: as elected / as it stands ──────────────────────────────── *
+ * One switch, three surfaces. resolved[] is the seat's state under the
+ * current tense — the party to fill, whether a by-election happened, whether
+ * it is now vacant. buildSeatMaps() turns that into the arithmetic: seats as
+ * elected, seats as they stand, and the delta between them. */
+function buildResolved() {
+  resolved = new Map();
+  if (!currentYear) return;
+  for (const [uid, c] of Object.entries(currentYear.constituencies)) {
+    resolved.set(uid, { p: c.p, vacant: false, unknown: false, byeCount: 0 });
+  }
+  if (!byeData || !byeData.seats) return;
+  for (const seat of byeData.seats) {
+    const r = resolved.get(seat.uid);
+    if (!r) continue;
+    const byes = seat.events.filter(e => e.type === 'bye');
+    r.byeCount = byes.length;
+    if (tense !== 'stands') continue;
+    const last = seat.events[seat.events.length - 1];
+    if (last && last.type === 'vacated') { r.p = null; r.vacant = true; }
+    else if (byes.length) {
+      const w = byes[byes.length - 1].winner;
+      r.p = w ? w.p : null;
+      r.unknown = !w;
+    }
+  }
+}
+function buildSeatMaps() {
+  electedSeats = new Map();
+  if (currentYear) {
+    for (const c of Object.values(currentYear.constituencies)) {
+      electedSeats.set(c.p, (electedSeats.get(c.p) || 0) + 1);
+    }
+  }
+  standsSeats = new Map();
+  for (const r of resolved.values()) {
+    if (r.p) standsSeats.set(r.p, (standsSeats.get(r.p) || 0) + 1);
+  }
+  deltaByParty = new Map();
+  if (!currentYear) return;
+  for (const [uid, c] of Object.entries(currentYear.constituencies)) {
+    const r = resolved.get(uid);
+    if (!r || r.unknown || r.p === c.p) continue;
+    deltaByParty.set(c.p, (deltaByParty.get(c.p) || 0) - 1);
+    if (r.p) deltaByParty.set(r.p, (deltaByParty.get(r.p) || 0) + 1);
+  }
+  for (const [p, d] of deltaByParty) if (!d) deltaByParty.delete(p);
+}
+
+/* One GeoJSON collection per party, built from the constituency features that
+   party holds under the current tense. geoPath() renders a whole FeatureCollection
+   to a single `d`, which is what lets a party focus reuse the existing one-element
+   scrim and lift — the cost of focusing a party that won 240 seats is one `d`
+   write, not 240. */
+let partyShapes = new Map();
+function buildPartyShapes() {
+  partyShapes = new Map();
+  if (!currentYear) return;
+  for (const f of pcs.features) {
+    const r = resolved.get(f.properties.unique_id);
+    if (!r || !r.p) continue;
+    let arr = partyShapes.get(r.p);
+    if (!arr) partyShapes.set(r.p, arr = []);
+    arr.push(f);
+  }
+  for (const [code, features] of partyShapes) {
+    partyShapes.set(code, { type: 'FeatureCollection', features });
+  }
+}
+
+function applyYear() {
+  if (!currentYear) return;
+  buildPartyShapes();
+  for (const [uid, p] of pcPaths) {
+    const r = resolved.get(uid);
+    const showMarks = tense === 'stands';
+    p.classList.toggle('bye', showMarks && !!r && r.byeCount > 0 && !r.vacant);
+    p.classList.toggle('vacant', showMarks && !!r && r.vacant);
+    if (r && r.vacant) {
+      p.style.setProperty('--c', 'var(--vacant)');
+    } else {
+      const party = r ? r.p : null;
+      /* Two independent recede-to-find filters share the map: the click selection
+         (compare N parties) and the text query (find one party). A seat stays
+         bright only if it passes both — a party must be selected AND match. */
+      const leftOut = party && (
+        (selection.size && !selection.has(party)) ||
+        (partyQuery && !partyMatches(party))
+      );
+      p.style.setProperty('--c', !party || leftOut ? 'var(--paper-2)' : colour(party));
+    }
+  }
+  for (const [code, p] of statePaths) {
+    const m = agg.byRegion.get(code);
+    const lead = m ? [...m.entries()].sort((a, b) => b[1].seats - a[1].seats)[0] : null;
+    p.setAttribute('aria-label', lead
+      ? `${regionByCode.get(code).name}. ${lead[0]} won ${lead[1].seats} constituencies.`
+      : `${regionByCode.get(code).name}. No result for this year.`);
+  }
+}
+
+/* ── the card ─────────────────────────────────────────────────────────── */
+const MAX_ROWS = 7;
+function fillCard(code) {
+  const rows = [...(agg.byRegion.get(code) || new Map())]
+    .map(([p, v]) => ({ code: p, seats: v.seats, votes: v.votes }))
+    .filter(r => r.seats > 0 || r.votes > 0)
+    .sort((a, b) => b.seats - a.seats || b.votes - a.votes);
+  if (!rows.length) return false;
+
+  const totalVotes = rows.reduce((n, r) => n + r.votes, 0);
+  const totalSeats = rows.reduce((n, r) => n + r.seats, 0);
+  const region = regionByCode.get(code);
+  const rest = rows.slice(MAX_ROWS);
+  const restVotes = rest.reduce((n, r) => n + r.votes, 0);
+
+  card.innerHTML =
+    `<p class="sub">${region.type === 'ut' ? 'Union territory' : 'State'}</p>
+     <h2>${region.name}</h2>
+     <p class="meta">${totalSeats} constituencies · ${nf(totalVotes)} votes polled</p>
+     <p class="open">Open ${region.name} →</p>
+     <table><thead><tr><th>Party</th><th>Seats won</th><th>Votes</th><th>Share</th></tr></thead><tbody>` +
+    rows.slice(0, MAX_ROWS).map(r =>
+      `<tr><td class="p"><i class="sw" style="--c:${colour(r.code)}"></i>${r.code}</td>` +
+      `<td>${r.seats}</td><td>${nf(r.votes)}</td><td>${pc1(totalVotes ? r.votes / totalVotes : 0)}</td></tr>`).join('') +
+    (rest.length ? `<tr class="more"><td class="p">+${rest.length} more</td>` +
+      `<td>${rest.reduce((n, r) => n + r.seats, 0)}</td><td>${nf(restVotes)}</td>` +
+      `<td>${pc1(totalVotes ? restVotes / totalVotes : 0)}</td></tr>` : '') +
+    `</tbody></table>`;
+  card.title = `${rows[0].code} leads ${region.name} — ${partyName(rows[0].code)}`;
+  return true;
+}
+
+function placeCard(x, y) {
+  card.classList.add('on');
+  const r = card.getBoundingClientRect();
+  card.style.left = Math.max(8, Math.min(x + 18, innerWidth - r.width - 12)) + 'px';
+  card.style.top = Math.max(8, Math.min(y + 14, innerHeight - r.height - 12)) + 'px';
+}
+function showCard(code, x, y) { if (fillCard(code)) placeCard(x, y); }
+
+/* Focus + context. The hovered state keeps its colour and its full-strength
+   border; the rest of the map is washed back and its borders fade, so the eye
+   has one place to go instead of 543. */
+/* Focus now has two sources — a state read off the map, and a party read off
+   the table — but one mechanism: a mask hole and a lift, each driven by a
+   single `d`. A state contributes its own outline; a party contributes the
+   union of every seat it won, which geoPath renders in one string. */
+function setFocus(kind, value) {
+  focused = { kind, value };
+  paintFocus();
+}
+
+function paintFocus() {
+  if (!focused || !maskHoleEl) return clearFocus();
+  let d = null;
+  if (focused.kind === 'state') {
+    const st = statePaths.get(focused.value);
+    d = st && st.getAttribute('d');
+  } else {
+    const fc = partyShapes.get(focused.value);
+    d = fc && pathGen(fc);
+  }
+  if (!d) return clearFocus();
+  maskHoleEl.setAttribute('d', d);
+  liftEl.setAttribute('d', d);
+  mapEl.classList.add('has-focus');
+  for (const [c, p] of statePaths) {
+    p.classList.toggle('is-active', focused.kind === 'state' && c === focused.value);
+  }
+}
+
+function clearFocus() {
+  focused = null;
+  if (maskHoleEl) maskHoleEl.setAttribute('d', '');
+  if (liftEl) liftEl.setAttribute('d', '');
+  mapEl.classList.remove('has-focus');
+  for (const p of statePaths.values()) p.classList.remove('is-active');
+}
+
+function hideCard() {
+  card.classList.remove('on');
+  clearFocus();
+}
+
+/* ── the national table ───────────────────────────────────────────────── *
+ * The map shows the shape of a result; this shows its arithmetic and acts on
+ * the map rather than describing it. Hovering a row focuses that party with
+ * the same treatment hovering a state gets; clicking one toggles it into the
+ * filter, and clicking it again takes it out. */
+const NAT_DEFAULT = { key: 'seats', dir: -1 };
+let natSort = { ...NAT_DEFAULT };
+const PAGE_SIZE = 10;
+let natPage = 0;
+const natHead = $('#ntable-head-row'), natBody = $('#ntable-body');
+const natTable = $('.ntable table');
+const natResetBtn = $('#reset-sort'), natClearBtn = $('#clear-sel');
+const natView = $('.ntable-view'), natScroll = $('.ntable-scroll');
+const natPager = $('#ntable-pager');
+
+/* Page numbers under the table. One button per page, the current one filled;
+   prev/next sit at the ends and disable at the boundary. Long strips collapse
+   to a window around the current page so the numbers never wrap the panel. */
+function pageList(p, count) {
+  if (count <= 7) return [...Array(count).keys()];
+  const pages = [...new Set([0, count - 1, p - 1, p, p + 1])]
+    .filter(i => i >= 0 && i < count).sort((a, b) => a - b);
+  const out = [];
+  for (let i = 0; i < pages.length; i++) {
+    if (i > 0 && pages[i] - pages[i - 1] > 1) out.push('…');
+    out.push(pages[i]);
+  }
+  return out;
+}
+function natPagerHTML(pageCount) {
+  if (pageCount <= 1) return '';
+  const p = natPage;
+  let nums = '';
+  for (const item of pageList(p, pageCount)) {
+    if (item === '…') nums += `<span class="pager-ell" aria-hidden="true">…</span>`;
+    else nums += `<button type="button" data-page="${item}"${item === p ? ' class="cur" aria-current="page"' : ''}>${item + 1}</button>`;
+  }
+  return `<button type="button" data-page="${p - 1}" aria-label="Previous page"${p === 0 ? ' disabled' : ''}>‹</button>` +
+    nums +
+    `<button type="button" data-page="${p + 1}" aria-label="Next page"${p === pageCount - 1 ? ' disabled' : ''}>›</button>`;
+}
+
+/* With no scrollbar, the fade is the only cue that there is more below — so it
+   has to be honest, appearing at an edge only while content is actually hidden
+   behind it, and vanishing at both ends. */
+function updateFades() {
+  if (!natView || !natScroll) return;
+  const max = natScroll.scrollHeight - natScroll.clientHeight;
+  natView.classList.toggle('more-up', natScroll.scrollTop > 2);
+  natView.classList.toggle('more-down', natScroll.scrollTop < max - 2);
+}
+
+/* 743 party codes polled nationally in 2024, so a table of all of them is a
+   dump rather than a readout — but a capped first page with a "+N more"
+   remainder reads as rows being withheld. The cut is explicit and stated in the
+   hint instead: hold a seat, OR poll half a percent. Both clauses are needed —
+   a seats-only cut would drop BSP (2.04%), BJD (1.46%) and AIADMK (1.39%),
+   which polled in the millions and won nothing. 48 parties, 96.6% of the vote. */
+const NAT_MIN_SHARE = 0.005;
+function nationalRows(filtered = true) {
+  const total = agg ? agg.totalVotes : 0;
+  const stands = tense === 'stands';
+  const parties = new Map(agg ? agg.national : []);
+  if (stands) for (const code of standsSeats.keys()) if (!parties.has(code)) parties.set(code, { seats: 0, votes: 0 });
+  let rows = [...parties]
+    .map(([code, v]) => ({
+      code,
+      seats: stands ? (standsSeats.get(code) || 0) : v.seats,
+      votes: v.votes,
+      share: total ? v.votes / total : 0,
+      delta: deltaByParty.get(code) || 0
+    }))
+    .filter(r => r.seats > 0 || r.share >= NAT_MIN_SHARE);
+  if (filtered) rows = rows.filter(r => !partyQuery || partyMatches(r.code));
+  return rows.sort((a, b) =>
+    natSort.dir * (a[natSort.key] - b[natSort.key]) || b.seats - a.seats || b.votes - a.votes);
+}
+
+function paintNatHead() {
+  for (const th of natHead.querySelectorAll('th')) {
+    const b = th.querySelector('button[data-sort]');
+    if (!b) continue;
+    const on = natSort.key === b.dataset.sort;
+    b.textContent = b.dataset.label + (on ? (natSort.dir === -1 ? ' ↓' : ' ↑') : '');
+    th.setAttribute('aria-sort', on ? (natSort.dir === -1 ? 'descending' : 'ascending') : 'none');
+  }
+  natResetBtn.hidden = natSort.key === NAT_DEFAULT.key && natSort.dir === NAT_DEFAULT.dir;
+}
+
+function renderNational() {
+  if (!natBody) return 0;
+  const rows = nationalRows(true);
+  const pageCount = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
+  natPage = Math.min(natPage, pageCount - 1);
+  const start = natPage * PAGE_SIZE;
+  const slice = rows.slice(start, start + PAGE_SIZE);
+  natHead.innerHTML =
+    `<th>Party</th>` +
+    `<th><button type="button" data-sort="seats" data-label="Seats">Seats</button></th>` +
+    `<th><button type="button" data-sort="votes" data-label="Votes">Votes</button></th>` +
+    `<th><button type="button" data-sort="share" data-label="Share">Share</button></th>`;
+  if (!rows.length) {
+    natBody.innerHTML = `<tr><td colspan="4" style="text-align:left;color:var(--muted)">${noMatchMessage()}</td></tr>`;
+  } else {
+    natBody.innerHTML = slice.map(r => {
+      const on = selection.has(r.code);
+      const d = r.delta;
+      const dTxt = tense === 'stands' && d
+        ? (d > 0 ? ' +' + d : ' \u2212' + (-d))
+        : '';
+      return `<tr data-party="${r.code}"${on ? ' class="sel"' : ''}>` +
+        `<td><button type="button" class="pick" aria-pressed="${on}">` +
+        `<i class="sw" style="--c:${colour(r.code)}"></i><span>${r.code}</span></button></td>` +
+        `<td>${r.seats}${dTxt ? `<span class="d">${dTxt}</span>` : ''}</td>` +
+        `<td>${nf(r.votes)}</td><td>${pc1(r.share)}</td></tr>`;
+    }).join('');
+    const unknown = [...resolved.values()].filter(r => r.unknown).length;
+    if (unknown && natPage === pageCount - 1) {
+      natBody.innerHTML += `<tr><td colspan="4" style="text-align:left;color:var(--muted)">${unknown} seat${unknown === 1 ? '' : 's'}: by-election result not available yet</td></tr>`;
+    }
+  }
+  // the whole tbody dims its left-out rows, so the table and the map agree
+  natBody.classList.toggle('has-sel', selection.size > 0);
+  natClearBtn.hidden = selection.size === 0;
+  paintNatHead();
+  natPager.innerHTML = natPagerHTML(pageCount);
+  // The count lives here so a year or tense change (which both re-run this) can
+  // never leave it stale — the same guarantee the minister count already gets.
+  if (partyQuery) {
+    const base = nationalRows(false).length;
+    partyCountEl.textContent = `${rows.length} of ${base}`;
+  } else {
+    partyCountEl.textContent = '';
+  }
+  return rows.length;
+}
+
+/* "No match" and "matched, but below this table's cut" are different facts. The
+   table shows a party only if it won a seat or polled >= 0.5%; a query can hit a
+   real party that did neither (RLD 2019, VBA/PMK 2024) and the message must not
+   claim the user's query failed. */
+function noMatchMessage() {
+  if (!partyQuery || !agg) return 'No party matches your search.';
+  const below = [...agg.national.keys()].filter(partyMatches);
+  if (!below.length) return 'No party matches your search.';
+  return below.length === 1
+    ? `${below[0]} polled below 0.5% and won no seats.`
+    : `${below.length} parties polled below 0.5% and won no seats.`;
+}
+
+function toggleParty(code) {
+  if (selection.has(code)) selection.delete(code); else selection.add(code);
+  applyYear();
+  renderNational();
+}
+
+function bindTable() {
+  if (!natBody) return;
+  natScroll.addEventListener('scroll', updateFades, { passive: true });
+  natBody.addEventListener('pointerover', e => {
+    const tr = e.target.closest('tr[data-party]');
+    if (!tr) return;
+    hideCard();                       // the row is the readout here, not the card
+    setFocus('party', tr.dataset.party);
+  });
+  natBody.addEventListener('pointerleave', clearFocus);
+  /* The pick button is the tab stop; its click bubbles to the row, so pointer
+     and keyboard go through exactly one handler. */
+  natBody.addEventListener('click', e => {
+    const tr = e.target.closest('tr[data-party]');
+    if (tr) toggleParty(tr.dataset.party);
+  });
+  natHead.addEventListener('click', e => {
+    const b = e.target.closest('button[data-sort]');
+    if (!b) return;
+    const k = b.dataset.sort;
+    if (natSort.key === k) natSort.dir = -natSort.dir;
+    else { natSort.key = k; natSort.dir = -1; }
+    natPage = 0;
+    renderNational();
+  });
+  natResetBtn.addEventListener('click', () => { natSort = { ...NAT_DEFAULT }; natPage = 0; renderNational(); });
+  natClearBtn.addEventListener('click', () => {
+    selection.clear();
+    applyYear();
+    renderNational();
+  });
+  natPager.addEventListener('click', e => {
+    const b = e.target.closest('button[data-page]');
+    if (!b || b.disabled) return;
+    const t = Number(b.dataset.page);
+    if (!Number.isNaN(t)) { natPage = t; renderNational(); }
+  });
+}
+
+/* ── search ───────────────────────────────────────────────────────────── *
+ * Two queries, two surfaces, one recede-to-find idiom the page already uses for
+ * hover. A party query narrows the table to matching rows AND dims every seat on
+ * the map that is not one of those parties. A minister query spotlights the
+ * matching cabinet cards and lets the rest fall back — the belt keeps its shape
+ * so the reader still sees where the match sits among its peers. */
+let partyQuery = '';
+let minQuery = '';
+const norm = s => (s || '').toLowerCase();
+const partyMatches = code => {
+  if (!partyQuery) return true;
+  const q = norm(partyQuery);
+  const p = partyByCode.get(code);
+  if (p) return [p.code, p.name, ...(p.aliases || [])].some(t => norm(t).includes(q));
+  return norm(code).includes(q);          // a party outside the vocabulary: match its code
+};
+const memberMatches = m => {
+  if (!minQuery) return true;
+  const q = norm(minQuery);
+  return [m.name, m.portfolio, m.role, m.constituency].filter(Boolean)
+    .map(norm).join(' ').includes(q);
+};
+
+const searchPartyEl = $('#search-party'), clearPartyEl = $('#clear-party'), partyCountEl = $('#party-count');
+const searchMinEl = $('#search-min'), clearMinEl = $('#clear-min'), minCountEl = $('#min-count');
+
+function applyPartyQuery() {
+  const on = !!partyQuery;
+  clearPartyEl.hidden = !on;
+  natPage = 0;                             // a new query reopens on the first page
+  applyYear();                            // dim the map to the matching parties
+  renderNational();                       // narrow the table and refresh its count
+  paintNote();                            // the map's status line reflects the query
+}
+
+function applyBeltQuery() {
+  const on = !!minQuery;
+  clearMinEl.hidden = !on;
+  let n = 0;
+  beltSorted.forEach((m, i) => {
+    const cardEl = beltScroll.children[i];
+    if (!cardEl) return;
+    const hit = memberMatches(m);
+    if (hit) n++;
+    cardEl.classList.toggle('dim', on && !hit);
+  });
+  minCountEl.textContent = on ? `${n} of ${beltSorted.length}` : '';
+  updateBeltFades();
+}
+
+/* A match can sit off the right edge of a scrollbar-less strip, so the query
+   takes the reader to the first one rather than only reporting it. The scroll
+   is horizontal only — beltScroll, never the page — and instant, so it neither
+   fights the snap points nor animates under reduced-motion. */
+function scrollToFirstMatch() {
+  const first = beltScroll.querySelector('.belt-card:not(.dim)');
+  if (!first) return;
+  const sc = beltScroll.getBoundingClientRect();
+  const c = first.getBoundingClientRect();
+  if (c.left < sc.left + 4) beltScroll.scrollBy({ left: c.left - sc.left - 8, behavior: 'auto' });
+  else if (c.right > sc.right - 4) beltScroll.scrollBy({ left: c.right - sc.right + 8, behavior: 'auto' });
+}
+
+function bindSearch() {
+  searchPartyEl.addEventListener('input', () => { partyQuery = searchPartyEl.value.trim(); applyPartyQuery(); });
+  clearPartyEl.addEventListener('click', () => { searchPartyEl.value = ''; partyQuery = ''; applyPartyQuery(); searchPartyEl.focus(); });
+  searchMinEl.addEventListener('input', () => { minQuery = searchMinEl.value.trim(); applyBeltQuery(); scrollToFirstMatch(); });
+  clearMinEl.addEventListener('click', () => { searchMinEl.value = ''; minQuery = ''; applyBeltQuery(); searchMinEl.focus(); });
+  for (const [inp, clearFn] of [[searchPartyEl, () => { partyQuery = ''; applyPartyQuery(); }],
+                                [searchMinEl, () => { minQuery = ''; applyBeltQuery(); }]]) {
+    inp.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        e.stopPropagation();              // Escape clears the field, not the map focus
+        inp.value = '';
+        clearFn();
+      }
+    });
+  }
+}
+
+/* Delegated, so a redraw on resize cannot strand the handlers on detached paths. */
+function bindEvents() {
+  const codeOf = e => {
+    const p = e.target.closest && e.target.closest('path.st[data-region]');
+    return p && p.dataset.region;
+  };
+  mapEl.addEventListener('pointerover', e => {
+    const c = codeOf(e); if (!c) return;
+    setFocus('state', c);
+    showCard(c, e.clientX, e.clientY);
+  });
+  mapEl.addEventListener('pointermove', e => {
+    const c = codeOf(e); if (!c || !card.classList.contains('on')) return;
+    placeCard(e.clientX, e.clientY);
+  });
+  // pointerleave on the svg, not pointerout on a path: leaving one state for its
+  // neighbour fires out-then-over, which would drop the focus and re-set it on
+  // every move between adjacent states.
+  mapEl.addEventListener('pointerleave', hideCard);
+  mapEl.addEventListener('focusin', e => {
+    const c = codeOf(e); if (!c) return;
+    setFocus('state', c);
+    const r = e.target.getBoundingClientRect();
+    showCard(c, r.left + r.width / 2, r.top + r.height / 2);
+  });
+  mapEl.addEventListener('focusout', hideCard);
+  /* Click drills in. Hover reads the state here; a click goes to its own page,
+     where the same result can be taken apart. */
+  mapEl.addEventListener('click', e => {
+    const c = codeOf(e);
+    if (c) location.href = 'state/?s=' + encodeURIComponent(c) +
+                           '&y=' + (currentYear ? currentYear.year : '');
+  });
+  mapEl.addEventListener('keydown', e => {
+    const c = codeOf(e);
+    if (c && (e.key === 'Enter' || e.key === ' ')) {
+      e.preventDefault();
+      location.href = 'state/?s=' + encodeURIComponent(c) + '&y=' + (currentYear ? currentYear.year : '');
+    }
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') hideCard(); });
+}
+
+/* ── years ────────────────────────────────────────────────────────────── */
+let currentYear = null, agg = null;
+const yearCache = new Map();
+let tense = 'elected';                 // 'elected' | 'stands'
+let byeData = null;                    // by-election doc for the cycle, when added
+let cabinet = { elected: null, stands: null }; // roster docs: as sworn in, as it stands
+let resolved = new Map();              // uid -> { p, vacant, unknown, byeCount }
+let electedSeats = new Map();          // party -> seats as elected
+let standsSeats = new Map();           // party -> seats under the tense
+let deltaByParty = new Map();          // party -> net change (stands - elected)
+async function loadYear(y) {
+  /* manifest paths are relative to the data directory, not to the page */
+  const url = 'data/' + pcLevel.results.replace('{year}', y);
+  if (!yearCache.has(y)) yearCache.set(y, fetchOptional(url).then(res => {
+    if (!res.ok) throw new Error(`${y} is not published`);
+    return res.doc;
+  }));
+  return yearCache.get(y);
+}
+
+/* Optional files are fetched only when availability.json lists them, so a year
+   without them costs no 404; fetchOptional still absorbs one if the index is stale. */
+async function loadBye(y) {
+  if (!byelAvailable(avail, y)) return null;
+  const res = await fetchOptional('data/results/ls/byel/' + y + '.json');
+  return res.ok ? res.doc : null;
+}
+async function loadCabinet(y) {
+  const has = unionRoster(avail, y);
+  const get = async (on, url) => {
+    if (!on) return null;
+    const res = await fetchOptional(url);
+    return res.ok ? res.doc : null;
+  };
+  const [elected, stands] = await Promise.all([
+    get(has.sworn_in, `data/cabinet/union/${y}-sworn-in.json`),
+    get(has.as_it_stands, `data/cabinet/union/${y}.json`),
+  ]);
+  return { elected, stands };
+}
+
+/* "As it stands" has something to show when the year's by-election record or its
+   current council of ministers has been added. With neither, the tense stays in
+   the row but is unavailable, and a page asked for it falls back to "As elected". */
+const standsAvailable = y => byelAvailable(avail, y) || unionRoster(avail, y).as_it_stands;
+function syncTenseAvailability(y) {
+  const ok = standsAvailable(y);
+  if (!ok && tense === 'stands') tense = 'elected';
+  for (const b of tenseEl.children) {
+    b.setAttribute('aria-pressed', String(b.dataset.tense === tense));
+    if (b.dataset.tense !== 'stands') continue;
+    if (ok) { b.removeAttribute('aria-disabled'); b.removeAttribute('title'); }
+    else { b.setAttribute('aria-disabled', 'true'); b.title = `By-election record for ${y} not available yet`; }
+  }
+}
+
+async function selectYear(y) {
+  for (const b of yearsEl.children) { b.setAttribute('aria-pressed', String(+b.dataset.year === y)); b.disabled = true; }
+  hideCard();
+  try {
+    currentYear = await loadYear(y);
+    [byeData, cabinet] = await Promise.all([loadBye(y), loadCabinet(y)]);
+    syncTenseAvailability(y);
+    agg = aggregate(currentYear);
+    buildResolved();
+    buildSeatMaps();
+    natPage = 0;
+    applyYear();
+    renderNational();
+    renderBelt();
+    paintNote();
+  } catch (err) {
+    currentYear = null; agg = null; byeData = null; cabinet = { elected: null, stands: null };
+    resolved = new Map(); electedSeats = new Map(); standsSeats = new Map(); deltaByParty = new Map();
+    noteEl.textContent = `${y} has no constituency result file yet.`;
+    for (const p of pcPaths.values()) { p.style.setProperty('--c', 'var(--paper-2)'); p.classList.remove('bye', 'vacant'); }
+    for (const p of statePaths.values()) p.removeAttribute('aria-label');
+    renderNational();
+    renderBelt();
+  } finally {
+    for (const b of yearsEl.children) b.disabled = false;
+  }
+}
+
+/* ── the tense control, readout and cabinet belt ──────────────────────── */
+function buildTenseControl() {
+  tenseEl.textContent = '';
+  for (const [val, label] of [['elected', 'As elected'], ['stands', 'As it stands']]) {
+    const b = el('button', 'tense-opt');
+    b.type = 'button'; b.dataset.tense = val; b.textContent = label;
+    b.setAttribute('aria-pressed', String(val === tense));
+    b.addEventListener('click', () => {
+      if (b.getAttribute('aria-disabled') === 'true') return;
+      if (tense !== val) { tense = val; applyTense(); }
+    });
+    tenseEl.appendChild(b);
+  }
+  tenseEl.hidden = false;
+}
+
+function paintNote() {
+  if (!currentYear) return;
+  const y = currentYear.year;
+  let txt;
+  if (!byeData) {
+    /* No by-election record has been added for this term, so the seats on the map
+       are the general-election result under either tense, and the note says so. */
+    txt = tense === 'elected'
+      ? `As elected · ${y} · by-election record not available yet`
+      : `As it stands · ${y} · by-election record not available yet, so seats show as elected`;
+  } else if (tense === 'elected') {
+    txt = `As elected · ${y}`;
+  } else {
+    const seats = byeData.seats || [];
+    const byes = seats.reduce((n, s) => n + s.events.filter(e => e.type === 'bye').length, 0);
+    const vacant = [...resolved.values()].filter(r => r.vacant).length;
+    if (!byes && !vacant) {
+      /* Only a by-election file that exists and lists no events can say this. */
+      txt = `As it stands · ${y} — no by-elections on record`;
+    } else {
+      const dates = seats.flatMap(s => s.events.map(e => e.date)).sort();
+      const lastDate = dates.length ? dates[dates.length - 1] : '';
+      const unknown = seats.reduce((n, s) => n + s.events.filter(e => e.type === 'bye' && !e.winner).length, 0);
+      const unknownTxt = unknown ? ` (${unknown} result${unknown === 1 ? '' : 's'} not available yet)` : '';
+      txt = `As it stands · ${byes} by-election${byes === 1 ? '' : 's'}${unknownTxt} · ${vacant} vacant · as of ${lastDate}`;
+    }
+  }
+  /* A query that dims every seat must say so — a fully washed map under a line
+     still reading "As elected · 2024" is a false status. */
+  if (partyQuery && agg) {
+    const matches = [...agg.national.keys()].filter(partyMatches);
+    txt += matches.length
+      ? ` · ${matches.length} ${matches.length === 1 ? 'party' : 'parties'} showing`
+      : ` · no seat matches “${partyQuery}”`;
+  }
+  noteEl.textContent = txt;
+}
+
+/* Each tense reads its own roster: "as elected" the council as sworn in,
+   "as it stands" the council today. Neither ever stands in for the other. */
+const cabinetDoc = () => cabinet[tense];
+
+/* Ministries are long and stackable ("Minister of X; and Minister of Y; and
+   Minister of Z"), so the card shows a compacted first ministry + a "+N" count
+   and the full list is revealed on hover. Splitting on ';' and stripping the
+   leading "and" normalises the two spellings the source prints. */
+let beltSorted = [];
+const portfolioList = p => (p || '').split(';').map(s => s.trim().replace(/^and\s+/i, '')).filter(Boolean);
+const shortMinistry = m => (m || '')
+  .replace(/^Minister of State \(Independent Charge\) of the Ministry of\s*/i, '')
+  .replace(/^Minister of State in the Ministry of\s*/i, '')
+  .replace(/^Minister of State in the\s*/i, '')
+  .replace(/^Minister of\s*/i, '')
+  .split(',')[0].trim();
+const compactPortfolio = p => {
+  const list = portfolioList(p);
+  if (!list.length) return { main: '', plus: 0 };
+  return { main: shortMinistry(list[0]), plus: list.length - 1 };
+};
+const RANK_LABEL = { pm: 'Prime Minister', cabinet: 'Cabinet Minister', 'mos-ic': 'Minister of State (Independent Charge)', mos: 'Minister of State' };
+
+function showCabCard(m, x, y) {
+  const list = portfolioList(m.portfolio || m.role || '');
+  const seatLabel = m.constituency || (m.state ? 'Rajya Sabha' : '');
+  card.innerHTML =
+    (RANK_LABEL[m.rank] ? `<p class="sub">${RANK_LABEL[m.rank]}</p>` : '') +
+    `<h2>${titleCase(m.name)}</h2>` +
+    (seatLabel ? `<p class="meta">${seatLabel}${m.party ? ' · ' + m.party : ''}</p>` : '') +
+    (list.length ? `<ul class="min-list">${list.map(min => `<li>${min}</li>`).join('')}</ul>` : '');
+  placeCard(x, y);
+}
+
+function renderBelt() {
+  if (!currentYear) { beltEl.hidden = true; return; }
+  const y = currentYear.year;
+  const doc = cabinetDoc();
+  beltEl.hidden = false;
+  beltTitle.textContent = `Union council of ministers · ${y}`;
+  const voidEl = $('#belt-void');
+  if (!doc || !(doc.members || []).length) {
+    voidEl.querySelector('p').textContent = notAvailable(
+      `the ${y} council of ministers ${tense === 'elected' ? 'as sworn in' : 'as it stands'}`, PRESIDENT);
+    voidEl.hidden = false;
+    $('#find-min').hidden = true;
+    beltView.hidden = true;
+    beltAsof.textContent = '';
+    beltSorted = [];
+    beltScroll.innerHTML = '';
+    return;
+  }
+  voidEl.hidden = true;
+  $('#find-min').hidden = false;
+  beltView.hidden = false;
+  const members = doc.members;
+  beltAsof.textContent = tense === 'elected'
+    ? `as sworn in · ${doc.swornIn}`
+    : `as it stands · ${doc.asOf ? `as of ${doc.asOf}` : `fetched ${doc.fetchedAt}`}`;
+  const order = { pm: 0, cm: 0, cabinet: 1, 'mos-ic': 2, mos: 3 };
+  const sorted = [...members].sort((a, b) =>
+    (order[a.rank] ?? 9) - (order[b.rank] ?? 9) || (a.name || '').localeCompare(b.name || ''));
+  beltSorted = sorted;
+  beltScroll.innerHTML = sorted.map((m, i) => {
+    const cp = compactPortfolio(m.portfolio || m.role || '');
+    const seatLabel = m.constituency || (m.state ? 'Rajya Sabha' : '');
+    const seat = seatLabel
+      ? `<span class="belt-seat">${partyMark(m.party)}${seatLabel}</span>`
+      : '';
+    const face = `<div class="belt-face">${monogramHTML(m.name, colour(m.party))}</div>` +
+      officialPhotoHTML(m.house, m.mpsno);
+    const role = cp.main
+      ? `<p class="belt-role"><span class="belt-role-main">${cp.main}</span>${cp.plus ? `<span class="belt-plus" aria-hidden="true">+${cp.plus}</span>` : ''}</p>`
+      : '';
+    return `<div class="belt-card" data-idx="${i}">` +
+      face +
+      `<p class="belt-name" title="${titleCase(m.name)}">${titleCase(m.name)}</p>` +
+      role +
+      seat + `</div>`;
+  }).join('');
+  fitBeltRows();
+  updateBeltFades();
+  applyBeltQuery();
+}
+
+function updateBeltFades() {
+  const max = beltScroll.scrollWidth - beltScroll.clientWidth;
+  const hasMore = max > 2;
+  beltView.classList.toggle('more-l', hasMore && beltScroll.scrollLeft > 2);
+  beltView.classList.toggle('more-r', hasMore && beltScroll.scrollLeft < max - 2);
+}
+
+/* The row count is not a constant — it is whatever fits. A hardcoded three rows
+   clips the third one the moment the belt is shorter than three cards (a browser
+   zoom, a short window). Measure the tallest card, divide the belt's live height
+   by it, and let the cards re-flow into more columns instead of being cut. */
+function fitBeltRows() {
+  const cards = beltScroll.querySelectorAll('.belt-card');
+  if (!cards.length || !beltScroll.clientHeight) return;
+  let maxH = 0;
+  for (const c of cards) maxH = Math.max(maxH, c.getBoundingClientRect().height);
+  const gap = parseFloat(getComputedStyle(beltScroll).rowGap) || 0;
+  const rows = Math.max(1, Math.floor((beltScroll.clientHeight + gap) / (maxH + gap)));
+  beltScroll.style.setProperty('--belt-rows', rows);
+}
+
+function applyTense() {
+  buildResolved();
+  buildSeatMaps();
+  applyYear();
+  if (focused) paintFocus();
+  renderNational();
+  renderBelt();
+  paintNote();
+  for (const b of tenseEl.children) b.setAttribute('aria-pressed', String(b.dataset.tense === tense));
+}
+
+/* ── boot ─────────────────────────────────────────────────────────────── */
+yearsEl.textContent = '';
+for (const y of manifest.elections.ls.years) {
+  const b = el('button', 'year');
+  b.type = 'button'; b.dataset.year = y; b.textContent = y;
+  b.setAttribute('aria-pressed', 'false');
+  b.addEventListener('click', () => selectYear(y));
+  yearsEl.appendChild(b);
+}
+
+drawMap();
+bindEvents();
+bindTable();
+bindSearch();
+const qp = new URLSearchParams(location.search);
+if (qp.get('t') === 'stands') tense = 'stands';
+buildTenseControl();
+beltScroll.addEventListener('scroll', updateBeltFades, { passive: true });
+/* A symbol image that fails to load (a moved file, a bad thumbnail) falls back to
+   the party colour square it replaced. Image error events do not bubble, so the
+   listener is on the capture phase. */
+beltScroll.addEventListener('error', e => {
+  const img = e.target;
+  if (!(img instanceof HTMLImageElement) || !img.classList.contains('belt-sym')) return;
+  const sw = el('i', 'sw');
+  sw.style.setProperty('--c', img.dataset.fallback || 'var(--muted)');
+  img.replaceWith(sw);
+}, true);
+beltScroll.addEventListener('pointerover', e => {
+  const c = e.target.closest('.belt-card');
+  if (!c) return;
+  /* The float card is a readout of the *text* (name, ministry, seat), not a
+     reaction to the monogram. Hovering the face would otherwise fire it on
+     every pass across the strip, which is noise. Over the face, hide it. */
+  if (e.target.closest('.belt-face')) { card.classList.remove('on'); return; }
+  const m = beltSorted[+c.dataset.idx];
+  if (m) showCabCard(m, e.clientX, e.clientY);
+});
+beltScroll.addEventListener('pointerleave', () => card.classList.remove('on'));
+let brt;
+new ResizeObserver(() => {
+  clearTimeout(brt);
+  brt = setTimeout(fitBeltRows, 60);
+}).observe(beltScroll);
+let rt;
+new ResizeObserver(() => {
+  clearTimeout(rt);
+  rt = setTimeout(() => { drawMap(); }, 60);
+}).observe(mapEl);
+
+const wantYear = Number(qp.get('y')) || 0;
+const bootYear = wantYear && manifest.elections.ls.years.includes(wantYear)
+  ? wantYear : manifest.elections.ls.years[manifest.elections.ls.years.length - 1];
+await selectYear(bootYear);
+</script>
+</body>
+</html>

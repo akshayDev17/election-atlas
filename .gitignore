@@ -1,0 +1,23 @@
+# build output: the Worker's static assets and the D1 export (backend/build_site.py, backend/d1/export.py)
+/dist/
+/exported/
+/atlas-source/
+/d1.sql
+/d1.sqlite
+/day*.sql
+backend/day*.sql
+
+# wrangler local state
+.wrangler/
+node_modules/
+
+# working scratch: third-party downloads, never published
+_research/
+
+# python
+__pycache__/
+*.pyc
+.venv/
+
+# OS / editor
+.DS_Store

@@ -1,0 +1,109 @@
+{
+  "state": "IN-MN",
+  "section": "bills",
+  "ok": 10,
+  "failed": 0,
+  "total_bytes": 34531606,
+  "entries": [
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/manipur/2026/Bill13of2026MN.pdf",
+      "path": "documents/37da1c7681-bills.pdf",
+      "sha256": "4a7ba2ff00065a38d8cf7e549da8dfb416929c0f431dbeb27beef935fbe2e280",
+      "bytes": 673614,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:27.085373+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/manipur/2026/Bill12of2026MN.pdf",
+      "path": "documents/e03590703f-bills.pdf",
+      "sha256": "c8e361134a0436103c774eb4ea1f5139d4301c0d09cd3cbc88788550f7f27946",
+      "bytes": 308266,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:27.088165+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/manipur/2026/Bill11of2026MN.pdf",
+      "path": "documents/45520e5243-bills.pdf",
+      "sha256": "3d91b5216f42edf00ded391375774345e71e65bde4652fc4bf80b9491ece70ce",
+      "bytes": 1046661,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:27.090284+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/manipur/2026/Bill10of2026MN.pdf",
+      "path": "documents/c74ac2b1d0-bills.pdf",
+      "sha256": "7481c4f13b4e94f59aac5fe6b3825b075a9f42627da19dde8733e67d0048d411",
+      "bytes": 4380022,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:27.091672+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/manipur/2026/Bill9of2026MN.pdf",
+      "path": "documents/a299de778a-bills.pdf",
+      "sha256": "b85b7bd45306ba29f0bb9e9652b4d75dc42f3fbab184aec84f7834c62fab1fcb",
+      "bytes": 929902,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:27.095051+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/manipur/2026/Bill8of2026MN.pdf",
+      "path": "documents/5dc418fa39-bills.pdf",
+      "sha256": "13e4b2a83d86046427f817f7c9ea3c73d77345ee1f3fe867629ed5cc825c886b",
+      "bytes": 4195606,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:27.098269+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/manipur/2026/Bill6of2026MN.pdf",
+      "path": "documents/ccf730bb7d-bills.pdf",
+      "sha256": "c85c4c9a49c914bd8f124f2b9f70dc5ab1dd407a9e1604935bbb275249d3f1d8",
+      "bytes": 108843,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:27.101981+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/manipur/2026/Bill4of2026MN.pdf",
+      "path": "documents/82e694734e-bills.pdf",
+      "sha256": "3de05f6dd1eae8bfbf8315cccf1f01a2b41309a02ca630c564dd28cfc4115744",
+      "bytes": 13616113,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:27.103957+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/manipur/2026/Bill3of2026MN.pdf",
+      "path": "documents/c59c97b55a-bills.pdf",
+      "sha256": "4d730284f6b474bc81d44528040254305c3b0c2730a0846c9c4de3ff54d2f52e",
+      "bytes": 8055855,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:27.119037+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/manipur/2026/Ord2of2026MN.pdf",
+      "path": "documents/a18fb1f8c5-bills.pdf",
+      "sha256": "37fb1de452e51bc0214e307c7e2174276ddb2689560d108429e345c675387a51",
+      "bytes": 1216724,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:27.124797+00:00",
+      "ok": true,
+      "reason": ""
+    }
+  ]
+}

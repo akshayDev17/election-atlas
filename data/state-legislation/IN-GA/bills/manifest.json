@@ -1,0 +1,109 @@
+{
+  "state": "IN-GA",
+  "section": "bills",
+  "ok": 10,
+  "failed": 0,
+  "total_bytes": 4201833,
+  "entries": [
+    {
+      "url": "https://www.goavidhansabha.gov.in/uploads/bills/324_field_B41SLI-H.PDF",
+      "path": "documents/082b3f8bf2-bills.pdf",
+      "sha256": "f131836e37f094a60a4194858fa5848f7c27561ae7590eabe287e1a28a1b79ae",
+      "bytes": 170570,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T08:39:39.539276+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://www.goavidhansabha.gov.in/uploads/bills/324_final_B25QBM-O.PDF",
+      "path": "documents/c55f41a627-bills.pdf",
+      "sha256": "a91fb54d2c4da227b4a4872fd30958d23aaa4c98043e154797e6e98146f17675",
+      "bytes": 56818,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T08:39:39.543928+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://static.goavidhansabha.gov.in/goalpub/docs/bills/1332_field_Bill-No-17-of-2023.pdf",
+      "path": "documents/56b9b27578-bills.pdf",
+      "sha256": "aec8f2547cc9b11e17b22124f7cb13bb0a64723f21a4c8d37558f426187283a2",
+      "bytes": 2047523,
+      "content_type": "application/octet-stream",
+      "fetched_at": "2026-09-23T08:39:39.545212+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://static.goavidhansabha.gov.in/goalpub/docs/bills/1452_field_BN62OF2026-AI.pdf",
+      "path": "documents/30ea46756d-bills.pdf",
+      "sha256": "578a2dc9ba8adc184b74b8fb7f4e778877230fb9826cd17ffdd0ce572872cfea",
+      "bytes": 73187,
+      "content_type": "application/octet-stream",
+      "fetched_at": "2026-09-23T08:39:39.550628+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://static.goavidhansabha.gov.in/goalpub/docs/bills/1452_final_BN62OF2026-AP.pdf",
+      "path": "documents/175d3b2b5c-bills.pdf",
+      "sha256": "71335df8c4ed812574fbe7042aff4a1e7a59d8ecfc6e3e84781b878d45beec1e",
+      "bytes": 238412,
+      "content_type": "application/octet-stream",
+      "fetched_at": "2026-09-23T08:39:39.551960+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://static.goavidhansabha.gov.in/goalpub/docs/bills/1454_field_BN61OF2026-AI.pdf",
+      "path": "documents/d0048b2342-bills.pdf",
+      "sha256": "a83d85360f5fa4e40b59d5da90c1e041faced297a15f77e2410d177f03c6f0ff",
+      "bytes": 69345,
+      "content_type": "application/octet-stream",
+      "fetched_at": "2026-09-23T08:39:39.553411+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://static.goavidhansabha.gov.in/goalpub/docs/bills/1451_field_BN60OF2026-AI.pdf",
+      "path": "documents/9c84dd4b9e-bills.pdf",
+      "sha256": "6ce34f59d68fe2706ad7a47f317664c29c9d559a8e4f94300437520fb769d4e0",
+      "bytes": 364473,
+      "content_type": "application/octet-stream",
+      "fetched_at": "2026-09-23T08:39:39.554246+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://static.goavidhansabha.gov.in/goalpub/docs/bills/1451_final_BN60OF2026-AP.pdf",
+      "path": "documents/db3c869719-bills.pdf",
+      "sha256": "71840839a95d3eb4e8a8c29350f2b30840a848ed676f9cdcc2b3c676208946d5",
+      "bytes": 408557,
+      "content_type": "application/octet-stream",
+      "fetched_at": "2026-09-23T08:39:39.555728+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://static.goavidhansabha.gov.in/goalpub/docs/bills/1455_field_BN59OF2026-AI.pdf",
+      "path": "documents/b06bf108e3-bills.pdf",
+      "sha256": "769f302ac0e8b11bd366b25731c99309565026c40c4ebc51921816d4cf85b7ff",
+      "bytes": 436010,
+      "content_type": "application/octet-stream",
+      "fetched_at": "2026-09-23T08:39:39.556858+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://static.goavidhansabha.gov.in/goalpub/docs/bills/1455_final_BN59OF2026-AP.pdf",
+      "path": "documents/a67286a1b5-bills.pdf",
+      "sha256": "daec105a95b8528754dd71d0716857a86e9995d58b4af5b39635674d2cb9e737",
+      "bytes": 336938,
+      "content_type": "application/octet-stream",
+      "fetched_at": "2026-09-23T08:39:39.557824+00:00",
+      "ok": true,
+      "reason": ""
+    }
+  ]
+}

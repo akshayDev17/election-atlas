@@ -1,0 +1,132 @@
+{
+  "schema": 1,
+  "note": "Party symbol/logo images fetched from Wikipedia. `symbols` maps party code to its image; a party absent here had no usable image. Paths are relative to work/election-atlas/data/. Images Wikipedia carries only under a fair-use rationale are not kept: that rationale does not extend to this site, so those parties show their colour swatch.",
+  "symbols": {
+    "BJP": {
+      "file": "photos/parties/BJP.png",
+      "source": "https://en.wikipedia.org/wiki/Bharatiya_Janata_Party",
+      "license": "Public domain",
+      "credit": "SantoUY"
+    },
+    "INC": {
+      "file": "photos/parties/INC.png",
+      "source": "https://en.wikipedia.org/wiki/Indian_National_Congress",
+      "license": "Public domain",
+      "credit": "Original design of flag & emblem by Indian National Congress. Vectorized version by Swapnil1101 ."
+    },
+    "SP": {
+      "file": "photos/parties/SP.png",
+      "source": "https://en.wikipedia.org/wiki/Samajwadi_Party",
+      "license": "CC0",
+      "credit": "[1] (website states that their images are free)"
+    },
+    "BSP": {
+      "file": "photos/parties/BSP.png",
+      "source": "https://en.wikipedia.org/wiki/Bahujan_Samaj_Party",
+      "license": "CC BY-SA 3.0",
+      "credit": "Furfur"
+    },
+    "AITC": {
+      "file": "photos/parties/AITC.png",
+      "source": "https://en.wikipedia.org/wiki/Trinamool_Congress",
+      "license": "Public domain",
+      "credit": "VNC200"
+    },
+    "CPM": {
+      "file": "photos/parties/CPM.png",
+      "source": "https://en.wikipedia.org/wiki/Communist_Party_of_India_(Marxist)",
+      "license": "CC BY-SA 4.0",
+      "credit": "Soumava2002"
+    },
+    "CPI": {
+      "file": "photos/parties/CPI.png",
+      "source": "https://en.wikipedia.org/wiki/Communist_Party_of_India",
+      "license": "Public domain",
+      "credit": "Unknown author Unknown author"
+    },
+    "AIADMK": {
+      "file": "photos/parties/AIADMK.png",
+      "source": "https://en.wikipedia.org/wiki/All_India_Anna_Dravida_Munnetra_Kazhagam",
+      "license": "CC BY-SA 4.0",
+      "credit": "Gnoeee"
+    },
+    "YSRCP": {
+      "file": "photos/parties/YSRCP.jpg",
+      "source": "https://en.wikipedia.org/wiki/YSR_Congress_Party",
+      "license": "CC BY-SA 4.0",
+      "credit": "Veekthedragon"
+    },
+    "TDP": {
+      "file": "photos/parties/TDP.png",
+      "source": "https://en.wikipedia.org/wiki/Telugu_Desam_Party",
+      "license": "CC BY-SA 4.0",
+      "credit": "Abilngeorge"
+    },
+    "BRS": {
+      "file": "photos/parties/BRS.png",
+      "source": "https://en.wikipedia.org/wiki/Bharat_Rashtra_Samithi",
+      "license": "CC0",
+      "credit": "Cheif Electoral Office"
+    },
+    "JDU": {
+      "file": "photos/parties/JDU.png",
+      "source": "https://en.wikipedia.org/wiki/Janata_Dal_(United)",
+      "license": "CC BY-SA 3.0",
+      "credit": "Abilngeorge"
+    },
+    "SHS": {
+      "file": "photos/parties/SHS.png",
+      "source": "https://en.wikipedia.org/wiki/Shiv_Sena",
+      "license": "CC BY-SA 4.0",
+      "credit": "File:Indian Election Symbol Bow And Arrow.png"
+    },
+    "NCP": {
+      "file": "photos/parties/NCP.png",
+      "source": "https://en.wikipedia.org/wiki/Nationalist_Congress_Party",
+      "license": "CC0",
+      "credit": "Sg9655"
+    },
+    "AAP": {
+      "file": "photos/parties/AAP.png",
+      "source": "https://en.wikipedia.org/wiki/Aam_Aadmi_Party",
+      "license": "Public domain",
+      "credit": "Aam Aadmi Party"
+    },
+    "BJD": {
+      "file": "photos/parties/BJD.png",
+      "source": "https://en.wikipedia.org/wiki/Biju_Janata_Dal",
+      "license": "CC BY-SA 4.0",
+      "credit": "VNC200"
+    },
+    "JDS": {
+      "file": "photos/parties/JDS.png",
+      "source": "https://en.wikipedia.org/wiki/Janata_Dal_(Secular)",
+      "license": "CC BY-SA 4.0",
+      "credit": "Own work"
+    },
+    "HAMS": {
+      "file": "photos/parties/HAMS.jpg",
+      "source": "https://en.wikipedia.org/wiki/Hindustani_Awam_Morcha_(Secular)",
+      "license": "CC BY-SA 4.0",
+      "credit": "Election Commission of India"
+    },
+    "RLD": {
+      "file": "photos/parties/RLD.png",
+      "source": "https://en.wikipedia.org/wiki/Rashtriya_Lok_Dal",
+      "license": "CC BY-SA 4.0",
+      "credit": "Abilngeorge"
+    },
+    "RPIA": {
+      "file": "photos/parties/RPIA.png",
+      "source": "https://en.wikipedia.org/wiki/Republican_Party_of_India_(Athawale)",
+      "license": "CC0",
+      "credit": "RKTV News UP"
+    },
+    "ADS": {
+      "file": "photos/parties/ADS.jpg",
+      "source": "https://en.wikipedia.org/wiki/Apna_Dal_(Soneylal)",
+      "license": "CC BY-SA 4.0",
+      "credit": "Election Commission of India"
+    }
+  }
+}

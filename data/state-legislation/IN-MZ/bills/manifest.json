@@ -1,0 +1,109 @@
+{
+  "state": "IN-MZ",
+  "section": "bills",
+  "ok": 10,
+  "failed": 0,
+  "total_bytes": 13572666,
+  "entries": [
+    {
+      "url": "https://mizoramassembly.in/storage/government-bill-attachments/GB-01M11BFE0WSQ812ANBXRN9E57B.pdf",
+      "path": "documents/4fd7e66d77-bills.pdf",
+      "sha256": "47f48ada1ce8995d4cef3f6e58031c694bcc8ca09d7b91f9aa1136b9d248ad38",
+      "bytes": 7790757,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:58.468774+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://mizoramassembly.in/storage/government-bill-attachments/GB-01M119WEMTJJ8T27V0JW35D5PV.pdf",
+      "path": "documents/47ada85159-bills.pdf",
+      "sha256": "28df0ce709c1997b51e2ccc1e7fc82fa9e6735ad14c27701e93a1f7fa4798f42",
+      "bytes": 1295644,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:58.478326+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://mizoramassembly.in/storage/government-bill-attachments/GB-01KJ7HNCQE3KCMJWND2GM0H8RD.pdf",
+      "path": "documents/0c830eed2a-bills.pdf",
+      "sha256": "729b89561ad8d022639d4e2ccaaadffe232d308e80ceed0d4d84db58a1f47981",
+      "bytes": 349690,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:58.481738+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://mizoramassembly.in/storage/government-bill-attachments/GB-01KJAEKRFSA6A0BE2ZMRGTKZRE.pdf",
+      "path": "documents/a5354f74a5-bills.pdf",
+      "sha256": "b4be62741d0545bcdf0b40a540fa2b503dc32c11bfcc7ca2bfb51b1fea54873d",
+      "bytes": 360523,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:58.482774+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://mizoramassembly.in/storage/government-bill-attachments/GB-01KJ4ZW8TJNYK88HG99FECX7QM.pdf",
+      "path": "documents/7ff53a993e-bills.pdf",
+      "sha256": "0e39bb95f3f494f1610e20c950ad5dc5c33b6eb1dffb5bcc6c90e719d774c1d4",
+      "bytes": 519880,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:58.484114+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://mizoramassembly.in/storage/government-bill-attachments/GB-01KJ4TND1XZ9SRHBN4W35DB3E5.pdf",
+      "path": "documents/5bef117c53-bills.pdf",
+      "sha256": "b08ec736cc59459ea6295e2eb53f4000a15fed76c824ae98de8d07bd888f072a",
+      "bytes": 328987,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:58.485364+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://mizoramassembly.in/storage/government-bill-attachments/GB-01KJA5MVZHCES84PD5MG7BCXRG.pdf",
+      "path": "documents/c87c862b93-bills.pdf",
+      "sha256": "601362ae28dbf9a19c087f37f6b2d2d531c464b0f3b40be37b12780f5bef8f57",
+      "bytes": 281705,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:58.486087+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://mizoramassembly.in/storage/government-bill-attachments/GB-01KHTPJ518T7QTA1YWHSZNGJDN.pdf",
+      "path": "documents/e9bd70bbbb-bills.pdf",
+      "sha256": "d04f9f5b8c31bee070057661c572c6b7e8e33b4a57f5fb07dde3a66f61763c49",
+      "bytes": 641321,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:58.487077+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://mizoramassembly.in/storage/government-bill-attachments/GB-01KHTFWY9FFMR7H0762N0GK12Q.pdf",
+      "path": "documents/85443adcbe-bills.pdf",
+      "sha256": "f336c3961426032e4dbbb552716d13a7bc5fced8747d4a764ed7cea0e0f17329",
+      "bytes": 178226,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:58.488869+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://mizoramassembly.in/storage/government-bill-attachments/GB-01KJ77Z03MS1SFDVE56EP2QRTB.pdf",
+      "path": "documents/d017c45cd2-bills.pdf",
+      "sha256": "0e27d89fdc7e818228172971d23c992141fc19ebfed24471efe67958879af710",
+      "bytes": 1825933,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:58.489876+00:00",
+      "ok": true,
+      "reason": ""
+    }
+  ]
+}

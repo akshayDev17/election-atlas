@@ -1,0 +1,118 @@
+name: Deploy
+
+# Exports the atlas's data files from D1, refuses to deploy unless they are what
+# the pinned github.io commit committed and the provenance gate passes over both
+# the export and D1 itself, then deploys the Worker. The config carries no
+# routes: the Worker answers only on its workers.dev preview URL.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+env:
+  WRANGLER: npx --yes wrangler@4.151.1
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read the pinned atlas source
+        id: src
+        run: |
+          echo "repo=$(jq -r .repository backend/atlas-source.json)" >> "$GITHUB_OUTPUT"
+          echo "commit=$(jq -r .commit backend/atlas-source.json)" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ steps.src.outputs.repo }}
+          ref: ${{ steps.src.outputs.commit }}
+          path: atlas-source
+          # partial clone: only the blobs the sparse paths need are fetched
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /work/election-atlas/data/
+            !/work/election-atlas/**/*.pdf
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Refuse a Worker config with routes
+        run: python3 backend/check_no_routes.py backend/wrangler.jsonc
+      - name: Refuse to run before the database id is committed
+        run: |
+          if grep -q REPLACE_AFTER_d1_create backend/wrangler.jsonc; then
+            echo "::error::backend/wrangler.jsonc still has the D1 placeholder"; exit 1
+          fi
+
+      - name: Export D1
+        working-directory: backend
+        run: |
+          $WRANGLER d1 export election-atlas --remote --output ../d1.sql --skip-confirmation
+          python3 -c "import sqlite3; c = sqlite3.connect('../d1.sqlite'); c.executescript(open('../d1.sql').read()); c.commit()"
+
+      - name: Write the data files from D1 and diff them against the committed JSON
+        run: python3 backend/d1/export.py --db d1.sqlite --out exported --compare atlas-source/work/election-atlas/data
+
+      - name: Assemble the site
+        run: python3 backend/build_site.py --out dist --data-from exported --complete-against atlas-source/work/election-atlas/data
+
+      - name: Provenance gate over the export and over D1
+        run: python3 tools/check_provenance.py dist/work/election-atlas/data --db d1.sqlite
+
+      - name: Provenance gate, asked of D1 directly
+        working-directory: backend
+        run: |
+          $WRANGLER d1 execute election-atlas --remote --json --command "
+            SELECT
+              (SELECT count(*) FROM term WHERE provenance <> 'published' OR source_id IS NULL)
+            + (SELECT count(*) FROM document WHERE provenance <> 'published' OR source_id IS NULL)
+            + (SELECT count(*) FROM region_tally WHERE provenance <> 'published' OR source_id IS NULL)
+            + (SELECT count(*) FROM region_party_tally WHERE provenance <> 'published' OR source_id IS NULL)
+            + (SELECT count(*) FROM contest WHERE provenance <> 'published' OR source_id IS NULL)
+            + (SELECT count(*) FROM ministry WHERE provenance <> 'published' OR source_id IS NULL)
+            + (SELECT count(*) FROM minister_tenure WHERE provenance <> 'published' OR source_id IS NULL)
+              AS not_published" > ../d1-gate.json
+          cat ../d1-gate.json
+          test "$(jq '.[0].results[0].not_published' ../d1-gate.json)" = 0
+
+      - name: Negative tests (the gate must fail on planted synthetic and dummy data)
+        run: |
+          python3 -m unittest discover -s backend/d1 -p 'test_*.py' -v
+          python3 -m unittest discover -s tools -p 'test_check_provenance.py' -v
+
+      - name: availability.json matches the files present
+        run: python3 dist/work/election-atlas/tools/build-availability.py --check
+
+      - name: Static-asset limits (20,000 files, 25 MiB each)
+        run: |
+          n=$(find dist -type f | wc -l); big=$(find dist -type f -size +25M | wc -l)
+          echo "assets: $n files, $big over 25 MiB"
+          test "$n" -lt 20000 && test "$big" = 0
+
+      - name: Deploy the Worker (no routes)
+        working-directory: backend
+        run: $WRANGLER deploy | tee ../deploy.log
+
+      - name: Smoke test the preview
+        run: |
+          base=$(grep -oE 'https://[a-z0-9.-]+\.workers\.dev' deploy.log | head -1)
+          echo "preview: $base/work/election-atlas/"
+          test -n "$base"
+          for p in / data/manifest.json data/availability.json data/results/ls/pc/2024.json state/; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "$base/work/election-atlas/$p")
+            echo "$code $p"; test "$code" = 200
+          done

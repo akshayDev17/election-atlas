@@ -1,0 +1,358 @@
+{
+ "const_id": 445,
+ "constituency": "PHULPUR",
+ "constituency_key": "phulpur",
+ "mp_id": 3042521,
+ "mp_name": "PRAVEEN PATEL",
+ "tiles": {
+  "Allocated Limit for Hon'ble MPs": [
+   "15,15,59,884.09",
+   "15.16 Crore"
+  ],
+  "Expenditure on Completed and On-going Works as on Date": [
+   "9,51,02,075.00",
+   "9.51 Crore"
+  ],
+  "Works Recommended": [
+   "24",
+   "9,81,36,533.00",
+   "9.81 Crore"
+  ],
+  "Works Completed": [
+   "15",
+   "7,17,00,456.00",
+   "7.17 Crore"
+  ],
+  "Works Sanctioned": [
+   "24",
+   "9,81,36,533.00",
+   "9.81 Crore"
+  ],
+  "Amount consented for Calamity": [
+   "0",
+   "0.00",
+   "0.00 Crore"
+  ],
+  "Current Tenure": [
+   {
+    "ID": 7,
+    "CAPTION": "18th Lok Sabha"
+   }
+  ]
+ },
+ "charts": {
+  "Development Fund": {
+   "title": "Development Fund",
+   "Allocated Limit": 98136533.0,
+   "Available Limit": 53423351.09
+  },
+  "Location wise Development Work Recommendation": {
+   "title": "Location wise Development Work Recommendation",
+   "Rural": 89911320.0,
+   "Urban": 8225213.0
+  },
+  "Development Work Recommendation Status": {
+   "title": "Development Work Recommendation Status",
+   "Unsanctioned": 0.0,
+   "Completed": 46475456.0,
+   "On Going": 51661077.0
+  },
+  "Work Category wise Development Work Recommendation": {
+   "title": "Work Category wise Development Work Recommendation",
+   "Normal and Others": 98136533.0,
+   "Trust or Society | Bar Association": 0.0,
+   "Bar Association (Exclusively for Purchase of Books for Library)": 0.0,
+   "Repair and Renovation": 0.0
+  }
+ },
+ "works": [
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18233/2025-2026/180308-Lighting of public spaces",
+   "description": "Phulpur Sansdiya Kshetra me suchi ke anusar block wise 215 Solar High Mast light ka work ",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 20609400.0,
+   "sanctioned_amount": 20609400.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "12-Mar-2025",
+   "sanctioned_date": "12-Aug-2025",
+   "letter_no": "LN/MP18233/2024-2025/1"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18233/2024-2025/182676-Lighting of public spaces",
+   "description": "Ward No 19 Andaw Petorl Pump ke pass 20mtr. High Mast Light ",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 959712.0,
+   "sanctioned_amount": 959712.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "17-Mar-2025",
+   "sanctioned_date": "27-Mar-2025",
+   "letter_no": "LN/MP18233/2024-2025/2"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18233/2024-2025/182677-Lighting of public spaces",
+   "description": "Ward No 19 Andwa Mukhay Marg Par 20mtr. High Mast light",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 959712.0,
+   "sanctioned_amount": 959712.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "17-Mar-2025",
+   "sanctioned_date": "27-Mar-2025",
+   "letter_no": "LN/MP18233/2024-2025/2"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18233/2024-2025/182678-Lighting of public spaces",
+   "description": "Block Sahanso Vill Manethu Phulpur me Gau Sala Ke pass 20 mtr. High Mast Light",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 959712.0,
+   "sanctioned_amount": 959712.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "17-Mar-2025",
+   "sanctioned_date": "27-Mar-2025",
+   "letter_no": "LN/MP18233/2024-2025/2"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18233/2024-2025/182679-Lighting of public spaces",
+   "description": "Block Holagarg Soraon Mukundpur Market me 20 mtr. High Mast light",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 959712.0,
+   "sanctioned_amount": 959712.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "17-Mar-2025",
+   "sanctioned_date": "27-Mar-2025",
+   "letter_no": "LN/MP18233/2024-2025/2"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18233/2024-2025/182680-Lighting of public spaces",
+   "description": "Block Sringverpur Modh Gate ke Pass 20mtr. High Mast Light",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 959712.0,
+   "sanctioned_amount": 959712.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "17-Mar-2025",
+   "sanctioned_date": "27-Mar-2025",
+   "letter_no": "LN/MP18233/2024-2025/2"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18233/2024-2025/182681-Lighting of public spaces",
+   "description": "Rudra Sangam Apartment Jhunsi Prayagraj ke Mukhya Gate ke Samne 20 mtr. High Mast Light",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 959712.0,
+   "sanctioned_amount": 959712.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "17-Mar-2025",
+   "sanctioned_date": "27-Mar-2025",
+   "letter_no": "LN/MP18233/2024-2025/2"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18233/2024-2025/182711-Lighting of public spaces",
+   "description": "Block Soraon Gram Sabha Niyaipur Newada Me Chanchal Kumar ke Ghar ke Pass Solar High Mast light",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 113963.0,
+   "sanctioned_amount": 113963.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "17-Mar-2025",
+   "sanctioned_date": "27-Mar-2025",
+   "letter_no": "LN/MP18233/2024-2025/3"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18233/2024-2025/182712-Lighting of public spaces",
+   "description": "Block Soraon Gram Sabha Duara Me Patel Basti me Sri Pal ke Ghar ke Pass Solar High Mast light",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 113963.0,
+   "sanctioned_amount": 113963.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "17-Mar-2025",
+   "sanctioned_date": "27-Mar-2025",
+   "letter_no": "LN/MP18233/2024-2025/3"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18233/2024-2025/182713-Lighting of public spaces",
+   "description": "Block Soraon Gram Sabha Gohri me Gyan Kunj Colony me Indra Dev Pandey ke Ghar ke Pass Public place par Solar High Mast Light",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 113963.0,
+   "sanctioned_amount": 113963.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "17-Mar-2025",
+   "sanctioned_date": "27-Mar-2025",
+   "letter_no": "LN/MP18233/2024-2025/3"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18233/2025-2026/202806-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Ward No 65 Goerj Town me Sawarn Jayanti Colony Moti Lal Neharu Road Church Lane me Gopi Nath Pandey ke Ghar ke Age, 35Mtr. ",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 503077.0,
+   "sanctioned_amount": 503077.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "23-May-2025",
+   "sanctioned_date": "15-Jul-2025",
+   "letter_no": "LN/MP18233/2025-2026/4"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18233/2025-2026/211197-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Ward No 35 Ervo Sangam Vatika Dev Prayagam Jhalwa Prayagraj me Society office se Shushant Kumar Mishra Ji ke Makan Tak va Society Office se Chandra Shekhar Ji ke Makan tak Road Nirman Karya",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 2549000.0,
+   "sanctioned_amount": 2549000.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "22-Jun-2025",
+   "sanctioned_date": "15-Jul-2025",
+   "letter_no": "LN/MP18233/2025-2026/5"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18233/2025-2026/211198-Providing drains and gutters for public drainage",
+   "description": "Ward No 51 Mundera Bamrauli me Vishnupuri Colony me Nali Nirman ka Karya",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 2214000.0,
+   "sanctioned_amount": 2214000.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "22-Jun-2025",
+   "sanctioned_date": "15-Jul-2025",
+   "letter_no": "LN/MP18233/2025-2026/5"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18233/2025-2026/218164-Lighting of public spaces",
+   "description": "05 Solar Pawar Plant and 02 Solar highmast Light",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 10471626.0,
+   "sanctioned_amount": 10471626.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "14-Jul-2025",
+   "sanctioned_date": "23-Aug-2025",
+   "letter_no": "LN/MP18233/2025-2026/6"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18233/2025-2026/218168-Installing community drinking water plants",
+   "description": "16 Water Cooler ",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 4416000.0,
+   "sanctioned_amount": 4416000.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "14-Jul-2025",
+   "sanctioned_date": "23-Aug-2025",
+   "letter_no": "LN/MP18233/2025-2026/7"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18233/2025-2026/218170-Lighting of public spaces",
+   "description": "10 Electric Highmast Light (20mtr.) and  01 (9 mtr.) ",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 3818512.0,
+   "sanctioned_amount": 3818512.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "14-Jul-2025",
+   "sanctioned_date": "23-Aug-2025",
+   "letter_no": "LN/MP18233/2025-2026/8"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18233/2025-2026/218172-Construction of shelters for animals",
+   "description": "1- Manethu Gaushala me Samrsebale . 2- Manethu Gaushala me Teenshed And Boundri. 3- Bhagipur Pakka Talab ki taraf Sawjanik Sthal par Bondriwall 4-  Bahariya me Interloking Sarak                         ",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 4433000.0,
+   "sanctioned_amount": 4433000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "14-Jul-2025",
+   "sanctioned_date": "23-Aug-2025",
+   "letter_no": "LN/MP18233/2025-2026/9"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18233/2025-2026/225468-Installing community drinking water plants",
+   "description": "1- V.N.P Samata J.H. School Rithaiya  2- D.R. Pabilik School Ramaipur 3- Andawa Panchayat Ke Bagal. 4- Gulab singh UM Vidyalay Bhagipur Me. 5- T.P. Memoriyal Pablik School Saraytaki Jhusi Me. Subhadra Devi Inter Collage Phaijullapur Me Water kular Adhisthapan Work.",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 1668000.0,
+   "sanctioned_amount": 1668000.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "06-Aug-2025",
+   "sanctioned_date": "23-Aug-2025",
+   "letter_no": "LN/MP18233/2025-2026/10"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18233/2025-2026/239999-Lighting of public spaces",
+   "description": "Sanlagank 6 High Mast Light (20.00Mt.)",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 5475757.0,
+   "sanctioned_amount": 5475757.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "05-Oct-2025",
+   "sanctioned_date": "15-Nov-2025",
+   "letter_no": "LN/MP18233/2025-2026/11"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18233/2025-2026/252852-Construction of road under bridge",
+   "description": "Sanlagan Ke anusar 04 Interloking Wark",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 7150000.0,
+   "sanctioned_amount": 7150000.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "08-Dec-2025",
+   "sanctioned_date": "16-Jan-2026",
+   "letter_no": "LN/MP18233/2025-2026/12"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18233/2025-2026/252863-Construction of road under bridge",
+   "description": "Puresuradash Vard No 50 Shivmandir ke peechhe Madhuri singh ke ghar ke samne int.",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 80000.0,
+   "sanctioned_amount": 80000.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "08-Dec-2025",
+   "sanctioned_date": "16-Jan-2026",
+   "letter_no": "LN/MP18233/2025-2026/13"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18233/2025-2026/256237-Construction of road under bridge",
+   "description": "Sanlaganak Ke anusar 04 Interloking Work ",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 3101000.0,
+   "sanctioned_amount": 3101000.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "30-Dec-2025",
+   "sanctioned_date": "06-Feb-2026",
+   "letter_no": "LN/MP18233/2025-2026/14"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18233/2026-2027/274634-Lighting of public spaces",
+   "description": "05 Nag  20.00 Mit. Highmast Light",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 4755000.0,
+   "sanctioned_amount": 4755000.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "16-Mar-2026",
+   "sanctioned_date": "15-Apr-2026",
+   "letter_no": "LN/MP18233/2025-2026/15"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18233/2026-2027/274638-Lighting of public spaces",
+   "description": "Sanlagn latter ke anusar 113 Nag Highmast Light (9.00 Mitar) ",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 20792000.0,
+   "sanctioned_amount": 20792000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "16-Mar-2026",
+   "sanctioned_date": "13-May-2026",
+   "letter_no": "LN/MP18233/2025-2026/16"
+  }
+ ]
+}

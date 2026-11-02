@@ -1,0 +1,46 @@
+{
+  "note": "Which states have a current assembly-constituency boundary set. Declared rather than guessed at run time: a state listed here has been checked against its actual assembly size and its assembly-to-parliamentary mapping. A state absent must not render a map this page cannot stand behind.",
+  "source": "DataMeet India_AC (MIT), filtered to the states whose segment count matches the current assembly and whose parliamentary names match the parliamentary layer this atlas ships. The rest of that source is pre-2008-delimitation and is excluded.",
+  "checked": {
+    "IN-UP": {
+      "acs": 403,
+      "pcs": 80,
+      "bytes": 119730
+    },
+    "IN-WB": {
+      "acs": 294,
+      "pcs": 42,
+      "bytes": 82830
+    },
+    "IN-BR": {
+      "acs": 243,
+      "pcs": 40,
+      "bytes": 73002
+    },
+    "IN-TN": {
+      "acs": 234,
+      "pcs": 39,
+      "bytes": 69491
+    },
+    "IN-OD": {
+      "acs": 147,
+      "pcs": 21,
+      "bytes": 49297
+    },
+    "IN-PB": {
+      "acs": 117,
+      "pcs": 13,
+      "bytes": 34074
+    },
+    "IN-CT": {
+      "acs": 90,
+      "pcs": 11,
+      "bytes": 29260
+    },
+    "IN-HR": {
+      "acs": 90,
+      "pcs": 10,
+      "bytes": 24678
+    }
+  }
+}

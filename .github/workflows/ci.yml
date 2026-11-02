@@ -1,0 +1,85 @@
+name: CI
+
+# On every pull request and push: the provenance gate and its negative tests, the
+# tool and Worker unit tests, and the full JSON -> D1 -> JSON round trip in a local
+# SQLite built from the migration. No Cloudflare access.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # The data JSON the import reads, from the pinned github.io commit
+      # (backend/atlas-source.json). The bill PDFs are never downloaded.
+      - name: Read the pinned atlas source
+        id: src
+        run: |
+          echo "repo=$(jq -r .repository backend/atlas-source.json)" >> "$GITHUB_OUTPUT"
+          echo "commit=$(jq -r .commit backend/atlas-source.json)" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ steps.src.outputs.repo }}
+          ref: ${{ steps.src.outputs.commit }}
+          path: atlas-source
+          # partial clone: only the blobs the sparse paths need are fetched
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /work/election-atlas/data/
+            !/work/election-atlas/**/*.pdf
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: pip install -r requirements.txt
+
+      - name: Refuse a Worker config with routes
+        run: python3 backend/check_no_routes.py backend/wrangler.jsonc
+
+      - name: D1 tests (schema CHECKs, ingest refusals, checker over D1, round trip)
+        run: python3 -m unittest discover -s backend/d1 -p 'test_*.py' -v
+
+      - name: Worker unit tests
+        run: node --test backend/src/test_index.mjs
+
+      - name: Import the pinned data into a local D1 (SQLite) and export it back
+        run: |
+          python3 backend/d1/ingest.py --data atlas-source/work/election-atlas/data --day 1 --out day1.sql
+          python3 backend/d1/ingest.py --data atlas-source/work/election-atlas/data --day 2 --out day2.sql
+          python3 - <<'PY'
+          import sqlite3
+          con = sqlite3.connect('d1.sqlite')
+          con.execute('PRAGMA foreign_keys = ON')
+          con.executescript(open('backend/migrations/0001_init.sql').read())
+          for day in ('day1.sql', 'day2.sql'):
+              con.executescript('BEGIN;' + open(day).read() + 'COMMIT;')
+          bad = con.execute('PRAGMA foreign_key_check').fetchall()
+          assert not bad, bad
+          PY
+          python3 backend/d1/export.py --db d1.sqlite --out exported --compare atlas-source/work/election-atlas/data
+
+      # The data files are build artifacts here: materialize them from the export
+      # so the tools that read data/results and data/cabinet can be tested.
+      - name: Assemble the site and run the provenance gate over it and the local D1
+        run: |
+          python3 backend/build_site.py --out dist --data-from exported --complete-against atlas-source/work/election-atlas/data
+          python3 tools/check_provenance.py dist/work/election-atlas/data --db d1.sqlite
+          python3 dist/work/election-atlas/tools/build-availability.py --check
+
+      - name: Tool tests, with the exported data in place
+        run: |
+          cp -R exported/. data/
+          python3 -m unittest discover -s tools -p 'test_*.py' -v
+          for t in tools/test_*.mjs; do node --test "$t"; done

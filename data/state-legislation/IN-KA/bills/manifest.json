@@ -1,0 +1,109 @@
+{
+  "state": "IN-KA",
+  "section": "bills",
+  "ok": 10,
+  "failed": 0,
+  "total_bytes": 814104,
+  "entries": [
+    {
+      "url": "https://kla.kar.nic.in/assembly/bills/bills_list1409.pdf",
+      "path": "documents/f4b1677f6a-bills.pdf",
+      "sha256": "6abbbb6ed7b124faa3dfee76304d1293d1c280920935415986524c92d5f76b83",
+      "bytes": 95618,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:01:30.249244+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://kla.kar.nic.in/assembly/bills/bills_list14081.pdf",
+      "path": "documents/bc707db5ae-bills.pdf",
+      "sha256": "a3da11c2e6823a97e1c5edf9dc367d262972b6295845f0865630792ff06c9912",
+      "bytes": 37279,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:01:30.251046+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://kla.kar.nic.in/assembly/bills/bills_list1408.pdf",
+      "path": "documents/f7dcc1bb57-bills.pdf",
+      "sha256": "693683373fe790d7782ce0d20eb6df55b9073bb1593512ca66e0a0bb06ba3677",
+      "bytes": 64825,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:01:30.251775+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://kla.kar.nic.in/assembly/bills/bills_list1407.pdf",
+      "path": "documents/dcc54b8c03-bills.pdf",
+      "sha256": "03a3643e12fe703d0ae540f8204c8656a84f1721f23a57bd5e2583bf1b4967d7",
+      "bytes": 20600,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:01:30.252347+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://kla.kar.nic.in/assembly/bills/bills_list14061.pdf",
+      "path": "documents/946aa2af99-bills.pdf",
+      "sha256": "526194fb2c89fb8fc38cbedbb40d653e77ae5483d548adac53d025f4a901b3ce",
+      "bytes": 92971,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:01:30.253184+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://kla.kar.nic.in/assembly/bills/bills_list14060.pdf",
+      "path": "documents/d1c8f7766f-bills.pdf",
+      "sha256": "d50b64069346d67b78f544c820aa4adce33899b833454b33c484b428971323fb",
+      "bytes": 31426,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:01:30.254538+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://kla.kar.nic.in/assembly/bills/bills_list14050.pdf",
+      "path": "documents/eb7dd106ce-bills.pdf",
+      "sha256": "8ce3a5699cee739596e96c8b7232144d370b603702f462a5b989e636ce561e2d",
+      "bytes": 154496,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:01:30.255293+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://kla.kar.nic.in/assembly/bills/bills_list14040.pdf",
+      "path": "documents/953ba4458f-bills.pdf",
+      "sha256": "f16ecca30d47f3526f4a42c3adebb924ecddbf7942732d024beea5335135313f",
+      "bytes": 140089,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:01:30.256370+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://kla.kar.nic.in/assembly/bills/bills_list14030.pdf",
+      "path": "documents/68b1f94d10-bills.pdf",
+      "sha256": "269f724b6ec2c68f8762c1f637684f6937d2522783414712d8be40e1032c1d94",
+      "bytes": 124229,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:01:30.257657+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://kla.kar.nic.in/assembly/bills/bills_list14020.pdf",
+      "path": "documents/9d4746b2a7-bills.pdf",
+      "sha256": "4b8dd9662e62f7c1e54360f9bead14d18e2b1fb117e56c343977e9b274aaa4d4",
+      "bytes": 52571,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:01:30.258842+00:00",
+      "ok": true,
+      "reason": ""
+    }
+  ]
+}

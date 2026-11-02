@@ -1,0 +1,651 @@
+{
+ "schema": 1,
+ "note": "MPLADS per-MP index. `file` is the per-MP JSON in this directory; `constituency_key` joins to an atlas parliamentary constituency (normalized ls_seat_name).",
+ "state": "IN-UP",
+ "state_id": 33,
+ "house": 2,
+ "tenure_id": 7,
+ "fetched_at": "2026-09-13T20:26:17Z",
+ "mps": [
+  {
+   "constituency_key": "aligarh",
+   "constituency": "ALIGARH",
+   "mp_id": 3017466,
+   "mp_name": "Shri Satish Kumar Gautam",
+   "works": 103,
+   "file": "aligarh.json"
+  },
+  {
+   "constituency_key": "barabanki",
+   "constituency": "BARABANKI(SC)",
+   "mp_id": 3042496,
+   "mp_name": "TANUJ PUNIA",
+   "works": 33,
+   "file": "barabanki.json"
+  },
+  {
+   "constituency_key": "etawah",
+   "constituency": "ETAWAH(SC)",
+   "mp_id": 3042503,
+   "mp_name": "JITENDRA KUMAR DOHARE",
+   "works": 514,
+   "file": "etawah.json"
+  },
+  {
+   "constituency_key": "fatehpur",
+   "constituency": "FATEHPUR",
+   "mp_id": 3042505,
+   "mp_name": "NARESH CHANDRA UTTAM PATEL",
+   "works": 81,
+   "file": "fatehpur.json"
+  },
+  {
+   "constituency_key": "firozabad",
+   "constituency": "FIROZABAD",
+   "mp_id": 3042506,
+   "mp_name": "AKSHAYA YADAV",
+   "works": 43,
+   "file": "firozabad.json"
+  },
+  {
+   "constituency_key": "bansgaon",
+   "constituency": "BANSGAON(SC)",
+   "mp_id": 3019202,
+   "mp_name": "Kamlesh Paswan",
+   "works": 125,
+   "file": "bansgaon.json"
+  },
+  {
+   "constituency_key": "gorakhpur",
+   "constituency": "GORAKHPUR",
+   "mp_id": 3019214,
+   "mp_name": "Ravindra Shyamnarayan Alias Ravi Kishan Shukla",
+   "works": 107,
+   "file": "gorakhpur.json"
+  },
+  {
+   "constituency_key": "hardoi",
+   "constituency": "HARDOI (SC)",
+   "mp_id": 3019201,
+   "mp_name": "Jai Prakash",
+   "works": 24,
+   "file": "hardoi.json"
+  },
+  {
+   "constituency_key": "misrikh",
+   "constituency": "MISRIKH(SC)",
+   "mp_id": 3019244,
+   "mp_name": "Ashok Kumar Rawat",
+   "works": 5,
+   "file": "misrikh.json"
+  },
+  {
+   "constituency_key": "unnao",
+   "constituency": "UNNAO",
+   "mp_id": 3018402,
+   "mp_name": "Swami Sachchidanandhari Sakshi ji Maharaj",
+   "works": 79,
+   "file": "unnao.json"
+  },
+  {
+   "constituency_key": "jaunpur",
+   "constituency": "JAUNPUR",
+   "mp_id": 3042511,
+   "mp_name": "BABU SINGH KUSHWAHA",
+   "works": 686,
+   "file": "jaunpur.json"
+  },
+  {
+   "constituency_key": "machhlishahr",
+   "constituency": "MACHHLISHAHR(SC)",
+   "mp_id": 3042517,
+   "mp_name": "PRIYA SAROJ",
+   "works": 1396,
+   "file": "machhlishahr.json"
+  },
+  {
+   "constituency_key": "meerut",
+   "constituency": "MEERUT",
+   "mp_id": 3042518,
+   "mp_name": "ARUN GOVIL",
+   "works": 232,
+   "file": "meerut.json"
+  },
+  {
+   "constituency_key": "robertsganj",
+   "constituency": "ROBERTSGANJ(SC)",
+   "mp_id": 3042524,
+   "mp_name": "CHHOTELAL",
+   "works": 436,
+   "file": "robertsganj.json"
+  },
+  {
+   "constituency_key": "amroha",
+   "constituency": "AMROHA",
+   "mp_id": 3043720,
+   "mp_name": "KANWAR SINGH TANWAR",
+   "works": 104,
+   "file": "amroha.json"
+  },
+  {
+   "constituency_key": "ghosi",
+   "constituency": "GHOSI",
+   "mp_id": 3043598,
+   "mp_name": "RAJEEV RAI",
+   "works": 272,
+   "file": "ghosi.json"
+  },
+  {
+   "constituency_key": "santkabirnagar",
+   "constituency": "SANT KABIR NAGAR",
+   "mp_id": 3042528,
+   "mp_name": "LAXMIKANT PAPPU NISHAD",
+   "works": 507,
+   "file": "santkabirnagar.json"
+  },
+  {
+   "constituency_key": "baghpat",
+   "constituency": "BAGHPAT",
+   "mp_id": 3042492,
+   "mp_name": "DR RAJKUMAR SANGWAN",
+   "works": 138,
+   "file": "baghpat.json"
+  },
+  {
+   "constituency_key": "chandauli",
+   "constituency": "CHANDAULI",
+   "mp_id": 3042499,
+   "mp_name": "VIRENDRA SINGH",
+   "works": 32,
+   "file": "chandauli.json"
+  },
+  {
+   "constituency_key": "badaun",
+   "constituency": "BADAUN",
+   "mp_id": 3042491,
+   "mp_name": "ADITYA YADAV",
+   "works": 161,
+   "file": "badaun.json"
+  },
+  {
+   "constituency_key": "gonda",
+   "constituency": "GONDA",
+   "mp_id": 3019203,
+   "mp_name": "Kirti Vardhan Singh",
+   "works": 156,
+   "file": "gonda.json"
+  },
+  {
+   "constituency_key": "kaiserganj",
+   "constituency": "KAISERGANJ",
+   "mp_id": 3043395,
+   "mp_name": "KARAN BHUSHAN SINGH",
+   "works": 108,
+   "file": "kaiserganj.json"
+  },
+  {
+   "constituency_key": "kannauj",
+   "constituency": "KANNAUJ",
+   "mp_id": 3043488,
+   "mp_name": "AKHILESH YADAV",
+   "works": 251,
+   "file": "kannauj.json"
+  },
+  {
+   "constituency_key": "muzaffarnagar",
+   "constituency": "MUZAFFARNAGAR",
+   "mp_id": 3042520,
+   "mp_name": "HARENDRA SINGH MALIK",
+   "works": 224,
+   "file": "muzaffarnagar.json"
+  },
+  {
+   "constituency_key": "agra",
+   "constituency": "AGRA(SC)",
+   "mp_id": 3017473,
+   "mp_name": "Prof SP Singh Baghel",
+   "works": 110,
+   "file": "agra.json"
+  },
+  {
+   "constituency_key": "fatehpursikri",
+   "constituency": "FATEHPUR SIKRI",
+   "mp_id": 3019530,
+   "mp_name": "Rajkumar Chahar",
+   "works": 53,
+   "file": "fatehpursikri.json"
+  },
+  {
+   "constituency_key": "allahabad",
+   "constituency": "ALLAHABAD",
+   "mp_id": 3042486,
+   "mp_name": "UJJWAL RAMAN SINGH",
+   "works": 31,
+   "file": "allahabad.json"
+  },
+  {
+   "constituency_key": "phulpur",
+   "constituency": "PHULPUR",
+   "mp_id": 3042521,
+   "mp_name": "PRAVEEN PATEL",
+   "works": 24,
+   "file": "phulpur.json"
+  },
+  {
+   "constituency_key": "bahraich",
+   "constituency": "BAHRAICH(SC)",
+   "mp_id": 3042493,
+   "mp_name": "ANAND KUMAR",
+   "works": 114,
+   "file": "bahraich.json"
+  },
+  {
+   "constituency_key": "ballia",
+   "constituency": "BALLIA",
+   "mp_id": 3042494,
+   "mp_name": "SANATAN PANDEY",
+   "works": 635,
+   "file": "ballia.json"
+  },
+  {
+   "constituency_key": "salempur",
+   "constituency": "SALEMPUR",
+   "mp_id": 3042526,
+   "mp_name": "RAMASHANKAR RAJBHAR",
+   "works": 330,
+   "file": "salempur.json"
+  },
+  {
+   "constituency_key": "farrukhabad",
+   "constituency": "FARRUKHABAD",
+   "mp_id": 3019205,
+   "mp_name": "Mukesh Rajput",
+   "works": 306,
+   "file": "farrukhabad.json"
+  },
+  {
+   "constituency_key": "ghaziabad",
+   "constituency": "GHAZIABAD",
+   "mp_id": 3042507,
+   "mp_name": "ATUL GARG",
+   "works": 77,
+   "file": "ghaziabad.json"
+  },
+  {
+   "constituency_key": "akbarpur",
+   "constituency": "AKBARPUR",
+   "mp_id": 3019196,
+   "mp_name": "Devendra Alias Bhole Singh",
+   "works": 148,
+   "file": "akbarpur.json"
+  },
+  {
+   "constituency_key": "kanpur",
+   "constituency": "KANPUR",
+   "mp_id": 3042513,
+   "mp_name": "RAMESH AWASTHI",
+   "works": 142,
+   "file": "kanpur.json"
+  },
+  {
+   "constituency_key": "mathura",
+   "constituency": "MATHURA",
+   "mp_id": 3019227,
+   "mp_name": "Smt Hema Malini",
+   "works": 88,
+   "file": "mathura.json"
+  },
+  {
+   "constituency_key": "mirzapur",
+   "constituency": "MIRZAPUR",
+   "mp_id": 3019225,
+   "mp_name": "Smt Anupriya Patel",
+   "works": 14,
+   "file": "mirzapur.json"
+  },
+  {
+   "constituency_key": "rampur",
+   "constituency": "RAMPUR",
+   "mp_id": 3042523,
+   "mp_name": "MOHIBBULLAH",
+   "works": 336,
+   "file": "rampur.json"
+  },
+  {
+   "constituency_key": "sitapur",
+   "constituency": "SITAPUR",
+   "mp_id": 3042529,
+   "mp_name": "RAKESH RATHOR",
+   "works": 71,
+   "file": "sitapur.json"
+  },
+  {
+   "constituency_key": "varanasi",
+   "constituency": "VARANASI",
+   "mp_id": 3017469,
+   "mp_name": "Shri Narendra Modi",
+   "works": 216,
+   "file": "varanasi.json"
+  },
+  {
+   "constituency_key": "amethi",
+   "constituency": "AMETHI",
+   "mp_id": 3042488,
+   "mp_name": "KISHORI LAL",
+   "works": 54,
+   "file": "amethi.json"
+  },
+  {
+   "constituency_key": "kushinagar",
+   "constituency": "KUSHI NAGAR",
+   "mp_id": 3019220,
+   "mp_name": "Vijay Kumar Dubey",
+   "works": 244,
+   "file": "kushinagar.json"
+  },
+  {
+   "constituency_key": "faizabad",
+   "constituency": "FAIZABAD",
+   "mp_id": 3042504,
+   "mp_name": "AWADHESH PRASAD",
+   "works": 218,
+   "file": "faizabad.json"
+  },
+  {
+   "constituency_key": "ghazipur",
+   "constituency": "GHAZIPUR",
+   "mp_id": 3045253,
+   "mp_name": "AFZAL ANSARI",
+   "works": 426,
+   "file": "ghazipur.json"
+  },
+  {
+   "constituency_key": "lucknow",
+   "constituency": "LUCKNOW",
+   "mp_id": 3019311,
+   "mp_name": "Rajnath Singh",
+   "works": 102,
+   "file": "lucknow.json"
+  },
+  {
+   "constituency_key": "mohanlalganj",
+   "constituency": "MOHANLALGANJ(SC)",
+   "mp_id": 3042816,
+   "mp_name": "R.K. CHAUDHARY",
+   "works": 93,
+   "file": "mohanlalganj.json"
+  },
+  {
+   "constituency_key": "pilibhit",
+   "constituency": "PILIBHIT",
+   "mp_id": 3045351,
+   "mp_name": "JITIN PRASADA",
+   "works": 59,
+   "file": "pilibhit.json"
+  },
+  {
+   "constituency_key": "saharanpur",
+   "constituency": "SAHARANPUR",
+   "mp_id": 3042525,
+   "mp_name": "IMRAN MASOOD",
+   "works": 115,
+   "file": "saharanpur.json"
+  },
+  {
+   "constituency_key": "kaushambi",
+   "constituency": "KAUSHAMBI(SC)",
+   "mp_id": 3042514,
+   "mp_name": "PUSHPENDRA SAROJ",
+   "works": 2589,
+   "file": "kaushambi.json"
+  },
+  {
+   "constituency_key": "hamirpur",
+   "constituency": "HAMIRPUR_UP",
+   "mp_id": 3042508,
+   "mp_name": "AJENDRA SINGH LODHI",
+   "works": 191,
+   "file": "hamirpur.json"
+  },
+  {
+   "constituency_key": "azamgarh",
+   "constituency": "AZAMGARH",
+   "mp_id": 3042490,
+   "mp_name": "DHARMENDRA YADAV",
+   "works": 66,
+   "file": "azamgarh.json"
+  },
+  {
+   "constituency_key": "lalganj",
+   "constituency": "LALGANJ (SC)",
+   "mp_id": 3042516,
+   "mp_name": "DAROGA PRASAD SAROJ",
+   "works": 295,
+   "file": "lalganj.json"
+  },
+  {
+   "constituency_key": "aonla",
+   "constituency": "AONLA",
+   "mp_id": 3042489,
+   "mp_name": "NEERAJ MAURYA",
+   "works": 36,
+   "file": "aonla.json"
+  },
+  {
+   "constituency_key": "bareilly",
+   "constituency": "BAREILLY",
+   "mp_id": 3044397,
+   "mp_name": "CHHATRA PAL SINGH GANGWAR",
+   "works": 184,
+   "file": "bareilly.json"
+  },
+  {
+   "constituency_key": "deoria",
+   "constituency": "DEORIA",
+   "mp_id": 3042500,
+   "mp_name": "SHASHANK MANI",
+   "works": 126,
+   "file": "deoria.json"
+  },
+  {
+   "constituency_key": "jhansi",
+   "constituency": "JHANSI",
+   "mp_id": 3018405,
+   "mp_name": "Anurag Sharma",
+   "works": 179,
+   "file": "jhansi.json"
+  },
+  {
+   "constituency_key": "kheri",
+   "constituency": "KHERI",
+   "mp_id": 3042515,
+   "mp_name": "UTKARSH VERMA MADHUR",
+   "works": 360,
+   "file": "kheri.json"
+  },
+  {
+   "constituency_key": "dhaurahra",
+   "constituency": "DHAURAHRA",
+   "mp_id": 3042501,
+   "mp_name": "ANAND BHADAURIYA",
+   "works": 184,
+   "file": "dhaurahra.json"
+  },
+  {
+   "constituency_key": "pratapgarh",
+   "constituency": "PRATAPGARH",
+   "mp_id": 3042522,
+   "mp_name": "DR. S P SINGH",
+   "works": 631,
+   "file": "pratapgarh.json"
+  },
+  {
+   "constituency_key": "shahjahanpur",
+   "constituency": "SHAHJAHANPUR(SC)",
+   "mp_id": 3017471,
+   "mp_name": "Shri Arun Kumar Sagar",
+   "works": 8,
+   "file": "shahjahanpur.json"
+  },
+  {
+   "constituency_key": "gautambuddhanagar",
+   "constituency": "GAUTAM BUDDHA NAGAR",
+   "mp_id": 3019187,
+   "mp_name": "Mahesh Sharma",
+   "works": 173,
+   "file": "gautambuddhanagar.json"
+  },
+  {
+   "constituency_key": "maharajganj",
+   "constituency": "MAHARAJGANJ_UP",
+   "mp_id": 3019207,
+   "mp_name": "Pankaj Chowdhary",
+   "works": 49,
+   "file": "maharajganj.json"
+  },
+  {
+   "constituency_key": "sambhal",
+   "constituency": "SAMBHAL",
+   "mp_id": 3042527,
+   "mp_name": "ZIA UR REHMAN",
+   "works": 325,
+   "file": "sambhal.json"
+  },
+  {
+   "constituency_key": "banda",
+   "constituency": "BANDA",
+   "mp_id": 3042495,
+   "mp_name": "KRISHNA DEVI SHIVSHANKER PATEL",
+   "works": 444,
+   "file": "banda.json"
+  },
+  {
+   "constituency_key": "etah",
+   "constituency": "ETAH",
+   "mp_id": 3042502,
+   "mp_name": "DEVESH SHAKYA",
+   "works": 339,
+   "file": "etah.json"
+  },
+  {
+   "constituency_key": "kairana",
+   "constituency": "KAIRANA",
+   "mp_id": 3042512,
+   "mp_name": "IQRA CHOUDHARY",
+   "works": 92,
+   "file": "kairana.json"
+  },
+  {
+   "constituency_key": "basti",
+   "constituency": "BASTI",
+   "mp_id": 3044187,
+   "mp_name": "RAM PRASAD CHAUDHARY",
+   "works": 186,
+   "file": "basti.json"
+  },
+  {
+   "constituency_key": "bijnor",
+   "constituency": "BIJNOR",
+   "mp_id": 3042498,
+   "mp_name": "CHANDAN CHAUHAN",
+   "works": 129,
+   "file": "bijnor.json"
+  },
+  {
+   "constituency_key": "nagina",
+   "constituency": "NAGINA(SC)",
+   "mp_id": 3046000,
+   "mp_name": "CHANDRA SHEKHAR",
+   "works": 513,
+   "file": "nagina.json"
+  },
+  {
+   "constituency_key": "bulandshahr",
+   "constituency": "BULANDSHAHR(SC)",
+   "mp_id": 3019222,
+   "mp_name": "Bhola Singh",
+   "works": 290,
+   "file": "bulandshahr.json"
+  },
+  {
+   "constituency_key": "jalaun",
+   "constituency": "JALAUN(SC)",
+   "mp_id": 3042510,
+   "mp_name": "NARAYAN DAS AHIRWAR",
+   "works": 371,
+   "file": "jalaun.json"
+  },
+  {
+   "constituency_key": "mainpuri",
+   "constituency": "MAINPURI",
+   "mp_id": 3019226,
+   "mp_name": "Smt Dimple Yadav",
+   "works": 164,
+   "file": "mainpuri.json"
+  },
+  {
+   "constituency_key": "raebareli",
+   "constituency": "RAE BARELI",
+   "mp_id": 3043489,
+   "mp_name": "RAHUL GANDHI",
+   "works": 192,
+   "file": "raebareli.json"
+  },
+  {
+   "constituency_key": "domariyaganj",
+   "constituency": "DOMARIYAGANJ",
+   "mp_id": 3019200,
+   "mp_name": "Jagdambika Pal",
+   "works": 75,
+   "file": "domariyaganj.json"
+  },
+  {
+   "constituency_key": "ambedkarnagar",
+   "constituency": "AMBEDKAR NAGAR",
+   "mp_id": 3042487,
+   "mp_name": "LALJI VERMA",
+   "works": 278,
+   "file": "ambedkarnagar.json"
+  },
+  {
+   "constituency_key": "bhadohi",
+   "constituency": "BHADOHI",
+   "mp_id": 3044716,
+   "mp_name": "VINOD KUMAR BIND",
+   "works": 548,
+   "file": "bhadohi.json"
+  },
+  {
+   "constituency_key": "moradabad",
+   "constituency": "MORADABAD",
+   "mp_id": 3042519,
+   "mp_name": "RUCHI VIRA",
+   "works": 273,
+   "file": "moradabad.json"
+  },
+  {
+   "constituency_key": "sultanpur",
+   "constituency": "SULTANPUR",
+   "mp_id": 3042530,
+   "mp_name": "RAMBHUAL NISHAD",
+   "works": 69,
+   "file": "sultanpur.json"
+  },
+  {
+   "constituency_key": "shrawasti",
+   "constituency": "SHRAWASTI",
+   "mp_id": 3019223,
+   "mp_name": "Ram Shiromani",
+   "works": 1357,
+   "file": "shrawasti.json"
+  },
+  {
+   "constituency_key": "hathras",
+   "constituency": "HATHRAS (SC)",
+   "mp_id": 3042509,
+   "mp_name": "ANOOP PRADHAN BALMIKI",
+   "works": 106,
+   "file": "hathras.json"
+  }
+ ]
+}

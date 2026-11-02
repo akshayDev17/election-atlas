@@ -1,0 +1,442 @@
+{
+ "const_id": 444,
+ "constituency": "ALLAHABAD",
+ "constituency_key": "allahabad",
+ "mp_id": 3042486,
+ "mp_name": "UJJWAL RAMAN SINGH",
+ "tiles": {
+  "Allocated Limit for Hon'ble MPs": [
+   "14,70,00,000.00",
+   "14.70 Crore"
+  ],
+  "Expenditure on Completed and On-going Works as on Date": [
+   "6,79,79,419.00",
+   "6.80 Crore"
+  ],
+  "Works Recommended": [
+   "31",
+   "9,79,21,663.00",
+   "9.79 Crore"
+  ],
+  "Works Completed": [
+   "3",
+   "2,18,66,545.00",
+   "2.19 Crore"
+  ],
+  "Works Sanctioned": [
+   "31",
+   "9,79,21,663.00",
+   "9.79 Crore"
+  ],
+  "Amount consented for Calamity": [
+   "0",
+   "0.00",
+   "0.00 Crore"
+  ],
+  "Current Tenure": [
+   {
+    "ID": 7,
+    "CAPTION": "18th Lok Sabha"
+   }
+  ]
+ },
+ "charts": {
+  "Development Fund": {
+   "title": "Development Fund",
+   "Allocated Limit": 98417163.0,
+   "Available Limit": 48582837.0
+  },
+  "Location wise Development Work Recommendation": {
+   "title": "Location wise Development Work Recommendation",
+   "Rural": 88529663.0,
+   "Urban": 9392000.0
+  },
+  "Development Work Recommendation Status": {
+   "title": "Development Work Recommendation Status",
+   "Unsanctioned": 0.0,
+   "Completed": 0.0,
+   "On Going": 77353147.0
+  },
+  "Work Category wise Development Work Recommendation": {
+   "title": "Work Category wise Development Work Recommendation",
+   "Normal and Others": 88061663.0,
+   "Trust or Society | Bar Association": 0.0,
+   "Bar Association (Exclusively for Purchase of Books for Library)": 0.0,
+   "Repair and Renovation": 9860000.0
+  }
+ },
+ "works": [
+  {
+   "category": "Repair and Renovation",
+   "activity": "WS/MP18198/2025-2026/193991-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Roads work ",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 9860000.0,
+   "sanctioned_amount": 9860000.0,
+   "stage": "Work Completed",
+   "recommended_date": "23-Apr-2025",
+   "sanctioned_date": "15-Jul-2025",
+   "letter_no": "LN/MP18198/2025-2026/4"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18198/2025-2026/195813-Improvement of electricity distribution infrastructure",
+   "description": "Electricity supply ",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 1600000.0,
+   "sanctioned_amount": 1600000.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "01-May-2025",
+   "sanctioned_date": "15-Jul-2025",
+   "letter_no": "LN/MP18198/2025-2026/5"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18198/2025-2026/206029-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Panasa gram block karchhana road construction ",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 1500000.0,
+   "sanctioned_amount": 1500000.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "03-Jun-2025",
+   "sanctioned_date": "28-Nov-2025",
+   "letter_no": "LN/MP18198/2025-2026/21"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18198/2025-2026/206030-Installing tube-wells and borewells",
+   "description": "5HP samarseble pumps in prayagraj nagar nigam ward 57 katghar,83 dariyabad,90 shahganj gadisharay.",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 3400000.0,
+   "sanctioned_amount": 3400000.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "03-Jun-2025",
+   "sanctioned_date": "27-Sep-2025",
+   "letter_no": "LN/MP18198/2025-2026/22"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18198/2025-2026/210408-Lighting of public spaces",
+   "description": "Solar light in allahabad loksabha chhetra",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 8087040.0,
+   "sanctioned_amount": 8087040.0,
+   "stage": "Work Completed",
+   "recommended_date": "19-Jun-2025",
+   "sanctioned_date": "24-Jul-2025",
+   "letter_no": "LN/MP18198/2025-2026/25"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18198/2025-2026/211945-Lighting of public spaces",
+   "description": "Block karchhana solar light installation ",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 1078272.0,
+   "sanctioned_amount": 1078272.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "24-Jun-2025",
+   "sanctioned_date": "15-Oct-2025",
+   "letter_no": "LN/MP18198/2025-2026/26"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18198/2025-2026/211947-Lighting of public spaces",
+   "description": "Block chaka solar light installation ",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 494208.0,
+   "sanctioned_amount": 494208.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "24-Jun-2025",
+   "sanctioned_date": "15-Oct-2025",
+   "letter_no": "LN/MP18198/2025-2026/27"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18198/2025-2026/211960-Lighting of public spaces",
+   "description": "Urwa block solar light installation ",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 1145664.0,
+   "sanctioned_amount": 1145664.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "24-Jun-2025",
+   "sanctioned_date": "20-Sep-2025",
+   "letter_no": "LN/MP18198/2025-2026/28"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18198/2025-2026/211964-Lighting of public spaces",
+   "description": "Meja block solar light installation ",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 921024.0,
+   "sanctioned_amount": 921024.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "24-Jun-2025",
+   "sanctioned_date": "15-Oct-2025",
+   "letter_no": "LN/MP18198/2025-2026/29"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18198/2025-2026/211966-Lighting of public spaces",
+   "description": "Manda block solar light installation ",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 1123200.0,
+   "sanctioned_amount": 1123200.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "24-Jun-2025",
+   "sanctioned_date": "20-Sep-2025",
+   "letter_no": "LN/MP18198/2025-2026/30"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18198/2025-2026/211968-Lighting of public spaces",
+   "description": "Block shankargarh solar light installation ",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 673920.0,
+   "sanctioned_amount": 673920.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "24-Jun-2025",
+   "sanctioned_date": "20-Sep-2025",
+   "letter_no": "LN/MP18198/2025-2026/31"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18198/2025-2026/211969-Lighting of public spaces",
+   "description": "Block jasra solar light installation ",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 314496.0,
+   "sanctioned_amount": 314496.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "24-Jun-2025",
+   "sanctioned_date": "15-Oct-2025",
+   "letter_no": "LN/MP18198/2025-2026/32"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18198/2025-2026/211973-Lighting of public spaces",
+   "description": "Block kondhiyara solar light installation ",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 494208.0,
+   "sanctioned_amount": 494208.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "24-Jun-2025",
+   "sanctioned_date": "15-Oct-2025",
+   "letter_no": "LN/MP18198/2025-2026/33"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18198/2025-2026/211975-Lighting of public spaces",
+   "description": "Block koraon solar light installation ",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 1190592.0,
+   "sanctioned_amount": 1190592.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "24-Jun-2025",
+   "sanctioned_date": "15-Oct-2025",
+   "letter_no": "LN/MP18198/2025-2026/34"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18198/2025-2026/214766-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Allahabad loksabha Kshetra Roads construction ",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 16757000.0,
+   "sanctioned_amount": 16757000.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "04-Jul-2025",
+   "sanctioned_date": "12-Aug-2025",
+   "letter_no": "LN/MP18198/2025-2026/36"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18198/2025-2026/220369-Lighting of public spaces",
+   "description": "Allahabad loksabha Kshetra me High mast installation ",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 3919505.0,
+   "sanctioned_amount": 3919505.0,
+   "stage": "Work Completed",
+   "recommended_date": "20-Jul-2025",
+   "sanctioned_date": "20-Sep-2025",
+   "letter_no": "LN/MP18198/2025-2026/37"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18198/2025-2026/235614-Installing hand pumps",
+   "description": "Allahabad loksabha Kshetra Handpump installation ",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 8699002.0,
+   "sanctioned_amount": 8699002.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "20-Sep-2025",
+   "sanctioned_date": "14-Nov-2025",
+   "letter_no": "LN/MP18198/2025-2026/38"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18198/2025-2026/248769-Construction of community centers and community halls",
+   "description": "Sitting hall and veranda for advocates and litigants in Korean tehsil ",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 1680000.0,
+   "sanctioned_amount": 1680000.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "17-Nov-2025",
+   "sanctioned_date": "31-Jan-2026",
+   "letter_no": "LN/MP18198/2025-2026/39"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18198/2025-2026/254284-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Roads in allahabad loksabha",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 9900000.0,
+   "sanctioned_amount": 9900000.0,
+   "stage": "Vendor Identification",
+   "recommended_date": "16-Dec-2025",
+   "sanctioned_date": "20-Feb-2026",
+   "letter_no": "LN/MP18198/2025-2026/44"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18198/2026-2027/254465-Lighting of public spaces",
+   "description": "High mast in allahabad loksabha",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 3435880.0,
+   "sanctioned_amount": 3435880.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "16-Dec-2025",
+   "sanctioned_date": "13-May-2026",
+   "letter_no": "LN/MP18198/2025-2026/45"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18198/2025-2026/254466-Lighting of public spaces",
+   "description": "Solar light instal in Allahabad lokasabha",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 837302.0,
+   "sanctioned_amount": 837302.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "16-Dec-2025",
+   "sanctioned_date": "27-Feb-2026",
+   "letter_no": "LN/MP18198/2025-2026/46"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18198/2025-2026/254467-Lighting of public spaces",
+   "description": "Solar light install in allahabad lokasabha",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 1490806.0,
+   "sanctioned_amount": 1490806.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "16-Dec-2025",
+   "sanctioned_date": "18-Mar-2026",
+   "letter_no": "LN/MP18198/2025-2026/47"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18198/2025-2026/254471-Lighting of public spaces",
+   "description": "Solar light install in allahabad lokasabha",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 1368274.0,
+   "sanctioned_amount": 1368274.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "16-Dec-2025",
+   "sanctioned_date": "27-Feb-2026",
+   "letter_no": "LN/MP18198/2025-2026/48"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18198/2025-2026/254473-Lighting of public spaces",
+   "description": "Solar light install in allahabad loksabha",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 857724.0,
+   "sanctioned_amount": 857724.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "16-Dec-2025",
+   "sanctioned_date": "27-Feb-2026",
+   "letter_no": "LN/MP18198/2025-2026/49"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18198/2025-2026/254474-Lighting of public spaces",
+   "description": "Solar light install in allahabad lokasabha",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 918990.0,
+   "sanctioned_amount": 918990.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "17-Dec-2025",
+   "sanctioned_date": "27-Feb-2026",
+   "letter_no": "LN/MP18198/2025-2026/50"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18198/2025-2026/254481-Lighting of public spaces",
+   "description": "Solar light install in allahabad lokasabha",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 1021100.0,
+   "sanctioned_amount": 1021100.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "17-Dec-2025",
+   "sanctioned_date": "27-Feb-2026",
+   "letter_no": "LN/MP18198/2025-2026/51"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18198/2026-2027/254483-Lighting of public spaces",
+   "description": "Solar light install in allahabad loksabha",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 776036.0,
+   "sanctioned_amount": 776036.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "17-Dec-2025",
+   "sanctioned_date": "13-May-2026",
+   "letter_no": "LN/MP18198/2025-2026/52"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18198/2025-2026/254484-Lighting of public spaces",
+   "description": "Solar light install in allahabad loksabha",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 1184476.0,
+   "sanctioned_amount": 1184476.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "17-Dec-2025",
+   "sanctioned_date": "18-Mar-2026",
+   "letter_no": "LN/MP18198/2025-2026/53"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18198/2025-2026/255629-Lighting of public spaces",
+   "description": "Solar light in allahabad lokasabha",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 1041808.0,
+   "sanctioned_amount": 1041808.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "26-Dec-2025",
+   "sanctioned_date": "06-Mar-2026",
+   "letter_no": "LN/MP18198/2025-2026/54"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18198/2026-2027/268853-Installing hand pumps",
+   "description": "Allahabad loksabha 52 chhetra handling  installation",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 7759136.0,
+   "sanctioned_amount": 7759136.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "17-Feb-2026",
+   "sanctioned_date": "01-Apr-2026",
+   "letter_no": "LN/MP18198/2025-2026/56"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18198/2026-2027/278912-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Roads contractions in Allahabad loksabha city South",
+   "agency": "PRAYAGRAJ(DISTRICT MAGISTRAE ALLAHABAD_IDA)",
+   "recommended_amount": 4392000.0,
+   "sanctioned_amount": 4392000.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "23-Apr-2026",
+   "sanctioned_date": "03-Jul-2026",
+   "letter_no": "LN/MP18198/2026-2027/57"
+  }
+ ]
+}

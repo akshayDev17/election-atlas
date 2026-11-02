@@ -1,0 +1,37 @@
+// election-atlas: the Worker that serves the Election Atlas, its D1 database and
+// its R2 bucket. Created by `portfolio-app bootstrap --public`; deployed by
+// .github/workflows/deploy.yml.
+{
+  "name": "election-atlas",
+  "main": "src/index.js",
+  // the date the sibling frontends use
+  "compatibility_date": "2026-10-10",
+
+  // No "routes" here. This Worker answers only on its workers.dev preview URL
+  // until the owner approves attaching akshayprabhakant.com/work/election-atlas
+  // and /work/election-atlas/* (the deploy workflow refuses a config with routes).
+  "workers_dev": true,
+
+  "assets": {
+    // built by backend/build_site.py: the atlas at its full path, with the data
+    // files exported from D1
+    "directory": "../dist",
+    "binding": "ASSETS",
+    // Assets first (free, no Worker invocation); the Worker runs only for the
+    // bill PDFs, which it streams from R2.
+    "run_worker_first": ["/work/election-atlas/data/state-legislation/*"]
+  },
+
+  "r2_buckets": [{ "binding": "DOCS", "bucket_name": "election-atlas-docs" }],
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "election-atlas",
+      "database_id": "29a39717-fbde-4cf8-a7de-27392b1d7161",
+      "migrations_dir": "migrations"
+    }
+  ],
+
+  "observability": { "enabled": true }
+}

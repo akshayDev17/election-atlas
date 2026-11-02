@@ -1,0 +1,109 @@
+{
+  "state": "IN-JH",
+  "section": "bills",
+  "ok": 10,
+  "failed": 0,
+  "total_bytes": 12781934,
+  "entries": [
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/jharkhand/2026/Ord1of2026JH.pdf",
+      "path": "documents/d1eced2407-bills.pdf",
+      "sha256": "37216d0cd571c2d7fd731d1dc538fd7a7320536386d85378359c29c356aaf488",
+      "bytes": 365495,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:17.593537+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/jharkhand/2025/Bill13of2025JH.pdf",
+      "path": "documents/04e48ea13d-bills.pdf",
+      "sha256": "f45e94b55c2c5364133ad4ccb7a998083d48a27ea55680195bac8810246d8fe9",
+      "bytes": 1151908,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:17.596394+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/jharkhand/2025/Bill9of2025JH.pdf",
+      "path": "documents/b46f69caec-bills.pdf",
+      "sha256": "86847f3e818d1e5676d2ba648f64f8ee0caa3ea985a76f6186918bf43c718bb7",
+      "bytes": 4922996,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:17.597881+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/jharkhand/2025/Bill8of2025JH.pdf",
+      "path": "documents/81e62a9f84-bills.pdf",
+      "sha256": "9ba8f9b90f0796beb7e5901cd3fd36a82134d20cf0793f91c2b3010ad0edb7b4",
+      "bytes": 992972,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:17.603464+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/jharkhand/2025/Bill7of2025JH.pdf",
+      "path": "documents/1f81f2d266-bills.pdf",
+      "sha256": "bb429d83c88a6c82ff50421d29a0f91b49b8fc2355050644a19ecb075ccfc4f8",
+      "bytes": 1329106,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:17.604773+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/jharkhand/2025/Bill6of2025JH.pdf",
+      "path": "documents/2f5b1a78da-bills.pdf",
+      "sha256": "28987895226d68051fa97b888c40543657670cde7c7e3500bbb31081161e5a02",
+      "bytes": 381045,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:17.607338+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/jharkhand/2025/Bill5of2025JH.pdf",
+      "path": "documents/413a3519c8-bills.pdf",
+      "sha256": "004cfd8bae625650886ffe93c427e0311c7181b3e6f22cd889cbd197ddf8ce1c",
+      "bytes": 1624549,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:17.608985+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/jharkhand/2025/Bill3of2025JH.pdf",
+      "path": "documents/6f1efe1cfc-bills.pdf",
+      "sha256": "d1f7c6eb43359ed07f8c0d0036cb739ad0a424613a7de125202ab665731586d2",
+      "bytes": 48160,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:17.610851+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/jharkhand/2025/Bill2of2025JH.pdf",
+      "path": "documents/ca20e878a8-bills.pdf",
+      "sha256": "03e5c2a2605974d3041e45e8573641aa2a9e36c334842ff91f079779630e0afd",
+      "bytes": 543494,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:17.611480+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/jharkhand/2024/Bill11of2024JH.pdf",
+      "path": "documents/ce709e838d-bills.pdf",
+      "sha256": "51a76d938e3c1031e1313287ab57412b6c5d9568d2dd4811a2f77e088efb40a7",
+      "bytes": 1422209,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:17.612145+00:00",
+      "ok": true,
+      "reason": ""
+    }
+  ]
+}

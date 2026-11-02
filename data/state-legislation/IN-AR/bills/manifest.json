@@ -1,0 +1,109 @@
+{
+  "state": "IN-AR",
+  "section": "bills",
+  "ok": 10,
+  "failed": 0,
+  "total_bytes": 1311498,
+  "entries": [
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/arunachal-pradesh/2026/Bill10of2026AR.pdf",
+      "path": "documents/d6bc5beec9-bills.pdf",
+      "sha256": "771f55b69df1999e151edddd9d7c2851d897608670a629fa286df2b8da18fe02",
+      "bytes": 152251,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:50:29.632593+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/arunachal-pradesh/2026/Bill9of2026AR.pdf",
+      "path": "documents/264b0fb22e-bills.pdf",
+      "sha256": "516ab9c1bff3f456a22e4a9425c37285785b618d4009101a08a09623b7d7e74e",
+      "bytes": 70150,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:50:29.633369+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/arunachal-pradesh/2026/Bill8of2026AR.pdf",
+      "path": "documents/e3d3370748-bills.pdf",
+      "sha256": "9a3db8b3c1c4f23a2080c36e66b1c60b13fd5c62880128c2aa55078976370afc",
+      "bytes": 121894,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:50:29.633627+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/arunachal-pradesh/2026/Bill7of2026AR.pdf",
+      "path": "documents/4b3757be48-bills.pdf",
+      "sha256": "cfa54657acdc61b7c33b7ba46b3913cc7c2d84c9132ebf9d9e548356cd99c8d1",
+      "bytes": 85680,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:50:29.634107+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/arunachal-pradesh/2026/Bill6of2026AR.pdf",
+      "path": "documents/1277478b2b-bills.pdf",
+      "sha256": "a5905b2987bab6e09e62c840308f93e7cbf22b6d4b759d0465538a5166f63a15",
+      "bytes": 245891,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:50:29.634327+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/arunachal-pradesh/2026/Bill5of2026AR.pdf",
+      "path": "documents/16771714aa-bills.pdf",
+      "sha256": "2d4e1367485c9a063352c951a3e959e642e8f1dfb178d192f482f17ec807bfd2",
+      "bytes": 81978,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:50:29.634738+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/arunachal-pradesh/2026/Bill4of2026AR.pdf",
+      "path": "documents/e62ee40667-bills.pdf",
+      "sha256": "d6ed4d2def9770c149f8d8ca034de3d5639d35931523cbae4ed113efef51bb76",
+      "bytes": 86706,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:50:29.635002+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/arunachal-pradesh/2026/Bill3of2026AR.pdf",
+      "path": "documents/c97083c5db-bills.pdf",
+      "sha256": "483aa7ecdfa220c968d7061f20dd29fbf6f6665e2db05eb95ed1816252df9120",
+      "bytes": 73803,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:50:29.635195+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/arunachal-pradesh/2026/Bill2of2026AR.pdf",
+      "path": "documents/47c16196f9-bills.pdf",
+      "sha256": "0076c51f8d2be74b9c751486fe5d63e72790101156abd9a13d846441c88fb978",
+      "bytes": 257978,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:50:29.635354+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/arunachal-pradesh/2026/Bill1of2026AR.pdf",
+      "path": "documents/7af289f929-bills.pdf",
+      "sha256": "326f804c63454c9c08a4470781098cee129ed3e7161a978f10732d7774028e57",
+      "bytes": 135167,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:50:29.635516+00:00",
+      "ok": true,
+      "reason": ""
+    }
+  ]
+}

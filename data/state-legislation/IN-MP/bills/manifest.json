@@ -1,0 +1,109 @@
+{
+  "state": "IN-MP",
+  "section": "bills",
+  "ok": 10,
+  "failed": 0,
+  "total_bytes": 6103711,
+  "entries": [
+    {
+      "url": "https://mpvidhansabha.nic.in/bill_2026/Bill%20No%201.pdf",
+      "path": "documents/1758e1e3a4-bills.pdf",
+      "sha256": "cc1dcdcf2aa267a1af88b20d262af787a2c58ac2f2bc58c6b10c1c0a4178faec",
+      "bytes": 289872,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:55:29.697359+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://mpvidhansabha.nic.in/bill_2026/ACT%20No%201%20of%202026.pdf",
+      "path": "documents/797338a686-bills.pdf",
+      "sha256": "55d4bc8cb0a9c74ad67815b119fce4db8971ab50d080d6ae8b51a93a873f284f",
+      "bytes": 289386,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:55:29.700516+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://mpvidhansabha.nic.in/bill_2026/Bill%20No%202.pdf",
+      "path": "documents/337b9de2c7-bills.pdf",
+      "sha256": "15ce05b539768f09103edc2a08474d25aaa02aee9159d53ef3e378fd0f9f75e1",
+      "bytes": 701337,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:55:29.701613+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://mpvidhansabha.nic.in/bill_2026/ACT%20No%202%20of%202026.pdf",
+      "path": "documents/d8c3cc726e-bills.pdf",
+      "sha256": "199efe46be2e522a106638391b8fc7d2897c8b5555a1dfbb49a01fffb6cadbb4",
+      "bytes": 769761,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:55:29.702823+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://mpvidhansabha.nic.in/bill_2026/Bill%20No%203.pdf",
+      "path": "documents/514764644d-bills.pdf",
+      "sha256": "6c0e2b99dda11b10592497c04f12a370c25b61fb501700241bf565b1327ac98d",
+      "bytes": 1349982,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:55:29.704476+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://mpvidhansabha.nic.in/bill_2026/ACT%20No%203%20of%202026.pdf",
+      "path": "documents/f0211c6e72-bills.pdf",
+      "sha256": "b8162af1d4fd2626a04b7846d2202b8e745ec909eae63e723dd8bda323ab4ac4",
+      "bytes": 850514,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:55:29.706772+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://mpvidhansabha.nic.in/Bill%202025/Bill%20No%201.pdf",
+      "path": "documents/2c224d58dd-bills.pdf",
+      "sha256": "24a9cde355d9b735f04581632d3f0983e99ec9a54d05d42ef1ff73f29c7bc158",
+      "bytes": 283192,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:55:29.708646+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://mpvidhansabha.nic.in/Bill%202025/ACT%20No%2010%20of%202025.pdf",
+      "path": "documents/af877e37a1-bills.pdf",
+      "sha256": "265eaeab49aa4cfdd7ec392d83daeab800f2082f886ec6013394fe6fc8969256",
+      "bytes": 288094,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:55:29.709742+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://mpvidhansabha.nic.in/Bill%202025/Bill%20No%202.pdf",
+      "path": "documents/0fe74a7ea6-bills.pdf",
+      "sha256": "7034f6de560b0641aa789af4aabd97ef7d608e249f4b2f9adb879db4c01d1bc6",
+      "bytes": 639083,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:55:29.710830+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://mpvidhansabha.nic.in/Bill%202025/ACT%20No%2011%20of%202025.pdf",
+      "path": "documents/d4c1909170-bills.pdf",
+      "sha256": "1095409ce4b4f7d87a478140bd4e713335710522939994871642b47c8b73b77a",
+      "bytes": 642490,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:55:29.712324+00:00",
+      "ok": true,
+      "reason": ""
+    }
+  ]
+}

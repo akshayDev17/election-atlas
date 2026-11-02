@@ -1,0 +1,586 @@
+{
+ "const_id": 422,
+ "constituency": "FIROZABAD",
+ "constituency_key": "firozabad",
+ "mp_id": 3042506,
+ "mp_name": "AKSHAYA YADAV",
+ "tiles": {
+  "Allocated Limit for Hon'ble MPs": [
+   "14,70,00,000.00",
+   "14.70 Crore"
+  ],
+  "Expenditure on Completed and On-going Works as on Date": [
+   "9,59,31,875.00",
+   "9.59 Crore"
+  ],
+  "Works Recommended": [
+   "43",
+   "9,76,54,158.00",
+   "9.77 Crore"
+  ],
+  "Works Completed": [
+   "37",
+   "8,73,57,158.00",
+   "8.74 Crore"
+  ],
+  "Works Sanctioned": [
+   "42",
+   "9,61,54,158.00",
+   "9.62 Crore"
+  ],
+  "Amount consented for Calamity": [
+   "0",
+   "0.00",
+   "0.00 Crore"
+  ],
+  "Current Tenure": [
+   {
+    "ID": 7,
+    "CAPTION": "18th Lok Sabha"
+   }
+  ]
+ },
+ "charts": {
+  "Development Fund": {
+   "title": "Development Fund",
+   "Allocated Limit": 97654158.0,
+   "Available Limit": 49345842.0
+  },
+  "Location wise Development Work Recommendation": {
+   "title": "Location wise Development Work Recommendation",
+   "Rural": 78538154.0,
+   "Urban": 19116004.0
+  },
+  "Development Work Recommendation Status": {
+   "title": "Development Work Recommendation Status",
+   "Unsanctioned": 1500000.0,
+   "Completed": 47546158.0,
+   "On Going": 48608000.0
+  },
+  "Work Category wise Development Work Recommendation": {
+   "title": "Work Category wise Development Work Recommendation",
+   "Normal and Others": 97654158.0,
+   "Trust or Society | Bar Association": 0.0,
+   "Bar Association (Exclusively for Purchase of Books for Library)": 0.0,
+   "Repair and Renovation": 0.0
+  }
+ },
+ "works": [
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2024-2025/136140-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "from anwara majra nagla chhainkur hanuman tample to railway underpass interlocking road and drainage system  developement lenght 400 meters by 7 meter ",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 9511630.0,
+   "sanctioned_amount": 9511630.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "17-Aug-2024",
+   "sanctioned_date": "17-Oct-2024",
+   "letter_no": "LN/MP18217/2024-2025/1"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2024-2025/136141-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "construction of road from mata temple to house of mr motilal around 300 meters by 4 meter and drainage system of 600 meters",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 4762760.0,
+   "sanctioned_amount": 4762760.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "17-Aug-2024",
+   "sanctioned_date": "17-Oct-2024",
+   "letter_no": "LN/MP18217/2024-2025/1"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2024-2025/136142-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "constuction of cc road  in nagla vishnu from balakram house to maharaj singh house around 250 meters and drainage system of 300 meters",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 2748610.0,
+   "sanctioned_amount": 2748610.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "17-Aug-2024",
+   "sanctioned_date": "17-Oct-2024",
+   "letter_no": "LN/MP18217/2024-2025/1"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2024-2025/136143-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "develovement of cc road in nagla chheeta  from house of ajab singh to maan singh 215 meters ",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 1723797.0,
+   "sanctioned_amount": 1723797.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "17-Aug-2024",
+   "sanctioned_date": "17-Oct-2024",
+   "letter_no": "LN/MP18217/2024-2025/1"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2024-2025/136144-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "developement of 100 meter interloking road from sampark marg to ttsp plot of udaiveer and developement of drainage system from sampark marg bridge to primary school around 250 meters .",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 1698459.0,
+   "sanctioned_amount": 1698459.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "17-Aug-2024",
+   "sanctioned_date": "17-Oct-2024",
+   "letter_no": "LN/MP18217/2024-2025/1"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2024-2025/136145-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "developement of inerlocking road from dabur road to village side 500 meters by 3.5 meters",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 4296367.0,
+   "sanctioned_amount": 4296367.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "17-Aug-2024",
+   "sanctioned_date": "17-Oct-2024",
+   "letter_no": "LN/MP18217/2024-2025/1"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2024-2025/136146-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "developement work of interlocking road and drainage  in nagla gange from balvir yadav house 80 meter road and 100 meter drainage",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 1188741.0,
+   "sanctioned_amount": 1188741.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "17-Aug-2024",
+   "sanctioned_date": "17-Oct-2024",
+   "letter_no": "LN/MP18217/2024-2025/1"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2024-2025/136147-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "developement of interlocking road from bholebaba tample to rajender prasdhad house 110 meters  by 4 meters",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 1309000.0,
+   "sanctioned_amount": 1309000.0,
+   "stage": "Work Completed",
+   "recommended_date": "17-Aug-2024",
+   "sanctioned_date": "17-Oct-2024",
+   "letter_no": "LN/MP18217/2024-2025/1"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2024-2025/136148-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "developement work of interlocking road from parikrama marg to shrikumarpal house around 70 meters by 4 meters",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 783782.0,
+   "sanctioned_amount": 783782.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "17-Aug-2024",
+   "sanctioned_date": "17-Oct-2024",
+   "letter_no": "LN/MP18217/2024-2025/1"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2024-2025/136856-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "developement work of interlocking road and drainage system nagla inchi from ajaypal house to rakesh house 275 meter by 4 meter and drainage 550 meter",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 3947127.0,
+   "sanctioned_amount": 3947127.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "23-Aug-2024",
+   "sanctioned_date": "17-Oct-2024",
+   "letter_no": "LN/MP18217/2024-2025/2"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2024-2025/136857-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "developement of interlocking and drainage system from kishanpal house to jagdish yadav plot length 400 meter by 4 meter ",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 3148552.0,
+   "sanctioned_amount": 3148552.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "23-Aug-2024",
+   "sanctioned_date": "17-Oct-2024",
+   "letter_no": "LN/MP18217/2024-2025/2"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2024-2025/136858-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "development of interlocking road from veeresh house  to rambabu house length 90 meter by 3.5 meter",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 698994.0,
+   "sanctioned_amount": 698994.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "23-Aug-2024",
+   "sanctioned_date": "17-Oct-2024",
+   "letter_no": "LN/MP18217/2024-2025/2"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2024-2025/136859-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "developement of interlocking road and drainage system from rajesh kumar valmaki house to thakurji temple length 220 meter by 4 meter",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 2497235.0,
+   "sanctioned_amount": 2497235.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "23-Aug-2024",
+   "sanctioned_date": "17-Oct-2024",
+   "letter_no": "LN/MP18217/2024-2025/2"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2024-2025/136860-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "developement of interlocking road from jagdish (khet) to ramveer yadav ki thar length 330 meter ",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 2598311.0,
+   "sanctioned_amount": 2598311.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "23-Aug-2024",
+   "sanctioned_date": "17-Oct-2024",
+   "letter_no": "LN/MP18217/2024-2025/2"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2024-2025/136861-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "interlocking road developement from ramniwas house to chanderpal house lenght 250 meter by 4.5 meter ",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 2398489.0,
+   "sanctioned_amount": 2398489.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "23-Aug-2024",
+   "sanctioned_date": "17-Oct-2024",
+   "letter_no": "LN/MP18217/2024-2025/2"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2024-2025/136862-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "cc road work to be done in ward 64 mohalla husani from masjid husani to jishan bhai pani wale house tak length 50 meter by 4 meter\n\n *(in ward list  it is not showing  ward number above ward 37 ) ",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 548869.0,
+   "sanctioned_amount": 548869.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "23-Aug-2024",
+   "sanctioned_date": "17-Oct-2024",
+   "letter_no": "LN/MP18217/2024-2025/2"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2024-2025/136863-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "cc road developement work to be done in ward no 60 macca colony from babu bhai house to afsar bhai house length 120 meter by 3 meter\n*(ward number 60 not showing in list )",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 1198790.0,
+   "sanctioned_amount": 1198790.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "23-Aug-2024",
+   "sanctioned_date": "17-Oct-2024",
+   "letter_no": "LN/MP18217/2024-2025/2"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2024-2025/136864-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "cc road developement to be done in ward number 56 urdu nagar from alim baba house to zulfkar house length 100 meter by 3 meter *(ward number 56 not showing in list )",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 998617.0,
+   "sanctioned_amount": 998617.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "23-Aug-2024",
+   "sanctioned_date": "17-Oct-2024",
+   "letter_no": "LN/MP18217/2024-2025/2"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2024-2025/136865-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "cc road developement work in ward number 58 habibganj from ziaul haji house to kadir haji house length 90 meter by 3 meter * ( ward number 58 not showing in list )",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 898946.0,
+   "sanctioned_amount": 898946.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "23-Aug-2024",
+   "sanctioned_date": "17-Oct-2024",
+   "letter_no": "LN/MP18217/2024-2025/2"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2024-2025/136866-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "developement of interlocking road from  ramniwas house to dayaveer house  length 240 meter by 3 meter ",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 1898082.0,
+   "sanctioned_amount": 1898082.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "23-Aug-2024",
+   "sanctioned_date": "17-Oct-2024",
+   "letter_no": "LN/MP18217/2024-2025/2"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2025-2026/197245-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "construction of cc road and drainage system from ration shop to bhole baba tample 430 meter by 6 meter",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 6997000.0,
+   "sanctioned_amount": 6997000.0,
+   "stage": "Work Completed",
+   "recommended_date": "06-May-2025",
+   "sanctioned_date": "28-May-2025",
+   "letter_no": "LN/MP18217/2025-2026/3"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2025-2026/197246-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "allahadpur link road to mini stadium new interlocking  road 500 meter by 4 meter contact person dr dlip 9412722318",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 4399000.0,
+   "sanctioned_amount": 4399000.0,
+   "stage": "Work Completed",
+   "recommended_date": "06-May-2025",
+   "sanctioned_date": "28-May-2025",
+   "letter_no": "LN/MP18217/2025-2026/3"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2025-2026/197247-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "construction of cc road from shri mati ramshri devi sevti lal inter collage to firozabad jaleser road 300 meter",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 3000000.0,
+   "sanctioned_amount": 3000000.0,
+   "stage": "Work Completed",
+   "recommended_date": "06-May-2025",
+   "sanctioned_date": "28-May-2025",
+   "letter_no": "LN/MP18217/2025-2026/3"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2025-2026/197248-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "for compleation of work toward primary shool drainage systerm remaining work to be done aaroubd 170 mtr",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 1596000.0,
+   "sanctioned_amount": 1596000.0,
+   "stage": "Work Completed",
+   "recommended_date": "06-May-2025",
+   "sanctioned_date": "28-May-2025",
+   "letter_no": "LN/MP18217/2025-2026/3"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2025-2026/197249-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "in village khemkaranpur from raghuveer dayal pachori house to sonu house 75  meter by 4 meter\n",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 784000.0,
+   "sanctioned_amount": 784000.0,
+   "stage": "Work Completed",
+   "recommended_date": "06-May-2025",
+   "sanctioned_date": "28-May-2025",
+   "letter_no": "LN/MP18217/2025-2026/3"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2025-2026/197951-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "from bhognipur canal to permanand tube well 220 meter interlocking ",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 1950000.0,
+   "sanctioned_amount": 1950000.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "08-May-2025",
+   "sanctioned_date": "10-Jul-2025",
+   "letter_no": "LN/MP18217/2025-2026/4"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2025-2026/197952-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "bahadur house to narayan jatav house cc around 120 meter ",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 1197000.0,
+   "sanctioned_amount": 1197000.0,
+   "stage": "Work Completed",
+   "recommended_date": "08-May-2025",
+   "sanctioned_date": "28-May-2025",
+   "letter_no": "LN/MP18217/2025-2026/4"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2025-2026/197953-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "in swaminagar raju sagar singh house to dr prempal house 100 meter interlocking",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 998000.0,
+   "sanctioned_amount": 998000.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "08-May-2025",
+   "sanctioned_date": "10-Jul-2025",
+   "letter_no": "LN/MP18217/2025-2026/4"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2025-2026/197954-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "nagla mani chov singh jatab house to primary  school link road around 200 meter  cc",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 2000000.0,
+   "sanctioned_amount": 2000000.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "08-May-2025",
+   "sanctioned_date": "10-Jul-2025",
+   "letter_no": "LN/MP18217/2025-2026/4"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2025-2026/197955-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "ram mahyesh bade house to satish rathor house 9719767699  around 90 meter interlocking",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 897000.0,
+   "sanctioned_amount": 897000.0,
+   "stage": "Work Completed",
+   "recommended_date": "08-May-2025",
+   "sanctioned_date": "10-Jul-2025",
+   "letter_no": "LN/MP18217/2025-2026/4"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2025-2026/197957-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "from lohari road by Durga temple to dlip house 60 meter interlocking",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 700000.0,
+   "sanctioned_amount": 700000.0,
+   "stage": "Work Completed",
+   "recommended_date": "08-May-2025",
+   "sanctioned_date": "10-Jul-2025",
+   "letter_no": "LN/MP18217/2025-2026/4"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2025-2026/197958-Construction of culverts and bridges",
+   "description": "construction of bridge to make old bridge wide  at nagla naujhar 4 by 3 meter ",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 644000.0,
+   "sanctioned_amount": 644000.0,
+   "stage": "Work Completed",
+   "recommended_date": "08-May-2025",
+   "sanctioned_date": "10-Jul-2025",
+   "letter_no": "LN/MP18217/2025-2026/4"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2025-2026/197959-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "jhangirpur rajendera singh house to pwd road 60 meters cc",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 650000.0,
+   "sanctioned_amount": 650000.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "08-May-2025",
+   "sanctioned_date": "10-Jul-2025",
+   "letter_no": "LN/MP18217/2025-2026/4"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2025-2026/197960-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "village darapur brakh singh house to satish chand house 80 meter inter locking",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 800000.0,
+   "sanctioned_amount": 800000.0,
+   "stage": "Work Completed",
+   "recommended_date": "08-May-2025",
+   "sanctioned_date": "28-May-2025",
+   "letter_no": "LN/MP18217/2025-2026/4"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2025-2026/197961-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "from radha kishan house to shiv sharda resort old ghiror road cc 250 meter",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 2397000.0,
+   "sanctioned_amount": 2397000.0,
+   "stage": "Work Completed",
+   "recommended_date": "08-May-2025",
+   "sanctioned_date": "10-Jul-2025",
+   "letter_no": "LN/MP18217/2025-2026/4"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2025-2026/197962-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "in madhoganj Bateshwar  road to vijay veer house cc and drainage  325 meters ",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 3199000.0,
+   "sanctioned_amount": 3199000.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "08-May-2025",
+   "sanctioned_date": "10-Jul-2025",
+   "letter_no": "LN/MP18217/2025-2026/4"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2025-2026/197963-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "on Tundla Etah road from sonalika tractor agency to maharaj sing dhankar house 350 meter cc and drainage ",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 6998000.0,
+   "sanctioned_amount": 6998000.0,
+   "stage": "Work Completed",
+   "recommended_date": "08-May-2025",
+   "sanctioned_date": "28-May-2025",
+   "letter_no": "LN/MP18217/2025-2026/4"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2025-2026/197964-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "in ward 51  from noor masjid to heaven apartment  100 meter cc",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 549000.0,
+   "sanctioned_amount": 549000.0,
+   "stage": "Work Completed",
+   "recommended_date": "08-May-2025",
+   "sanctioned_date": "10-Jul-2025",
+   "letter_no": "LN/MP18217/2025-2026/4"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2025-2026/197965-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "in ward no 52 mohalla deedamai Akram canteen to Shahjahan shop cc 200 meter and drainage ",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 1898000.0,
+   "sanctioned_amount": 1898000.0,
+   "stage": "Work Completed",
+   "recommended_date": "08-May-2025",
+   "sanctioned_date": "28-May-2025",
+   "letter_no": "LN/MP18217/2025-2026/4"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2025-2026/197966-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "in ward 57 transfarmer by javed churri to taufeek house200 meter cc",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 1799000.0,
+   "sanctioned_amount": 1799000.0,
+   "stage": "Work Completed",
+   "recommended_date": "08-May-2025",
+   "sanctioned_date": "28-May-2025",
+   "letter_no": "LN/MP18217/2025-2026/4"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2025-2026/197967-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "in ward number 63 mohalla chapria Hasien bhai house to Jamalu bhai House cc and drainage 200 meter",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 2098000.0,
+   "sanctioned_amount": 2098000.0,
+   "stage": "Work Completed",
+   "recommended_date": "08-May-2025",
+   "sanctioned_date": "28-May-2025",
+   "letter_no": "LN/MP18217/2025-2026/4"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18217/2025-2026/197968-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "mohalla husani rom Aroz house to Hansho bhai house cc and drainage 160 meter ",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 1749000.0,
+   "sanctioned_amount": 1749000.0,
+   "stage": "Work Completed",
+   "recommended_date": "08-May-2025",
+   "sanctioned_date": "28-May-2025",
+   "letter_no": "LN/MP18217/2025-2026/4"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "NA-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "shikhobad etah road to narender suman house 150 meters interlocking",
+   "agency": "FIROZABAD(DISTRICT MAGISTRATE FIROZABAD_IDA)",
+   "recommended_amount": 1500000.0,
+   "sanctioned_amount": 1500000.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "08-May-2025",
+   "sanctioned_date": "NA",
+   "letter_no": "LN/MP18217/2025-2026/4"
+  }
+ ]
+}

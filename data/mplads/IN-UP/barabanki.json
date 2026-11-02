@@ -1,0 +1,466 @@
+{
+ "const_id": 419,
+ "constituency": "BARABANKI(SC)",
+ "constituency_key": "barabanki",
+ "mp_id": 3042496,
+ "mp_name": "TANUJ PUNIA",
+ "tiles": {
+  "Allocated Limit for Hon'ble MPs": [
+   "14,81,98,170.11",
+   "14.82 Crore"
+  ],
+  "Expenditure on Completed and On-going Works as on Date": [
+   "8,33,97,272.00",
+   "8.34 Crore"
+  ],
+  "Works Recommended": [
+   "33",
+   "12,28,23,586.00",
+   "12.28 Crore"
+  ],
+  "Works Completed": [
+   "16",
+   "7,16,77,106.00",
+   "7.17 Crore"
+  ],
+  "Works Sanctioned": [
+   "28",
+   "9,10,23,306.00",
+   "9.10 Crore"
+  ],
+  "Amount consented for Calamity": [
+   "0",
+   "0.00",
+   "0.00 Crore"
+  ],
+  "Current Tenure": [
+   {
+    "ID": 7,
+    "CAPTION": "18th Lok Sabha"
+   }
+  ]
+ },
+ "charts": {
+  "Development Fund": {
+   "title": "Development Fund",
+   "Allocated Limit": 122823586.0,
+   "Available Limit": 25374584.11
+  },
+  "Location wise Development Work Recommendation": {
+   "title": "Location wise Development Work Recommendation",
+   "Rural": 30097268.0,
+   "Urban": 92726318.0
+  },
+  "Development Work Recommendation Status": {
+   "title": "Development Work Recommendation Status",
+   "Unsanctioned": 31800280.0,
+   "Completed": 62647106.0,
+   "On Going": 23066600.0
+  },
+  "Work Category wise Development Work Recommendation": {
+   "title": "Work Category wise Development Work Recommendation",
+   "Normal and Others": 122823586.0,
+   "Trust or Society | Bar Association": 0.0,
+   "Bar Association (Exclusively for Purchase of Books for Library)": 0.0,
+   "Repair and Renovation": 0.0
+  }
+ },
+ "works": [
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18207/2024-2025/156029-Lighting of public spaces",
+   "description": "Supply and Installation of 57 Highmast light in many areas of loksabha barabanki",
+   "agency": "Bara Banki(DISTRICT MAGISTRATE BARABANKI_IDA)",
+   "recommended_amount": 11953957.0,
+   "sanctioned_amount": 11953957.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "29-Nov-2024",
+   "sanctioned_date": "05-Mar-2025",
+   "letter_no": "LN/MP18207/2024-2025/1"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18207/2025-2026/174852-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "construction of road and nali",
+   "agency": "Bara Banki(DISTRICT MAGISTRATE BARABANKI_IDA)",
+   "recommended_amount": 2449996.0,
+   "sanctioned_amount": 2449996.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "10-Feb-2025",
+   "sanctioned_date": "18-Jun-2025",
+   "letter_no": "LN/MP18207/2024-2025/2"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18207/2025-2026/174853-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "construction of road",
+   "agency": "Bara Banki(DISTRICT MAGISTRATE BARABANKI_IDA)",
+   "recommended_amount": 472105.0,
+   "sanctioned_amount": 472105.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "10-Feb-2025",
+   "sanctioned_date": "18-Jun-2025",
+   "letter_no": "LN/MP18207/2024-2025/3"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18207/2025-2026/174854-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "NA",
+   "agency": "Bara Banki(DISTRICT MAGISTRATE BARABANKI_IDA)",
+   "recommended_amount": 903062.0,
+   "sanctioned_amount": 903062.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "10-Feb-2025",
+   "sanctioned_date": "18-Jun-2025",
+   "letter_no": "LN/MP18207/2024-2025/4"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18207/2025-2026/174855-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "road and nali",
+   "agency": "Bara Banki(DISTRICT MAGISTRATE BARABANKI_IDA)",
+   "recommended_amount": 448988.0,
+   "sanctioned_amount": 448988.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "10-Feb-2025",
+   "sanctioned_date": "18-Jun-2025",
+   "letter_no": "LN/MP18207/2024-2025/5"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18207/2025-2026/174856-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "road and nali",
+   "agency": "Bara Banki(DISTRICT MAGISTRATE BARABANKI_IDA)",
+   "recommended_amount": 1735293.0,
+   "sanctioned_amount": 1735293.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "10-Feb-2025",
+   "sanctioned_date": "18-Jun-2025",
+   "letter_no": "LN/MP18207/2024-2025/6"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18207/2025-2026/174859-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "road and nali",
+   "agency": "Bara Banki(DISTRICT MAGISTRATE BARABANKI_IDA)",
+   "recommended_amount": 2383000.0,
+   "sanctioned_amount": 2383000.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "10-Feb-2025",
+   "sanctioned_date": "18-Jun-2025",
+   "letter_no": "LN/MP18207/2024-2025/9"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18207/2025-2026/174861-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "road and nali",
+   "agency": "Bara Banki(DISTRICT MAGISTRATE BARABANKI_IDA)",
+   "recommended_amount": 1894489.0,
+   "sanctioned_amount": 1894489.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "10-Feb-2025",
+   "sanctioned_date": "18-Jun-2025",
+   "letter_no": "LN/MP18207/2024-2025/11"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18207/2025-2026/174862-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "cc road and nali",
+   "agency": "Bara Banki(DISTRICT MAGISTRATE BARABANKI_IDA)",
+   "recommended_amount": 1848647.0,
+   "sanctioned_amount": 1848647.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "10-Feb-2025",
+   "sanctioned_date": "18-Jun-2025",
+   "letter_no": "LN/MP18207/2024-2025/12"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18207/2025-2026/174863-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "soling road",
+   "agency": "Bara Banki(DISTRICT MAGISTRATE BARABANKI_IDA)",
+   "recommended_amount": 2713176.0,
+   "sanctioned_amount": 2713176.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "10-Feb-2025",
+   "sanctioned_date": "18-Jun-2025",
+   "letter_no": "LN/MP18207/2024-2025/13"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18207/2025-2026/174866-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "cc road and nali",
+   "agency": "Bara Banki(DISTRICT MAGISTRATE BARABANKI_IDA)",
+   "recommended_amount": 479000.0,
+   "sanctioned_amount": 479000.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "10-Feb-2025",
+   "sanctioned_date": "18-Jun-2025",
+   "letter_no": "LN/MP18207/2024-2025/16"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18207/2025-2026/174867-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "cc road and nali",
+   "agency": "Bara Banki(DISTRICT MAGISTRATE BARABANKI_IDA)",
+   "recommended_amount": 604000.0,
+   "sanctioned_amount": 604000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "10-Feb-2025",
+   "sanctioned_date": "18-Jun-2025",
+   "letter_no": "LN/MP18207/2024-2025/17"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18207/2025-2026/195449-Lighting of public spaces",
+   "description": "Supply and installation of 47 Highmast light in many areas of barabanki constituency",
+   "agency": "Bara Banki(DISTRICT MAGISTRATE BARABANKI_IDA)",
+   "recommended_amount": 9866200.0,
+   "sanctioned_amount": 9866200.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "29-Apr-2025",
+   "sanctioned_date": "18-Jun-2025",
+   "letter_no": "LN/MP18207/2025-2026/21"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18207/2025-2026/197202-Development of public parks",
+   "description": "construction of boundrywall of ambedkar park in village jarmau post mangauva in block haidergarh",
+   "agency": "Bara Banki(DISTRICT MAGISTRATE BARABANKI_IDA)",
+   "recommended_amount": 2218000.0,
+   "sanctioned_amount": 2218000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "06-May-2025",
+   "sanctioned_date": "18-Jun-2025",
+   "letter_no": "LN/MP18207/2025-2026/22"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18207/2026-2027/197203-Development of public parks",
+   "description": "construction of boundrywall of ambedkar park in village husainabad in block trivediganj",
+   "agency": "Bara Banki(DISTRICT MAGISTRATE BARABANKI_IDA)",
+   "recommended_amount": 2527000.0,
+   "sanctioned_amount": 2527000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "06-May-2025",
+   "sanctioned_date": "20-Apr-2026",
+   "letter_no": "LN/MP18207/2025-2026/23"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18207/2025-2026/197209-Development of public parks",
+   "description": "construction of boundrywall of ambedkar park village paharpur majre ruhera in suratganj",
+   "agency": "Bara Banki(DISTRICT MAGISTRATE BARABANKI_IDA)",
+   "recommended_amount": 2185000.0,
+   "sanctioned_amount": 2185000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "06-May-2025",
+   "sanctioned_date": "18-Jun-2025",
+   "letter_no": "LN/MP18207/2025-2026/24"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18207/2025-2026/205273-Lighting of public spaces",
+   "description": "Lighting of Public spaces, parks in loksabha barabanki",
+   "agency": "Bara Banki(DISTRICT MAGISTRATE BARABANKI_IDA)",
+   "recommended_amount": 1181967.0,
+   "sanctioned_amount": 1181967.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "30-May-2025",
+   "sanctioned_date": "20-Sep-2025",
+   "letter_no": "LN/MP18207/2025-2026/25"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18207/2025-2026/216751-Development of public parks",
+   "description": "development of Ambedkar Park in Satrikh Dehat Block Harakh",
+   "agency": "Bara Banki(DISTRICT MAGISTRATE BARABANKI_IDA)",
+   "recommended_amount": 1402916.0,
+   "sanctioned_amount": 1402916.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "10-Jul-2025",
+   "sanctioned_date": "20-Sep-2025",
+   "letter_no": "LN/MP18207/2025-2026/26"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18207/2025-2026/233259-Development of public parks",
+   "description": "construction of boundrywall of Baba Sahab Bhimrao Ambedkar Park in Village Zindpur, Maholiya in Block Nindura",
+   "agency": "Bara Banki(DISTRICT MAGISTRATE BARABANKI_IDA)",
+   "recommended_amount": 1608547.0,
+   "sanctioned_amount": 1608547.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "12-Sep-2025",
+   "sanctioned_date": "20-Sep-2025",
+   "letter_no": "LN/MP18207/2025-2026/27"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18207/2025-2026/238655-Lighting of public spaces",
+   "description": "Supply and installation of 60 Highmast light in many areas of Barabanki constituency",
+   "agency": "Bara Banki(DISTRICT MAGISTRATE BARABANKI_IDA)",
+   "recommended_amount": 11978268.0,
+   "sanctioned_amount": 11978268.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "27-Sep-2025",
+   "sanctioned_date": "11-Dec-2025",
+   "letter_no": "LN/MP18207/2025-2026/28"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18207/2025-2026/258118-Lighting of public spaces",
+   "description": "supply and installation of 61 Highmast lights in many areas of Barabanki Lok Sabha",
+   "agency": "Bara Banki(DISTRICT MAGISTRATE BARABANKI_IDA)",
+   "recommended_amount": 12189495.0,
+   "sanctioned_amount": 12189495.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "08-Jan-2026",
+   "sanctioned_date": "13-Mar-2026",
+   "letter_no": "LN/MP18207/2025-2026/30"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18207/2026-2027/274517-Lighting of public spaces",
+   "description": "Supply and installation of 43 Highmast lights in many areas of barabanki lok sabha",
+   "agency": "Bara Banki(DISTRICT MAGISTRATE BARABANKI_IDA)",
+   "recommended_amount": 9030000.0,
+   "sanctioned_amount": 9030000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "16-Mar-2026",
+   "sanctioned_date": "12-Jun-2026",
+   "letter_no": "LN/MP18207/2025-2026/31"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "NA-Lighting of public spaces",
+   "description": "supply and installation of 215 Solar lights in many areas of Banki, Deva, Mahadeva, Ramnagar in Barabanki Lok Sabha",
+   "agency": "Bara Banki(DISTRICT MAGISTRATE BARABANKI_IDA)",
+   "recommended_amount": 4583800.0,
+   "sanctioned_amount": 4583800.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "04-May-2026",
+   "sanctioned_date": "NA",
+   "letter_no": "LN/MP18207/2026-2027/33"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18207/2026-2027/279661-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Construction of 200 Meter CC road in Shuklai Village of Banki from Ayodhya Road to the Farm of Manoj Yadav BDC",
+   "agency": "Bara Banki(DISTRICT MAGISTRATE BARABANKI_IDA)",
+   "recommended_amount": 3640600.0,
+   "sanctioned_amount": 3640600.0,
+   "stage": "Vendor Identification",
+   "recommended_date": "05-May-2026",
+   "sanctioned_date": "03-Jul-2026",
+   "letter_no": "LN/MP18207/2026-2027/34"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18207/2026-2027/279662-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Construction of 200 Meter CC road in Shuklai Village of Banki from Link Road to Plot of Tanya Verma",
+   "agency": "Bara Banki(DISTRICT MAGISTRATE BARABANKI_IDA)",
+   "recommended_amount": 3640600.0,
+   "sanctioned_amount": 3640600.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "05-May-2026",
+   "sanctioned_date": "03-Jul-2026",
+   "letter_no": "LN/MP18207/2026-2027/34"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18207/2026-2027/279668-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Construction of Interlocking Pavement and Drainage System from Vijaypal Gautam House to the Road in Jeetnagar Locality, Nagar Panchayat Banki.",
+   "agency": "Bara Banki(DISTRICT MAGISTRATE BARABANKI_IDA)",
+   "recommended_amount": 319000.0,
+   "sanctioned_amount": 319000.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "05-May-2026",
+   "sanctioned_date": "03-Jul-2026",
+   "letter_no": "LN/MP18207/2026-2027/35"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18207/2026-2027/279669-Providing drains and gutters for public drainage",
+   "description": "Construction of drainage approximately 200 meters on both sides of the road in Thakurampurwa Majre Mohammadpur Bahun within the Sirauli Gauspur Development Block, extending from the main road along the edge of the orchard into the interior of the village.",
+   "agency": "Bara Banki(DISTRICT MAGISTRATE BARABANKI_IDA)",
+   "recommended_amount": 924000.0,
+   "sanctioned_amount": 924000.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "05-May-2026",
+   "sanctioned_date": "03-Jul-2026",
+   "letter_no": "LN/MP18207/2026-2027/35"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18207/2026-2027/279670-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Construction of Interlocking Pavement and Drainage System from Rahul Verma House to Israuli Road in Village Bibipur, Siddhaur Development Block (Distance 40 meters).",
+   "agency": "Bara Banki(DISTRICT MAGISTRATE BARABANKI_IDA)",
+   "recommended_amount": 293000.0,
+   "sanctioned_amount": 293000.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "05-May-2026",
+   "sanctioned_date": "03-Jul-2026",
+   "letter_no": "LN/MP18207/2026-2027/35"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18207/2026-2027/279671-Providing drains and gutters for public drainage",
+   "description": "Municipal Council, Dasherabagh, Ward 9, Deendayal Nagar, Construction of paved drains on both sides from the residence of Vikram Singh Yadav to the residence of Kamlesh Rastogi covering a distance of approximately 220 meters",
+   "agency": "Bara Banki(DISTRICT MAGISTRATE BARABANKI_IDA)",
+   "recommended_amount": 133000.0,
+   "sanctioned_amount": 133000.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "05-May-2026",
+   "sanctioned_date": "03-Jul-2026",
+   "letter_no": "LN/MP18207/2026-2027/35"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "NA-Lighting of public spaces",
+   "description": "Supply and Installation of 201 Solar Lights in many areas of Barabanki District",
+   "agency": "Bara Banki(DISTRICT MAGISTRATE BARABANKI_IDA)",
+   "recommended_amount": 4515264.0,
+   "sanctioned_amount": 4515264.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "21-Jun-2026",
+   "sanctioned_date": "NA",
+   "letter_no": "LN/MP18207/2026-2027/36"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "NA-Lighting of public spaces",
+   "description": "Supply and Installation of 244 Solar Lights in many areas of Barabanki Lok Sabha",
+   "agency": "Bara Banki(DISTRICT MAGISTRATE BARABANKI_IDA)",
+   "recommended_amount": 5481216.0,
+   "sanctioned_amount": 5481216.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "21-Jun-2026",
+   "sanctioned_date": "NA",
+   "letter_no": "LN/MP18207/2026-2027/37"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "NA-Lighting of public spaces",
+   "description": "Supply and installation of 50 highmast lights in many areas of Barabanki Lok Sabha",
+   "agency": "Bara Banki(DISTRICT MAGISTRATE BARABANKI_IDA)",
+   "recommended_amount": 10500000.0,
+   "sanctioned_amount": 10500000.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "23-Jul-2026",
+   "sanctioned_date": "NA",
+   "letter_no": "LN/MP18207/2026-2027/38"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "NA-Lighting of public spaces",
+   "description": "supply and installation of 32 Highmast lights in various places of Barabanki Lok Sabha",
+   "agency": "Bara Banki(DISTRICT MAGISTRATE BARABANKI_IDA)",
+   "recommended_amount": 6720000.0,
+   "sanctioned_amount": 6720000.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "23-Jul-2026",
+   "sanctioned_date": "NA",
+   "letter_no": "LN/MP18207/2026-2027/38"
+  }
+ ]
+}

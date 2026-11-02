@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "person": "gorakhpur",
+  "fetched_at": "2026-09-14T06:00:00Z",
+  "articles": [
+    {
+      "id": "thehindu-2024-12-04-rail-link",
+      "headline": "Ravi Kishan pushes Gorakhpur rail link in Lok Sabha",
+      "source": "The Hindu",
+      "source_url": "https://www.thehindu.com/news/national/gorakhpur-rail-link-ravi-kishan/article69000000.ece",
+      "published_at": "2024-12-04T00:00:00Z",
+      "abstract": "The Gorakhpur MP raised the long-pending rail link during Question Hour, citing congestion at the existing station and rising passenger load on the east\u2013west corridor. Railway officials said a feasibility study is under way and would be completed within the financial year, after which a detailed project report would be prepared.",
+      "status": "live",
+      "snapshot": {
+        "kind": "html",
+        "path": "archive/thehindu-2024-12-04-rail-link.html",
+        "sha256": "9f2c1d4a7b3e6f8a0c5d2e4b6a8c0e2f4a6b8c0e2f4a6b8c0e2f4a6b8c0e2f",
+        "captured_at": "2024-12-05T10:00:00Z"
+      }
+    },
+    {
+      "id": "timesofindia-2024-09-21-drainage",
+      "headline": "MPLADS funds re-routed to cantonment drainage",
+      "source": "Times of India",
+      "source_url": "https://timesofindia.indiatimes.com/city/lucknow/mplads-drainage-gorakhpur/articleshow/113000000.cms",
+      "published_at": "2024-09-21T00:00:00Z",
+      "abstract": "Development funds were diverted to clear the waterlogging that has repeatedly submerged cantonment lanes in the monsoon. Residents welcomed the move but sought a firm completion date; the district administration has committed to finishing the drain work before the next rainy season.",
+      "status": "live",
+      "snapshot": {
+        "kind": "html",
+        "path": "archive/timesofindia-2024-09-21-drainage.html",
+        "sha256": "1a3b5c7d9e2f4a6b8c0d2e4f6a8b0c2e4f6a8b0c2e4f6a8b0c2e4f6a8b0c2e4",
+        "captured_at": "2024-09-22T09:30:00Z"
+      }
+    },
+    {
+      "id": "dainikjagran-2024-08-18-highmast",
+      "headline": "High-mast lighting approved for Charagawan block",
+      "source": "Dainik Jagran",
+      "source_url": "https://www.jagran.com/uttar-pradesh/gorakhpur-city/highmast-charagawan-24200000.html",
+      "published_at": "2024-08-18T00:00:00Z",
+      "abstract": null,
+      "status": "live",
+      "snapshot": {
+        "kind": "wayback",
+        "path": "archive/dainikjagran-2024-08-18-highmast.html",
+        "sha256": "c4e6a8b0d2f4a6c8e0b2d4f6a8c0e2b4f6a8c0e2b4f6a8c0e2b4f6a8c0e2b4f6a8",
+        "captured_at": "2024-08-19T08:00:00Z"
+      }
+    },
+    {
+      "id": "navbharat-2023-11-02-sugar-mill",
+      "headline": "Sugar mill dispute: MP promises compensation for farmers",
+      "source": "Navbharat Times",
+      "source_url": "https://navbharattimes.indiatimes.com/state/uttar-pradesh/gorakhpur/sugar-mill-compensation/articleshow/105000000.cms",
+      "published_at": "2023-11-02T00:00:00Z",
+      "abstract": "The report claimed the MP had announced a compensation package for farmers affected by a pending sugar-mill dispute. It was later withdrawn by the publisher.",
+      "status": "redacted",
+      "snapshot": {
+        "kind": "screenshot",
+        "path": "archive/navbharat-2023-11-02-sugar-mill.png",
+        "sha256": "d2f4a6b8c0e2f4a6b8c0e2f4a6b8c0e2f4a6b8c0e2f4a6b8c0e2f4a6b8c0e2f4a6b8",
+        "captured_at": "2023-11-03T07:45:00Z"
+      }
+    }
+  ]
+}

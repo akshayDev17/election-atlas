@@ -1,0 +1,109 @@
+{
+  "state": "IN-AP",
+  "section": "bills",
+  "ok": 10,
+  "failed": 0,
+  "total_bytes": 317175717,
+  "entries": [
+    {
+      "url": "https://legislation.aplegislature.org/PreviewPage.do?filePath=basePath&fileName=Bills/PassedBills/English/Eng_passbill_30_16_33__416_v_1.pdf",
+      "path": "documents/f6d43f9459-bills.pdf",
+      "sha256": "c1526bdfa1590b21c4c413ecff8d909efe5515b231b773f44c101a003ec4345f",
+      "bytes": 2500146,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:50:27.771031+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://legislation.aplegislature.org/PreviewPage.do?filePath=basePath&fileName=Bills/PassedBills/English/Eng_passbill_29_16_33__415_v_1.pdf",
+      "path": "documents/2f2bb21983-bills.pdf",
+      "sha256": "56ade0dd2aaa7908d47ad07d8432fa2995f6f65c2989f742f780c1feefc357cb",
+      "bytes": 6179076,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:50:27.774099+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://legislation.aplegislature.org/PreviewPage.do?filePath=basePath&fileName=Bills/PassedBills/English/Eng_passbill_28_16_33__414_v_1.pdf",
+      "path": "documents/70b9dac1c7-bills.pdf",
+      "sha256": "5b4fbaf6108db1e96b8455a6f3602a92428c64d2c3648d303b4cfe3993363098",
+      "bytes": 3227675,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:50:27.780771+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://legislation.aplegislature.org/PreviewPage.do?filePath=basePath&fileName=Bills/PassedBills/English/Eng_passbill_27_16_33__413_v_1.pdf",
+      "path": "documents/8911292cca-bills.pdf",
+      "sha256": "e491e109f8134a893242890442183c4b082e002b8b2e1ebd79706c7a30973282",
+      "bytes": 8871349,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:50:27.784610+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://legislation.aplegislature.org/PreviewPage.do?filePath=basePath&fileName=Bills/PassedBills/English/Eng_passbill_26_16_33__412_v_1.pdf",
+      "path": "documents/23ddd0e14f-bills.pdf",
+      "sha256": "dd208e6cc307733c9407e1cf41e6eb8616f8d9a1012950517b2cad1e81634092",
+      "bytes": 17882498,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:50:27.792377+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://legislation.aplegislature.org/PreviewPage.do?filePath=basePath&fileName=Bills/PassedBills/English/Eng_passbill_25_16_33__411_v_1.pdf",
+      "path": "documents/74118318fe-bills.pdf",
+      "sha256": "e6dddec5409fb71338716be2661440f79f3c818bd08e9bd04597d73e8a1cb08b",
+      "bytes": 174937908,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:50:27.811647+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://legislation.aplegislature.org/PreviewPage.do?filePath=basePath&fileName=Bills/PassedBills/English/Eng_passbill_24_16_33__410_v_1.pdf",
+      "path": "documents/2f7b6ead51-bills.pdf",
+      "sha256": "242373f850b2d2c720eb5d65838e6a0b9fa472d86f686ca5360c4343603ca0e9",
+      "bytes": 5805499,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:50:27.907307+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://legislation.aplegislature.org/PreviewPage.do?filePath=basePath&fileName=Bills/PassedBills/English/Eng_passbill_23_16_33__409_v_1.pdf",
+      "path": "documents/2c41ee93eb-bills.pdf",
+      "sha256": "d6357d3686280383e5304191914ea1f1e22522a988db1e6d63599641d43f3a6d",
+      "bytes": 27674486,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:50:27.910506+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://legislation.aplegislature.org/PreviewPage.do?filePath=basePath&fileName=Bills/PassedBills/English/Eng_passbill_22_16_33__408_v_1.pdf",
+      "path": "documents/5e94396e09-bills.pdf",
+      "sha256": "3f147f787ebb1cca486b8c506ebafd4c1e98008639787d66668e2f9ddf2f3752",
+      "bytes": 32887593,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:50:27.921527+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://legislation.aplegislature.org/PreviewPage.do?filePath=basePath&fileName=Bills/PassedBills/English/Eng_passbill_21_16_33__407_v_1.pdf",
+      "path": "documents/f30b0386c3-bills.pdf",
+      "sha256": "16c9df518bd2a7df67c57a3c72fdaae67da865a99ece1b85833fe96459ff72ba",
+      "bytes": 37209487,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:50:27.937013+00:00",
+      "ok": true,
+      "reason": ""
+    }
+  ]
+}

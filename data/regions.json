@@ -1,0 +1,303 @@
+{
+  "schema": 1,
+  "note": "Canonical state and union territory codes, with the exact name each carries in the current geometry file so the join is explicit rather than guessed.",
+  "regions": [
+    {
+      "code": "IN-AP",
+      "name": "Andhra Pradesh",
+      "type": "state",
+      "sourceNames": [
+        "Andhra Pradesh"
+      ]
+    },
+    {
+      "code": "IN-AR",
+      "name": "Arunachal Pradesh",
+      "type": "state",
+      "sourceNames": [
+        "Arunachal Pradesh"
+      ]
+    },
+    {
+      "code": "IN-AS",
+      "name": "Assam",
+      "type": "state",
+      "sourceNames": [
+        "Assam"
+      ]
+    },
+    {
+      "code": "IN-BR",
+      "name": "Bihar",
+      "type": "state",
+      "sourceNames": [
+        "Bihar"
+      ]
+    },
+    {
+      "code": "IN-CT",
+      "name": "Chhattisgarh",
+      "type": "state",
+      "sourceNames": [
+        "Chhattisgarh"
+      ]
+    },
+    {
+      "code": "IN-GA",
+      "name": "Goa",
+      "type": "state",
+      "sourceNames": [
+        "Goa"
+      ]
+    },
+    {
+      "code": "IN-GJ",
+      "name": "Gujarat",
+      "type": "state",
+      "sourceNames": [
+        "Gujarat"
+      ]
+    },
+    {
+      "code": "IN-HR",
+      "name": "Haryana",
+      "type": "state",
+      "sourceNames": [
+        "Haryana"
+      ]
+    },
+    {
+      "code": "IN-HP",
+      "name": "Himachal Pradesh",
+      "type": "state",
+      "sourceNames": [
+        "Himachal Pradesh"
+      ]
+    },
+    {
+      "code": "IN-JH",
+      "name": "Jharkhand",
+      "type": "state",
+      "sourceNames": [
+        "Jharkhand"
+      ]
+    },
+    {
+      "code": "IN-KA",
+      "name": "Karnataka",
+      "type": "state",
+      "sourceNames": [
+        "Karnataka"
+      ]
+    },
+    {
+      "code": "IN-KL",
+      "name": "Kerala",
+      "type": "state",
+      "sourceNames": [
+        "Kerala"
+      ]
+    },
+    {
+      "code": "IN-MP",
+      "name": "Madhya Pradesh",
+      "type": "state",
+      "sourceNames": [
+        "Madhya Pradesh"
+      ]
+    },
+    {
+      "code": "IN-MH",
+      "name": "Maharashtra",
+      "type": "state",
+      "sourceNames": [
+        "Maharashtra"
+      ]
+    },
+    {
+      "code": "IN-MN",
+      "name": "Manipur",
+      "type": "state",
+      "sourceNames": [
+        "Manipur"
+      ]
+    },
+    {
+      "code": "IN-ML",
+      "name": "Meghalaya",
+      "type": "state",
+      "sourceNames": [
+        "Meghalaya"
+      ]
+    },
+    {
+      "code": "IN-MZ",
+      "name": "Mizoram",
+      "type": "state",
+      "sourceNames": [
+        "Mizoram"
+      ]
+    },
+    {
+      "code": "IN-NL",
+      "name": "Nagaland",
+      "type": "state",
+      "sourceNames": [
+        "Nagaland"
+      ]
+    },
+    {
+      "code": "IN-OD",
+      "name": "Odisha",
+      "type": "state",
+      "sourceNames": [
+        "Odisha"
+      ]
+    },
+    {
+      "code": "IN-PB",
+      "name": "Punjab",
+      "type": "state",
+      "sourceNames": [
+        "Punjab"
+      ]
+    },
+    {
+      "code": "IN-RJ",
+      "name": "Rajasthan",
+      "type": "state",
+      "sourceNames": [
+        "Rajasthan"
+      ]
+    },
+    {
+      "code": "IN-SK",
+      "name": "Sikkim",
+      "type": "state",
+      "sourceNames": [
+        "Sikkim"
+      ]
+    },
+    {
+      "code": "IN-TN",
+      "name": "Tamil Nadu",
+      "type": "state",
+      "sourceNames": [
+        "Tamil Nadu"
+      ]
+    },
+    {
+      "code": "IN-TG",
+      "name": "Telangana",
+      "type": "state",
+      "sourceNames": [
+        "Telangana"
+      ]
+    },
+    {
+      "code": "IN-TR",
+      "name": "Tripura",
+      "type": "state",
+      "sourceNames": [
+        "Tripura"
+      ]
+    },
+    {
+      "code": "IN-UP",
+      "name": "Uttar Pradesh",
+      "type": "state",
+      "sourceNames": [
+        "Uttar Pradesh"
+      ]
+    },
+    {
+      "code": "IN-UT",
+      "name": "Uttarakhand",
+      "type": "state",
+      "sourceNames": [
+        "Uttarakhand"
+      ]
+    },
+    {
+      "code": "IN-WB",
+      "name": "West Bengal",
+      "type": "state",
+      "sourceNames": [
+        "West Bengal"
+      ]
+    },
+    {
+      "code": "IN-AN",
+      "name": "Andaman and Nicobar Islands",
+      "type": "ut",
+      "sourceNames": [
+        "Andaman & Nicobar"
+      ]
+    },
+    {
+      "code": "IN-CH",
+      "name": "Chandigarh",
+      "type": "ut",
+      "sourceNames": [
+        "Chandigarh"
+      ]
+    },
+    {
+      "code": "IN-DH",
+      "name": "Dadra and Nagar Haveli and Daman and Diu",
+      "type": "ut",
+      "sourceNames": [
+        "Dadra and Nagar Haveli and Daman and Diu"
+      ],
+      "mergeFrom": [
+        "Dadra and Nagar Haveli",
+        "Daman and Diu"
+      ]
+    },
+    {
+      "code": "IN-DL",
+      "name": "Delhi",
+      "type": "ut",
+      "sourceNames": [
+        "Delhi"
+      ]
+    },
+    {
+      "code": "IN-JK",
+      "name": "Jammu and Kashmir",
+      "type": "ut",
+      "sourceNames": [
+        "Jammu & Kashmir"
+      ]
+    },
+    {
+      "code": "IN-LA",
+      "name": "Ladakh",
+      "type": "ut",
+      "sourceNames": [
+        "Ladakh"
+      ]
+    },
+    {
+      "code": "IN-LD",
+      "name": "Lakshadweep",
+      "type": "ut",
+      "sourceNames": [
+        "Lakshadweep"
+      ]
+    },
+    {
+      "code": "IN-PY",
+      "name": "Puducherry",
+      "type": "ut",
+      "sourceNames": [
+        "Puducherry"
+      ]
+    }
+  ],
+  "buildCaveats": [
+    "Boundaries are the 2019 structure: Ladakh is a separate union territory, Dadra and Nagar Haveli and Daman and Diu are one, and Odisha and Uttarakhand carry their current names.",
+    "The outline follows India's official territorial claim, extending to about 37.0 N: the areas of Jammu and Kashmir administered by Pakistan and the Aksai Chin area administered by China are drawn as part of India, which is the position the Survey of India publishes.",
+    "Source: shijithpk/2024_maps_supplement (Unlicense / public domain), built by georeferencing Election Commission of India press-note maps in QGIS. The author states the international borders are approximate and the all-India seat maps are not research grade. A Survey of India or NIC source should replace it before this is relied on."
+  ]
+}

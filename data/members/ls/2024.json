@@ -1,0 +1,4360 @@
+{
+ "schema": 1,
+ "house": "ls",
+ "cycle": 2024,
+ "term": "18th Lok Sabha",
+ "provenance": "published",
+ "source": {
+  "publisher": "sansad",
+  "url": "https://sansad.in/api_ls/member?loksabha=18&size=6000&page=1"
+ },
+ "note": "Who won each 2024 Lok Sabha seat, keyed by the geometry unique_id (data/geo/india-pcs.json), with the member's Sansad member number (mpsno) from the Lok Sabha Secretariat member directory. The pages use mpsno only to link each member to their official page on sansad.in (https://sansad.in/ls/members/biography/<mpsno>), where the member's photograph is published; the atlas keeps no member photographs.",
+ "fetchedAt": "2026-09-12",
+ "join": "state + constituency against data/results/ls/pc/2024.json, then verified against the ECI 2024 declared winner in data/results/ls/detail/2024.json.",
+ "caveat": "The directory lists members currently sitting, so it is valid for 2024 only. Where a by-election has since been held, the seat's general-election winner was re-joined by name against the same directory; see \"by_election_corrections\".",
+ "by_election_corrections": {
+  "S11_4": {
+   "seat_record": "Vadra, Smt. Priyanka Gandhi",
+   "eci_winner": "RAHUL GANDHI"
+  }
+ },
+ "count": 542,
+ "members": {
+  "S01_1": {
+   "name": "Rani, Dr. Gumma Thanuja",
+   "party": "YSR Congress Party",
+   "seat": "Araku",
+   "state": "Andhra Pradesh",
+   "mpsno": 5679,
+   "via": "seat"
+  },
+  "S01_10": {
+   "name": "Kumar, Shri Putta Mahesh",
+   "party": "TDP",
+   "seat": "Eluru",
+   "state": "Andhra Pradesh",
+   "mpsno": 5726,
+   "via": "seat"
+  },
+  "S01_11": {
+   "name": "Vallabhaneni, Shri Balashowry",
+   "party": "JSP",
+   "seat": "Machilipatnam",
+   "state": "Andhra Pradesh",
+   "mpsno": 4021,
+   "via": "seat"
+  },
+  "S01_12": {
+   "name": "Sivanath, Shri Kesineni",
+   "party": "TDP",
+   "seat": "Vijayawada",
+   "state": "Andhra Pradesh",
+   "mpsno": 5667,
+   "via": "seat"
+  },
+  "S01_13": {
+   "name": "Pemmasani, Dr. Chandra Sekhar",
+   "party": "TDP",
+   "seat": "Guntur",
+   "state": "Andhra Pradesh",
+   "mpsno": 5636,
+   "via": "seat"
+  },
+  "S01_14": {
+   "name": "Devarayalu, Shri Lavu Sri Krishna",
+   "party": "TDP",
+   "seat": "Narasaraopet",
+   "state": "Andhra Pradesh",
+   "mpsno": 5096,
+   "via": "seat"
+  },
+  "S01_15": {
+   "name": "Tenneti, Shri Krishna Prasad",
+   "party": "TDP",
+   "seat": "Bapatla",
+   "state": "Andhra Pradesh",
+   "mpsno": 5680,
+   "via": "seat"
+  },
+  "S01_16": {
+   "name": "Reddy, Shri Magunta Sreenivasulu",
+   "party": "TDP",
+   "seat": "Ongole",
+   "state": "Andhra Pradesh",
+   "mpsno": 3907,
+   "via": "seat"
+  },
+  "S01_17": {
+   "name": "Shabari, Dr. Byreddy",
+   "party": "TDP",
+   "seat": "Nandyal",
+   "state": "Andhra Pradesh",
+   "mpsno": 5687,
+   "via": "seat"
+  },
+  "S01_18": {
+   "name": "Nagaraju, Shri Bastipati",
+   "party": "TDP",
+   "seat": "Kurnool",
+   "state": "Andhra Pradesh",
+   "mpsno": 5601,
+   "via": "seat"
+  },
+  "S01_19": {
+   "name": "Lakshminarayana, Shri G",
+   "party": "TDP",
+   "seat": "Anantapur",
+   "state": "Andhra Pradesh",
+   "mpsno": 5584,
+   "via": "seat"
+  },
+  "S01_2": {
+   "name": "Naidu, Shri Kinjarapu Rammohan",
+   "party": "TDP",
+   "seat": "Srikakulam",
+   "state": "Andhra Pradesh",
+   "mpsno": 4771,
+   "via": "seat"
+  },
+  "S01_20": {
+   "name": "Parthasarathi, Shri B K",
+   "party": "TDP",
+   "seat": "Hindupur",
+   "state": "Andhra Pradesh",
+   "mpsno": 292,
+   "via": "seat"
+  },
+  "S01_21": {
+   "name": "Reddy, Shri Y S Avinash",
+   "party": "YSR Congress Party",
+   "seat": "Kadapa",
+   "state": "Andhra Pradesh",
+   "mpsno": 4816,
+   "via": "seat"
+  },
+  "S01_22": {
+   "name": "Vemireddy, Shri Prabhakar Reddy",
+   "party": "TDP",
+   "seat": "Nellore",
+   "state": "Andhra Pradesh",
+   "mpsno": 5765,
+   "via": "seat"
+  },
+  "S01_23": {
+   "name": "Gurumoorthy, Shri Maddila",
+   "party": "YSR Congress Party",
+   "seat": "Tirupati",
+   "state": "Andhra Pradesh",
+   "mpsno": 5534,
+   "via": "seat"
+  },
+  "S01_24": {
+   "name": "Reddy, Shri P V Midhun",
+   "party": "YSR Congress Party",
+   "seat": "Rajampet",
+   "state": "Andhra Pradesh",
+   "mpsno": 4688,
+   "via": "seat"
+  },
+  "S01_25": {
+   "name": "Rao, Shri Daggumalla Prasada",
+   "party": "TDP",
+   "seat": "Chittoor",
+   "state": "Andhra Pradesh",
+   "mpsno": 5670,
+   "via": "seat"
+  },
+  "S01_3": {
+   "name": "Kalisetti, Shri Appalanaidu",
+   "party": "TDP",
+   "seat": "Vizianagaram",
+   "state": "Andhra Pradesh",
+   "mpsno": 5697,
+   "via": "seat"
+  },
+  "S01_4": {
+   "name": "Mathukumilli, Shri Sribharat",
+   "party": "TDP",
+   "seat": "Visakhapatnam",
+   "state": "Andhra Pradesh",
+   "mpsno": 5623,
+   "via": "seat"
+  },
+  "S01_5": {
+   "name": "Ramesh, Dr. C M",
+   "party": "BJP",
+   "seat": "Anakapalle",
+   "state": "Andhra Pradesh",
+   "mpsno": 5544,
+   "via": "seat"
+  },
+  "S01_6": {
+   "name": "Srinivas, Shri Tangella Uday",
+   "party": "JSP",
+   "seat": "Kakinada",
+   "state": "Andhra Pradesh",
+   "mpsno": 5676,
+   "via": "seat"
+  },
+  "S01_7": {
+   "name": "Balayogi, Shri G M Harish",
+   "party": "TDP",
+   "seat": "Amalapuram",
+   "state": "Andhra Pradesh",
+   "mpsno": 5722,
+   "via": "seat"
+  },
+  "S01_8": {
+   "name": "Purandeswari, Dr. D.",
+   "party": "BJP",
+   "seat": "Rajahmundry",
+   "state": "Andhra Pradesh",
+   "mpsno": 4022,
+   "via": "seat"
+  },
+  "S01_9": {
+   "name": "Bhupathiraju, Shri Srinivasa Varma B J P Varma",
+   "party": "BJP",
+   "seat": "Narsapuram",
+   "state": "Andhra Pradesh",
+   "mpsno": 5745,
+   "via": "seat"
+  },
+  "S02_1": {
+   "name": "Rijiju, Shri Kiren",
+   "party": "BJP",
+   "seat": "Arunachal West",
+   "state": "Arunachal Pradesh",
+   "mpsno": 3972,
+   "via": "seat"
+  },
+  "S02_2": {
+   "name": "Gao, Shri Tapir",
+   "party": "BJP",
+   "seat": "Arunachal East",
+   "state": "Arunachal Pradesh",
+   "mpsno": 3973,
+   "via": "seat"
+  },
+  "S03_1": {
+   "name": "Basumatary, Shri Joyanta",
+   "party": "UPPL",
+   "seat": "Kokrajhar",
+   "state": "Assam",
+   "mpsno": 5548,
+   "via": "seat"
+  },
+  "S03_10": {
+   "name": "Tasa, Shri Kamakhya Prasad",
+   "party": "BJP",
+   "seat": "Kaziranga (ex Kaliabor)",
+   "state": "Assam",
+   "mpsno": 4739,
+   "via": "seat"
+  },
+  "S03_11": {
+   "name": "Dutta, Shri Ranjit",
+   "party": "BJP",
+   "seat": "Sonitpur (ex Tezpur)",
+   "state": "Assam",
+   "mpsno": 5606,
+   "via": "seat"
+  },
+  "S03_12": {
+   "name": "Baruah, Shri Pradan",
+   "party": "BJP",
+   "seat": "Lakhimpur",
+   "state": "Assam",
+   "mpsno": 4937,
+   "via": "seat"
+  },
+  "S03_13": {
+   "name": "Sonowal, Shri Sarbananda",
+   "party": "BJP",
+   "seat": "Dibrugarh",
+   "state": "Assam",
+   "mpsno": 4163,
+   "via": "seat"
+  },
+  "S03_14": {
+   "name": "Gogoi, Shri Gaurav",
+   "party": "INC",
+   "seat": "Jorhat",
+   "state": "Assam",
+   "mpsno": 4788,
+   "via": "seat"
+  },
+  "S03_2": {
+   "name": "Hussain, Md. Rakibul",
+   "party": "INC",
+   "seat": "Dhubri",
+   "state": "Assam",
+   "mpsno": 5724,
+   "via": "seat"
+  },
+  "S03_3": {
+   "name": "Choudhury, Shri Phani Bhusan",
+   "party": "AGP",
+   "seat": "Barpeta",
+   "state": "Assam",
+   "mpsno": 5569,
+   "via": "seat"
+  },
+  "S03_4": {
+   "name": "Saikia, Shri Dilip",
+   "party": "BJP",
+   "seat": "Darrang Udalguri (ex Mangaldoi)",
+   "state": "Assam",
+   "mpsno": 5107,
+   "via": "seat"
+  },
+  "S03_5": {
+   "name": "Medhi, Smt. Bijuli Kalita",
+   "party": "BJP",
+   "seat": "Gauhati",
+   "state": "Assam",
+   "mpsno": 5603,
+   "via": "seat"
+  },
+  "S03_6": {
+   "name": "Tisso, Shri Amarsing",
+   "party": "BJP",
+   "seat": "Diphu (ex Autonomous District)",
+   "state": "Assam",
+   "mpsno": 5658,
+   "via": "seat"
+  },
+  "S03_7": {
+   "name": "Mallah, Shri Kripanath",
+   "party": "BJP",
+   "seat": "Karimganj",
+   "state": "Assam",
+   "mpsno": 5106,
+   "via": "seat"
+  },
+  "S03_8": {
+   "name": "Suklabaidya, Shri Parimal",
+   "party": "BJP",
+   "seat": "Silchar",
+   "state": "Assam",
+   "mpsno": 5675,
+   "via": "seat"
+  },
+  "S03_9": {
+   "name": "Bordoloi, Shri Pradyut",
+   "party": "INC",
+   "seat": "Nagaon",
+   "state": "Assam",
+   "mpsno": 5108,
+   "via": "seat"
+  },
+  "S04_1": {
+   "name": "Kumar, Shri Sunil",
+   "party": "JD(U)",
+   "seat": "Valmiki Nagar",
+   "state": "Bihar",
+   "mpsno": 5530,
+   "via": "seat"
+  },
+  "S04_10": {
+   "name": "Jawed, Dr. Mohammad",
+   "party": "INC",
+   "seat": "Kishanganj",
+   "state": "Bihar",
+   "mpsno": 5216,
+   "via": "seat"
+  },
+  "S04_11": {
+   "name": "Anwar, Shri Tariq",
+   "party": "INC",
+   "seat": "Katihar",
+   "state": "Bihar",
+   "mpsno": 2664,
+   "via": "seat"
+  },
+  "S04_12": {
+   "name": "Ranjan, Shri Rajesh",
+   "party": "Ind.",
+   "seat": "Purnia",
+   "state": "Bihar",
+   "mpsno": 554,
+   "via": "seat"
+  },
+  "S04_13": {
+   "name": "Yadav, Shri Dinesh Chandra",
+   "party": "JD(U)",
+   "seat": "Madhepura",
+   "state": "Bihar",
+   "mpsno": 527,
+   "via": "seat"
+  },
+  "S04_14": {
+   "name": "Thakur, Shri Gopal Jee",
+   "party": "BJP",
+   "seat": "Darbhanga",
+   "state": "Bihar",
+   "mpsno": 5176,
+   "via": "seat"
+  },
+  "S04_15": {
+   "name": "Choudhary, Dr. Raj Bhushan",
+   "party": "BJP",
+   "seat": "Muzaffarpur",
+   "state": "Bihar",
+   "mpsno": 5568,
+   "via": "seat"
+  },
+  "S04_16": {
+   "name": "Devi, Smt. Veena",
+   "party": "LJSP(RV)",
+   "seat": "Vaishali",
+   "state": "Bihar",
+   "mpsno": 5223,
+   "via": "seat"
+  },
+  "S04_17": {
+   "name": "Suman, Dr. Alok Kumar",
+   "party": "JD(U)",
+   "seat": "Gopalganj",
+   "state": "Bihar",
+   "mpsno": 5211,
+   "via": "seat"
+  },
+  "S04_18": {
+   "name": "Devi, Smt. Vijaylakshmi",
+   "party": "JD(U)",
+   "seat": "Siwan",
+   "state": "Bihar",
+   "mpsno": 5577,
+   "via": "seat"
+  },
+  "S04_19": {
+   "name": "Sigriwal, Shri Janardan Singh",
+   "party": "BJP",
+   "seat": "Maharajganj",
+   "state": "Bihar",
+   "mpsno": 4638,
+   "via": "seat"
+  },
+  "S04_2": {
+   "name": "Jaiswal, Dr. Sanjay",
+   "party": "BJP",
+   "seat": "Paschim Champaran",
+   "state": "Bihar",
+   "mpsno": 4455,
+   "via": "seat"
+  },
+  "S04_20": {
+   "name": "Rudy, Shri Rajiv Pratap",
+   "party": "BJP",
+   "seat": "Saran",
+   "state": "Bihar",
+   "mpsno": 385,
+   "via": "seat"
+  },
+  "S04_21": {
+   "name": "Paswan, Shri Chirag",
+   "party": "LJSP(RV)",
+   "seat": "Hajipur",
+   "state": "Bihar",
+   "mpsno": 4777,
+   "via": "seat"
+  },
+  "S04_22": {
+   "name": "Rai, Shri Nityanand",
+   "party": "BJP",
+   "seat": "Ujiarpur",
+   "state": "Bihar",
+   "mpsno": 4625,
+   "via": "seat"
+  },
+  "S04_23": {
+   "name": "Smt. Shambhavi",
+   "party": "LJSP(RV)",
+   "seat": "Samastipur",
+   "state": "Bihar",
+   "mpsno": 5685,
+   "via": "seat"
+  },
+  "S04_24": {
+   "name": "Singh, Shri Giriraj",
+   "party": "BJP",
+   "seat": "Begusarai",
+   "state": "Bihar",
+   "mpsno": 4641,
+   "via": "seat"
+  },
+  "S04_25": {
+   "name": "Verma, Shri Rajesh",
+   "party": "LJSP(RV)",
+   "seat": "Khagaria",
+   "state": "Bihar",
+   "mpsno": 5605,
+   "via": "seat"
+  },
+  "S04_26": {
+   "name": "Mandal, Shri Ajay Kumar",
+   "party": "JD(U)",
+   "seat": "Bhagalpur",
+   "state": "Bihar",
+   "mpsno": 5170,
+   "via": "seat"
+  },
+  "S04_27": {
+   "name": "Yadav, Shri Giridhari",
+   "party": "JD(U)",
+   "seat": "Banka",
+   "state": "Bihar",
+   "mpsno": 3830,
+   "via": "seat"
+  },
+  "S04_28": {
+   "name": "Singh, Shri Rajiv Ranjan",
+   "party": "JD(U)",
+   "seat": "Munger",
+   "state": "Bihar",
+   "mpsno": 4134,
+   "via": "seat"
+  },
+  "S04_29": {
+   "name": "Kumar, Shri Kaushalendra",
+   "party": "JD(U)",
+   "seat": "Nalanda",
+   "state": "Bihar",
+   "mpsno": 4467,
+   "via": "seat"
+  },
+  "S04_3": {
+   "name": "Singh, Shri Radha Mohan",
+   "party": "BJP",
+   "seat": "Purvi Champaran",
+   "state": "Bihar",
+   "mpsno": 451,
+   "via": "seat"
+  },
+  "S04_30": {
+   "name": "Prasad, Shri Ravi Shankar",
+   "party": "BJP",
+   "seat": "Patna Sahib",
+   "state": "Bihar",
+   "mpsno": 5219,
+   "via": "seat"
+  },
+  "S04_31": {
+   "name": "Bharti, Smt. Misha",
+   "party": "RJD",
+   "seat": "Pataliputra",
+   "state": "Bihar",
+   "mpsno": 5824,
+   "via": "seat"
+  },
+  "S04_32": {
+   "name": "Prasad, Shri Sudama",
+   "party": "CPI(ML)(L)",
+   "seat": "Arrah",
+   "state": "Bihar",
+   "mpsno": 5641,
+   "via": "seat"
+  },
+  "S04_33": {
+   "name": "Singh, Shri Sudhakar",
+   "party": "RJD",
+   "seat": "Buxar",
+   "state": "Bihar",
+   "mpsno": 5634,
+   "via": "seat"
+  },
+  "S04_34": {
+   "name": "Kumar, Shri Manoj",
+   "party": "INC",
+   "seat": "Sasaram",
+   "state": "Bihar",
+   "mpsno": 5578,
+   "via": "seat"
+  },
+  "S04_35": {
+   "name": "Singh, Shri Raja Ram",
+   "party": "CPI(ML)(L)",
+   "seat": "Karakat",
+   "state": "Bihar",
+   "mpsno": 5642,
+   "via": "seat"
+  },
+  "S04_36": {
+   "name": "Yadav, Shri Surendra Prasad",
+   "party": "RJD",
+   "seat": "Jahanabad",
+   "state": "Bihar",
+   "mpsno": 3955,
+   "via": "seat"
+  },
+  "S04_37": {
+   "name": "Sinha, Shri Abhay Kumar",
+   "party": "RJD",
+   "seat": "Aurangabad",
+   "state": "Bihar",
+   "mpsno": 5646,
+   "via": "seat"
+  },
+  "S04_38": {
+   "name": "Manjhi, Shri Jitan Ram",
+   "party": "HAM (S)",
+   "seat": "Gaya",
+   "state": "Bihar",
+   "mpsno": 5558,
+   "via": "seat"
+  },
+  "S04_39": {
+   "name": "Thakur, Shri Vivek",
+   "party": "BJP",
+   "seat": "Nawada",
+   "state": "Bihar",
+   "mpsno": 5712,
+   "via": "seat"
+  },
+  "S04_4": {
+   "name": "Anand, Smt. Lovely",
+   "party": "JD(U)",
+   "seat": "Sheohar",
+   "state": "Bihar",
+   "mpsno": 3464,
+   "via": "seat"
+  },
+  "S04_40": {
+   "name": "Bharti, Shri Arun",
+   "party": "LJSP(RV)",
+   "seat": "Jamui",
+   "state": "Bihar",
+   "mpsno": 5740,
+   "via": "seat"
+  },
+  "S04_5": {
+   "name": "Thakur, Shri Devesh Chandra",
+   "party": "JD(U)",
+   "seat": "Sitamarhi",
+   "state": "Bihar",
+   "mpsno": 5662,
+   "via": "seat"
+  },
+  "S04_6": {
+   "name": "Yadav, Shri Ashok Kumar",
+   "party": "BJP",
+   "seat": "Madhubani",
+   "state": "Bihar",
+   "mpsno": 5217,
+   "via": "seat"
+  },
+  "S04_7": {
+   "name": "Mandal, Shri Ramprit",
+   "party": "JD(U)",
+   "seat": "Jhanjharpur",
+   "state": "Bihar",
+   "mpsno": 5214,
+   "via": "seat"
+  },
+  "S04_8": {
+   "name": "Kamait, Shri Dileshwar",
+   "party": "JD(U)",
+   "seat": "Supaul",
+   "state": "Bihar",
+   "mpsno": 5222,
+   "via": "seat"
+  },
+  "S04_9": {
+   "name": "Singh, Shri Pradeep Kumar",
+   "party": "BJP",
+   "seat": "Araria",
+   "state": "Bihar",
+   "mpsno": 4459,
+   "via": "seat"
+  },
+  "S05_1": {
+   "name": "Naik, Shri Shripad Yesso",
+   "party": "BJP",
+   "seat": "North Goa",
+   "state": "Goa",
+   "mpsno": 273,
+   "via": "seat"
+  },
+  "S05_2": {
+   "name": "Fernandes, Shri Captain Viriato",
+   "party": "INC",
+   "seat": "South Goa",
+   "state": "Goa",
+   "mpsno": 5710,
+   "via": "seat"
+  },
+  "S06_1": {
+   "name": "Lakhamshi, Shri Chavda Vinod",
+   "party": "BJP",
+   "seat": "Kachchh",
+   "state": "Gujarat",
+   "mpsno": 4741,
+   "via": "seat"
+  },
+  "S06_10": {
+   "name": "Rupala, Shri Parshottambhai",
+   "party": "BJP",
+   "seat": "Rajkot",
+   "state": "Gujarat",
+   "mpsno": 5598,
+   "via": "seat"
+  },
+  "S06_11": {
+   "name": "Mandaviya, Dr. Mansukh",
+   "party": "BJP",
+   "seat": "Porbandar",
+   "state": "Gujarat",
+   "mpsno": 5555,
+   "via": "seat"
+  },
+  "S06_12": {
+   "name": "Maadam, Smt. Poonamben Hematbhai",
+   "party": "BJP",
+   "seat": "Jamnagar",
+   "state": "Gujarat",
+   "mpsno": 4751,
+   "via": "seat"
+  },
+  "S06_13": {
+   "name": "Chudasama, Shri Rajesh Naranbhai",
+   "party": "BJP",
+   "seat": "Junagadh",
+   "state": "Gujarat",
+   "mpsno": 4865,
+   "via": "seat"
+  },
+  "S06_14": {
+   "name": "Sutariya, Shri Bharatbhai Manubhai",
+   "party": "BJP",
+   "seat": "Amreli",
+   "state": "Gujarat",
+   "mpsno": 5616,
+   "via": "seat"
+  },
+  "S06_15": {
+   "name": "Bambhaniya, Smt. Nimuben Jayantibhai",
+   "party": "BJP",
+   "seat": "Bhavnagar",
+   "state": "Gujarat",
+   "mpsno": 5614,
+   "via": "seat"
+  },
+  "S06_16": {
+   "name": "Patel, Shri Miteshbhai Rameshbhai",
+   "party": "BJP",
+   "seat": "Anand",
+   "state": "Gujarat",
+   "mpsno": 5018,
+   "via": "seat"
+  },
+  "S06_17": {
+   "name": "Chauhan, Shri Devusinh",
+   "party": "BJP",
+   "seat": "Kheda",
+   "state": "Gujarat",
+   "mpsno": 4858,
+   "via": "seat"
+  },
+  "S06_18": {
+   "name": "Jadav, Shri Rajpalsinh Mahendrasinh",
+   "party": "BJP",
+   "seat": "Panchmahal",
+   "state": "Gujarat",
+   "mpsno": 5571,
+   "via": "seat"
+  },
+  "S06_19": {
+   "name": "Bhabhor, Shri Jaswantsinh Sumanbhai",
+   "party": "BJP",
+   "seat": "Dahod",
+   "state": "Gujarat",
+   "mpsno": 4857,
+   "via": "seat"
+  },
+  "S06_2": {
+   "name": "Thakor, Smt. Geniben Nagaji",
+   "party": "INC",
+   "seat": "Banaskantha",
+   "state": "Gujarat",
+   "mpsno": 5744,
+   "via": "seat"
+  },
+  "S06_20": {
+   "name": "Joshi, Dr. Hemang",
+   "party": "BJP",
+   "seat": "Vadodara",
+   "state": "Gujarat",
+   "mpsno": 5570,
+   "via": "seat"
+  },
+  "S06_21": {
+   "name": "Rathva, Shri Jashubhai Bhilubhai",
+   "party": "BJP",
+   "seat": "Chhota Udaipur",
+   "state": "Gujarat",
+   "mpsno": 5572,
+   "via": "seat"
+  },
+  "S06_22": {
+   "name": "Vasava, Shri Mansukhbhai Dhanjibhai",
+   "party": "BJP",
+   "seat": "Bharuch",
+   "state": "Gujarat",
+   "mpsno": 501,
+   "via": "seat"
+  },
+  "S06_23": {
+   "name": "Vasava, Shri Parbhubhai Nagarbhai",
+   "party": "BJP",
+   "seat": "Bardoli",
+   "state": "Gujarat",
+   "mpsno": 4757,
+   "via": "seat"
+  },
+  "S06_25": {
+   "name": "Patil, Shri Chandrakant Raghunath",
+   "party": "BJP",
+   "seat": "Navsari",
+   "state": "Gujarat",
+   "mpsno": 4452,
+   "via": "seat"
+  },
+  "S06_26": {
+   "name": "Patel, Shri Dhaval Laxmanbhai",
+   "party": "BJP",
+   "seat": "Valsad",
+   "state": "Gujarat",
+   "mpsno": 5665,
+   "via": "seat"
+  },
+  "S06_3": {
+   "name": "Dabhi, Shri Bharatsinhji Shankarji",
+   "party": "BJP",
+   "seat": "Patan",
+   "state": "Gujarat",
+   "mpsno": 5024,
+   "via": "seat"
+  },
+  "S06_4": {
+   "name": "Patel, Shri Haribhai",
+   "party": "BJP",
+   "seat": "Mahesana",
+   "state": "Gujarat",
+   "mpsno": 5560,
+   "via": "seat"
+  },
+  "S06_5": {
+   "name": "Baraiya, Smt. Shobhanaben Mahendrasinh",
+   "party": "BJP",
+   "seat": "Sabarkantha",
+   "state": "Gujarat",
+   "mpsno": 5611,
+   "via": "seat"
+  },
+  "S06_6": {
+   "name": "Shah, Shri Amit",
+   "party": "BJP",
+   "seat": "Gandhinagar",
+   "state": "Gujarat",
+   "mpsno": 5021,
+   "via": "seat"
+  },
+  "S06_7": {
+   "name": "Patel, Shri Hasmukhbhai Somabhai",
+   "party": "BJP",
+   "seat": "Ahmedabad East",
+   "state": "Gujarat",
+   "mpsno": 5017,
+   "via": "seat"
+  },
+  "S06_8": {
+   "name": "Makwana, Shri Dineshbhai",
+   "party": "BJP",
+   "seat": "Ahmedabad West",
+   "state": "Gujarat",
+   "mpsno": 5694,
+   "via": "seat"
+  },
+  "S06_9": {
+   "name": "Shihora, Shri Chandubhai Chhaganbhai",
+   "party": "BJP",
+   "seat": "Surendranagar",
+   "state": "Gujarat",
+   "mpsno": 5617,
+   "via": "seat"
+  },
+  "S07_1": {
+   "name": "Chaudhry, Shri Varun",
+   "party": "INC",
+   "seat": "Ambala",
+   "state": "Haryana",
+   "mpsno": 5545,
+   "via": "seat"
+  },
+  "S07_10": {
+   "name": "Gurjar, Shri Krishan Pal",
+   "party": "BJP",
+   "seat": "Faridabad",
+   "state": "Haryana",
+   "mpsno": 4629,
+   "via": "seat"
+  },
+  "S07_2": {
+   "name": "Jindal, Shri Naveen",
+   "party": "BJP",
+   "seat": "Kurukshetra",
+   "state": "Haryana",
+   "mpsno": 4041,
+   "via": "seat"
+  },
+  "S07_3": {
+   "name": "Kumari Selja, ",
+   "party": "INC",
+   "seat": "Sirsa",
+   "state": "Haryana",
+   "mpsno": 3589,
+   "via": "seat"
+  },
+  "S07_4": {
+   "name": "Parkash, Shri Jai",
+   "party": "INC",
+   "seat": "Hisar",
+   "state": "Haryana",
+   "mpsno": 3289,
+   "via": "seat"
+  },
+  "S07_5": {
+   "name": "Lal, Shri Manohar",
+   "party": "BJP",
+   "seat": "Karnal",
+   "state": "Haryana",
+   "mpsno": 5792,
+   "via": "seat"
+  },
+  "S07_6": {
+   "name": "Brahamchari, Shri Satpal",
+   "party": "INC",
+   "seat": "Sonipat",
+   "state": "Haryana",
+   "mpsno": 5585,
+   "via": "seat"
+  },
+  "S07_7": {
+   "name": "Hooda, Shri Deepender Singh",
+   "party": "INC",
+   "seat": "Rohtak",
+   "state": "Haryana",
+   "mpsno": 4207,
+   "via": "seat"
+  },
+  "S07_8": {
+   "name": "Singh, Shri Dharambir",
+   "party": "BJP",
+   "seat": "Bhiwani-Mahendragarh",
+   "state": "Haryana",
+   "mpsno": 4647,
+   "via": "seat"
+  },
+  "S07_9": {
+   "name": "Singh, Shri Rao Inderjit",
+   "party": "BJP",
+   "seat": "Gurgaon",
+   "state": "Haryana",
+   "mpsno": 3904,
+   "via": "seat"
+  },
+  "S08_1": {
+   "name": "Bharadwaj, Dr. Rajeev",
+   "party": "BJP",
+   "seat": "Kangra",
+   "state": "Himachal Pradesh",
+   "mpsno": 5695,
+   "via": "seat"
+  },
+  "S08_2": {
+   "name": "Ranaut, Ms Kangna",
+   "party": "BJP",
+   "seat": "Mandi",
+   "state": "Himachal Pradesh",
+   "mpsno": 5652,
+   "via": "seat"
+  },
+  "S08_3": {
+   "name": "Thakur, Shri Anurag Singh",
+   "party": "BJP",
+   "seat": "Hamirpur",
+   "state": "Himachal Pradesh",
+   "mpsno": 4249,
+   "via": "seat"
+  },
+  "S08_4": {
+   "name": "Kashyap, Shri Suresh Kumar",
+   "party": "BJP",
+   "seat": "Shimla",
+   "state": "Himachal Pradesh",
+   "mpsno": 5113,
+   "via": "seat"
+  },
+  "S10_1": {
+   "name": "Jarkiholi, Km. Priyanka Satish",
+   "party": "INC",
+   "seat": "Chikkodi",
+   "state": "Karnataka",
+   "mpsno": 5831,
+   "via": "seat"
+  },
+  "S10_10": {
+   "name": "Bommai, Shri Basavaraj",
+   "party": "BJP",
+   "seat": "Haveri",
+   "state": "Karnataka",
+   "mpsno": 5561,
+   "via": "seat"
+  },
+  "S10_11": {
+   "name": "Joshi, Shri Pralhad",
+   "party": "BJP",
+   "seat": "Dharwad",
+   "state": "Karnataka",
+   "mpsno": 3982,
+   "via": "seat"
+  },
+  "S10_12": {
+   "name": "Kageri, Shri Vishweshwar Hegde",
+   "party": "BJP",
+   "seat": "Uttara Kannada",
+   "state": "Karnataka",
+   "mpsno": 5554,
+   "via": "seat"
+  },
+  "S10_13": {
+   "name": "Mallikarjun, Dr. Prabha",
+   "party": "INC",
+   "seat": "Davanagere",
+   "state": "Karnataka",
+   "mpsno": 5753,
+   "via": "seat"
+  },
+  "S10_14": {
+   "name": "Raghavendra, Shri B Y",
+   "party": "BJP",
+   "seat": "Shimoga",
+   "state": "Karnataka",
+   "mpsno": 4570,
+   "via": "seat"
+  },
+  "S10_15": {
+   "name": "Poojary, Shri Kota Srinivasa",
+   "party": "BJP",
+   "seat": "Udupi Chikmagalur",
+   "state": "Karnataka",
+   "mpsno": 5711,
+   "via": "seat"
+  },
+  "S10_16": {
+   "name": "Patel, Shri Shreyas M",
+   "party": "INC",
+   "seat": "Hassan",
+   "state": "Karnataka",
+   "mpsno": 5751,
+   "via": "seat"
+  },
+  "S10_17": {
+   "name": "Chowta, Shri Captain Brijesh",
+   "party": "BJP",
+   "seat": "Dakshina Kannada",
+   "state": "Karnataka",
+   "mpsno": 5627,
+   "via": "seat"
+  },
+  "S10_18": {
+   "name": "Karjol, Shri Govind Makthappa",
+   "party": "BJP",
+   "seat": "Chitradurga",
+   "state": "Karnataka",
+   "mpsno": 5559,
+   "via": "seat"
+  },
+  "S10_19": {
+   "name": "Somanna, Shri V",
+   "party": "BJP",
+   "seat": "Tumkur",
+   "state": "Karnataka",
+   "mpsno": 5625,
+   "via": "seat"
+  },
+  "S10_2": {
+   "name": "Shettar, Shri Jagadish",
+   "party": "BJP",
+   "seat": "Belgaum",
+   "state": "Karnataka",
+   "mpsno": 5733,
+   "via": "seat"
+  },
+  "S10_20": {
+   "name": "Kumaraswamy, Shri H D",
+   "party": "JD(S)",
+   "seat": "Mandya",
+   "state": "Karnataka",
+   "mpsno": 3711,
+   "via": "seat"
+  },
+  "S10_21": {
+   "name": "Wadiyar, Shri Yaduveer",
+   "party": "BJP",
+   "seat": "Mysore",
+   "state": "Karnataka",
+   "mpsno": 5682,
+   "via": "seat"
+  },
+  "S10_22": {
+   "name": "Bose, Shri Sunil",
+   "party": "INC",
+   "seat": "Chamarajanagar",
+   "state": "Karnataka",
+   "mpsno": 5758,
+   "via": "seat"
+  },
+  "S10_23": {
+   "name": "Manjunath, Dr. C N",
+   "party": "BJP",
+   "seat": "Bangalore Rural",
+   "state": "Karnataka",
+   "mpsno": 5590,
+   "via": "seat"
+  },
+  "S10_24": {
+   "name": "Karandlaje, Km. Shobha",
+   "party": "BJP",
+   "seat": "Bangalore North",
+   "state": "Karnataka",
+   "mpsno": 4616,
+   "via": "seat"
+  },
+  "S10_25": {
+   "name": "Mohan, Shri P C",
+   "party": "BJP",
+   "seat": "Bangalore Central",
+   "state": "Karnataka",
+   "mpsno": 4321,
+   "via": "seat"
+  },
+  "S10_26": {
+   "name": "Surya, Shri Tejasvi",
+   "party": "BJP",
+   "seat": "Bangalore South",
+   "state": "Karnataka",
+   "mpsno": 5182,
+   "via": "seat"
+  },
+  "S10_27": {
+   "name": "Sudhakar, Dr. K",
+   "party": "BJP",
+   "seat": "Chikkballapur",
+   "state": "Karnataka",
+   "mpsno": 5602,
+   "via": "seat"
+  },
+  "S10_28": {
+   "name": "Babu, Shri M Mallesh",
+   "party": "JD(S)",
+   "seat": "Kolar",
+   "state": "Karnataka",
+   "mpsno": 5655,
+   "via": "seat"
+  },
+  "S10_3": {
+   "name": "Chandanagouda, Shri Gaddigoudar Parvatagouda",
+   "party": "BJP",
+   "seat": "Bagalkot",
+   "state": "Karnataka",
+   "mpsno": 3984,
+   "via": "seat"
+  },
+  "S10_4": {
+   "name": "Jigajinagi, Shri Ramesh Chandappa",
+   "party": "BJP",
+   "seat": "Bijapur",
+   "state": "Karnataka",
+   "mpsno": 170,
+   "via": "seat"
+  },
+  "S10_5": {
+   "name": "Radhakrishna, Shri",
+   "party": "INC",
+   "seat": "Gulbarga",
+   "state": "Karnataka",
+   "mpsno": 5757,
+   "via": "seat"
+  },
+  "S10_6": {
+   "name": "Naik, Shri G Kumar",
+   "party": "INC",
+   "seat": "Raichur",
+   "state": "Karnataka",
+   "mpsno": 5737,
+   "via": "seat"
+  },
+  "S10_7": {
+   "name": "Khandre, Shri Sagar Eshwar",
+   "party": "INC",
+   "seat": "Bidar",
+   "state": "Karnataka",
+   "mpsno": 5791,
+   "via": "seat"
+  },
+  "S10_8": {
+   "name": "Hitnal, Shri K Rajashekar Basavaraj",
+   "party": "INC",
+   "seat": "Koppal",
+   "state": "Karnataka",
+   "mpsno": 5719,
+   "via": "seat"
+  },
+  "S10_9": {
+   "name": "Tukaram, Shri E",
+   "party": "INC",
+   "seat": "Bellary",
+   "state": "Karnataka",
+   "mpsno": 5823,
+   "via": "seat"
+  },
+  "S11_1": {
+   "name": "Unnithan, Shri Rajmohan",
+   "party": "INC",
+   "seat": "Kasaragod",
+   "state": "Kerala",
+   "mpsno": 5127,
+   "via": "seat"
+  },
+  "S11_10": {
+   "name": "Gopi, Shri Suresh",
+   "party": "BJP",
+   "seat": "Thrissur",
+   "state": "Kerala",
+   "mpsno": 5552,
+   "via": "seat"
+  },
+  "S11_11": {
+   "name": "Behanan, Shri Benny",
+   "party": "INC",
+   "seat": "Chalakudy",
+   "state": "Kerala",
+   "mpsno": 5124,
+   "via": "seat"
+  },
+  "S11_12": {
+   "name": "Eden, Shri Hibi",
+   "party": "INC",
+   "seat": "Ernakulam",
+   "state": "Kerala",
+   "mpsno": 5125,
+   "via": "seat"
+  },
+  "S11_13": {
+   "name": "Kuriakose, Adv Dean",
+   "party": "INC",
+   "seat": "Idukki",
+   "state": "Kerala",
+   "mpsno": 5126,
+   "via": "seat"
+  },
+  "S11_14": {
+   "name": "George, Adv K. Francis",
+   "party": "KEC",
+   "seat": "Kottayam",
+   "state": "Kerala",
+   "mpsno": 138,
+   "via": "seat"
+  },
+  "S11_15": {
+   "name": "Venugopal, Shri K C",
+   "party": "INC",
+   "seat": "Alappuzha",
+   "state": "Kerala",
+   "mpsno": 4567,
+   "via": "seat"
+  },
+  "S11_16": {
+   "name": "Suresh, Shri Kodikunnil",
+   "party": "INC",
+   "seat": "Mavelikkara",
+   "state": "Kerala",
+   "mpsno": 477,
+   "via": "seat"
+  },
+  "S11_17": {
+   "name": "Antony, Shri Anto",
+   "party": "INC",
+   "seat": "Pathanamthitta",
+   "state": "Kerala",
+   "mpsno": 4571,
+   "via": "seat"
+  },
+  "S11_18": {
+   "name": "Premachandran, Shri N K",
+   "party": "RSP",
+   "seat": "Kollam",
+   "state": "Kerala",
+   "mpsno": 3754,
+   "via": "seat"
+  },
+  "S11_19": {
+   "name": "Prakash, Adv. Adoor",
+   "party": "INC",
+   "seat": "Attingal",
+   "state": "Kerala",
+   "mpsno": 5123,
+   "via": "seat"
+  },
+  "S11_2": {
+   "name": "Sudhakaran, Shri K",
+   "party": "INC",
+   "seat": "Kannur",
+   "state": "Kerala",
+   "mpsno": 4558,
+   "via": "seat"
+  },
+  "S11_20": {
+   "name": "Tharoor, Dr. Shashi",
+   "party": "INC",
+   "seat": "Thiruvananthapuram",
+   "state": "Kerala",
+   "mpsno": 4569,
+   "via": "seat"
+  },
+  "S11_3": {
+   "name": "Parambil, Shri Shafi",
+   "party": "INC",
+   "seat": "Vadakara",
+   "state": "Kerala",
+   "mpsno": 5698,
+   "via": "seat"
+  },
+  "S11_4": {
+   "name": "Gandhi, Shri Rahul",
+   "party": "INC",
+   "seat": "Wayanad",
+   "state": "Kerala",
+   "mpsno": 4074,
+   "via": "name"
+  },
+  "S11_5": {
+   "name": "Raghavan, Shri M K",
+   "party": "INC",
+   "seat": "Kozhikode",
+   "state": "Kerala",
+   "mpsno": 4560,
+   "via": "seat"
+  },
+  "S11_6": {
+   "name": "Basheer, Shri E T Mohammed",
+   "party": "IUML",
+   "seat": "Malappuram",
+   "state": "Kerala",
+   "mpsno": 4561,
+   "via": "seat"
+  },
+  "S11_7": {
+   "name": "Samadani, Dr. M P Abdussamad",
+   "party": "IUML",
+   "seat": "Ponnani",
+   "state": "Kerala",
+   "mpsno": 5532,
+   "via": "seat"
+  },
+  "S11_8": {
+   "name": "Sreekandan, Shri V K",
+   "party": "INC",
+   "seat": "Palakkad",
+   "state": "Kerala",
+   "mpsno": 5128,
+   "via": "seat"
+  },
+  "S11_9": {
+   "name": "Radhakrishnan, Shri K",
+   "party": "CPI(M)",
+   "seat": "Alathur",
+   "state": "Kerala",
+   "mpsno": 5812,
+   "via": "seat"
+  },
+  "S12_1": {
+   "name": "Tomar, Shri Shivmangal Singh",
+   "party": "BJP",
+   "seat": "Morena",
+   "state": "Madhya Pradesh",
+   "mpsno": 5604,
+   "via": "seat"
+  },
+  "S12_10": {
+   "name": "Mishra, Shri Janardan",
+   "party": "BJP",
+   "seat": "Rewa",
+   "state": "Madhya Pradesh",
+   "mpsno": 4728,
+   "via": "seat"
+  },
+  "S12_11": {
+   "name": "Mishra, Dr. Rajesh",
+   "party": "BJP",
+   "seat": "Sidhi",
+   "state": "Madhya Pradesh",
+   "mpsno": 5579,
+   "via": "seat"
+  },
+  "S12_12": {
+   "name": "Singh, Smt. Himadri",
+   "party": "BJP",
+   "seat": "Shahdol",
+   "state": "Madhya Pradesh",
+   "mpsno": 5070,
+   "via": "seat"
+  },
+  "S12_13": {
+   "name": "Dubey, Shri Ashish",
+   "party": "BJP",
+   "seat": "Jabalpur",
+   "state": "Madhya Pradesh",
+   "mpsno": 5699,
+   "via": "seat"
+  },
+  "S12_14": {
+   "name": "Kulaste, Dr. Faggan Singh",
+   "party": "BJP",
+   "seat": "Mandla",
+   "state": "Madhya Pradesh",
+   "mpsno": 207,
+   "via": "seat"
+  },
+  "S12_15": {
+   "name": "Pardhi, Smt. Bharti",
+   "party": "BJP",
+   "seat": "Balaghat",
+   "state": "Madhya Pradesh",
+   "mpsno": 5696,
+   "via": "seat"
+  },
+  "S12_16": {
+   "name": "Sahu, Shri Bunty Vivek",
+   "party": "BJP",
+   "seat": "Chhindwara",
+   "state": "Madhya Pradesh",
+   "mpsno": 5666,
+   "via": "seat"
+  },
+  "S12_17": {
+   "name": "Choudhary, Shri Darshan Singh",
+   "party": "BJP",
+   "seat": "Hoshangabad",
+   "state": "Madhya Pradesh",
+   "mpsno": 5613,
+   "via": "seat"
+  },
+  "S12_18": {
+   "name": "Chouhan, Shri Shivraj Singh",
+   "party": "BJP",
+   "seat": "Vidisha",
+   "state": "Madhya Pradesh",
+   "mpsno": 96,
+   "via": "seat"
+  },
+  "S12_19": {
+   "name": "Sharma, Shri Alok",
+   "party": "BJP",
+   "seat": "Bhopal",
+   "state": "Madhya Pradesh",
+   "mpsno": 5674,
+   "via": "seat"
+  },
+  "S12_2": {
+   "name": "Ray, Smt. Sandhya",
+   "party": "BJP",
+   "seat": "Bhind",
+   "state": "Madhya Pradesh",
+   "mpsno": 5058,
+   "via": "seat"
+  },
+  "S12_20": {
+   "name": "Nagar, Shri Rodmal",
+   "party": "BJP",
+   "seat": "Rajgarh",
+   "state": "Madhya Pradesh",
+   "mpsno": 4702,
+   "via": "seat"
+  },
+  "S12_21": {
+   "name": "Solanky, Shri Mahendra Singh",
+   "party": "BJP",
+   "seat": "Dewas",
+   "state": "Madhya Pradesh",
+   "mpsno": 5061,
+   "via": "seat"
+  },
+  "S12_22": {
+   "name": "Firojiya, Shri Anil",
+   "party": "BJP",
+   "seat": "Ujjain",
+   "state": "Madhya Pradesh",
+   "mpsno": 5071,
+   "via": "seat"
+  },
+  "S12_23": {
+   "name": "Gupta, Shri Sudheer",
+   "party": "BJP",
+   "seat": "Mandsour",
+   "state": "Madhya Pradesh",
+   "mpsno": 4615,
+   "via": "seat"
+  },
+  "S12_24": {
+   "name": "Chouhan, Smt. Anita Nagarsingh",
+   "party": "BJP",
+   "seat": "Ratlam",
+   "state": "Madhya Pradesh",
+   "mpsno": 5663,
+   "via": "seat"
+  },
+  "S12_25": {
+   "name": "Thakur, Smt. Savitri",
+   "party": "BJP",
+   "seat": "Dhar",
+   "state": "Madhya Pradesh",
+   "mpsno": 4596,
+   "via": "seat"
+  },
+  "S12_26": {
+   "name": "Lalwani, Shri Shankar",
+   "party": "BJP",
+   "seat": "Indore",
+   "state": "Madhya Pradesh",
+   "mpsno": 5065,
+   "via": "seat"
+  },
+  "S12_27": {
+   "name": "Patel, Shri Gajendra  Singh",
+   "party": "BJP",
+   "seat": "Khargone",
+   "state": "Madhya Pradesh",
+   "mpsno": 5067,
+   "via": "seat"
+  },
+  "S12_28": {
+   "name": "Patil, Shri Gyaneshwar",
+   "party": "BJP",
+   "seat": "Khandwa",
+   "state": "Madhya Pradesh",
+   "mpsno": 5535,
+   "via": "seat"
+  },
+  "S12_29": {
+   "name": "Uikey, Shri Durgadas D D",
+   "party": "BJP",
+   "seat": "Betul",
+   "state": "Madhya Pradesh",
+   "mpsno": 5057,
+   "via": "seat"
+  },
+  "S12_3": {
+   "name": "Kushwah, Shri Bharat Singh",
+   "party": "BJP",
+   "seat": "Gwalior",
+   "state": "Madhya Pradesh",
+   "mpsno": 5609,
+   "via": "seat"
+  },
+  "S12_4": {
+   "name": "Scindia, Shri Jyotiraditya M",
+   "party": "BJP",
+   "seat": "Guna",
+   "state": "Madhya Pradesh",
+   "mpsno": 3958,
+   "via": "seat"
+  },
+  "S12_5": {
+   "name": "Wankhede, Dr. Lata",
+   "party": "BJP",
+   "seat": "Sagar",
+   "state": "Madhya Pradesh",
+   "mpsno": 5692,
+   "via": "seat"
+  },
+  "S12_6": {
+   "name": "Kumar, Dr. Virendra",
+   "party": "BJP",
+   "seat": "Tikamgarh",
+   "state": "Madhya Pradesh",
+   "mpsno": 515,
+   "via": "seat"
+  },
+  "S12_7": {
+   "name": "Lodhi, Shri Rahul Singh",
+   "party": "BJP",
+   "seat": "Damoh",
+   "state": "Madhya Pradesh",
+   "mpsno": 5689,
+   "via": "seat"
+  },
+  "S12_8": {
+   "name": "Sharma, Shri Vishnu Datt",
+   "party": "BJP",
+   "seat": "Khajuraho",
+   "state": "Madhya Pradesh",
+   "mpsno": 5066,
+   "via": "seat"
+  },
+  "S12_9": {
+   "name": "Singh, Shri Ganesh",
+   "party": "BJP",
+   "seat": "Satna",
+   "state": "Madhya Pradesh",
+   "mpsno": 3986,
+   "via": "seat"
+  },
+  "S13_1": {
+   "name": "Padavi, Adv Gowaal Kagada",
+   "party": "INC",
+   "seat": "Nandurbar",
+   "state": "Maharashtra",
+   "mpsno": 5760,
+   "via": "seat"
+  },
+  "S13_10": {
+   "name": "Gadkari, Shri Nitin Jairam",
+   "party": "BJP",
+   "seat": "Nagpur",
+   "state": "Maharashtra",
+   "mpsno": 4923,
+   "via": "seat"
+  },
+  "S13_11": {
+   "name": "Padole, Dr. Prashant Yadaorao",
+   "party": "INC",
+   "seat": "Bhandara-Gondiya",
+   "state": "Maharashtra",
+   "mpsno": 5729,
+   "via": "seat"
+  },
+  "S13_12": {
+   "name": "Namdeo, Dr. Kirsan",
+   "party": "INC",
+   "seat": "Gadchiroli-Chimur",
+   "state": "Maharashtra",
+   "mpsno": 5727,
+   "via": "seat"
+  },
+  "S13_13": {
+   "name": "Suresh, Smt. Dhanorkar Pratibha",
+   "party": "INC",
+   "seat": "Chandrapur",
+   "state": "Maharashtra",
+   "mpsno": 5748,
+   "via": "seat"
+  },
+  "S13_14": {
+   "name": "Deshmukh, Shri Sanjay Uttamrao",
+   "party": "SS",
+   "seat": "Yavatmal-Washim",
+   "state": "Maharashtra",
+   "mpsno": 5725,
+   "via": "seat"
+  },
+  "S13_15": {
+   "name": "Bapurao, Shri Aashtikar Patil Nagesh",
+   "party": "SS",
+   "seat": "Hingoli",
+   "state": "Maharashtra",
+   "mpsno": 5640,
+   "via": "seat"
+  },
+  "S13_16": {
+   "name": "Balwantrao, Shri Chavan Vasantrao",
+   "party": "INC",
+   "seat": "Nanded",
+   "state": "Maharashtra",
+   "mpsno": 5739,
+   "via": "seat"
+  },
+  "S13_17": {
+   "name": "Jadhav, Shri Sanjay Haribhau",
+   "party": "SS",
+   "seat": "Parbhani",
+   "state": "Maharashtra",
+   "mpsno": 4735,
+   "via": "seat"
+  },
+  "S13_18": {
+   "name": "Kale, Dr. Kalyan Vaijinathrao",
+   "party": "INC",
+   "seat": "Jalna",
+   "state": "Maharashtra",
+   "mpsno": 5767,
+   "via": "seat"
+  },
+  "S13_19": {
+   "name": "Asaram, Shri Bhumare Sandipanrao",
+   "party": "SS",
+   "seat": "Aurangabad",
+   "state": "Maharashtra",
+   "mpsno": 5684,
+   "via": "seat"
+  },
+  "S13_2": {
+   "name": "Dinesh, Dr. Bachhav Shobha",
+   "party": "INC",
+   "seat": "Dhule",
+   "state": "Maharashtra",
+   "mpsno": 5773,
+   "via": "seat"
+  },
+  "S13_20": {
+   "name": "Bhagare, Shri Bhaskar Murlidhar",
+   "party": "NCPSP",
+   "seat": "Dindori",
+   "state": "Maharashtra",
+   "mpsno": 5741,
+   "via": "seat"
+  },
+  "S13_21": {
+   "name": "Waje, Shri Rajabhau Parag Prakash",
+   "party": "SHSUBT",
+   "seat": "Nashik",
+   "state": "Maharashtra",
+   "mpsno": 5790,
+   "via": "seat"
+  },
+  "S13_22": {
+   "name": "Savara, Dr. Hemant Vishnu",
+   "party": "BJP",
+   "seat": "Palghar",
+   "state": "Maharashtra",
+   "mpsno": 5669,
+   "via": "seat"
+  },
+  "S13_23": {
+   "name": "Mhatre, Shri Balya Mama Suresh Gopinath",
+   "party": "NCPSP",
+   "seat": "Bhiwandi",
+   "state": "Maharashtra",
+   "mpsno": 5644,
+   "via": "seat"
+  },
+  "S13_24": {
+   "name": "Shinde, Dr. Shrikant Eknath",
+   "party": "SS",
+   "seat": "Kalyan",
+   "state": "Maharashtra",
+   "mpsno": 4659,
+   "via": "seat"
+  },
+  "S13_25": {
+   "name": "Mhaske, Shri Naresh Ganpat",
+   "party": "SS",
+   "seat": "Thane",
+   "state": "Maharashtra",
+   "mpsno": 5693,
+   "via": "seat"
+  },
+  "S13_26": {
+   "name": "Goyal, Shri Piyush Vedprakash",
+   "party": "BJP",
+   "seat": "Mumbai North",
+   "state": "Maharashtra",
+   "mpsno": 5551,
+   "via": "seat"
+  },
+  "S13_27": {
+   "name": "Waikar, Shri Ravindra Dattaram",
+   "party": "SS",
+   "seat": "Mumbai North-West",
+   "state": "Maharashtra",
+   "mpsno": 5701,
+   "via": "seat"
+  },
+  "S13_28": {
+   "name": "Patil, Shri Sanjay Dina",
+   "party": "SS",
+   "seat": "Mumbai North-East",
+   "state": "Maharashtra",
+   "mpsno": 4393,
+   "via": "seat"
+  },
+  "S13_29": {
+   "name": "Gaikwad, Prof. Varsha Eknath",
+   "party": "INC",
+   "seat": "Mumbai North-Central",
+   "state": "Maharashtra",
+   "mpsno": 5754,
+   "via": "seat"
+  },
+  "S13_3": {
+   "name": "Wagh, Smt. Smita Uday",
+   "party": "BJP",
+   "seat": "Jalgaon",
+   "state": "Maharashtra",
+   "mpsno": 5723,
+   "via": "seat"
+  },
+  "S13_30": {
+   "name": "Desai, Shri Anil Yeshwant",
+   "party": "SHSUBT",
+   "seat": "Mumbai South -Central",
+   "state": "Maharashtra",
+   "mpsno": 5648,
+   "via": "seat"
+  },
+  "S13_31": {
+   "name": "Sawant, Shri Arvind Ganpat",
+   "party": "SHSUBT",
+   "seat": "Mumbai South",
+   "state": "Maharashtra",
+   "mpsno": 4713,
+   "via": "seat"
+  },
+  "S13_32": {
+   "name": "Dattatrey, Shri Tatkare Sunil",
+   "party": "NCP",
+   "seat": "Raigad",
+   "state": "Maharashtra",
+   "mpsno": 5199,
+   "via": "seat"
+  },
+  "S13_33": {
+   "name": "Barne, Shri Shrirang Appa Chandu",
+   "party": "SS",
+   "seat": "Maval",
+   "state": "Maharashtra",
+   "mpsno": 4781,
+   "via": "seat"
+  },
+  "S13_34": {
+   "name": "Mohol, Shri Murlidhar",
+   "party": "BJP",
+   "seat": "Pune",
+   "state": "Maharashtra",
+   "mpsno": 5705,
+   "via": "seat"
+  },
+  "S13_35": {
+   "name": "Sule, Smt. Supriya",
+   "party": "NCPSP",
+   "seat": "Baramati",
+   "state": "Maharashtra",
+   "mpsno": 4392,
+   "via": "seat"
+  },
+  "S13_36": {
+   "name": "Kolhe, Dr. Amol Ramsing",
+   "party": "NCPSP",
+   "seat": "Shirur",
+   "state": "Maharashtra",
+   "mpsno": 5185,
+   "via": "seat"
+  },
+  "S13_37": {
+   "name": "Lanke, Shri Nilesh Dnyandev",
+   "party": "NCPSP",
+   "seat": "Ahmednagar",
+   "state": "Maharashtra",
+   "mpsno": 5821,
+   "via": "seat"
+  },
+  "S13_38": {
+   "name": "Wakchaure, Shri Bhausaheb Rajaram",
+   "party": "SS",
+   "seat": "Shirdi",
+   "state": "Maharashtra",
+   "mpsno": 4385,
+   "via": "seat"
+  },
+  "S13_39": {
+   "name": "Sonwane, Shri Bajrang Manohar",
+   "party": "NCPSP",
+   "seat": "Beed",
+   "state": "Maharashtra",
+   "mpsno": 5645,
+   "via": "seat"
+  },
+  "S13_4": {
+   "name": "Khadse, Smt. Raksha Nikhil",
+   "party": "BJP",
+   "seat": "Raver",
+   "state": "Maharashtra",
+   "mpsno": 4722,
+   "via": "seat"
+  },
+  "S13_40": {
+   "name": "Rajenimbalkar, Shri Omprakash Bhupalsinh Alias Pavan",
+   "party": "SS",
+   "seat": "Osmanabad",
+   "state": "Maharashtra",
+   "mpsno": 5189,
+   "via": "seat"
+  },
+  "S13_41": {
+   "name": "Kalge, Dr. Shivaji Bandappa",
+   "party": "INC",
+   "seat": "Latur",
+   "state": "Maharashtra",
+   "mpsno": 5746,
+   "via": "seat"
+  },
+  "S13_42": {
+   "name": "Shinde, Ms. Praniti Sushilkumar",
+   "party": "INC",
+   "seat": "Solapur",
+   "state": "Maharashtra",
+   "mpsno": 5759,
+   "via": "seat"
+  },
+  "S13_43": {
+   "name": "Rajsinh, Shri Mohite Patil Dhairyasheel",
+   "party": "NCPSP",
+   "seat": "Madha",
+   "state": "Maharashtra",
+   "mpsno": 5649,
+   "via": "seat"
+  },
+  "S13_44": {
+   "name": "Patil, Shri Vishaldada Prakashbapu",
+   "party": "Ind.",
+   "seat": "Sangli",
+   "state": "Maharashtra",
+   "mpsno": 5756,
+   "via": "seat"
+  },
+  "S13_45": {
+   "name": "Bhonsle, Chh. Udayanraje Pratapsinha Maharaj",
+   "party": "BJP",
+   "seat": "Satara",
+   "state": "Maharashtra",
+   "mpsno": 4389,
+   "via": "seat"
+  },
+  "S13_46": {
+   "name": "Rane, Shri Narayan Tatu",
+   "party": "BJP",
+   "seat": "Ratnagiri -Sindhudurg",
+   "state": "Maharashtra",
+   "mpsno": 5704,
+   "via": "seat"
+  },
+  "S13_47": {
+   "name": "Chhatrapati, Shri Shahu Shahaji",
+   "party": "INC",
+   "seat": "Kolhapur",
+   "state": "Maharashtra",
+   "mpsno": 5766,
+   "via": "seat"
+  },
+  "S13_48": {
+   "name": "Mane, Shri Dhairyasheel Sambhajirao",
+   "party": "SS",
+   "seat": "Hatkanangle",
+   "state": "Maharashtra",
+   "mpsno": 5187,
+   "via": "seat"
+  },
+  "S13_5": {
+   "name": "Jadhav, Shri Prataprao Ganpatrao",
+   "party": "SS",
+   "seat": "Buldhana",
+   "state": "Maharashtra",
+   "mpsno": 4373,
+   "via": "seat"
+  },
+  "S13_6": {
+   "name": "Dhotre, Shri Anup Sanjay",
+   "party": "BJP",
+   "seat": "Akola",
+   "state": "Maharashtra",
+   "mpsno": 5562,
+   "via": "seat"
+  },
+  "S13_7": {
+   "name": "Wankhade, Shri Balwant Baswant",
+   "party": "INC",
+   "seat": "Amravati",
+   "state": "Maharashtra",
+   "mpsno": 5713,
+   "via": "seat"
+  },
+  "S13_8": {
+   "name": "Kale, Shri Amar Sharadrao",
+   "party": "NCPSP",
+   "seat": "Wardha",
+   "state": "Maharashtra",
+   "mpsno": 5820,
+   "via": "seat"
+  },
+  "S13_9": {
+   "name": "Barve, Shri Shyamkumar Daulat",
+   "party": "INC",
+   "seat": "Ramtek",
+   "state": "Maharashtra",
+   "mpsno": 5736,
+   "via": "seat"
+  },
+  "S14_1": {
+   "name": "Akoijam, Dr. Angomcha Bimol",
+   "party": "INC",
+   "seat": "Inner Manipur",
+   "state": "Manipur",
+   "mpsno": 5788,
+   "via": "seat"
+  },
+  "S14_2": {
+   "name": "Arthur, Shri Alfred Kanngam S",
+   "party": "INC",
+   "seat": "Outer Manipur",
+   "state": "Manipur",
+   "mpsno": 5582,
+   "via": "seat"
+  },
+  "S15_1": {
+   "name": "Syngkon, Dr. Ricky Andrew J",
+   "party": "VPP",
+   "seat": "Shillong",
+   "state": "Meghalaya",
+   "mpsno": 5811,
+   "via": "seat"
+  },
+  "S15_2": {
+   "name": "Sangma, Shri Saleng A",
+   "party": "INC",
+   "seat": "Tura",
+   "state": "Meghalaya",
+   "mpsno": 5553,
+   "via": "seat"
+  },
+  "S16_1": {
+   "name": "Vanlalhmangaiha, Shri Richard",
+   "party": "ZPM",
+   "seat": "Mizoram",
+   "state": "Mizoram",
+   "mpsno": 5600,
+   "via": "seat"
+  },
+  "S17_1": {
+   "name": "Jamir, Shri S Supongmeren",
+   "party": "INC",
+   "seat": "Nagaland",
+   "state": "Nagaland",
+   "mpsno": 5567,
+   "via": "seat"
+  },
+  "S18_1": {
+   "name": "Purohit, Shri Pradeep",
+   "party": "BJP",
+   "seat": "Bargarh",
+   "state": "Odisha",
+   "mpsno": 5668,
+   "via": "seat"
+  },
+  "S18_10": {
+   "name": "Deo, Smt. Sangeeta Kumari Singh",
+   "party": "BJP",
+   "seat": "Bolangir",
+   "state": "Odisha",
+   "mpsno": 426,
+   "via": "seat"
+  },
+  "S18_11": {
+   "name": "Devi, Smt. Malvika",
+   "party": "BJP",
+   "seat": "Kalahandi",
+   "state": "Odisha",
+   "mpsno": 5624,
+   "via": "seat"
+  },
+  "S18_12": {
+   "name": "Majhi, Shri Balabhadra",
+   "party": "BJP",
+   "seat": "Nabarangpur",
+   "state": "Odisha",
+   "mpsno": 4796,
+   "via": "seat"
+  },
+  "S18_13": {
+   "name": "Panigrahi, Shri Sukanta Kumar",
+   "party": "BJP",
+   "seat": "Kandhamal",
+   "state": "Odisha",
+   "mpsno": 5615,
+   "via": "seat"
+  },
+  "S18_14": {
+   "name": "Mahtab, Shri Bhartruhari",
+   "party": "BJP",
+   "seat": "Cuttack",
+   "state": "Odisha",
+   "mpsno": 225,
+   "via": "seat"
+  },
+  "S18_15": {
+   "name": "Panda, Shri Baijayant",
+   "party": "BJP",
+   "seat": "Kendrapara",
+   "state": "Odisha",
+   "mpsno": 4422,
+   "via": "seat"
+  },
+  "S18_16": {
+   "name": "Tarai, Shri Bibhu Prasad",
+   "party": "BJP",
+   "seat": "Jagatsinghpur",
+   "state": "Odisha",
+   "mpsno": 4423,
+   "via": "seat"
+  },
+  "S18_17": {
+   "name": "Patra, Dr. Sambit",
+   "party": "BJP",
+   "seat": "Puri",
+   "state": "Odisha",
+   "mpsno": 5599,
+   "via": "seat"
+  },
+  "S18_18": {
+   "name": "Sarangi, Smt. Aparajita",
+   "party": "BJP",
+   "seat": "Bhubaneswar",
+   "state": "Odisha",
+   "mpsno": 4988,
+   "via": "seat"
+  },
+  "S18_19": {
+   "name": "Subhadarshini, Smt. Anita",
+   "party": "BJP",
+   "seat": "Aska",
+   "state": "Odisha",
+   "mpsno": 5597,
+   "via": "seat"
+  },
+  "S18_2": {
+   "name": "Oram, Shri Jual",
+   "party": "BJP",
+   "seat": "Sundargarh",
+   "state": "Odisha",
+   "mpsno": 279,
+   "via": "seat"
+  },
+  "S18_20": {
+   "name": "Panigrahy, Dr. Pradeep Kumar",
+   "party": "BJP",
+   "seat": "Berhampur",
+   "state": "Odisha",
+   "mpsno": 5708,
+   "via": "seat"
+  },
+  "S18_21": {
+   "name": "Ulaka, Shri Saptagiri Sankar",
+   "party": "INC",
+   "seat": "Koraput",
+   "state": "Odisha",
+   "mpsno": 4996,
+   "via": "seat"
+  },
+  "S18_3": {
+   "name": "Pradhan, Shri Dharmendra",
+   "party": "BJP",
+   "seat": "Sambalpur",
+   "state": "Odisha",
+   "mpsno": 3999,
+   "via": "seat"
+  },
+  "S18_4": {
+   "name": "Nayak, Shri Ananta",
+   "party": "BJP",
+   "seat": "Keonjhar",
+   "state": "Odisha",
+   "mpsno": 275,
+   "via": "seat"
+  },
+  "S18_5": {
+   "name": "Majhi, Shri Naba Charan",
+   "party": "BJP",
+   "seat": "Mayurbhanj",
+   "state": "Odisha",
+   "mpsno": 5672,
+   "via": "seat"
+  },
+  "S18_6": {
+   "name": "Sarangi, Shri Pratap Chandra",
+   "party": "BJP",
+   "seat": "Balasore",
+   "state": "Odisha",
+   "mpsno": 4985,
+   "via": "seat"
+  },
+  "S18_7": {
+   "name": "Sethi, Shri Avimanyu",
+   "party": "BJP",
+   "seat": "Bhadrak",
+   "state": "Odisha",
+   "mpsno": 5610,
+   "via": "seat"
+  },
+  "S18_8": {
+   "name": "Behera, Dr. Rabindra Narayan",
+   "party": "BJP",
+   "seat": "Jajpur",
+   "state": "Odisha",
+   "mpsno": 5595,
+   "via": "seat"
+  },
+  "S18_9": {
+   "name": "Pany, Shri Rudra Narayan",
+   "party": "BJP",
+   "seat": "Dhenkanal",
+   "state": "Odisha",
+   "mpsno": 5805,
+   "via": "seat"
+  },
+  "S19_1": {
+   "name": "Randhawa, Shri Sukhjinder Singh",
+   "party": "INC",
+   "seat": "Gurdaspur",
+   "state": "Punjab",
+   "mpsno": 5752,
+   "via": "seat"
+  },
+  "S19_10": {
+   "name": "Ghubaya, Shri Sher Singh",
+   "party": "INC",
+   "seat": "Firozpur",
+   "state": "Punjab",
+   "mpsno": 4432,
+   "via": "seat"
+  },
+  "S19_11": {
+   "name": "Badal, Smt. Harsimrat Kaur",
+   "party": "SAD",
+   "seat": "Bathinda",
+   "state": "Punjab",
+   "mpsno": 4433,
+   "via": "seat"
+  },
+  "S19_12": {
+   "name": "Hayer, Shri Gurmeet Singh Meet",
+   "party": "AAP",
+   "seat": "Sangrur",
+   "state": "Punjab",
+   "mpsno": 5829,
+   "via": "seat"
+  },
+  "S19_13": {
+   "name": "Gandhi, Dr. Dharamvira",
+   "party": "INC",
+   "seat": "Patiala",
+   "state": "Punjab",
+   "mpsno": 4676,
+   "via": "seat"
+  },
+  "S19_2": {
+   "name": "Aujla, Shri Gurjeet Singh",
+   "party": "INC",
+   "seat": "Amritsar",
+   "state": "Punjab",
+   "mpsno": 4940,
+   "via": "seat"
+  },
+  "S19_3": {
+   "name": "Singh, Shri Amritpal",
+   "party": "Ind.",
+   "seat": "Khadoor Sahib",
+   "state": "Punjab",
+   "mpsno": 5832,
+   "via": "seat"
+  },
+  "S19_4": {
+   "name": "Channi, Shri Charanjit Singh",
+   "party": "INC",
+   "seat": "Jalandhar",
+   "state": "Punjab",
+   "mpsno": 5750,
+   "via": "seat"
+  },
+  "S19_5": {
+   "name": "Chabbewal, Dr. Raj Kumar",
+   "party": "AAP",
+   "seat": "Hoshiarpur",
+   "state": "Punjab",
+   "mpsno": 5779,
+   "via": "seat"
+  },
+  "S19_6": {
+   "name": "Kang, Shri Malvinder Singh",
+   "party": "AAP",
+   "seat": "Anandpur Sahib",
+   "state": "Punjab",
+   "mpsno": 5721,
+   "via": "seat"
+  },
+  "S19_7": {
+   "name": "Warring, Shri Amrinder Singh Raja",
+   "party": "INC",
+   "seat": "Ludhiana",
+   "state": "Punjab",
+   "mpsno": 5747,
+   "via": "seat"
+  },
+  "S19_8": {
+   "name": "Singh, Dr. Amar",
+   "party": "INC",
+   "seat": "Fatehgarh Sahib",
+   "state": "Punjab",
+   "mpsno": 5169,
+   "via": "seat"
+  },
+  "S19_9": {
+   "name": "Khalsa, Shri Sarabjeet Singh",
+   "party": "Ind.",
+   "seat": "Faridkot",
+   "state": "Punjab",
+   "mpsno": 5738,
+   "via": "seat"
+  },
+  "S20_1": {
+   "name": "Indora, Shri Kuldeep",
+   "party": "INC",
+   "seat": "Ganganagar",
+   "state": "Rajasthan",
+   "mpsno": 5730,
+   "via": "seat"
+  },
+  "S20_10": {
+   "name": "Jatav, Shri Bhajan Lal",
+   "party": "INC",
+   "seat": "Karauli -Dholpur",
+   "state": "Rajasthan",
+   "mpsno": 5734,
+   "via": "seat"
+  },
+  "S20_11": {
+   "name": "Meena, Shri Murari Lal",
+   "party": "INC",
+   "seat": "Dausa",
+   "state": "Rajasthan",
+   "mpsno": 5717,
+   "via": "seat"
+  },
+  "S20_12": {
+   "name": "Meena, Shri Harish Chandra",
+   "party": "INC",
+   "seat": "Tonk - Sawai Madhopur",
+   "state": "Rajasthan",
+   "mpsno": 4640,
+   "via": "seat"
+  },
+  "S20_13": {
+   "name": "Choudhary, Shri Bhagirath",
+   "party": "BJP",
+   "seat": "Ajmer",
+   "state": "Rajasthan",
+   "mpsno": 5203,
+   "via": "seat"
+  },
+  "S20_14": {
+   "name": "Beniwal, Shri Hanuman",
+   "party": "RLP",
+   "seat": "Nagaur",
+   "state": "Rajasthan",
+   "mpsno": 5205,
+   "via": "seat"
+  },
+  "S20_15": {
+   "name": "Chaudhary, Shri P P",
+   "party": "BJP",
+   "seat": "Pali",
+   "state": "Rajasthan",
+   "mpsno": 4597,
+   "via": "seat"
+  },
+  "S20_16": {
+   "name": "Shekhawat, Shri Gajendra Singh",
+   "party": "BJP",
+   "seat": "Jodhpur",
+   "state": "Rajasthan",
+   "mpsno": 4670,
+   "via": "seat"
+  },
+  "S20_17": {
+   "name": "Beniwal, Shri Ummeda Ram",
+   "party": "INC",
+   "seat": "Barmer",
+   "state": "Rajasthan",
+   "mpsno": 5762,
+   "via": "seat"
+  },
+  "S20_18": {
+   "name": "Choudhary, Shri Lumbaram",
+   "party": "BJP",
+   "seat": "Jalore",
+   "state": "Rajasthan",
+   "mpsno": 5621,
+   "via": "seat"
+  },
+  "S20_19": {
+   "name": "Rawat, Dr. Manna Lal",
+   "party": "BJP",
+   "seat": "Udaipur",
+   "state": "Rajasthan",
+   "mpsno": 5622,
+   "via": "seat"
+  },
+  "S20_2": {
+   "name": "Meghwal, Shri Arjun Ram",
+   "party": "BJP",
+   "seat": "Bikaner",
+   "state": "Rajasthan",
+   "mpsno": 4399,
+   "via": "seat"
+  },
+  "S20_20": {
+   "name": "Roat, Shri Rajkumar",
+   "party": "BAP",
+   "seat": "Banswara",
+   "state": "Rajasthan",
+   "mpsno": 5764,
+   "via": "seat"
+  },
+  "S20_21": {
+   "name": "Joshi, Shri Chandra Prakash",
+   "party": "BJP",
+   "seat": "Chittorgarh",
+   "state": "Rajasthan",
+   "mpsno": 4671,
+   "via": "seat"
+  },
+  "S20_22": {
+   "name": "Mewar, Smt. Mahima Kumari",
+   "party": "BJP",
+   "seat": "Rajsamand",
+   "state": "Rajasthan",
+   "mpsno": 5683,
+   "via": "seat"
+  },
+  "S20_23": {
+   "name": "Agrawal, Shri Damodar",
+   "party": "BJP",
+   "seat": "Bhilwara",
+   "state": "Rajasthan",
+   "mpsno": 5620,
+   "via": "seat"
+  },
+  "S20_24": {
+   "name": "Birla, Shri Om",
+   "party": "BJP",
+   "seat": "Kota",
+   "state": "Rajasthan",
+   "mpsno": 4716,
+   "via": "seat"
+  },
+  "S20_25": {
+   "name": "Singh, Shri Dushyant",
+   "party": "BJP",
+   "seat": "Jhalawar-Baran",
+   "state": "Rajasthan",
+   "mpsno": 4005,
+   "via": "seat"
+  },
+  "S20_3": {
+   "name": "Kaswan, Shri Rahul",
+   "party": "INC",
+   "seat": "Churu",
+   "state": "Rajasthan",
+   "mpsno": 4654,
+   "via": "seat"
+  },
+  "S20_4": {
+   "name": "Ola, Shri Brijendra Singh",
+   "party": "INC",
+   "seat": "Jhunjhunu",
+   "state": "Rajasthan",
+   "mpsno": 5720,
+   "via": "seat"
+  },
+  "S20_5": {
+   "name": "Ram, Shri Amra",
+   "party": "CPI(M)",
+   "seat": "Sikar",
+   "state": "Rajasthan",
+   "mpsno": 5776,
+   "via": "seat"
+  },
+  "S20_6": {
+   "name": "Singh, Shri Rao Rajendra",
+   "party": "BJP",
+   "seat": "Jaipur Rural",
+   "state": "Rajasthan",
+   "mpsno": 5632,
+   "via": "seat"
+  },
+  "S20_7": {
+   "name": "Sharma, Smt. Manju",
+   "party": "BJP",
+   "seat": "Jaipur",
+   "state": "Rajasthan",
+   "mpsno": 5619,
+   "via": "seat"
+  },
+  "S20_8": {
+   "name": "Yadav, Shri Bhupender",
+   "party": "BJP",
+   "seat": "Alwar",
+   "state": "Rajasthan",
+   "mpsno": 5541,
+   "via": "seat"
+  },
+  "S20_9": {
+   "name": "Jatav, Smt. Sanjna",
+   "party": "INC",
+   "seat": "Bharatpur",
+   "state": "Rajasthan",
+   "mpsno": 5690,
+   "via": "seat"
+  },
+  "S21_1": {
+   "name": "Subba, Dr. Indra Hang",
+   "party": "SKM",
+   "seat": "Sikkim",
+   "state": "Sikkim",
+   "mpsno": 5111,
+   "via": "seat"
+  },
+  "S22_1": {
+   "name": "Senthil, Shri Sasikanth",
+   "party": "INC",
+   "seat": "Tiruvallur",
+   "state": "Tamil Nadu",
+   "mpsno": 5681,
+   "via": "seat"
+  },
+  "S22_10": {
+   "name": "A, Shri Mani",
+   "party": "DMK",
+   "seat": "Dharmapuri",
+   "state": "Tamil Nadu",
+   "mpsno": 5814,
+   "via": "seat"
+  },
+  "S22_11": {
+   "name": "Annadurai, Shri C N",
+   "party": "DMK",
+   "seat": "Tiruvannamalai",
+   "state": "Tamil Nadu",
+   "mpsno": 4969,
+   "via": "seat"
+  },
+  "S22_12": {
+   "name": "M S, Shri Tharaniventhan",
+   "party": "DMK",
+   "seat": "Arani",
+   "state": "Tamil Nadu",
+   "mpsno": 5819,
+   "via": "seat"
+  },
+  "S22_13": {
+   "name": "Kumar, Dr. D Ravi",
+   "party": "VCK",
+   "seat": "Viluppuram",
+   "state": "Tamil Nadu",
+   "mpsno": 4972,
+   "via": "seat"
+  },
+  "S22_14": {
+   "name": "D, Shri Malaiyarasan",
+   "party": "DMK",
+   "seat": "Kallakurichi",
+   "state": "Tamil Nadu",
+   "mpsno": 5817,
+   "via": "seat"
+  },
+  "S22_15": {
+   "name": "Selvaganapathi T.M., Shri",
+   "party": "DMK",
+   "seat": "Salem",
+   "state": "Tamil Nadu",
+   "mpsno": 407,
+   "via": "seat"
+  },
+  "S22_16": {
+   "name": "S, Shri Matheswaran V",
+   "party": "DMK",
+   "seat": "Namakkal",
+   "state": "Tamil Nadu",
+   "mpsno": 5542,
+   "via": "seat"
+  },
+  "S22_17": {
+   "name": "Prakash, Shri K E",
+   "party": "DMK",
+   "seat": "Erode",
+   "state": "Tamil Nadu",
+   "mpsno": 5770,
+   "via": "seat"
+  },
+  "S22_18": {
+   "name": "K, Shri Subbarayan",
+   "party": "CPI",
+   "seat": "Tiruppur",
+   "state": "Tamil Nadu",
+   "mpsno": 4086,
+   "via": "seat"
+  },
+  "S22_19": {
+   "name": "A, Shri Raja",
+   "party": "DMK",
+   "seat": "Nilgiris",
+   "state": "Tamil Nadu",
+   "mpsno": 344,
+   "via": "seat"
+  },
+  "S22_2": {
+   "name": "Veeraswamy, Dr. Kalanidhi",
+   "party": "DMK",
+   "seat": "Chennai North",
+   "state": "Tamil Nadu",
+   "mpsno": 4959,
+   "via": "seat"
+  },
+  "S22_20": {
+   "name": "P, Dr. Ganapathy Rajkumar",
+   "party": "DMK",
+   "seat": "Coimbatore",
+   "state": "Tamil Nadu",
+   "mpsno": 5807,
+   "via": "seat"
+  },
+  "S22_21": {
+   "name": "K, Shri Eswarasamy",
+   "party": "DMK",
+   "seat": "Pollachi",
+   "state": "Tamil Nadu",
+   "mpsno": 5806,
+   "via": "seat"
+  },
+  "S22_22": {
+   "name": "R, Shri Sachithanantham",
+   "party": "CPI(M)",
+   "seat": "Dindigul",
+   "state": "Tamil Nadu",
+   "mpsno": 5628,
+   "via": "seat"
+  },
+  "S22_23": {
+   "name": "Jothimani, Ms. S",
+   "party": "INC",
+   "seat": "Karur",
+   "state": "Tamil Nadu",
+   "mpsno": 4981,
+   "via": "seat"
+  },
+  "S22_24": {
+   "name": "Vaiko, Shri Durai",
+   "party": "MDMK",
+   "seat": "Tiruchirappalli",
+   "state": "Tamil Nadu",
+   "mpsno": 5828,
+   "via": "seat"
+  },
+  "S22_25": {
+   "name": "Nehru, Thiru Arun",
+   "party": "DMK",
+   "seat": "Perambalur",
+   "state": "Tamil Nadu",
+   "mpsno": 5797,
+   "via": "seat"
+  },
+  "S22_26": {
+   "name": "Prasad, Dr. M K Vishnu",
+   "party": "INC",
+   "seat": "Cuddalore",
+   "state": "Tamil Nadu",
+   "mpsno": 4971,
+   "via": "seat"
+  },
+  "S22_27": {
+   "name": "Tholkappiyan, Dr. Thirumaavalavan",
+   "party": "VCK",
+   "seat": "Chidambaram",
+   "state": "Tamil Nadu",
+   "mpsno": 4549,
+   "via": "seat"
+  },
+  "S22_28": {
+   "name": "R, Km. Sudha",
+   "party": "INC",
+   "seat": "Mayiladuthurai",
+   "state": "Tamil Nadu",
+   "mpsno": 5650,
+   "via": "seat"
+  },
+  "S22_29": {
+   "name": "V, Com. Selvaraj",
+   "party": "CPI",
+   "seat": "Nagapattinam",
+   "state": "Tamil Nadu",
+   "mpsno": 5800,
+   "via": "seat"
+  },
+  "S22_3": {
+   "name": "Thangapandian, Dr. T Sumathy Alias Thamizhachi",
+   "party": "DMK",
+   "seat": "Chennai South",
+   "state": "Tamil Nadu",
+   "mpsno": 4961,
+   "via": "seat"
+  },
+  "S22_30": {
+   "name": "S, Shri Murasoli",
+   "party": "DMK",
+   "seat": "Thanjavur",
+   "state": "Tamil Nadu",
+   "mpsno": 5798,
+   "via": "seat"
+  },
+  "S22_31": {
+   "name": "Chidambaram, Shri Karti P",
+   "party": "INC",
+   "seat": "Sivaganga",
+   "state": "Tamil Nadu",
+   "mpsno": 4967,
+   "via": "seat"
+  },
+  "S22_32": {
+   "name": "Venkatesan, Shri S",
+   "party": "CPI(M)",
+   "seat": "Madurai",
+   "state": "Tamil Nadu",
+   "mpsno": 4965,
+   "via": "seat"
+  },
+  "S22_33": {
+   "name": "Tamilselvan, Thiru Thanga",
+   "party": "DMK",
+   "seat": "Theni",
+   "state": "Tamil Nadu",
+   "mpsno": 5686,
+   "via": "seat"
+  },
+  "S22_34": {
+   "name": "B, Shri Manickam Tagore",
+   "party": "INC",
+   "seat": "Virudhunagar",
+   "state": "Tamil Nadu",
+   "mpsno": 4552,
+   "via": "seat"
+  },
+  "S22_35": {
+   "name": "K, Shri Navaskani",
+   "party": "IUML",
+   "seat": "Ramanathapuram",
+   "state": "Tamil Nadu",
+   "mpsno": 4962,
+   "via": "seat"
+  },
+  "S22_36": {
+   "name": "Rajathi Karunanidhi, Smt. Kanimozhi",
+   "party": "DMK",
+   "seat": "Thoothukkudi",
+   "state": "Tamil Nadu",
+   "mpsno": 4960,
+   "via": "seat"
+  },
+  "S22_37": {
+   "name": "Srikumar, Dr. Rani",
+   "party": "DMK",
+   "seat": "Tenkasi",
+   "state": "Tamil Nadu",
+   "mpsno": 5787,
+   "via": "seat"
+  },
+  "S22_38": {
+   "name": "C, Shri Robert Bruce",
+   "party": "INC",
+   "seat": "Tirunelveli",
+   "state": "Tamil Nadu",
+   "mpsno": 5629,
+   "via": "seat"
+  },
+  "S22_39": {
+   "name": "Vasanth, Shri Vijayakumar Alias Vijay",
+   "party": "INC",
+   "seat": "Kanniyakumari",
+   "state": "Tamil Nadu",
+   "mpsno": 5533,
+   "via": "seat"
+  },
+  "S22_4": {
+   "name": "Maran, Thiru Dayanidhi",
+   "party": "DMK",
+   "seat": "Chennai Central",
+   "state": "Tamil Nadu",
+   "mpsno": 4144,
+   "via": "seat"
+  },
+  "S22_5": {
+   "name": "Baalu, Shri T R",
+   "party": "DMK",
+   "seat": "Sriperumbudur",
+   "state": "Tamil Nadu",
+   "mpsno": 26,
+   "via": "seat"
+  },
+  "S22_6": {
+   "name": "G, Shri Selvam",
+   "party": "DMK",
+   "seat": "Kancheepuram",
+   "state": "Tamil Nadu",
+   "mpsno": 4963,
+   "via": "seat"
+  },
+  "S22_7": {
+   "name": "Jagathratchakan, Shri Dr. S",
+   "party": "DMK",
+   "seat": "Arakkonam",
+   "state": "Tamil Nadu",
+   "mpsno": 157,
+   "via": "seat"
+  },
+  "S22_8": {
+   "name": "Anand, Thiru D M Kathir",
+   "party": "DMK",
+   "seat": "Vellore",
+   "state": "Tamil Nadu",
+   "mpsno": 5528,
+   "via": "seat"
+  },
+  "S22_9": {
+   "name": "Gopinath, Shri K",
+   "party": "INC",
+   "seat": "Krishnagiri",
+   "state": "Tamil Nadu",
+   "mpsno": 5718,
+   "via": "seat"
+  },
+  "S23_1": {
+   "name": "Deb, Shri Biplab Kumar",
+   "party": "BJP",
+   "seat": "Tripura West",
+   "state": "Tripura",
+   "mpsno": 5671,
+   "via": "seat"
+  },
+  "S23_2": {
+   "name": "Debbarman, Smt. Kriti Devi",
+   "party": "BJP",
+   "seat": "Tripura East",
+   "state": "Tripura",
+   "mpsno": 5575,
+   "via": "seat"
+  },
+  "S24_1": {
+   "name": "Masood, Shri Imran",
+   "party": "INC",
+   "seat": "Saharanpur",
+   "state": "Uttar Pradesh",
+   "mpsno": 5589,
+   "via": "seat"
+  },
+  "S24_10": {
+   "name": "Govil, Shri Arun",
+   "party": "BJP",
+   "seat": "Meerut",
+   "state": "Uttar Pradesh",
+   "mpsno": 5564,
+   "via": "seat"
+  },
+  "S24_11": {
+   "name": "Sangwan, Dr. Rajkumar",
+   "party": "RLD",
+   "seat": "Baghpat",
+   "state": "Uttar Pradesh",
+   "mpsno": 5550,
+   "via": "seat"
+  },
+  "S24_12": {
+   "name": "Garg, Shri Atul",
+   "party": "BJP",
+   "seat": "Ghaziabad",
+   "state": "Uttar Pradesh",
+   "mpsno": 5549,
+   "via": "seat"
+  },
+  "S24_13": {
+   "name": "Sharma, Dr. Mahesh",
+   "party": "BJP",
+   "seat": "Gautam Buddha Nagar",
+   "state": "Uttar Pradesh",
+   "mpsno": 4642,
+   "via": "seat"
+  },
+  "S24_14": {
+   "name": "Singh, Dr. Bhola",
+   "party": "BJP",
+   "seat": "Bulandshahr",
+   "state": "Uttar Pradesh",
+   "mpsno": 4605,
+   "via": "seat"
+  },
+  "S24_15": {
+   "name": "Gautam, Shri Satish Kumar",
+   "party": "BJP",
+   "seat": "Aligarh",
+   "state": "Uttar Pradesh",
+   "mpsno": 4603,
+   "via": "seat"
+  },
+  "S24_16": {
+   "name": "Valmiki, Shri Anoop Pradhan",
+   "party": "BJP",
+   "seat": "Hathras",
+   "state": "Uttar Pradesh",
+   "mpsno": 5576,
+   "via": "seat"
+  },
+  "S24_17": {
+   "name": "Malini, Smt. Hema",
+   "party": "BJP",
+   "seat": "Mathura",
+   "state": "Uttar Pradesh",
+   "mpsno": 4619,
+   "via": "seat"
+  },
+  "S24_18": {
+   "name": "Baghel, Prof. S  P Singh",
+   "party": "BJP",
+   "seat": "Agra",
+   "state": "Uttar Pradesh",
+   "mpsno": 31,
+   "via": "seat"
+  },
+  "S24_19": {
+   "name": "Chahar, Shri Rajkumar",
+   "party": "BJP",
+   "seat": "Fatehpur Sikri",
+   "state": "Uttar Pradesh",
+   "mpsno": 5142,
+   "via": "seat"
+  },
+  "S24_2": {
+   "name": "Choudhary, Ms Iqra",
+   "party": "SP",
+   "seat": "Kairana",
+   "state": "Uttar Pradesh",
+   "mpsno": 5795,
+   "via": "seat"
+  },
+  "S24_20": {
+   "name": "Yadav, Shri Akshay",
+   "party": "SP",
+   "seat": "Firozabad",
+   "state": "Uttar Pradesh",
+   "mpsno": 4779,
+   "via": "seat"
+  },
+  "S24_21": {
+   "name": "Yadav, Smt. Dimple",
+   "party": "SP",
+   "seat": "Mainpuri",
+   "state": "Uttar Pradesh",
+   "mpsno": 4580,
+   "via": "seat"
+  },
+  "S24_22": {
+   "name": "Shakya, Shri Devesh",
+   "party": "SP",
+   "seat": "Etah",
+   "state": "Uttar Pradesh",
+   "mpsno": 5656,
+   "via": "seat"
+  },
+  "S24_23": {
+   "name": "Yadav, Shri Aditya",
+   "party": "SP",
+   "seat": "Badaun",
+   "state": "Uttar Pradesh",
+   "mpsno": 5802,
+   "via": "seat"
+  },
+  "S24_24": {
+   "name": "Maurya, Shri Neeraj",
+   "party": "SP",
+   "seat": "Aonla",
+   "state": "Uttar Pradesh",
+   "mpsno": 5637,
+   "via": "seat"
+  },
+  "S24_25": {
+   "name": "Gangwar, Shri Chhatrapal Singh",
+   "party": "BJP",
+   "seat": "Bareilly",
+   "state": "Uttar Pradesh",
+   "mpsno": 5566,
+   "via": "seat"
+  },
+  "S24_26": {
+   "name": "Prasada, Shri Jitin",
+   "party": "BJP",
+   "seat": "Pilibhit",
+   "state": "Uttar Pradesh",
+   "mpsno": 4065,
+   "via": "seat"
+  },
+  "S24_27": {
+   "name": "Sagar, Shri Arun Kumar",
+   "party": "BJP",
+   "seat": "Shahjahanpur",
+   "state": "Uttar Pradesh",
+   "mpsno": 5163,
+   "via": "seat"
+  },
+  "S24_28": {
+   "name": "Madhur, Shri Utkarsh Verma",
+   "party": "SP",
+   "seat": "Kheri",
+   "state": "Uttar Pradesh",
+   "mpsno": 5809,
+   "via": "seat"
+  },
+  "S24_29": {
+   "name": "Bhadauria, Shri Anand",
+   "party": "SP",
+   "seat": "Dhaurahra",
+   "state": "Uttar Pradesh",
+   "mpsno": 5815,
+   "via": "seat"
+  },
+  "S24_3": {
+   "name": "Malik, Shri Harendra Singh",
+   "party": "SP",
+   "seat": "Muzaffarnagar",
+   "state": "Uttar Pradesh",
+   "mpsno": 5631,
+   "via": "seat"
+  },
+  "S24_30": {
+   "name": "Rathor, Shri Rakesh",
+   "party": "INC",
+   "seat": "Sitapur",
+   "state": "Uttar Pradesh",
+   "mpsno": 5743,
+   "via": "seat"
+  },
+  "S24_31": {
+   "name": "Prakash, Shri Jai",
+   "party": "BJP",
+   "seat": "Hardoi",
+   "state": "Uttar Pradesh",
+   "mpsno": 159,
+   "via": "seat"
+  },
+  "S24_32": {
+   "name": "Rawat, Shri Ashok Kumar",
+   "party": "BJP",
+   "seat": "Misrikh",
+   "state": "Uttar Pradesh",
+   "mpsno": 4096,
+   "via": "seat"
+  },
+  "S24_33": {
+   "name": "Sakshi, Dr. Swami Sachidanand Hari",
+   "party": "BJP",
+   "seat": "Unnao",
+   "state": "Uttar Pradesh",
+   "mpsno": 3586,
+   "via": "seat"
+  },
+  "S24_34": {
+   "name": "Chaudhary, Shri R K",
+   "party": "SP",
+   "seat": "Mohanlalganj",
+   "state": "Uttar Pradesh",
+   "mpsno": 5803,
+   "via": "seat"
+  },
+  "S24_35": {
+   "name": "Singh, Shri Rajnath",
+   "party": "BJP",
+   "seat": "Lucknow",
+   "state": "Uttar Pradesh",
+   "mpsno": 4268,
+   "via": "seat"
+  },
+  "S24_36": {
+   "name": "Gandhi, Shri Rahul",
+   "party": "INC",
+   "seat": "Rae Bareli",
+   "state": "Uttar Pradesh",
+   "mpsno": 4074,
+   "via": "seat"
+  },
+  "S24_37": {
+   "name": "Lal, Shri Kishori",
+   "party": "INC",
+   "seat": "Amethi",
+   "state": "Uttar Pradesh",
+   "mpsno": 5546,
+   "via": "seat"
+  },
+  "S24_38": {
+   "name": "Nishad, Shri Rambhual",
+   "party": "SP",
+   "seat": "Sultanpur",
+   "state": "Uttar Pradesh",
+   "mpsno": 5786,
+   "via": "seat"
+  },
+  "S24_39": {
+   "name": "Patel, Dr. Shiv Pal Singh",
+   "party": "SP",
+   "seat": "Pratapgarh",
+   "state": "Uttar Pradesh",
+   "mpsno": 5643,
+   "via": "seat"
+  },
+  "S24_4": {
+   "name": "Chauhan, Shri Chandan",
+   "party": "RLD",
+   "seat": "Bijnor",
+   "state": "Uttar Pradesh",
+   "mpsno": 5547,
+   "via": "seat"
+  },
+  "S24_40": {
+   "name": "Rajput, Shri Mukesh",
+   "party": "BJP",
+   "seat": "Farrukhabad",
+   "state": "Uttar Pradesh",
+   "mpsno": 4666,
+   "via": "seat"
+  },
+  "S24_41": {
+   "name": "Dohare, Shri Jitendra Kumar",
+   "party": "SP",
+   "seat": "Etawah",
+   "state": "Uttar Pradesh",
+   "mpsno": 5657,
+   "via": "seat"
+  },
+  "S24_42": {
+   "name": "Yadav, Shri Akhilesh",
+   "party": "SP",
+   "seat": "Kannauj",
+   "state": "Uttar Pradesh",
+   "mpsno": 564,
+   "via": "seat"
+  },
+  "S24_43": {
+   "name": "Awasthi, Shri Ramesh",
+   "party": "BJP",
+   "seat": "Kanpur",
+   "state": "Uttar Pradesh",
+   "mpsno": 5608,
+   "via": "seat"
+  },
+  "S24_44": {
+   "name": "Singh, Shri Devendra Singh Alias Bhole",
+   "party": "BJP",
+   "seat": "Akbarpur",
+   "state": "Uttar Pradesh",
+   "mpsno": 4664,
+   "via": "seat"
+  },
+  "S24_45": {
+   "name": "Ahirwar, Shri Narayandas",
+   "party": "SP",
+   "seat": "Jalaun",
+   "state": "Uttar Pradesh",
+   "mpsno": 5782,
+   "via": "seat"
+  },
+  "S24_46": {
+   "name": "Sharma, Shri Anurag",
+   "party": "BJP",
+   "seat": "Jhansi",
+   "state": "Uttar Pradesh",
+   "mpsno": 5148,
+   "via": "seat"
+  },
+  "S24_47": {
+   "name": "Lodhi, Shri Ajendra Singh",
+   "party": "SP",
+   "seat": "Hamirpur",
+   "state": "Uttar Pradesh",
+   "mpsno": 5784,
+   "via": "seat"
+  },
+  "S24_48": {
+   "name": "Patel, Smt. Krishna Devi Shivshankar",
+   "party": "SP",
+   "seat": "Banda",
+   "state": "Uttar Pradesh",
+   "mpsno": 5594,
+   "via": "seat"
+  },
+  "S24_49": {
+   "name": "Patel, Shri Naresh Chandra Uttam",
+   "party": "SP",
+   "seat": "Fatehpur",
+   "state": "Uttar Pradesh",
+   "mpsno": 5801,
+   "via": "seat"
+  },
+  "S24_5": {
+   "name": "Shekhar, Adv. Chandra",
+   "party": "ASP (KR)",
+   "seat": "Nagina",
+   "state": "Uttar Pradesh",
+   "mpsno": 5647,
+   "via": "seat"
+  },
+  "S24_50": {
+   "name": "Saroj, Shri Pushpendra",
+   "party": "SP",
+   "seat": "Kaushambi",
+   "state": "Uttar Pradesh",
+   "mpsno": 5804,
+   "via": "seat"
+  },
+  "S24_51": {
+   "name": "Patel, Shri Praveen",
+   "party": "BJP",
+   "seat": "Phulpur",
+   "state": "Uttar Pradesh",
+   "mpsno": 5583,
+   "via": "seat"
+  },
+  "S24_52": {
+   "name": "Singh, Shri Ujjwal Raman",
+   "party": "INC",
+   "seat": "Allahabad",
+   "state": "Uttar Pradesh",
+   "mpsno": 5749,
+   "via": "seat"
+  },
+  "S24_53": {
+   "name": "Punia, Shri Tanuj",
+   "party": "INC",
+   "seat": "Barabanki",
+   "state": "Uttar Pradesh",
+   "mpsno": 5728,
+   "via": "seat"
+  },
+  "S24_54": {
+   "name": "Prasad, Shri Awadhesh",
+   "party": "SP",
+   "seat": "Faizabad",
+   "state": "Uttar Pradesh",
+   "mpsno": 5780,
+   "via": "seat"
+  },
+  "S24_55": {
+   "name": "Verma, Shri Lalji",
+   "party": "SP",
+   "seat": "Ambedkar Nagar",
+   "state": "Uttar Pradesh",
+   "mpsno": 5794,
+   "via": "seat"
+  },
+  "S24_56": {
+   "name": "Kumar, Dr. Anand",
+   "party": "BJP",
+   "seat": "Bahraich",
+   "state": "Uttar Pradesh",
+   "mpsno": 5612,
+   "via": "seat"
+  },
+  "S24_57": {
+   "name": "Singh, Shri Karan Bhushan",
+   "party": "BJP",
+   "seat": "Kaiserganj",
+   "state": "Uttar Pradesh",
+   "mpsno": 5581,
+   "via": "seat"
+  },
+  "S24_58": {
+   "name": "Verma, Shri Ram Shiromani",
+   "party": "SP",
+   "seat": "Shrawasti",
+   "state": "Uttar Pradesh",
+   "mpsno": 5164,
+   "via": "seat"
+  },
+  "S24_59": {
+   "name": "Singh, Shri Kirti Vardhan",
+   "party": "BJP",
+   "seat": "Gonda",
+   "state": "Uttar Pradesh",
+   "mpsno": 3926,
+   "via": "seat"
+  },
+  "S24_6": {
+   "name": "Vira, Mrs Ruchi",
+   "party": "SP",
+   "seat": "Moradabad",
+   "state": "Uttar Pradesh",
+   "mpsno": 5706,
+   "via": "seat"
+  },
+  "S24_60": {
+   "name": "Pal, Shri Jagdambika",
+   "party": "BJP",
+   "seat": "Domariyaganj",
+   "state": "Uttar Pradesh",
+   "mpsno": 4295,
+   "via": "seat"
+  },
+  "S24_61": {
+   "name": "Chaudhary, Shri Ram Prasad",
+   "party": "SP",
+   "seat": "Basti",
+   "state": "Uttar Pradesh",
+   "mpsno": 3261,
+   "via": "seat"
+  },
+  "S24_62": {
+   "name": "Nishad, Shri Laxmikant Pappu",
+   "party": "SP",
+   "seat": "Sant Kabir Nagar",
+   "state": "Uttar Pradesh",
+   "mpsno": 5813,
+   "via": "seat"
+  },
+  "S24_63": {
+   "name": "Choudhary, Shri Pankaj",
+   "party": "BJP",
+   "seat": "Maharajganj",
+   "state": "Uttar Pradesh",
+   "mpsno": 3479,
+   "via": "seat"
+  },
+  "S24_64": {
+   "name": "Kishan, Shri Ravindra Shukla Alias Ravi",
+   "party": "BJP",
+   "seat": "Gorakhpur",
+   "state": "Uttar Pradesh",
+   "mpsno": 5144,
+   "via": "seat"
+  },
+  "S24_65": {
+   "name": "Dubey, Shri Vijay Kumar",
+   "party": "BJP",
+   "seat": "Kushi Nagar",
+   "state": "Uttar Pradesh",
+   "mpsno": 5151,
+   "via": "seat"
+  },
+  "S24_66": {
+   "name": "Mani, Shri Shashank",
+   "party": "BJP",
+   "seat": "Deoria",
+   "state": "Uttar Pradesh",
+   "mpsno": 5688,
+   "via": "seat"
+  },
+  "S24_67": {
+   "name": "Paswan, Shri Kamlesh",
+   "party": "BJP",
+   "seat": "Bansgaon",
+   "state": "Uttar Pradesh",
+   "mpsno": 4303,
+   "via": "seat"
+  },
+  "S24_68": {
+   "name": "Saroj, Shri Daroga Prasad",
+   "party": "SP",
+   "seat": "Lalganj",
+   "state": "Uttar Pradesh",
+   "mpsno": 3916,
+   "via": "seat"
+  },
+  "S24_69": {
+   "name": "Yadav, Shri Dharmendra",
+   "party": "SP",
+   "seat": "Azamgarh",
+   "state": "Uttar Pradesh",
+   "mpsno": 4206,
+   "via": "seat"
+  },
+  "S24_7": {
+   "name": "Shri Mohibbullah",
+   "party": "SP",
+   "seat": "Rampur",
+   "state": "Uttar Pradesh",
+   "mpsno": 5633,
+   "via": "seat"
+  },
+  "S24_70": {
+   "name": "Rai, Shri Rajeev",
+   "party": "SP",
+   "seat": "Ghosi",
+   "state": "Uttar Pradesh",
+   "mpsno": 5769,
+   "via": "seat"
+  },
+  "S24_71": {
+   "name": "Rajbhar, Shri Ramashankar  Vidharthi",
+   "party": "SP",
+   "seat": "Salempur",
+   "state": "Uttar Pradesh",
+   "mpsno": 4305,
+   "via": "seat"
+  },
+  "S24_72": {
+   "name": "Pandey, Shri Sanatan",
+   "party": "SP",
+   "seat": "Ballia",
+   "state": "Uttar Pradesh",
+   "mpsno": 5580,
+   "via": "seat"
+  },
+  "S24_73": {
+   "name": "Kushwaha, Shri Babu Singh",
+   "party": "SP",
+   "seat": "Jaunpur",
+   "state": "Uttar Pradesh",
+   "mpsno": 5635,
+   "via": "seat"
+  },
+  "S24_74": {
+   "name": "Saroj, Adv Priya",
+   "party": "SP",
+   "seat": "Machhlishahr",
+   "state": "Uttar Pradesh",
+   "mpsno": 5775,
+   "via": "seat"
+  },
+  "S24_75": {
+   "name": "Ansari, Shri Afzal",
+   "party": "SP",
+   "seat": "Ghazipur",
+   "state": "Uttar Pradesh",
+   "mpsno": 4170,
+   "via": "seat"
+  },
+  "S24_76": {
+   "name": "Singh, Shri Virendra",
+   "party": "SP",
+   "seat": "Chandauli",
+   "state": "Uttar Pradesh",
+   "mpsno": 5651,
+   "via": "seat"
+  },
+  "S24_77": {
+   "name": "Modi, Shri Narendra",
+   "party": "BJP",
+   "seat": "Varanasi",
+   "state": "Uttar Pradesh",
+   "mpsno": 4589,
+   "via": "seat"
+  },
+  "S24_78": {
+   "name": "Bind, Dr. Vinod Kumar",
+   "party": "BJP",
+   "seat": "Bhadohi",
+   "state": "Uttar Pradesh",
+   "mpsno": 5607,
+   "via": "seat"
+  },
+  "S24_79": {
+   "name": "Patel, Smt. Anupriya",
+   "party": "Apna Dal (S)",
+   "seat": "Mirzapur",
+   "state": "Uttar Pradesh",
+   "mpsno": 4662,
+   "via": "seat"
+  },
+  "S24_8": {
+   "name": "Rehman, Shri Zia Ur",
+   "party": "SP",
+   "seat": "Sambhal",
+   "state": "Uttar Pradesh",
+   "mpsno": 5822,
+   "via": "seat"
+  },
+  "S24_80": {
+   "name": "Chhotelal, Shri",
+   "party": "SP",
+   "seat": "Robertsganj",
+   "state": "Uttar Pradesh",
+   "mpsno": 4859,
+   "via": "seat"
+  },
+  "S24_9": {
+   "name": "Tanwar, Shri Kanwar Singh",
+   "party": "BJP",
+   "seat": "Amroha",
+   "state": "Uttar Pradesh",
+   "mpsno": 4607,
+   "via": "seat"
+  },
+  "S25_1": {
+   "name": "Basunia, Shri Jagadish Chandra Barma",
+   "party": "AITC",
+   "seat": "Coochbehar",
+   "state": "West Bengal",
+   "mpsno": 5833,
+   "via": "seat"
+  },
+  "S25_10": {
+   "name": "Yusuf, Mr Pathan",
+   "party": "AITC",
+   "seat": "Baharampur",
+   "state": "West Bengal",
+   "mpsno": 5818,
+   "via": "seat"
+  },
+  "S25_11": {
+   "name": "Khan, Md Abu Taher",
+   "party": "AITC",
+   "seat": "Murshidabad",
+   "state": "West Bengal",
+   "mpsno": 5052,
+   "via": "seat"
+  },
+  "S25_12": {
+   "name": "Moitra, Ms. Mahua",
+   "party": "AITC",
+   "seat": "Krishnanagar",
+   "state": "West Bengal",
+   "mpsno": 5049,
+   "via": "seat"
+  },
+  "S25_13": {
+   "name": "Sarkar, Shri Jagannath",
+   "party": "BJP",
+   "seat": "Ranaghat",
+   "state": "West Bengal",
+   "mpsno": 5055,
+   "via": "seat"
+  },
+  "S25_14": {
+   "name": "Thakur, Shri Shantanu",
+   "party": "BJP",
+   "seat": "Bangaon",
+   "state": "West Bengal",
+   "mpsno": 5036,
+   "via": "seat"
+  },
+  "S25_15": {
+   "name": "Bhowmick, Shri Partha",
+   "party": "AITC",
+   "seat": "Barrackpur",
+   "state": "West Bengal",
+   "mpsno": 5660,
+   "via": "seat"
+  },
+  "S25_16": {
+   "name": "Ray, Prof. Sougata",
+   "party": "AITC",
+   "seat": "Dum Dum",
+   "state": "West Bengal",
+   "mpsno": 2554,
+   "via": "seat"
+  },
+  "S25_17": {
+   "name": "Dastidar, Dr. Kakoli Ghosh",
+   "party": "AITC",
+   "seat": "Barasat",
+   "state": "West Bengal",
+   "mpsno": 4489,
+   "via": "seat"
+  },
+  "S25_18": {
+   "name": "Islam, Sk Nurul",
+   "party": "AITC",
+   "seat": "Basirhat",
+   "state": "West Bengal",
+   "mpsno": 4490,
+   "via": "seat"
+  },
+  "S25_19": {
+   "name": "Mondal, Smt. Pratima",
+   "party": "AITC",
+   "seat": "Jaynagar",
+   "state": "West Bengal",
+   "mpsno": 4871,
+   "via": "seat"
+  },
+  "S25_2": {
+   "name": "Tigga, Shri Manoj",
+   "party": "BJP",
+   "seat": "Alipurduars",
+   "state": "West Bengal",
+   "mpsno": 5596,
+   "via": "seat"
+  },
+  "S25_20": {
+   "name": "Haldar, Shri Bapi",
+   "party": "AITC",
+   "seat": "Mathurapur",
+   "state": "West Bengal",
+   "mpsno": 5774,
+   "via": "seat"
+  },
+  "S25_21": {
+   "name": "Banerjee, Shri Abhishek",
+   "party": "AITC",
+   "seat": "Diamond Harbour",
+   "state": "West Bengal",
+   "mpsno": 4843,
+   "via": "seat"
+  },
+  "S25_22": {
+   "name": "Ghosh, Ms Sayani",
+   "party": "AITC",
+   "seat": "Jadavpur",
+   "state": "West Bengal",
+   "mpsno": 5785,
+   "via": "seat"
+  },
+  "S25_23": {
+   "name": "Roy, Smt. Mala",
+   "party": "AITC",
+   "seat": "Kolkata Dakshin",
+   "state": "West Bengal",
+   "mpsno": 5048,
+   "via": "seat"
+  },
+  "S25_24": {
+   "name": "Bandyopadhyay, Shri Sudip",
+   "party": "AITC",
+   "seat": "Kolkata Uttar",
+   "state": "West Bengal",
+   "mpsno": 38,
+   "via": "seat"
+  },
+  "S25_25": {
+   "name": "Banerjee, Shri Prasun",
+   "party": "AITC",
+   "seat": "Howrah",
+   "state": "West Bengal",
+   "mpsno": 4583,
+   "via": "seat"
+  },
+  "S25_26": {
+   "name": "Ahmed, Smt. Sajda",
+   "party": "AITC",
+   "seat": "Uluberia",
+   "state": "West Bengal",
+   "mpsno": 4944,
+   "via": "seat"
+  },
+  "S25_27": {
+   "name": "Banerjee, Shri Kalyan",
+   "party": "AITC",
+   "seat": "Sreerampur",
+   "state": "West Bengal",
+   "mpsno": 4498,
+   "via": "seat"
+  },
+  "S25_28": {
+   "name": "Banerjee, Smt. Rachna",
+   "party": "AITC",
+   "seat": "Hooghly",
+   "state": "West Bengal",
+   "mpsno": 5638,
+   "via": "seat"
+  },
+  "S25_29": {
+   "name": "Mitali, Smt. Bag",
+   "party": "AITC",
+   "seat": "Arambag",
+   "state": "West Bengal",
+   "mpsno": 5777,
+   "via": "seat"
+  },
+  "S25_3": {
+   "name": "Roy, Dr. Jayanta Kumar",
+   "party": "BJP",
+   "seat": "Jalpaiguri",
+   "state": "West Bengal",
+   "mpsno": 5045,
+   "via": "seat"
+  },
+  "S25_30": {
+   "name": "Gangopadhyay, Shri Abhijit",
+   "party": "BJP",
+   "seat": "Tamluk",
+   "state": "West Bengal",
+   "mpsno": 5591,
+   "via": "seat"
+  },
+  "S25_31": {
+   "name": "Soumendu, Shri Adhikari",
+   "party": "BJP",
+   "seat": "Kanthi",
+   "state": "West Bengal",
+   "mpsno": 5659,
+   "via": "seat"
+  },
+  "S25_32": {
+   "name": "Dev, Shri Adhikari Deepak",
+   "party": "AITC",
+   "seat": "Ghatal",
+   "state": "West Bengal",
+   "mpsno": 4847,
+   "via": "seat"
+  },
+  "S25_33": {
+   "name": "Kherwal, Shri Kalipada Saren",
+   "party": "AITC",
+   "seat": "Jhargram",
+   "state": "West Bengal",
+   "mpsno": 5825,
+   "via": "seat"
+  },
+  "S25_34": {
+   "name": "Maliah, Smt. June",
+   "party": "AITC",
+   "seat": "Medinipur",
+   "state": "West Bengal",
+   "mpsno": 5816,
+   "via": "seat"
+  },
+  "S25_35": {
+   "name": "Mahato, Shri Jyotirmay Singh",
+   "party": "BJP",
+   "seat": "Purulia",
+   "state": "West Bengal",
+   "mpsno": 5053,
+   "via": "seat"
+  },
+  "S25_36": {
+   "name": "Chakraborty, Shri Arup",
+   "party": "AITC",
+   "seat": "Bankura",
+   "state": "West Bengal",
+   "mpsno": 5778,
+   "via": "seat"
+  },
+  "S25_37": {
+   "name": "Khan, Shri Saumitra",
+   "party": "BJP",
+   "seat": "Bishnupur",
+   "state": "West Bengal",
+   "mpsno": 4875,
+   "via": "seat"
+  },
+  "S25_38": {
+   "name": "Sarkar, Dr. Sharmila",
+   "party": "AITC",
+   "seat": "Bardhaman Purba",
+   "state": "West Bengal",
+   "mpsno": 5768,
+   "via": "seat"
+  },
+  "S25_39": {
+   "name": "Jha, Shri Azad Kirti",
+   "party": "AITC",
+   "seat": "Bardhaman-Durgapur",
+   "state": "West Bengal",
+   "mpsno": 25,
+   "via": "seat"
+  },
+  "S25_4": {
+   "name": "Bista, Shri Raju",
+   "party": "BJP",
+   "seat": "Darjeeling",
+   "state": "West Bengal",
+   "mpsno": 5042,
+   "via": "seat"
+  },
+  "S25_40": {
+   "name": "Sinha, Shri Shatrughan Prasad",
+   "party": "AITC",
+   "seat": "Asansol",
+   "state": "West Bengal",
+   "mpsno": 4468,
+   "via": "seat"
+  },
+  "S25_41": {
+   "name": "Mal, Shri Asit Kumar",
+   "party": "AITC",
+   "seat": "Bolpur",
+   "state": "West Bengal",
+   "mpsno": 5040,
+   "via": "seat"
+  },
+  "S25_42": {
+   "name": "Roy, Smt. Satabdi",
+   "party": "AITC",
+   "seat": "Birbhum",
+   "state": "West Bengal",
+   "mpsno": 4506,
+   "via": "seat"
+  },
+  "S25_5": {
+   "name": "Paul, Shri Kartick Chandra",
+   "party": "BJP",
+   "seat": "Raiganj",
+   "state": "West Bengal",
+   "mpsno": 5691,
+   "via": "seat"
+  },
+  "S25_6": {
+   "name": "Majumdar, Dr. Sukanta",
+   "party": "BJP",
+   "seat": "Balurghat",
+   "state": "West Bengal",
+   "mpsno": 5035,
+   "via": "seat"
+  },
+  "S25_7": {
+   "name": "Murmu, Shri Khagen",
+   "party": "BJP",
+   "seat": "Maldaha Uttar",
+   "state": "West Bengal",
+   "mpsno": 5050,
+   "via": "seat"
+  },
+  "S25_8": {
+   "name": "Choudhury, Shri Isha Khan",
+   "party": "INC",
+   "seat": "Maldaha Dakshin",
+   "state": "West Bengal",
+   "mpsno": 5834,
+   "via": "seat"
+  },
+  "S25_9": {
+   "name": "Rahaman, Shri Khalilur",
+   "party": "AITC",
+   "seat": "Jangipur",
+   "state": "West Bengal",
+   "mpsno": 5046,
+   "via": "seat"
+  },
+  "S26_1": {
+   "name": "Maharaj, Shri Chintamani",
+   "party": "BJP",
+   "seat": "Surguja",
+   "state": "Chhattisgarh",
+   "mpsno": 5702,
+   "via": "seat"
+  },
+  "S26_10": {
+   "name": "Kashyap, Shri Mahesh",
+   "party": "BJP",
+   "seat": "Bastar",
+   "state": "Chhattisgarh",
+   "mpsno": 5626,
+   "via": "seat"
+  },
+  "S26_11": {
+   "name": "Nag, Shri Bhojraj",
+   "party": "BJP",
+   "seat": "Kanker",
+   "state": "Chhattisgarh",
+   "mpsno": 5732,
+   "via": "seat"
+  },
+  "S26_2": {
+   "name": "Rathiya, Shri Radheshyam",
+   "party": "BJP",
+   "seat": "Raigarh",
+   "state": "Chhattisgarh",
+   "mpsno": 5678,
+   "via": "seat"
+  },
+  "S26_3": {
+   "name": "Jangde, Smt. Kamlesh",
+   "party": "BJP",
+   "seat": "Janjgir-Champa",
+   "state": "Chhattisgarh",
+   "mpsno": 5709,
+   "via": "seat"
+  },
+  "S26_4": {
+   "name": "Mahant, Smt. Jyotsna Charandas",
+   "party": "INC",
+   "seat": "Korba",
+   "state": "Chhattisgarh",
+   "mpsno": 5011,
+   "via": "seat"
+  },
+  "S26_5": {
+   "name": "Sahu, Shri Tokhan",
+   "party": "BJP",
+   "seat": "Bilaspur",
+   "state": "Chhattisgarh",
+   "mpsno": 5700,
+   "via": "seat"
+  },
+  "S26_6": {
+   "name": "Pandey, Shri Santosh",
+   "party": "BJP",
+   "seat": "Rajnandgaon",
+   "state": "Chhattisgarh",
+   "mpsno": 5015,
+   "via": "seat"
+  },
+  "S26_7": {
+   "name": "Baghel, Shri Vijay",
+   "party": "BJP",
+   "seat": "Durg",
+   "state": "Chhattisgarh",
+   "mpsno": 5007,
+   "via": "seat"
+  },
+  "S26_8": {
+   "name": "Agrawal, Shri Brijmohan",
+   "party": "BJP",
+   "seat": "Raipur",
+   "state": "Chhattisgarh",
+   "mpsno": 5677,
+   "via": "seat"
+  },
+  "S26_9": {
+   "name": "Choudhary, Smt. Roopkumari",
+   "party": "BJP",
+   "seat": "Mahasamund",
+   "state": "Chhattisgarh",
+   "mpsno": 5707,
+   "via": "seat"
+  },
+  "S27_1": {
+   "name": "Hansdak, Shri Vijay Kumar",
+   "party": "JMM",
+   "seat": "Rajmahal",
+   "state": "Jharkhand",
+   "mpsno": 4866,
+   "via": "seat"
+  },
+  "S27_10": {
+   "name": "Majhi, Smt. Joba",
+   "party": "JMM",
+   "seat": "Singhbhum",
+   "state": "Jharkhand",
+   "mpsno": 5827,
+   "via": "seat"
+  },
+  "S27_11": {
+   "name": "Munda, Shri Kali Charan",
+   "party": "INC",
+   "seat": "Khunti",
+   "state": "Jharkhand",
+   "mpsno": 5810,
+   "via": "seat"
+  },
+  "S27_12": {
+   "name": "Bhagat, Shri Sukhdeo",
+   "party": "INC",
+   "seat": "Lohardaga",
+   "state": "Jharkhand",
+   "mpsno": 5742,
+   "via": "seat"
+  },
+  "S27_13": {
+   "name": "Ram, Shri Vishnu Dayal",
+   "party": "BJP",
+   "seat": "Palamu",
+   "state": "Jharkhand",
+   "mpsno": 4731,
+   "via": "seat"
+  },
+  "S27_14": {
+   "name": "Jaiswal, Shri Manish",
+   "party": "BJP",
+   "seat": "Hazaribagh",
+   "state": "Jharkhand",
+   "mpsno": 5673,
+   "via": "seat"
+  },
+  "S27_2": {
+   "name": "Soren, Shri Nalin",
+   "party": "JMM",
+   "seat": "Dumka",
+   "state": "Jharkhand",
+   "mpsno": 5826,
+   "via": "seat"
+  },
+  "S27_3": {
+   "name": "Dubey, Dr. Nishikant",
+   "party": "BJP",
+   "seat": "Godda",
+   "state": "Jharkhand",
+   "mpsno": 4324,
+   "via": "seat"
+  },
+  "S27_4": {
+   "name": "Singh, Shri Kali Charan",
+   "party": "BJP",
+   "seat": "Chatra",
+   "state": "Jharkhand",
+   "mpsno": 5618,
+   "via": "seat"
+  },
+  "S27_5": {
+   "name": "Devi, Smt. Annpurna",
+   "party": "BJP",
+   "seat": "Kodarma",
+   "state": "Jharkhand",
+   "mpsno": 5116,
+   "via": "seat"
+  },
+  "S27_6": {
+   "name": "Choudhary, Shri Chandra Prakash",
+   "party": "AJSU",
+   "seat": "Giridih",
+   "state": "Jharkhand",
+   "mpsno": 5115,
+   "via": "seat"
+  },
+  "S27_7": {
+   "name": "Mahato, Shri Dulu",
+   "party": "BJP",
+   "seat": "Dhanbad",
+   "state": "Jharkhand",
+   "mpsno": 5664,
+   "via": "seat"
+  },
+  "S27_8": {
+   "name": "Seth, Shri Sanjay",
+   "party": "BJP",
+   "seat": "Ranchi",
+   "state": "Jharkhand",
+   "mpsno": 5117,
+   "via": "seat"
+  },
+  "S27_9": {
+   "name": "Mahato, Shri Bidyut Baran",
+   "party": "BJP",
+   "seat": "Jamshedpur",
+   "state": "Jharkhand",
+   "mpsno": 4705,
+   "via": "seat"
+  },
+  "S28_1": {
+   "name": "Shah, Smt. Mala Rajya Laxmi",
+   "party": "BJP",
+   "seat": "Tehri Garhwal",
+   "state": "Uttarakhand",
+   "mpsno": 4582,
+   "via": "seat"
+  },
+  "S28_2": {
+   "name": "Baluni, Shri Anil",
+   "party": "BJP",
+   "seat": "Garhwal",
+   "state": "Uttarakhand",
+   "mpsno": 5557,
+   "via": "seat"
+  },
+  "S28_3": {
+   "name": "Tamta, Shri Ajay",
+   "party": "BJP",
+   "seat": "Almora",
+   "state": "Uttarakhand",
+   "mpsno": 4651,
+   "via": "seat"
+  },
+  "S28_4": {
+   "name": "Bhatt, Shri Ajay",
+   "party": "BJP",
+   "seat": "Nainital-Udhamsingh Nagar",
+   "state": "Uttarakhand",
+   "mpsno": 5003,
+   "via": "seat"
+  },
+  "S28_5": {
+   "name": "Rawat, Shri Trivendra Singh",
+   "party": "BJP",
+   "seat": "Hardwar",
+   "state": "Uttarakhand",
+   "mpsno": 5556,
+   "via": "seat"
+  },
+  "S29_1": {
+   "name": "Nagesh, Shri Godam",
+   "party": "BJP",
+   "seat": "Adilabad",
+   "state": "Telangana",
+   "mpsno": 4804,
+   "via": "seat"
+  },
+  "S29_10": {
+   "name": "Reddy, Shri Konda Vishweshwar",
+   "party": "BJP",
+   "seat": "Chevella",
+   "state": "Telangana",
+   "mpsno": 4800,
+   "via": "seat"
+  },
+  "S29_11": {
+   "name": "Aruna, Smt. D K",
+   "party": "BJP",
+   "seat": "Mahbubnagar",
+   "state": "Telangana",
+   "mpsno": 5703,
+   "via": "seat"
+  },
+  "S29_12": {
+   "name": "Ravi, Dr. Mallu",
+   "party": "INC",
+   "seat": "Nagarkurnool",
+   "state": "Telangana",
+   "mpsno": 3534,
+   "via": "seat"
+  },
+  "S29_13": {
+   "name": "Raghuveer, Shri Kunduru",
+   "party": "INC",
+   "seat": "Nalgonda",
+   "state": "Telangana",
+   "mpsno": 5793,
+   "via": "seat"
+  },
+  "S29_14": {
+   "name": "Reddy, Shri Chamala Kiran Kumar",
+   "party": "INC",
+   "seat": "Bhongir",
+   "state": "Telangana",
+   "mpsno": 5755,
+   "via": "seat"
+  },
+  "S29_15": {
+   "name": "Kavya, Dr. Kadiyam",
+   "party": "INC",
+   "seat": "Warangal",
+   "state": "Telangana",
+   "mpsno": 5783,
+   "via": "seat"
+  },
+  "S29_16": {
+   "name": "Porika, Shri Balram Naik",
+   "party": "INC",
+   "seat": "Mahabubabad",
+   "state": "Telangana",
+   "mpsno": 4322,
+   "via": "seat"
+  },
+  "S29_17": {
+   "name": "Reddy, Shri Ramasahayam Raghuram",
+   "party": "INC",
+   "seat": "Khammam",
+   "state": "Telangana",
+   "mpsno": 5716,
+   "via": "seat"
+  },
+  "S29_2": {
+   "name": "Gaddam, Shri Vamsi Krishna",
+   "party": "INC",
+   "seat": "Peddapalle",
+   "state": "Telangana",
+   "mpsno": 5771,
+   "via": "seat"
+  },
+  "S29_3": {
+   "name": "Kumar, Shri Bandi Sanjay",
+   "party": "BJP",
+   "seat": "Karimnagar",
+   "state": "Telangana",
+   "mpsno": 5076,
+   "via": "seat"
+  },
+  "S29_4": {
+   "name": "Dharmapuri, Shri Arvind",
+   "party": "BJP",
+   "seat": "Nizamabad",
+   "state": "Telangana",
+   "mpsno": 5082,
+   "via": "seat"
+  },
+  "S29_5": {
+   "name": "Shetkar, Shri Suresh Kumar",
+   "party": "INC",
+   "seat": "Zahirabad",
+   "state": "Telangana",
+   "mpsno": 4523,
+   "via": "seat"
+  },
+  "S29_6": {
+   "name": "Rao, Shri Madhavaneni Raghunandan",
+   "party": "BJP",
+   "seat": "Medak",
+   "state": "Telangana",
+   "mpsno": 5573,
+   "via": "seat"
+  },
+  "S29_7": {
+   "name": "Rajender, Shri Eatala",
+   "party": "BJP",
+   "seat": "Malkajgiri",
+   "state": "Telangana",
+   "mpsno": 5731,
+   "via": "seat"
+  },
+  "S29_8": {
+   "name": "Reddy, Shri G Kishan",
+   "party": "BJP",
+   "seat": "Secunderabad",
+   "state": "Telangana",
+   "mpsno": 5084,
+   "via": "seat"
+  },
+  "S29_9": {
+   "name": "Owaisi, Shri Asaduddin",
+   "party": "AIMIM",
+   "seat": "Hyderabad",
+   "state": "Telangana",
+   "mpsno": 4091,
+   "via": "seat"
+  },
+  "U01_1": {
+   "name": "Ray, Shri Bishnu Pada",
+   "party": "BJP",
+   "seat": "Andaman & Nicobar",
+   "state": "Andaman & Nicobar",
+   "mpsno": 371,
+   "via": "seat"
+  },
+  "U02_1": {
+   "name": "Tewari, Shri Manish",
+   "party": "INC",
+   "seat": "Chandigarh",
+   "state": "Chandigarh",
+   "mpsno": 4430,
+   "via": "seat"
+  },
+  "U03_1": {
+   "name": "Babubhai, Shri Patel Umeshbhai",
+   "party": "Ind.",
+   "seat": "Daman & Diu",
+   "state": "Dadra and Nagar Haveli and Daman and Diu",
+   "mpsno": 5714,
+   "via": "seat"
+  },
+  "U03_2": {
+   "name": "Mohanbhai, Smt. Delkar Kalaben",
+   "party": "BJP",
+   "seat": "Dadra & Nagar Haveli",
+   "state": "Dadra and Nagar Haveli and Daman and Diu",
+   "mpsno": 5536,
+   "via": "seat"
+  },
+  "U05_1": {
+   "name": "Khandelwal, Shri Praveen",
+   "party": "BJP",
+   "seat": "Chandni Chowk",
+   "state": "Delhi",
+   "mpsno": 5661,
+   "via": "seat"
+  },
+  "U05_2": {
+   "name": "Tiwari, Shri Manoj",
+   "party": "BJP",
+   "seat": "North East Delhi",
+   "state": "Delhi",
+   "mpsno": 4606,
+   "via": "seat"
+  },
+  "U05_3": {
+   "name": "Malhotra, Shri Harsh",
+   "party": "BJP",
+   "seat": "East Delhi",
+   "state": "Delhi",
+   "mpsno": 5563,
+   "via": "seat"
+  },
+  "U05_4": {
+   "name": "Swaraj, Ms. Bansuri",
+   "party": "BJP",
+   "seat": "New Delhi",
+   "state": "Delhi",
+   "mpsno": 5588,
+   "via": "seat"
+  },
+  "U05_5": {
+   "name": "Chandolia, Shri Yogender",
+   "party": "BJP",
+   "seat": "North West Delhi",
+   "state": "Delhi",
+   "mpsno": 5587,
+   "via": "seat"
+  },
+  "U05_6": {
+   "name": "Sehrawat, Smt. Kamaljeet",
+   "party": "BJP",
+   "seat": "West Delhi",
+   "state": "Delhi",
+   "mpsno": 5565,
+   "via": "seat"
+  },
+  "U05_7": {
+   "name": "Bidhuri, Shri Ramvir Singh",
+   "party": "BJP",
+   "seat": "South Delhi",
+   "state": "Delhi",
+   "mpsno": 5543,
+   "via": "seat"
+  },
+  "U06_1": {
+   "name": "Sayeed, Shri Muhammed Hamdullah",
+   "party": "INC",
+   "seat": "Lakshadweep",
+   "state": "Lakshadweep",
+   "mpsno": 4349,
+   "via": "seat"
+  },
+  "U07_1": {
+   "name": "Vaithilingam, Shri Ve",
+   "party": "INC",
+   "seat": "Pondicherry",
+   "state": "Puducherry",
+   "mpsno": 5120,
+   "via": "seat"
+  },
+  "U08_1": {
+   "name": "Sheikh, Shri Abdul Rashid",
+   "party": "Ind.",
+   "seat": "Baramulla",
+   "state": "Jammu & Kashmir",
+   "mpsno": 5830,
+   "via": "seat"
+  },
+  "U08_2": {
+   "name": "Mehdi, Shri Aga Syed Ruhullah",
+   "party": "J&KNC",
+   "seat": "Srinagar",
+   "state": "Jammu & Kashmir",
+   "mpsno": 5761,
+   "via": "seat"
+  },
+  "U08_3": {
+   "name": "Ahmad, Shri Mian Altaf",
+   "party": "J&KNC",
+   "seat": "Anantnag-Rajouri (ex Anantnag)",
+   "state": "Jammu & Kashmir",
+   "mpsno": 5781,
+   "via": "seat"
+  },
+  "U08_4": {
+   "name": "Singh, Dr. Jitendra",
+   "party": "BJP",
+   "seat": "Udhampur",
+   "state": "Jammu & Kashmir",
+   "mpsno": 4718,
+   "via": "seat"
+  },
+  "U08_5": {
+   "name": "Kishore, Shri Jugal",
+   "party": "BJP",
+   "seat": "Jammu",
+   "state": "Jammu & Kashmir",
+   "mpsno": 4720,
+   "via": "seat"
+  },
+  "U09_1": {
+   "name": "Haneefa, Shri Mohmad",
+   "party": "Ind.",
+   "seat": "Ladakh",
+   "state": "Ladakh",
+   "mpsno": 5808,
+   "via": "seat"
+  }
+ }
+}

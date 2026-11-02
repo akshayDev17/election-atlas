@@ -1,0 +1,109 @@
+{
+  "state": "IN-TR",
+  "section": "bills",
+  "ok": 10,
+  "failed": 0,
+  "total_bytes": 40673784,
+  "entries": [
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/tripura/2026/Bill15of2026TR.pdf",
+      "path": "documents/3b42f5cb99-bills.pdf",
+      "sha256": "82828682e9ba74e5ded650c23c877eaff7fffc10ee6180ace6e73cd892b5c7cb",
+      "bytes": 5555512,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:34.261286+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/tripura/2026/Bill14of2026TR.pdf",
+      "path": "documents/e71f302691-bills.pdf",
+      "sha256": "d187c3838afee21a0670da5c38cb1ab2b9026294dc532659a079ff8ab17cebfe",
+      "bytes": 6759012,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:34.264983+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/tripura/2026/Bill13of2026TR.pdf",
+      "path": "documents/5481231c36-bills.pdf",
+      "sha256": "3b96783a940f87030bfcf6c482b838c34b64a3997c7002ddbf3650745056f37c",
+      "bytes": 1241995,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:34.270862+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/tripura/2026/Bill12of2026TR.pdf",
+      "path": "documents/56b5b0e5b2-bills.pdf",
+      "sha256": "1fa3096027bb87a9aefd35c2c89c51d77852934427b9cf26f4ea79d04ca555d8",
+      "bytes": 969300,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:34.273516+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/tripura/2026/Bill10of2026TR.pdf",
+      "path": "documents/ba7831e786-bills.pdf",
+      "sha256": "6a6e3ec458e6e863fc9813c7cea6c01c303a8851d7b418a570383fce207d09de",
+      "bytes": 3542482,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:34.274589+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/tripura/2026/Bill9of2026TR.pdf",
+      "path": "documents/8a5bb7fb1c-bills.pdf",
+      "sha256": "ac46aa6b6ce9e15f1717e1593a8dc75da0dd1b75a48acd206d920fba06214f83",
+      "bytes": 12393490,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:34.277093+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/tripura/2026/Bill9of2025TR.pdf",
+      "path": "documents/477c3bfce7-bills.pdf",
+      "sha256": "463962ad5954a9a26b772bd9fd5f575cbaf15486a1f02bc7186eaf9f947f2c03",
+      "bytes": 4439664,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:34.282585+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/tripura/2026/Bill8of2026TR.pdf",
+      "path": "documents/681e0f43c0-bills.pdf",
+      "sha256": "7c324f9304ee2976a26133045a269dd9fc413219fb6e32c17efdd70cf46f6e61",
+      "bytes": 1914016,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:34.286765+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/tripura/2026/Bill7of2026TR.pdf",
+      "path": "documents/ac51d9fa66-bills.pdf",
+      "sha256": "e69cd193fe1860014b755743f2eeae49caf9d9780bed9f0f18fcd83a73752ae3",
+      "bytes": 2669599,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:34.288850+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/tripura/2026/Bill6of2026TR.pdf",
+      "path": "documents/41ad0e46df-bills.pdf",
+      "sha256": "286e6b02cea8f8a6f176436c6fd091c8cfbfc4503bedcff3b1defa41ab4caede",
+      "bytes": 1188714,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:34.291363+00:00",
+      "ok": true,
+      "reason": ""
+    }
+  ]
+}

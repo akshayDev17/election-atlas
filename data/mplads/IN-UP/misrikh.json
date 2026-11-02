@@ -1,0 +1,130 @@
+{
+ "const_id": 426,
+ "constituency": "MISRIKH(SC)",
+ "constituency_key": "misrikh",
+ "mp_id": 3019244,
+ "mp_name": "Ashok Kumar Rawat",
+ "tiles": {
+  "Allocated Limit for Hon'ble MPs": [
+   "14,70,00,000.00",
+   "14.70 Crore"
+  ],
+  "Expenditure on Completed and On-going Works as on Date": [
+   "12,11,39,986.00",
+   "12.11 Crore"
+  ],
+  "Works Recommended": [
+   "5",
+   "14,67,76,705.00",
+   "14.68 Crore"
+  ],
+  "Works Completed": [
+   "2",
+   "4,86,14,657.00",
+   "4.86 Crore"
+  ],
+  "Works Sanctioned": [
+   "4",
+   "14,58,26,705.00",
+   "14.58 Crore"
+  ],
+  "Amount consented for Calamity": [
+   "0",
+   "0.00",
+   "0.00 Crore"
+  ],
+  "Current Tenure": [
+   {
+    "ID": 7,
+    "CAPTION": "18th Lok Sabha"
+   }
+  ]
+ },
+ "charts": {
+  "Development Fund": {
+   "title": "Development Fund",
+   "Allocated Limit": 146776705.0,
+   "Available Limit": 223295.0
+  },
+  "Location wise Development Work Recommendation": {
+   "title": "Location wise Development Work Recommendation",
+   "Rural": 48422048.0,
+   "Urban": 98354657.0
+  },
+  "Development Work Recommendation Status": {
+   "title": "Development Work Recommendation Status",
+   "Unsanctioned": 950000.0,
+   "Completed": 48614657.0,
+   "On Going": 97212048.0
+  },
+  "Work Category wise Development Work Recommendation": {
+   "title": "Work Category wise Development Work Recommendation",
+   "Normal and Others": 145826705.0,
+   "Trust or Society | Bar Association": 950000.0,
+   "Bar Association (Exclusively for Purchase of Books for Library)": 0.0,
+   "Repair and Renovation": 0.0
+  }
+ },
+ "works": [
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP507/2024-2025/170558-Lighting of public spaces",
+   "description": "Supply and installation of led semi high mast light at different place in district sitapur",
+   "agency": "SITAPUR(DISTRICT MAGISTRATE SITAPUR_IDA)",
+   "recommended_amount": 28310620.0,
+   "sanctioned_amount": 28310620.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "30-Jan-2025",
+   "sanctioned_date": "17-Feb-2025",
+   "letter_no": "LN/MP507/2024-2025/14"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP507/2025-2026/180315-Lighting of public spaces",
+   "description": "Supply and installation of led semi high mast light at 79 diffrent places in district sitapur.",
+   "agency": "SITAPUR(DISTRICT MAGISTRATE SITAPUR_IDA)",
+   "recommended_amount": 20304037.0,
+   "sanctioned_amount": 20304037.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "08-Mar-2025",
+   "sanctioned_date": "09-Apr-2025",
+   "letter_no": "LN/MP507/2024-2025/15"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP507/2025-2026/196288-Lighting of public spaces",
+   "description": "SUPPLY AND INSTALLATION OF LED SEMI HIGH MAST LIGHT AT 1 to 158 DIFFERENT PLACES",
+   "agency": "KANPUR NAGAR(DISTRICT MAGISTRAE KANPUR NAGAR_IDA)",
+   "recommended_amount": 47472048.0,
+   "sanctioned_amount": 47472048.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "03-May-2025",
+   "sanctioned_date": "26-Jun-2025",
+   "letter_no": "LN/MP507/2025-2026/16"
+  },
+  {
+   "category": "Trust and Society",
+   "activity": "NA-Construction of rooms and halls in school and colleges",
+   "description": "CONSTRUCTION OF HALL",
+   "agency": "HARDOI(DISTRICT MAGISTRATE HARDOI_IDA)",
+   "recommended_amount": 950000.0,
+   "sanctioned_amount": 950000.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "08-May-2025",
+   "sanctioned_date": "NA",
+   "letter_no": "LN/MP507/2025-2026/17"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP507/2026-2027/290535-Lighting of public spaces",
+   "description": "supply and installation of led semihigh mast light 200 places",
+   "agency": "SITAPUR(DISTRICT MAGISTRATE SITAPUR_IDA)",
+   "recommended_amount": 49740000.0,
+   "sanctioned_amount": 49740000.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "30-Jun-2026",
+   "sanctioned_date": "19-Aug-2026",
+   "letter_no": "LN/MP507/2026-2027/18"
+  }
+ ]
+}

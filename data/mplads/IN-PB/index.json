@@ -1,0 +1,35 @@
+{
+ "schema": 1,
+ "note": "MPLADS per-MP index. `file` is the per-MP JSON in this directory; `constituency_key` joins to an atlas parliamentary constituency (normalized ls_seat_name).",
+ "state": "IN-PB",
+ "state_id": 1,
+ "house": 2,
+ "tenure_id": 7,
+ "fetched_at": "2026-09-16T19:40:21Z",
+ "mps": [
+  {
+   "constituency_key": "bhatinda",
+   "constituency": "BHATINDA",
+   "mp_id": 3042436,
+   "mp_name": "HARSIMRAT KAUR BADAL",
+   "works": 0,
+   "file": "bhatinda.json"
+  },
+  {
+   "constituency_key": "bhatinda",
+   "constituency": "BHATINDA",
+   "mp_id": 3019127,
+   "mp_name": "Smt Harsimrat Kaur Badal",
+   "works": 391,
+   "file": "bhatinda.json"
+  },
+  {
+   "constituency_key": "gurdaspur",
+   "constituency": "GURDASPUR",
+   "mp_id": 3042439,
+   "mp_name": "SUKHJINDER SINGH RANDHAWA",
+   "works": 337,
+   "file": "gurdaspur.json"
+  }
+ ]
+}

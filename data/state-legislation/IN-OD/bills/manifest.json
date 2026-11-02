@@ -1,0 +1,109 @@
+{
+  "state": "IN-OD",
+  "section": "bills",
+  "ok": 10,
+  "failed": 0,
+  "total_bytes": 7383144,
+  "entries": [
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/odisha/2026/OD_Public_Universities_Bill_2026.pdf",
+      "path": "documents/39b1a45f53-bills.pdf",
+      "sha256": "9af77bfe72347df5f9ef1e2510cfa2122e2fe576081083afafb9c1578f51ce6c",
+      "bytes": 858553,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:06.456479+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/odisha/2026/Ord3of2026OD.pdf",
+      "path": "documents/0213fed825-bills.pdf",
+      "sha256": "44722fcbafda6d566b6179c9ba495ea0db12ce87873e7f6cfe69253df4cb650f",
+      "bytes": 649578,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:06.460150+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/odisha/2026/Ord2of2026OD.pdf",
+      "path": "documents/e1ae8d2eb8-bills.pdf",
+      "sha256": "1c590ba7c827103a451370b9f257a639e7176d0f37c47fce161fb7c2bb27a302",
+      "bytes": 169542,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:06.461249+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/odisha/2026/Ord1of2026OD.pdf",
+      "path": "documents/5bbde5bec7-bills.pdf",
+      "sha256": "b6fdf75b4615dd866ad5380c5c7f03490f57daf79c04a2a133a97813412149cd",
+      "bytes": 517972,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:06.463010+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/odisha/2025/OD_Prevention_of_Land_Bill_2025.pdf",
+      "path": "documents/89ca24db04-bills.pdf",
+      "sha256": "611701e59c5bc68b3e36bb9618df5505066c667152857f6c9b8ebbf98d1e358a",
+      "bytes": 507934,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:06.464403+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/odisha/2025/OD_Ministers_Salary_Bill_2025.pdf",
+      "path": "documents/64cd9ebbd0-bills.pdf",
+      "sha256": "1f5eac2839ffafcff1a692e0eb383042e038ad9261432ed2d039f401efc24f7c",
+      "bytes": 1470063,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:06.466262+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/odisha/2025/OD_GST_Bill_2025.pdf",
+      "path": "documents/18d97a59dc-bills.pdf",
+      "sha256": "624afb3158cdb02b3eecdad51d3654834150150c733de88a754c559835393d5e",
+      "bytes": 247270,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:06.468551+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/odisha/2025/OD_Universities_(A)_Bill_2025.pdf",
+      "path": "documents/ca324c5370-bills.pdf",
+      "sha256": "abe09700e337ebff51c31ca66e99f1956ae2bef95a178e8a7e0e272ad29c52b0",
+      "bytes": 516785,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:06.470239+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/odisha/2025/OD_Dy_Speakers_Salary_Bill_2025.pdf",
+      "path": "documents/b9c77b274c-bills.pdf",
+      "sha256": "1360ff5784f850fdf9788ecd232adbc7ef21c0c4116d625889866ecb1ad22a5b",
+      "bytes": 1247544,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:06.471228+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/odisha/2025/OD_Speakers_Salary_Bill_2025.pdf",
+      "path": "documents/2a9b3c5604-bills.pdf",
+      "sha256": "9e4400862945cf7cc73e5a047dd942928675609793f933653f315c9993dd8752",
+      "bytes": 1197903,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:06.473086+00:00",
+      "ok": true,
+      "reason": ""
+    }
+  ]
+}

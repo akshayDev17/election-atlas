@@ -1,0 +1,271 @@
+{
+  "schema": 1,
+  "note": "Controlled party vocabulary. `code` is the join key everywhere else; `aliases` are the spellings sources actually print. Colours are a display concern and live here so the front end never invents them per chart.",
+  "parties": [
+    {
+      "code": "BJP",
+      "name": "Bharatiya Janata Party",
+      "colour": "#E8590C",
+      "aliases": [
+        "Bharatiya Janata Party",
+        "Bharatiya Janta Party",
+        "B.J.P."
+      ],
+      "wikipedia_link": "https://en.wikipedia.org/wiki/Bharatiya_Janata_Party"
+    },
+    {
+      "code": "INC",
+      "name": "Indian National Congress",
+      "colour": "#00A2E8",
+      "aliases": [
+        "Indian National Congress",
+        "Congress",
+        "I.N.C.",
+        "INC(I)"
+      ],
+      "wikipedia_link": "https://en.wikipedia.org/wiki/Indian_National_Congress"
+    },
+    {
+      "code": "SP",
+      "name": "Samajwadi Party",
+      "colour": "#D32F2F",
+      "aliases": [
+        "Samajwadi Party",
+        "Samajwadi Janta Party"
+      ],
+      "wikipedia_link": "https://en.wikipedia.org/wiki/Samajwadi_Party"
+    },
+    {
+      "code": "BSP",
+      "name": "Bahujan Samaj Party",
+      "colour": "#1F3C88",
+      "aliases": [
+        "Bahujan Samaj Party"
+      ],
+      "wikipedia_link": "https://en.wikipedia.org/wiki/Bahujan_Samaj_Party"
+    },
+    {
+      "code": "AITC",
+      "name": "All India Trinamool Congress",
+      "colour": "#1E9E52",
+      "aliases": [
+        "All India Trinamool Congress",
+        "Trinamool Congress",
+        "TMC",
+        "AITC"
+      ],
+      "wikipedia_link": "https://en.wikipedia.org/wiki/Trinamool_Congress"
+    },
+    {
+      "code": "CPM",
+      "name": "Communist Party of India (Marxist)",
+      "colour": "#9E1B32",
+      "aliases": [
+        "Communist Party of India (Marxist)",
+        "CPI(M)",
+        "CPI-M"
+      ],
+      "wikipedia_link": "https://en.wikipedia.org/wiki/Communist_Party_of_India_(Marxist)"
+    },
+    {
+      "code": "CPI",
+      "name": "Communist Party of India",
+      "colour": "#F0645A",
+      "aliases": [
+        "Communist Party of India"
+      ],
+      "wikipedia_link": "https://en.wikipedia.org/wiki/Communist_Party_of_India"
+    },
+    {
+      "code": "DMK",
+      "name": "Dravida Munnetra Kazhagam",
+      "colour": "#C62828",
+      "aliases": [
+        "Dravida Munnetra Kazhagam"
+      ],
+      "wikipedia_link": "https://en.wikipedia.org/wiki/Dravida_Munnetra_Kazhagam"
+    },
+    {
+      "code": "AIADMK",
+      "name": "All India Anna Dravida Munnetra Kazhagam",
+      "colour": "#2E7D32",
+      "aliases": [
+        "All India Anna Dravida Munnetra Kazhagam",
+        "Anna Dravida Munnetra Kazhagam",
+        "ADMK"
+      ],
+      "wikipedia_link": "https://en.wikipedia.org/wiki/All_India_Anna_Dravida_Munnetra_Kazhagam"
+    },
+    {
+      "code": "YSRCP",
+      "name": "Yuvajana Sramika Rythu Congress Party",
+      "colour": "#1565C0",
+      "aliases": [
+        "Yuvajana Sramika Rythu Congress Party",
+        "YSR Congress Party"
+      ],
+      "wikipedia_link": "https://en.wikipedia.org/wiki/YSR_Congress_Party"
+    },
+    {
+      "code": "TDP",
+      "name": "Telugu Desam Party",
+      "colour": "#FFC300",
+      "aliases": [
+        "Telugu Desam Party"
+      ],
+      "wikipedia_link": "https://en.wikipedia.org/wiki/Telugu_Desam_Party"
+    },
+    {
+      "code": "BRS",
+      "name": "Bharat Rashtra Samithi",
+      "colour": "#C2185B",
+      "aliases": [
+        "Bharat Rashtra Samithi",
+        "Telangana Rashtra Samithi",
+        "TRS"
+      ],
+      "wikipedia_link": "https://en.wikipedia.org/wiki/Bharat_Rashtra_Samithi"
+    },
+    {
+      "code": "JDU",
+      "name": "Janata Dal (United)",
+      "colour": "#43A047",
+      "aliases": [
+        "Janata Dal (United)",
+        "JD(U)"
+      ],
+      "wikipedia_link": "https://en.wikipedia.org/wiki/Janata_Dal_(United)"
+    },
+    {
+      "code": "RJD",
+      "name": "Rashtriya Janata Dal",
+      "colour": "#2E7D5B",
+      "aliases": [
+        "Rashtriya Janata Dal"
+      ],
+      "wikipedia_link": "https://en.wikipedia.org/wiki/Rashtriya_Janata_Dal"
+    },
+    {
+      "code": "SHS",
+      "name": "Shiv Sena",
+      "colour": "#FF9500",
+      "aliases": [
+        "Shiv Sena"
+      ],
+      "wikipedia_link": "https://en.wikipedia.org/wiki/Shiv_Sena"
+    },
+    {
+      "code": "NCP",
+      "name": "Nationalist Congress Party",
+      "colour": "#00838F",
+      "aliases": [
+        "Nationalist Congress Party"
+      ],
+      "wikipedia_link": "https://en.wikipedia.org/wiki/Nationalist_Congress_Party"
+    },
+    {
+      "code": "AAP",
+      "name": "Aam Aadmi Party",
+      "colour": "#0B72B8",
+      "aliases": [
+        "Aam Aadmi Party"
+      ],
+      "wikipedia_link": "https://en.wikipedia.org/wiki/Aam_Aadmi_Party"
+    },
+    {
+      "code": "BJD",
+      "name": "Biju Janata Dal",
+      "colour": "#00695C",
+      "aliases": [
+        "Biju Janata Dal"
+      ],
+      "wikipedia_link": "https://en.wikipedia.org/wiki/Biju_Janata_Dal"
+    },
+    {
+      "code": "JDS",
+      "name": "Janata Dal (Secular)",
+      "colour": "#7CB342",
+      "aliases": [
+        "Janata Dal (Secular)",
+        "JD(S)"
+      ],
+      "wikipedia_link": "https://en.wikipedia.org/wiki/Janata_Dal_(Secular)"
+    },
+    {
+      "code": "HAMS",
+      "name": "Hindustani Awam Morcha (Secular)",
+      "colour": "#8D6E63",
+      "aliases": [
+        "Hindustani Awam Morcha (Secular)",
+        "HAM (S)"
+      ],
+      "wikipedia_link": "https://en.wikipedia.org/wiki/Hindustani_Awam_Morcha_(Secular)"
+    },
+    {
+      "code": "LJSP",
+      "name": "Lok Janshakti Party (Ram Vilas)",
+      "colour": "#455A64",
+      "aliases": [
+        "Lok Janshakti Party (Ram Vilas)",
+        "LJSP(RV)"
+      ],
+      "wikipedia_link": "https://en.wikipedia.org/wiki/Lok_Janshakti_Party_(Ram_Vilas)"
+    },
+    {
+      "code": "RLD",
+      "name": "Rashtriya Lok Dal",
+      "colour": "#33691E",
+      "aliases": [
+        "Rashtriya Lok Dal"
+      ],
+      "wikipedia_link": "https://en.wikipedia.org/wiki/Rashtriya_Lok_Dal"
+    },
+    {
+      "code": "RPIA",
+      "name": "Republican Party of India (Athawale)",
+      "colour": "#3949AB",
+      "aliases": [
+        "Republican Party of India (Athawale)",
+        "RPI (ATWL)",
+        "RPI(A)"
+      ],
+      "wikipedia_link": "https://en.wikipedia.org/wiki/Republican_Party_of_India_(Athawale)"
+    },
+    {
+      "code": "ADS",
+      "name": "Apna Dal (Sonelal)",
+      "colour": "#8E24AA",
+      "aliases": [
+        "Apna Dal (Sonelal)",
+        "Apna Dal (S)"
+      ],
+      "wikipedia_link": "https://en.wikipedia.org/wiki/Apna_Dal_(Soneylal)"
+    },
+    {
+      "code": "IND",
+      "name": "Independent",
+      "colour": "#78909C",
+      "aliases": [
+        "Independent",
+        "Independents"
+      ],
+      "wikipedia_link": ""
+    },
+    {
+      "code": "NOTA",
+      "name": "None of the Above",
+      "colour": "#B0BEC5",
+      "aliases": [
+        "None of the Above",
+        "NOTA"
+      ],
+      "wikipedia_link": ""
+    }
+  ],
+  "fallback": {
+    "code": "OTHER",
+    "name": "Other",
+    "colour": "#B0BEC5"
+  },
+  "note_colour": "Colours are display colours, tuned for the map rather than copied from party flags: each party keeps its real-world hue family, but lightness and hue are pulled apart where two parties that actually border each other on the map would otherwise read as one fill. Tuned against the derived map adjacency graph and scored with CIE Lab deltaE. Where a pair cannot be separated without destroying a party's identity (BJP saffron vs DMK red on the Karnataka-Tamil Nadu border), the page resolves it with the centroid label instead of with colour: colour is never the only channel."
+}

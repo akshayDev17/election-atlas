@@ -1,0 +1,109 @@
+{
+  "state": "IN-BR",
+  "section": "bills",
+  "ok": 10,
+  "failed": 0,
+  "total_bytes": 13320074,
+  "entries": [
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/bihar/2026/Bill32of2026BR.pdf",
+      "path": "documents/99d244574a-bills.pdf",
+      "sha256": "7643235f363b6d2e35a7f1e5e10cba29cbbd962703ef7e7b7ebde650d88752e3",
+      "bytes": 1394983,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:50:34.289329+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/bihar/2026/Bill31of2026BR.pdf",
+      "path": "documents/29e7e035c4-bills.pdf",
+      "sha256": "6e9a5f7fb7755e22317815112583438d7b85634b7c981ed736494fcfaefebdda",
+      "bytes": 1006672,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:50:34.295664+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/bihar/2026/Bill30of2026BR.pdf",
+      "path": "documents/210a13a17c-bills.pdf",
+      "sha256": "a5d06184f79e9c0fd2676bd259b50674bf9b74e9ba37d47409e63caca72bd96e",
+      "bytes": 1610407,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:50:34.296307+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/bihar/2026/Bill29of2026BR.pdf",
+      "path": "documents/92b63589fb-bills.pdf",
+      "sha256": "74aa715298d406d62552bdd5588fc2024fd435b2d33dddee28834fe162923f2e",
+      "bytes": 1783350,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:50:34.301640+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/bihar/2026/Bill28of2026BR.pdf",
+      "path": "documents/1f898fc849-bills.pdf",
+      "sha256": "18e0afb767aab050a601825e4d45525a27e920cd8836dd9b277a304c9ad80dfd",
+      "bytes": 1185249,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:50:34.305317+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/bihar/2026/Bill27of2026BR.pdf",
+      "path": "documents/0b695d7b42-bills.pdf",
+      "sha256": "d9457dce22936df2d76b739a0435e5be749fe29cc47332a46a297f7d16d328b4",
+      "bytes": 1651751,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:50:34.306568+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/bihar/2026/Bill26of2026BR.pdf",
+      "path": "documents/0451198495-bills.pdf",
+      "sha256": "709b61084b9baf18fc4a4a1302ce8c0decdf53003cfb1d8e5100087918feab68",
+      "bytes": 913899,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:50:34.307623+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/bihar/2026/Bill25of2026BR.pdf",
+      "path": "documents/14903a53b7-bills.pdf",
+      "sha256": "4278011962b23db975b72b4dd2ccdc03561cb7dd5a2a83ef701a322261704c51",
+      "bytes": 1815838,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:50:34.308755+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/bihar/2026/Bill24of2026BR.pdf",
+      "path": "documents/8c7dc606ca-bills.pdf",
+      "sha256": "68077383630c5f7b18666b6129e0aa38b3926692151e91c1e7b6f9782f256afa",
+      "bytes": 859095,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:50:34.309494+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/bihar/2026/Bill23of2026BR.pdf",
+      "path": "documents/d895653594-bills.pdf",
+      "sha256": "14af275006ad60ebc859237d79b142b8c20c4c25657c155e876512b88f5beaa6",
+      "bytes": 1098830,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:50:34.310182+00:00",
+      "ok": true,
+      "reason": ""
+    }
+  ]
+}

@@ -1,0 +1,454 @@
+{
+ "const_id": 436,
+ "constituency": "CHANDAULI",
+ "constituency_key": "chandauli",
+ "mp_id": 3042499,
+ "mp_name": "VIRENDRA SINGH",
+ "tiles": {
+  "Allocated Limit for Hon'ble MPs": [
+   "14,70,00,000.00",
+   "14.70 Crore"
+  ],
+  "Expenditure on Completed and On-going Works as on Date": [
+   "8,67,45,252.00",
+   "8.67 Crore"
+  ],
+  "Works Recommended": [
+   "32",
+   "10,31,43,714.00",
+   "10.31 Crore"
+  ],
+  "Works Completed": [
+   "14",
+   "6,11,18,039.00",
+   "6.11 Crore"
+  ],
+  "Works Sanctioned": [
+   "29",
+   "9,96,56,914.00",
+   "9.97 Crore"
+  ],
+  "Amount consented for Calamity": [
+   "0",
+   "0.00",
+   "0.00 Crore"
+  ],
+  "Current Tenure": [
+   {
+    "ID": 7,
+    "CAPTION": "18th Lok Sabha"
+   }
+  ]
+ },
+ "charts": {
+  "Development Fund": {
+   "title": "Development Fund",
+   "Allocated Limit": 103143714.0,
+   "Available Limit": 43856286.0
+  },
+  "Location wise Development Work Recommendation": {
+   "title": "Location wise Development Work Recommendation",
+   "Rural": 89776714.0,
+   "Urban": 13367000.0
+  },
+  "Development Work Recommendation Status": {
+   "title": "Development Work Recommendation Status",
+   "Unsanctioned": 3486800.0,
+   "Completed": 58578039.0,
+   "On Going": 37600100.0
+  },
+  "Work Category wise Development Work Recommendation": {
+   "title": "Work Category wise Development Work Recommendation",
+   "Normal and Others": 103143714.0,
+   "Trust or Society | Bar Association": 0.0,
+   "Bar Association (Exclusively for Purchase of Books for Library)": 0.0,
+   "Repair and Renovation": 0.0
+  }
+ },
+ "works": [
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18210/2024-2025/154376-Lighting of public spaces",
+   "description": "Supply and installation of LED semi high mast lights at 54 different places in district Chandauli (as per list enclosed).",
+   "agency": "CHANDAULI(DISTRICT MAGISTRATE CHANDAULI_IDA)",
+   "recommended_amount": 13176000.0,
+   "sanctioned_amount": 13176000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "24-Nov-2024",
+   "sanctioned_date": "09-Dec-2024",
+   "letter_no": "LN/MP18210/2024-2025/1"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18210/2024-2025/164779-Lighting of public spaces",
+   "description": "Supply and installation of LED semi high mast lights at 25 different places in district Chandauli (as per list enclosed).",
+   "agency": "CHANDAULI(DISTRICT MAGISTRATE CHANDAULI_IDA)",
+   "recommended_amount": 6100000.0,
+   "sanctioned_amount": 6100000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "10-Jan-2025",
+   "sanctioned_date": "25-Jan-2025",
+   "letter_no": "LN/MP18210/2024-2025/3"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18210/2025-2026/170256-Construction of boundary walls of existing public and community buildings",
+   "description": "Shri Khandeshwari Swami Mahila sikshan sansthan kailawar Mahuwari Chandauli ke boundary wall ka nirman karya ",
+   "agency": "CHANDAULI(DISTRICT MAGISTRATE CHANDAULI_IDA)",
+   "recommended_amount": 998090.0,
+   "sanctioned_amount": 998090.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "29-Jan-2025",
+   "sanctioned_date": "25-Apr-2025",
+   "letter_no": "LN/MP18210/2024-2025/6"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18210/2025-2026/176158-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Construction of road in Niyamtabad and Chandauli Sadar by Uttar Pradesh Abhiyantran avum Shram Sahakari Sangh Limited. The details are enclosed in the attachment. ",
+   "agency": "CHANDAULI(DISTRICT MAGISTRATE CHANDAULI_IDA)",
+   "recommended_amount": 894605.0,
+   "sanctioned_amount": 894605.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "17-Feb-2025",
+   "sanctioned_date": "25-Apr-2025",
+   "letter_no": "LN/MP18210/2024-2025/7"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18210/2024-2025/176159-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Construction of road in Harhua and Cholapur by Grameen Abhiyantran Vibhag. The details attached. ",
+   "agency": "VARANASI(DISTRICT MAGISTRAE VARANASI_IDA)",
+   "recommended_amount": 1371278.0,
+   "sanctioned_amount": 1371278.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "17-Feb-2025",
+   "sanctioned_date": "31-Mar-2025",
+   "letter_no": "LN/MP18210/2024-2025/8"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18210/2025-2026/176164-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Construction of road in Sakaldiha and Chahania by Grameen Abhiyantran Vibhag, the details of which is enclosed in the attachment.",
+   "agency": "CHANDAULI(DISTRICT MAGISTRATE CHANDAULI_IDA)",
+   "recommended_amount": 2539577.0,
+   "sanctioned_amount": 2539577.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "17-Feb-2025",
+   "sanctioned_date": "25-Apr-2025",
+   "letter_no": "LN/MP18210/2024-2025/9"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18210/2025-2026/177020-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Construction of inter-locking roads in village Kohda, Kari and Iqbalpur by Grameen Abhiyantran Vibhag",
+   "agency": "CHANDAULI(DISTRICT MAGISTRATE CHANDAULI_IDA)",
+   "recommended_amount": 1392000.0,
+   "sanctioned_amount": 1392000.0,
+   "stage": "Vendor Identification",
+   "recommended_date": "22-Feb-2025",
+   "sanctioned_date": "25-Apr-2025",
+   "letter_no": "LN/MP18210/2024-2025/10"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18210/2025-2026/195532-Lighting of public spaces",
+   "description": "Supply and installation of LED semi high mast lights at 51 different places in Harhua, Cholapur, Chiraigaon and Pindra Block in district Varanasi, Chandauli Loksabha (as per list enclosed).",
+   "agency": "VARANASI(DISTRICT MAGISTRAE VARANASI_IDA)",
+   "recommended_amount": 9026089.0,
+   "sanctioned_amount": 9026089.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "30-Apr-2025",
+   "sanctioned_date": "01-May-2025",
+   "letter_no": "LN/MP18210/2025-2026/13"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18210/2025-2026/212736-Lighting of public spaces",
+   "description": "Installation of 54 high mast lights in Chandauli district.",
+   "agency": "CHANDAULI(DISTRICT MAGISTRATE CHANDAULI_IDA)",
+   "recommended_amount": 12830000.0,
+   "sanctioned_amount": 12830000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "26-Jun-2025",
+   "sanctioned_date": "31-Jul-2025",
+   "letter_no": "LN/MP18210/2025-2026/14"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18210/2025-2026/216110-Lighting of public spaces",
+   "description": "Installation of High Mast lights in various villages of Shivpur and Ajgara",
+   "agency": "VARANASI(DISTRICT MAGISTRAE VARANASI_IDA)",
+   "recommended_amount": 10763500.0,
+   "sanctioned_amount": 10763500.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "08-Jul-2025",
+   "sanctioned_date": "25-Aug-2025",
+   "letter_no": "LN/MP18210/2025-2026/16"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "NA-Construction of boundary walls of existing public and community buildings",
+   "description": "Beautification of land and construction of boundary wall",
+   "agency": "CHANDAULI(DISTRICT MAGISTRATE CHANDAULI_IDA)",
+   "recommended_amount": 1900000.0,
+   "sanctioned_amount": 1900000.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "16-Jul-2025",
+   "sanctioned_date": "NA",
+   "letter_no": "LN/MP18210/2025-2026/17"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18210/2025-2026/244721-Lighting of public spaces",
+   "description": "Installation of high mast light in the common spaces of 49 villages in Chandauli district.",
+   "agency": "CHANDAULI(DISTRICT MAGISTRATE CHANDAULI_IDA)",
+   "recommended_amount": 11642400.0,
+   "sanctioned_amount": 11642400.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "29-Oct-2025",
+   "sanctioned_date": "14-Nov-2025",
+   "letter_no": "LN/MP18210/2025-2026/18"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "NA-Construction of common work sheds/ common covered sitting area",
+   "description": "Construction of Chabutra at Shaheed Sthal Dhanapur",
+   "agency": "CHANDAULI(DISTRICT MAGISTRATE CHANDAULI_IDA)",
+   "recommended_amount": 874000.0,
+   "sanctioned_amount": 874000.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "08-Dec-2025",
+   "sanctioned_date": "NA",
+   "letter_no": "LN/MP18210/2025-2026/19"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18210/2025-2026/258726-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Interlocking work in Gramsabha Khor",
+   "agency": "CHANDAULI(DISTRICT MAGISTRATE CHANDAULI_IDA)",
+   "recommended_amount": 586000.0,
+   "sanctioned_amount": 586000.0,
+   "stage": "Vendor Identification",
+   "recommended_date": "12-Jan-2026",
+   "sanctioned_date": "05-Feb-2026",
+   "letter_no": "LN/MP18210/2025-2026/21"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18210/2025-2026/258729-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Construction of interlocking in various villages as per the letter attached",
+   "agency": "CHANDAULI(DISTRICT MAGISTRATE CHANDAULI_IDA)",
+   "recommended_amount": 5077000.0,
+   "sanctioned_amount": 5077000.0,
+   "stage": "Vendor Identification",
+   "recommended_date": "12-Jan-2026",
+   "sanctioned_date": "05-Feb-2026",
+   "letter_no": "LN/MP18210/2025-2026/23"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18210/2026-2027/258731-Lighting of public spaces",
+   "description": "Semi High Mast light ",
+   "agency": "CHANDAULI(DISTRICT MAGISTRATE CHANDAULI_IDA)",
+   "recommended_amount": 191000.0,
+   "sanctioned_amount": 191000.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "12-Jan-2026",
+   "sanctioned_date": "07-Apr-2026",
+   "letter_no": "LN/MP18210/2025-2026/24"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18210/2026-2027/258733-Lighting of public spaces",
+   "description": "Installation of semi high mast lights",
+   "agency": "VARANASI(DISTRICT MAGISTRAE VARANASI_IDA)",
+   "recommended_amount": 515775.0,
+   "sanctioned_amount": 515775.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "12-Jan-2026",
+   "sanctioned_date": "18-Apr-2026",
+   "letter_no": "LN/MP18210/2025-2026/25"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18210/2026-2027/271349-Construction of footpaths and pedestrian ways",
+   "description": "Construction of drain and interlocking road near Harijan basti",
+   "agency": "CHANDAULI(DISTRICT MAGISTRATE CHANDAULI_IDA)",
+   "recommended_amount": 800000.0,
+   "sanctioned_amount": 800000.0,
+   "stage": "Time Estimation",
+   "recommended_date": "27-Feb-2026",
+   "sanctioned_date": "07-Apr-2026",
+   "letter_no": "LN/MP18210/2025-2026/26"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18210/2026-2027/271350-Construction of footpaths and pedestrian ways",
+   "description": "Construction of Interlocking road",
+   "agency": "CHANDAULI(DISTRICT MAGISTRATE CHANDAULI_IDA)",
+   "recommended_amount": 998000.0,
+   "sanctioned_amount": 998000.0,
+   "stage": "Vendor Identification",
+   "recommended_date": "27-Feb-2026",
+   "sanctioned_date": "07-Apr-2026",
+   "letter_no": "LN/MP18210/2025-2026/27"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18210/2026-2027/271351-Construction of boundary walls of existing public and community buildings",
+   "description": "Construction of boundary wall for Baraat ghar in Rohara",
+   "agency": "CHANDAULI(DISTRICT MAGISTRATE CHANDAULI_IDA)",
+   "recommended_amount": 950000.0,
+   "sanctioned_amount": 950000.0,
+   "stage": "Vendor Identification",
+   "recommended_date": "27-Feb-2026",
+   "sanctioned_date": "07-Apr-2026",
+   "letter_no": "LN/MP18210/2025-2026/28"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18210/2026-2027/277445-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Construction of an interlocking pavement from Shankars house to Chandrabalis house in Gram Sabha Gahura Harhua Development Block",
+   "agency": "VARANASI(DISTRICT MAGISTRAE VARANASI_IDA)",
+   "recommended_amount": 153000.0,
+   "sanctioned_amount": 153000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "04-Apr-2026",
+   "sanctioned_date": "14-May-2026",
+   "letter_no": "LN/MP18210/2026-2027/29"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18210/2026-2027/277917-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Construction of an interlocking pavement from the CC road to Ramesh Singhs house in Gram Sabha Pashchimpura Pindra Development Block",
+   "agency": "VARANASI(DISTRICT MAGISTRAE VARANASI_IDA)",
+   "recommended_amount": 911000.0,
+   "sanctioned_amount": 911000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "10-Apr-2026",
+   "sanctioned_date": "14-May-2026",
+   "letter_no": "LN/MP18210/2026-2027/30"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18210/2026-2027/277918- Providing sports equipment, except consumable items",
+   "description": "Installation of wrestling mats and wrestling mat covers at the Late Mekhudi Pehalwan Gymnasium Gram Sabha Ahrak Ramaipatti District Varanasi Assembly Constituency Ajgara",
+   "agency": "VARANASI(DISTRICT MAGISTRAE VARANASI_IDA)",
+   "recommended_amount": 598000.0,
+   "sanctioned_amount": 598000.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "10-Apr-2026",
+   "sanctioned_date": "14-May-2026",
+   "letter_no": "LN/MP18210/2026-2027/31"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18210/2026-2027/277919- Providing sports equipment, except consumable items",
+   "description": "Installation of Wrestling Mats and Wrestling Mat Covers at the Late Kedar Pehelwan Gymnasium Gram Sabha Baniapur Rajanhaiya Bawanbigha District Varanasi",
+   "agency": "VARANASI(DISTRICT MAGISTRAE VARANASI_IDA)",
+   "recommended_amount": 598000.0,
+   "sanctioned_amount": 598000.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "10-Apr-2026",
+   "sanctioned_date": "14-May-2026",
+   "letter_no": "LN/MP18210/2026-2027/32"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18210/2026-2027/277920-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Construction of an interlocking pavement from Dharmendra Yadav landholding to the vicinity of the Chiurapur Pond in Gram Sabha Chiurapur Pindra Development Block",
+   "agency": "VARANASI(DISTRICT MAGISTRAE VARANASI_IDA)",
+   "recommended_amount": 458000.0,
+   "sanctioned_amount": 458000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "10-Apr-2026",
+   "sanctioned_date": "14-May-2026",
+   "letter_no": "LN/MP18210/2026-2027/33"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18210/2026-2027/277923-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Construction of an interlocking pavement from the main road to Phoolchand Yadav house in Gram Sabha Ugapur Cholapur Development Block",
+   "agency": "VARANASI(DISTRICT MAGISTRAE VARANASI_IDA)",
+   "recommended_amount": 117000.0,
+   "sanctioned_amount": 117000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "10-Apr-2026",
+   "sanctioned_date": "14-May-2026",
+   "letter_no": "LN/MP18210/2026-2027/34"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18210/2026-2027/277926-Construction of roads, link roads, pathways or any other road with or without drainage system",
+   "description": "Interlocking construction work from near the Chaura Mata Temple to Guddu Chauhan house in Gram Sabha Jariyari Cholapur Development Block",
+   "agency": "VARANASI(DISTRICT MAGISTRAE VARANASI_IDA)",
+   "recommended_amount": 901000.0,
+   "sanctioned_amount": 901000.0,
+   "stage": "Physical Inspection",
+   "recommended_date": "10-Apr-2026",
+   "sanctioned_date": "14-May-2026",
+   "letter_no": "LN/MP18210/2026-2027/35"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18210/2026-2027/292082-Construction of boundary walls of existing public and community buildings",
+   "description": "Block Niyamatabad gram sabha Rohara me barat ghar ke avshes boundrywall evam gate ka nirman karya",
+   "agency": "CHANDAULI(DISTRICT MAGISTRATE CHANDAULI_IDA)",
+   "recommended_amount": 950000.0,
+   "sanctioned_amount": 950000.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "04-Jul-2026",
+   "sanctioned_date": "27-Jul-2026",
+   "letter_no": "LN/MP18210/2026-2027/36"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18210/2026-2027/292089-Installing community drinking water plants",
+   "description": "Block sakaldiha, Niyamatabad tehsil parishar evam chandauli kachahari parishar me water cooler lagane ka karya",
+   "agency": "CHANDAULI(DISTRICT MAGISTRATE CHANDAULI_IDA)",
+   "recommended_amount": 471000.0,
+   "sanctioned_amount": 471000.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "04-Jul-2026",
+   "sanctioned_date": "27-Jul-2026",
+   "letter_no": "LN/MP18210/2026-2027/37"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18210/2026-2027/292091-Installing community drinking water plants",
+   "description": "Block chandauli kachahri parishar me water cooler lagane ka karya",
+   "agency": "CHANDAULI(DISTRICT MAGISTRATE CHANDAULI_IDA)",
+   "recommended_amount": 155000.0,
+   "sanctioned_amount": 155000.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "04-Jul-2026",
+   "sanctioned_date": "27-Jul-2026",
+   "letter_no": "LN/MP18210/2026-2027/38"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "WS/MP18210/2026-2027/295272-Lighting of public spaces",
+   "description": "Installation of semi high mast light in different villages of chandauli district ",
+   "agency": "CHANDAULI(DISTRICT MAGISTRATE CHANDAULI_IDA)",
+   "recommended_amount": 14493600.0,
+   "sanctioned_amount": 14493600.0,
+   "stage": "Work partially Completed",
+   "recommended_date": "15-Jul-2026",
+   "sanctioned_date": "27-Jul-2026",
+   "letter_no": "LN/MP18210/2026-2027/39"
+  },
+  {
+   "category": "Normal/Others",
+   "activity": "NA-Lighting of public spaces",
+   "description": "Installation of three semi high mast lights in padaav and dhapari",
+   "agency": "CHANDAULI(DISTRICT MAGISTRATE CHANDAULI_IDA)",
+   "recommended_amount": 712800.0,
+   "sanctioned_amount": 712800.0,
+   "stage": "Pending for Sanction",
+   "recommended_date": "18-Aug-2026",
+   "sanctioned_date": "NA",
+   "letter_no": "LN/MP18210/2026-2027/40"
+  }
+ ]
+}

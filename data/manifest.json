@@ -1,0 +1,126 @@
+{
+  "schema": 1,
+  "title": "Election Atlas of India",
+  "note": "Declares the level tree and the path template for each level's geometry and results. File granularity matches map granularity: one file per year nationally, per region per year one level down, per city per year at ward level. A template that resolves to a missing file means that level is not published yet, not that the data is broken.",
+  "registries": {
+    "regions": "regions.json",
+    "parties": "parties.json",
+    "availability": "availability.json"
+  },
+  "geometryFormat": "topojson",
+  "note_geometryFormat": "Every level's geometry file is TopoJSON. Each level names the object inside its topology that holds that level's geometries, and the property its features carry the region code's own name in, so a reader joins on a declared key rather than guessing one.",
+  "note_join": "Regions join to geometries on the region code carried in the geometry's properties. Where a geometry file's own naming differs from the canonical code, the level declares 'geometryKeys': { \"<canonical code>\": \"<properties key used in the geometry file>\" } so the join is explicit rather than guessed.",
+  "note_results": "Result files carry region codes, constituency ids and party codes only — never names, never percentages. Every seat count, vote total and vote share on a page is aggregated from the absolute counts at read time.",
+  "levels": [
+    {
+      "id": "state",
+      "label": "State / UT",
+      "parent": null,
+      "geometry": "geo/india-states.json",
+      "topologyObject": "states",
+      "geometryKey": "state_ut_name",
+      "results": "results/ls/{year}.json",
+      "counts": {
+        "regions": 36
+      }
+    },
+    {
+      "id": "parliamentary",
+      "label": "Parliamentary constituency",
+      "parent": "state",
+      "geometry": "geo/india-pcs.json",
+      "topologyObject": "pcs",
+      "geometryKey": "state_ut_name",
+      "results": "results/ls/pc/{year}.json",
+      "counts": {
+        "regions": 543
+      },
+      "note": "One national file of all 543 constituencies. Its geometry is the source the state layer above is dissolved from, so a state's outline is exactly the union of its constituencies and the two layers cannot disagree.",
+      "note_results": "Published Election Commission of India constituency results for every year in elections.ls. Each file names the Commission's report it was taken from in its own note and source.",
+      "note_detail": "Constituency-level candidate detail, from the Commission's constituency-wise detailed result. For the Lok Sabha it covers 2019 and 2024. Assembly candidate detail is added per state and cycle from the Commission's statistical reports; availability.json lists which cycles are present."
+    },
+    {
+      "id": "assembly",
+      "label": "Assembly constituency",
+      "parent": "state",
+      "geometry": "geo/ac/{region}.json",
+      "topologyObject": "constituencies",
+      "geometryKey": "AC_NAME",
+      "results": "results/ac/{region}/{cycle}.json",
+      "note": "Assembly constituency boundaries and results. The boundary set covers only the states where it was validated against the current assembly size and the parliamentary nesting; the rest are absent on purpose. Results are keyed by each state's own assembly cycles (elections.ac.cycles). A cycle whose file is absent has not been added yet; availability.json says which are present."
+    },
+    {
+      "id": "ward",
+      "label": "Ward / councillor",
+      "parent": "region",
+      "geometry": "geo/wards/{region}.json",
+      "topologyObject": "wards",
+      "geometryKey": "WARD_NAME",
+      "results": "results/wards/{region}/{year}.json"
+    }
+  ],
+  "elections": {
+    "ls": {
+      "label": "Lok Sabha",
+      "level": "state",
+      "years": [
+        2009,
+        2014,
+        2019,
+        2024
+      ]
+    },
+    "ac": {
+      "label": "Legislative Assembly",
+      "level": "assembly",
+      "note_cycles": "The last three general elections to each mapped state's legislative assembly, as of 2026-11-02. Assembly polls run on each state's own calendar, so there is no single year list.",
+      "cycles": {
+        "IN-BR": [
+          2015,
+          2020,
+          2025
+        ],
+        "IN-CT": [
+          2013,
+          2018,
+          2023
+        ],
+        "IN-HR": [
+          2014,
+          2019,
+          2024
+        ],
+        "IN-OD": [
+          2014,
+          2019,
+          2024
+        ],
+        "IN-PB": [
+          2012,
+          2017,
+          2022
+        ],
+        "IN-TN": [
+          2016,
+          2021,
+          2026
+        ],
+        "IN-UP": [
+          2012,
+          2017,
+          2022
+        ],
+        "IN-WB": [
+          2016,
+          2021,
+          2026
+        ]
+      }
+    },
+    "ward": {
+      "label": "Municipal",
+      "level": "ward",
+      "years": []
+    }
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "state": "IN-KL",
+  "section": "bills",
+  "ok": 10,
+  "failed": 0,
+  "total_bytes": 1242642,
+  "entries": [
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/kerala/2026/Bill301-2026KL.pdf",
+      "path": "documents/8809717d36-bills.pdf",
+      "sha256": "13a1cfe38a3cde24006cd697c4b9ef49e009a5933bc165e09f2267f169f8b172",
+      "bytes": 132044,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:59:07.380791+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/kerala/2026/Bill300-2026KL.pdf",
+      "path": "documents/28e3445d5e-bills.pdf",
+      "sha256": "f982f85e03e9ae2826bb3b4dd3299ed38936010efb485a43ff07c53fab55ccc5",
+      "bytes": 173732,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:59:07.384031+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/kerala/2026/Bill299-2026KL.pdf",
+      "path": "documents/249e0d5323-bills.pdf",
+      "sha256": "53d29a44f7da8a448b3ba1f84af35917ecbb0528a6c6d3c18f2ea45a25786228",
+      "bytes": 189194,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:59:07.385831+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/kerala/2026/Bill298-2026KL.pdf",
+      "path": "documents/f0536c2d73-bills.pdf",
+      "sha256": "8619b0526da8bac3e093527bcf507f70a377cfbb8966db72788f260835eba74a",
+      "bytes": 140910,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:59:07.386945+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/kerala/2026/Bill296-2026KL.pdf",
+      "path": "documents/76aed1b076-bills.pdf",
+      "sha256": "815199cd2fb94de3712062c15fb15ea1e7dce254d889df0e78d9a7eff2fb197a",
+      "bytes": 104368,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:59:07.388049+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/kerala/2026/Bill293-2026KL.pdf",
+      "path": "documents/bf06b9f34f-bills.pdf",
+      "sha256": "4003c2b68c3db145b9280aaac7f21d78ccf4b40c477194e67bb4460978a6496d",
+      "bytes": 110608,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:59:07.388963+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/kerala/2026/Bill5-2026KL.pdf",
+      "path": "documents/08dcef8cce-bills.pdf",
+      "sha256": "11b5f3ee00ef19554a1e61a7c5ef6be1bf7ca9204a728caa0ad346fc7d07c78c",
+      "bytes": 105941,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:59:07.390165+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/kerala/2026/Bill4-2026KL.pdf",
+      "path": "documents/4419416b55-bills.pdf",
+      "sha256": "585376ec7308ebb05b768e638d40569f3ef200d5cb29fdaa2f8bc3d65f0ecf28",
+      "bytes": 107581,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:59:07.391237+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/kerala/2025/Bill292of2025KL.pdf",
+      "path": "documents/8c1b6c9083-bills.pdf",
+      "sha256": "c76e56f13d742bfd6bafd6285a502f4e8e02f099cafd4f1186694947bef37146",
+      "bytes": 83725,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:59:07.392173+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/kerala/2025/Bill282of2025KL.pdf",
+      "path": "documents/0af07c125c-bills.pdf",
+      "sha256": "1b68006c25619a0e7cb8206b166b296eff207bffd3d49f517c0fc77248c70ae6",
+      "bytes": 94539,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:59:07.393848+00:00",
+      "ok": true,
+      "reason": ""
+    }
+  ]
+}

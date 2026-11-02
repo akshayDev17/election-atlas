@@ -1,0 +1,109 @@
+name: Import into D1
+
+# The first import of the published atlas data into the election-atlas D1
+# database, split over two UTC days to stay under the free plan's 100,000 rows
+# written per day (backend/d1/ingest.py):
+#
+#   day 1  assembly results, councils of ministers, Lok Sabha by-elections
+#   day 2  Lok Sabha general elections
+#
+# Applies outstanding migrations first, refuses a day that is already imported,
+# validates every record (tools/validate_records.py) before any SQL exists, and
+# prints D1's own rows-written count for the import.
+
+on:
+  workflow_dispatch:
+    inputs:
+      day:
+        description: 'Import day (1: assembly, cabinets, by-elections; 2: Lok Sabha)'
+        required: true
+        type: choice
+        options: ['1', '2']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: d1-write
+  cancel-in-progress: false
+
+env:
+  WRANGLER: npx --yes wrangler@4.151.1
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    environment: production
+    defaults:
+      run:
+        working-directory: backend
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      DAY: ${{ inputs.day }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read the pinned atlas source
+        id: src
+        run: |
+          echo "repo=$(jq -r .repository atlas-source.json)" >> "$GITHUB_OUTPUT"
+          echo "commit=$(jq -r .commit atlas-source.json)" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ steps.src.outputs.repo }}
+          ref: ${{ steps.src.outputs.commit }}
+          path: atlas-source
+          # partial clone: only the blobs the sparse paths need are fetched
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /work/election-atlas/data/
+            !/work/election-atlas/**/*.pdf
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Refuse to run before the database id is committed
+        run: |
+          if grep -q REPLACE_AFTER_d1_create wrangler.jsonc; then
+            echo "::error::wrangler.jsonc still has the D1 placeholder; run portfolio-app bootstrap --public first."
+            exit 1
+          fi
+
+      - name: Where the database lives
+        run: $WRANGLER d1 info election-atlas
+
+      - name: Apply migrations
+        run: $WRANGLER d1 migrations apply election-atlas --remote
+
+      - name: Refuse a day that is already imported
+        run: |
+          if [ "$DAY" = 1 ]; then fams="'ac','ac-detail','cabinet','ls-byel'"; else fams="'ls-rollup','ls-pc','ls-detail'"; fi
+          $WRANGLER d1 execute election-atlas --remote --json \
+            --command "SELECT count(*) AS n FROM document WHERE family IN ($fams)" > present.json
+          n=$(jq '.[0].results[0].n' present.json)
+          echo "documents of day $DAY already in D1: $n"
+          if [ "$n" != 0 ]; then echo "::error::day $DAY is already imported"; exit 1; fi
+
+      - name: Validate every record and write the SQL
+        run: python3 d1/ingest.py --data ../atlas-source/work/election-atlas/data --day "$DAY" --out "day$DAY.sql"
+
+      - name: Import
+        run: |
+          $WRANGLER d1 execute election-atlas --remote --file "day$DAY.sql" --yes | tee import.log
+
+      - name: What D1 now holds
+        run: |
+          $WRANGLER d1 execute election-atlas --remote --command "
+            SELECT 'document' AS t, count(*) AS n FROM document UNION ALL
+            SELECT 'source', count(*) FROM source UNION ALL
+            SELECT 'contest', count(*) FROM contest UNION ALL
+            SELECT 'candidacy', count(*) FROM candidacy UNION ALL
+            SELECT 'region_party_tally', count(*) FROM region_party_tally UNION ALL
+            SELECT 'minister_tenure', count(*) FROM minister_tenure UNION ALL
+            SELECT 'not published', (SELECT count(*) FROM term WHERE provenance <> 'published')
+              + (SELECT count(*) FROM contest WHERE provenance <> 'published')
+              + (SELECT count(*) FROM document WHERE provenance <> 'published')"

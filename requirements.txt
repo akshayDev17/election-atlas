@@ -1,0 +1,7 @@
+# Build-time Python dependencies for the atlas tools in tools/ (not used by the pages).
+# Install into a virtual environment:  python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+openpyxl==3.1.5      # .xlsx: ECI statistical reports and index cards
+et-xmlfile==2.0.0    # openpyxl dependency
+xlrd==2.0.2          # .xls: older ECI reports and index cards
+pypdf==6.18.1        # ECI table-9 PDFs (2016) and Sansad PDF replies
+pdfminer.six==20260107  # tools/eci_pdf.py: ECI Lok Sabha PDFs (1980-2014)

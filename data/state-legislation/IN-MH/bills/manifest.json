@@ -1,0 +1,109 @@
+{
+  "state": "IN-MH",
+  "section": "bills",
+  "ok": 10,
+  "failed": 0,
+  "total_bytes": 4417588,
+  "entries": [
+    {
+      "url": "https://mls.org.in/assembly-bill/2026/%E0%A4%AA%E0%A5%81%E0%A4%B0%E0%A4%B8%E0%A5%8D%E0%A4%A5%E0%A4%BE%E0%A4%AA%E0%A4%A8%E0%A4%BE%E0%A4%B0%E0%A5%8D%E0%A4%A5/%E0%A4%B5%E0%A4%BF.%E0%A4%B8.%E0%A4%B5%E0%A4%BF.%E0%A4%95%E0%A5%8D%E0%A4%B0.%E0%A5%AC%E0%A5%AA%20-%20%E0%A4%AE%E0%A4%B0%E0%A4%BE%E0%A4%A0%E0%A5%80_1.pdf",
+      "path": "documents/f89208e160-bills.pdf",
+      "sha256": "d37224a452df32ee8bc082446cd6870cd86fe83be3af46f650701b42d3ba05be",
+      "bytes": 426690,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:51:40.189999+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://mls.org.in/assembly-bill/2026/%E0%A4%AA%E0%A5%81%E0%A4%B0%E0%A4%B8%E0%A5%8D%E0%A4%A5%E0%A4%BE%E0%A4%AA%E0%A4%A8%E0%A4%BE%E0%A4%B0%E0%A5%8D%E0%A4%A5/%E0%A4%B5%E0%A4%BF.%E0%A4%B8.%E0%A4%B5%E0%A4%BF.%E0%A4%95%E0%A5%8D%E0%A4%B0.%E0%A5%AC%E0%A5%AA%20-%20%E0%A4%87%E0%A4%82%E0%A4%97%E0%A5%8D%E0%A4%B0%E0%A4%9C%E0%A5%80_1.pdf",
+      "path": "documents/b0855d1e62-bills.pdf",
+      "sha256": "0d643b93e3af75d18a9dd03cf92e06d7ce2e171f9dd3b164f81cc787d10a163c",
+      "bytes": 552866,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:51:40.201939+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://mls.org.in/assembly-bill/2026/%E0%A4%AA%E0%A5%81%E0%A4%B0%E0%A4%B8%E0%A5%8D%E0%A4%A5%E0%A4%BE%E0%A4%AA%E0%A4%A8%E0%A4%BE%E0%A4%B0%E0%A5%8D%E0%A4%A5/%E0%A4%B5%E0%A4%BF.%E0%A4%B8.%E0%A4%B5%E0%A4%BF.%E0%A4%95%E0%A5%8D%E0%A4%B0.%E0%A5%AC%E0%A5%A9%20-%20%E0%A4%AE%E0%A4%B0%E0%A4%BE%E0%A4%A0%E0%A5%80.pdf",
+      "path": "documents/a17b22364b-bills.pdf",
+      "sha256": "a2df6169d969d173c3f69efa5ff5fe15dc352c8c81289461fea24afe33403e9d",
+      "bytes": 241036,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:51:40.202835+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://mls.org.in/assembly-bill/2026/%E0%A4%AA%E0%A5%81%E0%A4%B0%E0%A4%B8%E0%A5%8D%E0%A4%A5%E0%A4%BE%E0%A4%AA%E0%A4%A8%E0%A4%BE%E0%A4%B0%E0%A5%8D%E0%A4%A5/%E0%A4%B5%E0%A4%BF.%E0%A4%B8.%E0%A4%B5%E0%A4%BF.%E0%A4%95%E0%A5%8D%E0%A4%B0.%E0%A5%AC%E0%A5%A9%20-%20%E0%A4%87%E0%A4%82%E0%A4%97%E0%A5%8D%E0%A4%B0%E0%A4%9C%E0%A5%80.pdf",
+      "path": "documents/567d02b49a-bills.pdf",
+      "sha256": "e1918f47fba7a8dde1f8338bcb092d25ab784e2b0409807b12e42dc62d9f8e57",
+      "bytes": 253869,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:51:40.210123+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://mls.org.in/assembly-bill/2026/%E0%A4%AA%E0%A5%81%E0%A4%B0%E0%A4%B8%E0%A5%8D%E0%A4%A5%E0%A4%BE%E0%A4%AA%E0%A4%A8%E0%A4%BE%E0%A4%B0%E0%A5%8D%E0%A4%A5/%E0%A4%B5%E0%A4%BF.%E0%A4%B8.%E0%A4%B5%E0%A4%BF.%E0%A4%95%E0%A5%8D%E0%A4%B0.%20%E0%A5%AC%E0%A5%A8%20-%20%E0%A4%AE%E0%A4%B0%E0%A4%BE%E0%A4%A0%E0%A5%80_9.pdf",
+      "path": "documents/9fb30adbd6-bills.pdf",
+      "sha256": "ea18ed67233cab84f91e46f5d9d6985cca800f83ea1004912f2b69dafd20abd1",
+      "bytes": 591485,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:51:40.210550+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://mls.org.in/assembly-bill/2026/%E0%A4%AA%E0%A5%81%E0%A4%B0%E0%A4%B8%E0%A5%8D%E0%A4%A5%E0%A4%BE%E0%A4%AA%E0%A4%A8%E0%A4%BE%E0%A4%B0%E0%A5%8D%E0%A4%A5/%E0%A4%B5%E0%A4%BF.%E0%A4%B8.%E0%A4%B5%E0%A4%BF.%E0%A4%95%E0%A5%8D%E0%A4%B0.%20%E0%A5%AC%E0%A5%A8%20-%20%E0%A4%87%E0%A4%82%E0%A4%97%E0%A5%8D%E0%A4%B0%E0%A4%9C%E0%A5%80_10.pdf",
+      "path": "documents/65fafd7de5-bills.pdf",
+      "sha256": "500a44527ef226f0a0ae072e445b858da8b78080da508b7ab0434918bb690abd",
+      "bytes": 546022,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:51:40.211708+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://mls.org.in/assembly-bill/2026/%E0%A4%AA%E0%A5%81%E0%A4%B0%E0%A4%B8%E0%A5%8D%E0%A4%A5%E0%A4%BE%E0%A4%AA%E0%A4%A8%E0%A4%BE%E0%A4%B0%E0%A5%8D%E0%A4%A5/%E0%A4%B5%E0%A4%BF.%E0%A4%B8.%E0%A4%B5%E0%A4%BF.%E0%A4%95%E0%A5%8D%E0%A4%B0.%20%E0%A5%AC%E0%A5%A7%20-%20%E0%A4%AE%E0%A4%B0%E0%A4%BE%E0%A4%A0%E0%A5%80_8.pdf",
+      "path": "documents/a9bb83e8a5-bills.pdf",
+      "sha256": "6d9041a67a9764da3dd706f89ad278d453c3b162be0d54a054933545f5fd3672",
+      "bytes": 585773,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:51:40.212118+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://mls.org.in/assembly-bill/2026/%E0%A4%AA%E0%A5%81%E0%A4%B0%E0%A4%B8%E0%A5%8D%E0%A4%A5%E0%A4%BE%E0%A4%AA%E0%A4%A8%E0%A4%BE%E0%A4%B0%E0%A5%8D%E0%A4%A5/%E0%A4%B5%E0%A4%BF.%E0%A4%B8.%E0%A4%B5%E0%A4%BF.%E0%A4%95%E0%A5%8D%E0%A4%B0.%20%E0%A5%AC%E0%A5%A7%20-%20%E0%A4%87%E0%A4%82%E0%A4%97%E0%A5%8D%E0%A4%B0%E0%A4%9C%E0%A5%80_9.pdf",
+      "path": "documents/1f6ff097c7-bills.pdf",
+      "sha256": "9c5dfcf5208cba07a4ec018a4a97c48dddd64aa4a1a589c5b423b7370805886b",
+      "bytes": 533501,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:51:40.212928+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://mls.org.in/assembly-bill/2026/%E0%A4%AA%E0%A5%81%E0%A4%B0%E0%A4%B8%E0%A5%8D%E0%A4%A5%E0%A4%BE%E0%A4%AA%E0%A4%A8%E0%A4%BE%E0%A4%B0%E0%A5%8D%E0%A4%A5/%E0%A4%B5%E0%A4%BF.%E0%A4%B8.%E0%A4%B5%E0%A4%BF.%E0%A4%95%E0%A5%8D%E0%A4%B0.%2060%20-%20%E0%A4%AE%E0%A4%B0%E0%A4%BE%E0%A4%A0%E0%A5%80.pdf",
+      "path": "documents/bb7bae19aa-bills.pdf",
+      "sha256": "9d04c0e5a2c2d782b9e7aa186cfdc2c8643277d500e87fbe85badcfeee04c202",
+      "bytes": 535883,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:51:40.213357+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://mls.org.in/assembly-bill/2026/%E0%A4%AA%E0%A5%81%E0%A4%B0%E0%A4%B8%E0%A5%8D%E0%A4%A5%E0%A4%BE%E0%A4%AA%E0%A4%A8%E0%A4%BE%E0%A4%B0%E0%A5%8D%E0%A4%A5/%E0%A4%B5%E0%A4%BF.%E0%A4%B8.%E0%A4%B5%E0%A4%BF.%E0%A4%95%E0%A5%8D%E0%A4%B0.%20%E0%A5%AC%E0%A5%A6%20-%20%E0%A4%87%E0%A4%82%E0%A4%97%E0%A5%8D%E0%A4%B0%E0%A4%9C%E0%A5%80_8.pdf",
+      "path": "documents/bfab8ebbda-bills.pdf",
+      "sha256": "7829529ee4b90d3609e31f40331d1fa6d3c51a51675311fe82a2ec796b44486a",
+      "bytes": 150463,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T06:51:40.213625+00:00",
+      "ok": true,
+      "reason": ""
+    }
+  ]
+}

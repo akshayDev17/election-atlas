@@ -1,0 +1,720 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>Member of Parliament — Election Atlas of India</title>
+<meta name="description" content="One member of Parliament: their development fund, their attendance, their questions, and the assembly seats under their constituency.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EEF1F8; --paper-2:#E3E9F4; --ink:#0F1220; --muted:#525A6B;
+  --rule:#D3D9E6; --rule-2:#BCC4D6;
+  --serif:"Newsreader",ui-serif,Georgia,serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px;
+  --r2:6px;
+  --good:#16A34A; --warn:#F59E0B; --bad:#DC2626;
+  --cat-1:oklch(0.55 0.10 145);
+  --cat-2:oklch(0.55 0.10 30);
+  --cat-3:oklch(0.55 0.10 260);
+  --cat-4:oklch(0.55 0.10 75);
+  --cat-5:oklch(0.55 0.10 300);
+  --cat-6:oklch(0.55 0.10 200);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:var(--paper);color:var(--ink);
+  font-family:var(--serif);font-optical-sizing:auto;font-size:1.0625rem;line-height:1.6;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;
+  padding:var(--s6) clamp(var(--s4),4vw,var(--s6)) var(--s7);
+}
+.lbl{font-family:var(--mono);font-size:.625rem;line-height:1.4;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin:0}
+.mono{font-family:var(--mono)}
+a{color:var(--ink)}
+
+.page{max-width:52rem;margin:0 auto;display:flex;flex-direction:column;gap:var(--s4)}
+.mh{display:flex;align-items:baseline;justify-content:space-between;gap:var(--s4);flex-wrap:wrap}
+.back{font-family:var(--mono);font-size:.625rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);text-decoration:none}
+.back:hover{color:var(--ink)}
+.hair{height:1px;background:var(--rule);border:0;margin:var(--s3) 0 0}
+
+.title{margin:0;font-size:2.25rem;font-weight:400;line-height:1.1;letter-spacing:-.02em}
+.sub{font-family:var(--mono);font-size:.6875rem;letter-spacing:.06em;color:var(--muted);margin:4px 0 0}
+
+/* provenance caveat — read before any figure, so it sits high */
+.caveat{font-family:var(--mono);font-size:.6875rem;line-height:1.5;color:var(--ink);
+  background:var(--paper-2);border-inline-start:3px solid var(--ink);
+  padding:var(--s3) var(--s4);border-radius:var(--r2)}
+
+/* hero */
+.hero{display:flex;gap:var(--s5);align-items:flex-start}
+.face{flex:0 0 9rem;aspect-ratio:3/4;background:var(--paper-2);border:1px solid var(--rule);
+  border-radius:var(--r2);overflow:hidden}
+.face img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 20%}
+.ident{min-width:0;flex:1 1 auto;padding-top:var(--s2)}
+.who{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.psym{width:auto;height:auto;max-width:20px;max-height:20px;flex:0 0 auto;object-fit:contain;display:block}
+.name{margin:0;font-size:1.7rem;font-weight:400;line-height:1.15;letter-spacing:-.01em}
+.role{font-family:var(--mono);font-size:.6875rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:4px 0 0}
+.srcrow{font-family:var(--mono);font-size:.625rem;color:var(--muted);margin-top:var(--s2)}
+.src{font-family:var(--mono);font-size:.625rem;color:var(--ink);text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+.src:hover{color:var(--muted)}
+
+/* section */
+.block{border-top:1px solid var(--rule);padding-top:var(--s4)}
+.block h3{margin:0;font-family:var(--mono);font-size:.625rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:400}
+
+/* ── the fund pipeline ─────────────────────────────────────────────── */
+.fund{display:grid;grid-template-columns:repeat(5,1fr);gap:var(--s4);margin-top:var(--s4)}
+.fstep{display:flex;flex-direction:column;gap:3px;padding:0 var(--s3) 0 0;border-right:1px solid var(--rule)}
+.fstep:last-child{border-right:0}
+.fstep .k{font-family:var(--mono);font-size:.5625rem;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
+.fstep .v{font-family:var(--mono);font-size:1.125rem;font-weight:500;letter-spacing:-.01em;line-height:1.1}
+.fstep .s{display:block;font-size:.625rem;font-weight:400;color:var(--muted);letter-spacing:.02em;margin-top:2px}
+
+/* ── the gauge ─────────────────────────────────────────────────────── */
+.gauges{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--s5);margin-top:var(--s4)}
+.gauge{display:flex;flex-direction:column;align-items:center;text-align:center;
+  padding:var(--s4);border:1px solid var(--rule);border-radius:var(--r2);background:var(--paper)}
+.g-svg{width:100%;max-width:13rem;height:auto;display:block}
+.g-arc{fill:none;stroke-width:13;stroke-linecap:round}
+.g-needle{stroke:var(--ink);stroke-width:2.5;stroke-linecap:round}
+.g-hub{fill:var(--ink)}
+.g-num{font-family:var(--mono);font-size:1.75rem;font-weight:500;line-height:1;letter-spacing:-.01em;color:var(--ink);margin-top:var(--s1)}
+.g-unit{font-size:.9375rem;color:var(--muted);margin-left:2px;font-weight:400}
+.g-cap{font-family:var(--mono);font-size:.5625rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:var(--s2)}
+
+/* ── breakdown bars ────────────────────────────────────────────────── */
+.bd{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s5);margin-top:var(--s4)}
+.bd .panel{display:flex;flex-direction:column;gap:var(--s2)}
+.bd .pk{font-family:var(--mono);font-size:.5625rem;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
+.brow{display:flex;align-items:baseline;justify-content:space-between;gap:var(--s3);padding-top:var(--s2)}
+.brow .bl{font-family:var(--mono);font-size:.6875rem}
+.brow .bv{font-family:var(--mono);font-size:.6875rem;color:var(--muted);white-space:nowrap}
+.bar{height:4px;background:var(--paper-2);border-radius:2px;overflow:hidden;margin-top:4px}
+.bar i{display:block;height:100%;background:var(--ink);border-radius:2px}
+.bar i.mid{background:var(--muted)}
+.bar i.lo{background:var(--rule-2)}
+
+/* ── the work ledger ───────────────────────────────────────────────── */
+.whead{display:flex;align-items:baseline;justify-content:space-between;gap:var(--s3);margin-top:var(--s4);flex-wrap:wrap}
+.wfilters{display:flex;gap:var(--s2);flex-wrap:wrap}
+.wf{font-family:var(--mono);font-size:.625rem;letter-spacing:.05em;color:var(--muted);
+  padding:4px 10px;border:1px solid var(--rule-2);border-radius:99px;cursor:pointer;background:none}
+.wf.on{color:var(--ink);background:var(--paper-2);border-color:var(--ink)}
+table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:.6875rem;margin-top:var(--s3)}
+th{font-weight:400;font-size:.5625rem;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);
+  text-align:right;padding:0 0 6px;border-bottom:1px solid var(--rule-2)}
+th:first-child{text-align:left}
+td{padding:9px 0;text-align:right;border-top:1px solid var(--rule);vertical-align:top}
+tr:first-child td{border-top:0}
+td:first-child{text-align:left;padding-right:var(--s4)}
+.wdesc{font-family:var(--serif);font-size:.9375rem;line-height:1.35;color:var(--ink)}
+.wmeta{font-family:var(--mono);font-size:.625rem;color:var(--muted);margin-top:2px;letter-spacing:.02em}
+.amt{font-family:var(--mono);font-size:.6875rem;white-space:nowrap}
+.stage{display:inline-block;font-family:var(--mono);font-size:.625rem;letter-spacing:.03em;
+  padding:2px 8px;border-radius:99px;border:1px solid var(--rule-2);color:var(--muted);white-space:nowrap}
+.stage.partial,.stage.done{color:var(--ink);background:var(--paper-2);border-color:var(--ink)}
+.wdate{font-family:var(--mono);font-size:.625rem;color:var(--muted);white-space:nowrap}
+
+/* pager */
+.pager{display:flex;align-items:center;justify-content:flex-end;gap:var(--s2);margin-top:var(--s3)}
+.pager button{appearance:none;background:none;border:0;cursor:pointer;font-family:var(--mono);
+  font-size:.6875rem;color:var(--muted);min-width:1.5rem;height:1.5rem;padding:0 6px;border-radius:var(--r2)}
+.pager button:hover{color:var(--ink);background:var(--paper-2)}
+.pager button.cur{color:var(--ink);background:var(--paper-2);font-weight:500}
+.pager button:disabled{opacity:.35;cursor:default}
+.pager .ell{color:var(--muted);padding:0 2px}
+
+/* parliamentary record */
+.ls-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s4);margin-top:var(--s4)}
+.ls-stat{display:flex;flex-direction:column;gap:3px;padding:0 var(--s3) 0 0;border-right:1px solid var(--rule)}
+.ls-stat:last-child{border-right:0}
+.ls-num{font-family:var(--mono);font-size:1.5rem;font-weight:500;letter-spacing:-.01em;line-height:1}
+.ls-cap{font-family:var(--mono);font-size:.5625rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);line-height:1.5}
+.att-bar{position:relative;height:6px;background:var(--paper-2);border-radius:3px;margin-top:var(--s2);overflow:visible}
+.att-fill{display:block;height:100%;border-radius:3px;background:var(--bad)}
+.att-fill.good{background:var(--good)}
+.att-tick{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink);opacity:.55}
+.att-tick span{position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+  font-family:var(--mono);font-size:.5rem;color:var(--muted);white-space:nowrap}
+
+.bills{margin-top:var(--s4);display:flex;flex-direction:column}
+.bill{display:flex;gap:var(--s3);padding:9px 0;border-top:1px solid var(--rule)}
+.bill:first-child{border-top:0}
+.bill-no{font-family:var(--mono);font-size:.6875rem;color:var(--muted);flex:0 0 3.5rem;padding-top:2px}
+.bill-body{display:flex;flex-direction:column;gap:2px;min-width:0}
+.bill-title{font-family:var(--serif);font-size:.9375rem;line-height:1.35;color:var(--ink)}
+.bill-meta{font-family:var(--mono);font-size:.625rem;color:var(--muted);letter-spacing:.03em}
+
+/* questions + answer display */
+.qhead{display:flex;align-items:baseline;justify-content:space-between;gap:var(--s3);margin-top:var(--s4)}
+.qhead-label{font-family:var(--mono);font-size:.625rem;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
+.qs{margin-top:var(--s4);display:flex;flex-direction:column}
+.q{display:flex;gap:var(--s3);padding:9px 0;border-top:1px solid var(--rule);align-items:baseline}
+.q:first-child{border-top:0}
+.q-type{font-family:var(--mono);font-size:.5625rem;letter-spacing:.06em;color:var(--muted);flex:0 0 4.5rem;text-transform:uppercase}
+.q-body{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1 1 auto}
+.q-title{font-family:var(--serif);font-size:.9375rem;line-height:1.35;color:var(--ink)}
+.q-meta{font-family:var(--mono);font-size:.625rem;color:var(--muted);letter-spacing:.03em}
+.q-ans{margin-top:var(--s3)}
+.q-answered{display:block;font-family:var(--mono);font-size:.5625rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.q-ans-scroll{position:relative}
+.q-ans-text{font-family:var(--serif);font-size:.875rem;line-height:1.55;color:var(--ink);
+  white-space:pre-line;
+  display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;overflow:hidden}
+.q-ans.open .q-ans-text{display:block;max-height:16rem;overflow-y:auto;
+  scrollbar-width:none;-ms-overflow-style:none}
+.q-ans.open .q-ans-text::-webkit-scrollbar{display:none;width:0;height:0}
+.q-ans-fade{position:absolute;left:0;right:0;bottom:0;height:2.5rem;pointer-events:none;
+  background:linear-gradient(to bottom,transparent,var(--paper));
+  opacity:0;transition:opacity .18s ease}
+.q-ans.open .q-ans-fade{opacity:1}
+.q-ans.open.at-end .q-ans-fade{opacity:0}
+.q-toggle{appearance:none;background:none;border:0;padding:0;margin-top:var(--s2);cursor:pointer;
+  font-family:var(--mono);font-size:.625rem;letter-spacing:.05em;color:var(--muted)}
+.q-toggle:hover{color:var(--ink)}
+.q-toggle:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:2px}
+.q-toggle .tg{display:inline-block;width:1.1em}
+
+/* assembly seats */
+.cross{display:flex;align-items:center;justify-content:space-between;gap:var(--s3);
+  padding:var(--s3) var(--s4);border:1px solid var(--rule-2);border-radius:var(--r2);background:var(--paper-2);
+  font-family:var(--mono);font-size:.6875rem}
+.cross.ac-list{flex-wrap:wrap;justify-content:flex-start;gap:2px var(--s2)}
+.cross.ac-list a{color:var(--ink);text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+.cross.ac-list a:hover{color:var(--muted)}
+
+/* news empty state */
+.void{min-height:7rem;display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--rule);border-radius:var(--r2);padding:var(--s5);margin-top:var(--s4)}
+.void p{max-width:44ch;text-align:center;font-family:var(--mono);font-size:.6875rem;
+  line-height:1.7;color:var(--muted);margin:0}
+
+.info-wrap{position:relative;display:inline-flex;vertical-align:baseline}
+.info{appearance:none;background:none;border:1px solid var(--rule-2);border-radius:50%;
+  width:14px;height:14px;display:inline-flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:.5625rem;line-height:1;color:var(--muted);cursor:pointer;
+  padding:0;margin-left:3px}
+.info:hover,.info:focus-visible{color:var(--ink);border-color:var(--ink)}
+.info:focus-visible{outline:2px solid var(--ink);outline-offset:1px}
+.info-tip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);
+  width:19rem;background:var(--paper);border:1px solid var(--rule-2);border-radius:var(--r2);
+  box-shadow:0 6px 20px rgba(15,18,32,.14);padding:var(--s3);z-index:6;
+  font-family:var(--serif);font-size:.75rem;line-height:1.55;color:var(--ink);
+  text-transform:none;letter-spacing:normal;text-align:left;font-weight:400;
+  opacity:0;visibility:hidden;transition:opacity .15s ease,visibility .15s}
+.info-wrap:hover .info-tip,.info:focus-visible + .info-tip{opacity:1;visibility:visible}
+.info-tip b{font-weight:500}
+
+.face .monogram{display:flex;align-items:center;justify-content:center;width:100%;height:100%;
+  font-size:2rem;background:var(--mono-bg,transparent);color:var(--mono-ink,var(--muted));font-family:var(--serif);letter-spacing:.02em}
+.portrait{flex:0 0 9rem;display:flex;flex-direction:column;gap:4px;min-width:0}
+.portrait .face{flex:none;width:100%}
+.photo-link{display:block;font-family:var(--mono);font-size:.5625rem;line-height:1.4;color:var(--muted);letter-spacing:.02em}
+.photo-link a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+.photo-link a:hover{color:var(--ink)}
+.credits{max-width:52rem;margin:var(--s6) auto 0;padding-top:var(--s3);border-top:1px solid var(--rule);
+  font-family:var(--mono);font-size:.5625rem;line-height:1.5;letter-spacing:.04em;color:var(--muted)}
+.credits p{margin:0}
+.credits a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+
+@media (max-width:48rem){
+  .portrait{width:100%;max-width:12rem;flex:none}
+  .fund{grid-template-columns:repeat(2,1fr);row-gap:var(--s4)}
+  .fstep{border-right:0}
+  .gauges{grid-template-columns:1fr}
+  .ls-stats{grid-template-columns:1fr}
+  .ls-stat{border-right:0;border-bottom:1px solid var(--rule);padding:0 0 var(--s3)}
+  .ls-stat:last-child{border-bottom:0}
+  .bd{grid-template-columns:1fr}
+  .hero{flex-direction:column}
+  .face{width:100%;max-width:12rem;aspect-ratio:3/4}
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+  <header class="mh">
+    <a class="back" id="back" href="../state/">← State</a>
+    <p class="lbl">Election Atlas of India</p>
+  </header>
+  <hr class="hair">
+
+  <div>
+    <h1 class="title" id="p-const">—</h1>
+    <p class="sub" id="p-sub">Parliamentary constituency</p>
+  </div>
+
+  <div class="hero">
+    <div class="portrait"><div class="face" id="p-face"></div><span id="p-credit"></span></div>
+    <div class="ident">
+      <div class="who" id="p-who"><span id="p-sym"></span><span class="lbl" id="p-party"></span></div>
+      <p class="name" id="p-name">—</p>
+      <p class="role" id="p-role">—</p>
+      <p class="srcrow" id="p-src"></p>
+    </div>
+  </div>
+
+  <p class="caveat" id="caveat"></p>
+
+  <section class="block">
+    <h3>Development fund · MPLADS · 18th Lok Sabha</h3>
+    <div id="mplads-body">
+    <p class="srcrow" id="mplads-src"></p>
+    <div class="fund" id="fund"></div>
+    <div class="gauges" id="gauges"></div>
+    <p class="srcrow" id="where-label" style="margin-top:var(--s4)"></p>
+    <div class="bd" id="bd"></div>
+    </div>
+  </section>
+
+  <section class="block" id="works-block">
+    <h3 id="works-heading">Works</h3>
+    <div class="whead"><div class="wfilters" id="works-filters"></div></div>
+    <table id="works-table"></table>
+    <nav class="pager" id="works-pager" aria-label="Works pages"></nav>
+  </section>
+
+  <section class="block">
+    <h3>In the Lok Sabha · 18th Lok Sabha</h3>
+    <div id="ls-body">
+    <div class="ls-stats" id="ls-stats"></div>
+    <div class="qhead">
+      <span class="qhead-label" id="bills-label">Bills</span>
+      <a class="src" href="https://sansad.in/ls/legislation/bills" target="_blank" rel="noopener">bills on sansad.in ↗</a>
+    </div>
+    <div class="bills" id="bills"></div>
+    <div class="qhead">
+      <span class="qhead-label" id="q-label">Questions</span>
+      <a class="src" href="https://sansad.in/ls/questions/questions-and-answers" target="_blank" rel="noopener">questions on sansad.in ↗</a>
+    </div>
+    <div class="wfilters" id="q-filters"></div>
+    <div class="qs" id="questions"></div>
+    <nav class="pager" id="q-pager" aria-label="Questions pages"></nav>
+    </div>
+  </section>
+
+  <section class="block">
+    <h3 id="ac-heading">Assembly seats</h3>
+    <div class="cross ac-list" id="ac-cross"></div>
+  </section>
+
+  <section class="block">
+    <h3>In the news</h3>
+    <div class="void"><p>No news yet — the news fetcher isn't built. This section will hold a bounded, sourced list per MP once it is.</p></div>
+  </section>
+</div>
+<footer class="credits"><p>Member photos: linked to sansad.in, not stored here. Party symbols: Wikimedia Commons contributors (<a href="../data/parties-symbols.json">licences listed</a>).</p></footer>
+
+<script type="module">
+import {
+  fetchOptional, loadAvailability, listed, membersAvailable, lsDetailAvailable, voidHTML, ECI,
+  monogramHTML, officialPhotoHTML,
+} from '../lib/atlas.js';
+const $ = s => document.querySelector(s);
+const nf = n => Math.round(n).toLocaleString('en-IN');
+const cr = v => '₹' + (v / 1e7).toFixed(2) + ' Cr';
+const tc = s => (s || '').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+const esc = s => (s == null ? '' : String(s))
+  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+const qs = new URLSearchParams(location.search);
+const S = (qs.get('s') || 'IN-UP').toUpperCase();
+const C = (qs.get('c') || 'gorakhpur').toLowerCase();
+
+/* Each section stands on its own: the Sansad record and the MPLADS file exist
+   for some constituencies only, and availability.json says which, so a missing
+   one shows "not available yet" and never stops the rest of the page. */
+const avail = await loadAvailability('../data/');
+const docOr = (res, fallback) => (res.ok ? res.doc : fallback);
+const none = Promise.resolve({ ok: false });
+const [parRes, mpladsRes, partiesRes, symRes, coverageRes, detailRes, pcRes, regionsRes, membersRes] = await Promise.all([
+  listed(avail, 'parliament', S, C) ? fetchOptional(`../data/parliament/${S}/${C}.json`) : none,
+  listed(avail, 'mplads', S, C) ? fetchOptional(`../data/mplads/${S}/${C}.json`) : none,
+  fetchOptional('../data/parties.json'),
+  fetchOptional('../data/parties-symbols.json'),
+  fetchOptional('../data/geo/ac/coverage.json'),
+  lsDetailAvailable(avail, 2024) ? fetchOptional('../data/results/ls/detail/2024.json') : none,
+  fetchOptional(`../data/geo/ls/${S}.json`),
+  fetchOptional('../data/regions.json'),
+  membersAvailable(avail, '2024') ? fetchOptional('../data/members/ls/2024.json') : none,
+]);
+const par = docOr(parRes, null);
+const mplads = docOr(mpladsRes, null);
+const partiesDoc = docOr(partiesRes, { parties: [], fallback: { colour: '#888' } });
+const symDoc = docOr(symRes, { symbols: {} });
+const results = docOr(detailRes, null);
+const stateName = (docOr(regionsRes, { regions: [] }).regions.find(r => r.code === S) || {}).name || '';
+const mapped = !!(docOr(coverageRes, { checked: {} }).checked || {})[S];
+const acTopo = mapped ? docOr(await fetchOptional(`../data/geo/ac/${S}.json`), null) : null;
+
+const partyColour = new Map(partiesDoc.parties.map(p => [p.code, p.colour]));
+const colour = c => partyColour.get(c) || (partiesDoc.fallback && partiesDoc.fallback.colour) || '#888';
+const symFor = code => {
+  const s = (symDoc.symbols || {})[code];
+  return (s && s.file) ? '../data/' + s.file : null;
+};
+
+/* ── hero + header ─────────────────────────────────────────────────── *
+ * The constituency key resolves to a seat through the state's own geometry, with
+ * the fold the state page uses to link here (lowercase, no (SC)/(ST), no trailing
+ * state abbreviation), and the seat's unique_id then joins the 2024 result. That
+ * never depends on how the result file spells the name ("Baharaich"). */
+const fold = s => String(s || '').toLowerCase().replace(/\(sc\)|\(st\)/g, '').replace(/[^a-z0-9]/g, '');
+const abbr = (S.split('-')[1] || '').toLowerCase();
+const seatFold = s => { const k = fold(s); return abbr && k.endsWith(abbr) ? k.slice(0, -abbr.length) : k; };
+const pcTopo = docOr(pcRes, null);
+const seatGeom = ((pcTopo && pcTopo.objects && pcTopo.objects.pcs && pcTopo.objects.pcs.geometries) || [])
+  .find(g => seatFold(g.properties.ls_seat_name) === C || fold(g.properties.ls_seat_name) === C);
+const seatKey = seatGeom ? seatGeom.properties.unique_id : '';
+const seatMatch = seatKey && results && results.constituencies[seatKey]
+  ? [seatKey, results.constituencies[seatKey]] : null;
+const winner = seatMatch ? [...seatMatch[1].c].sort((a, b) => b.v - a.v)[0] : null;
+const lsMember = (docOr(membersRes, { members: {} }).members || {})[seatKey] || {};
+
+const profile = (par && par.profile) || {};
+const constituency = profile.constituency || (seatGeom ? seatGeom.properties.ls_seat_name : C);
+const memberName = profile.name || (winner ? winner.n : '');
+const party = profile.party || (winner ? winner.p : '');
+const mpsno = (par && par.mpsno) || lsMember.mpsno || '';
+
+document.title = `${constituency} — Election Atlas of India`;
+$('#p-const').textContent = constituency;
+$('#p-sub').textContent = `Parliamentary constituency · ${profile.state || stateName} · 18th Lok Sabha`;
+$('#back').href = `../state/?s=${S}`;
+
+$('#p-face').innerHTML = memberName ? monogramHTML(memberName, colour(party)) : '';
+$('#p-credit').innerHTML = memberName ? officialPhotoHTML('ls', mpsno) : '';
+
+if (party) {
+  const sym = symFor(party);
+  $('#p-sym').innerHTML = sym
+    ? `<img class="psym" src="${sym}" alt="${esc(party)} symbol">`
+    : `<span class="psym" style="width:11px;height:11px;border-radius:2px;background:${colour(party)};display:inline-block"></span>`;
+  $('#p-party').textContent = (partiesDoc.parties.find(p => p.code === party) || {}).name || party;
+} else {
+  $('#p-who').hidden = true;
+}
+
+const displayName = tc(String(memberName).replace(/^(shri|smt|dr|prof)\.?\s+/i, ''));
+if (par) {
+  $('#p-name').textContent = displayName;
+  $('#p-role').textContent = `MP · Lok Sabha · Age ${ageFrom(profile.dateOfBirth)}`;
+} else if (winner) {
+  /* Without the Sansad record the page knows who won the seat in 2024, which is
+     what it says; a later by-election would not be reflected here. */
+  $('#p-name').textContent = displayName;
+  $('#p-role').textContent = 'Won the seat · 2024 general election';
+} else {
+  $('#p-name').textContent = 'Result not available yet';
+  $('#p-role').textContent = 'Member of Parliament · Lok Sabha';
+}
+$('#p-src').innerHTML = `Profile: <a class="src" href="${mpsno ? `https://sansad.in/ls/members/biography/${mpsno}?locale=en` : 'https://sansad.in/ls/members'}" target="_blank" rel="noopener">sansad.in ↗</a>`;
+const sources = [
+  par ? 'the Lok Sabha record (sansad.in)' : 'the 2024 result (Election Commission of India)',
+  mplads ? 'MPLADS (eSAKSHI portal)' : null,
+].filter(Boolean);
+$('#caveat').textContent = `Figures from official sources: ${sources.join(' and ')}. ` +
+  (par ? 'Every question and bill links to its official document. ' : '') +
+  'Where a section says “not available yet”, that data has not been added.';
+
+function ageFrom(dob) {
+  const m = String(dob || '').match(/(\d{1,2})-(\w{3})-(\d{4})/);
+  if (!m) return '';
+  const months = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11 };
+  const d = new Date(+m[3], months[m[2]] || 0, +m[1]);
+  const now = new Date();
+  let a = now.getFullYear() - d.getFullYear();
+  if (now.getMonth() < d.getMonth() || (now.getMonth() === d.getMonth() && now.getDate() < d.getDate())) a--;
+  return a;
+}
+
+/* ── MPLADS ────────────────────────────────────────────────────────── */
+const worksPage = { n: 0, size: 5, filter: 'All' };
+const qPage = { n: 0, size: 10, filter: 'All' };
+let renderRecord = null;   // set when the Sansad record is present; run once the page is wired
+if (!mplads) {
+  $('#mplads-body').innerHTML = voidHTML('this member\u2019s MPLADS record', 'the eSAKSHI MPLADS portal');
+  $('#works-block').hidden = true;
+} else {
+$('#mplads-src').innerHTML = `Source: <a class="src" href="https://mplads.mospi.gov.in/digigov/dashboard.html" target="_blank" rel="noopener">eSAKSHI MPLADS portal ↗</a>`;
+const tile = key => {
+  const a = (mplads.tiles || {})[key] || [];
+  return { count: a.length >= 3 ? a[0] : null, crore: a[a.length - 1] || '' };
+};
+const allocated = tile('Allocated Limit for Hon\'ble MPs').crore;
+const expen = tile('Expenditure on Completed and On-going Works as on Date').crore;
+const rec = tile('Works Recommended');
+const sanc = tile('Works Sanctioned');
+const comp = tile('Works Completed');
+
+const f = (k, v, s) => `<div class="fstep"><span class="k">${k}</span><span class="v">${v}${s ? `<span class="s">${s}</span>` : ''}</span></div>`;
+$('#fund').innerHTML =
+  f('Allocated limit', allocated) +
+  f('Recommended', rec.count, `${rec.crore}`) +
+  f('Sanctioned', sanc.count, `${sanc.crore}`) +
+  f('Completed', comp.count, `${comp.crore}`) +
+  f('Expenditure', expen);
+
+const fundPct = 100 * (parseFloat(expen) / parseFloat(allocated));
+const workPct = 100 * (parseFloat(comp.count || 0) / parseFloat(rec.count || 1));
+$('#gauges').innerHTML = gaugeHTML('fun', fundPct, 'Fund utilised', `${expen} of ${allocated}`) +
+  gaugeHTML('work', workPct, 'Works completed', `${comp.count} of ${rec.count}`);
+function gaugeHTML(id, pct, cap, sub) {
+  const grad = id === 'fun'
+    ? `<stop offset="0" stop-color="var(--good)"/><stop offset=".5" stop-color="var(--warn)"/><stop offset="1" stop-color="var(--bad)"/>`
+    : `<stop offset="0" stop-color="var(--bad)"/><stop offset=".5" stop-color="var(--warn)"/><stop offset="1" stop-color="var(--good)"/>`;
+  return `<div class="gauge" data-target="${Math.max(0, Math.min(100, pct))}">
+    <svg class="g-svg" viewBox="0 0 220 124" aria-hidden="true">
+      <defs><linearGradient id="gg-${id}" x1="0" y1="0" x2="1" y2="0">${grad}</linearGradient></defs>
+      <path class="g-arc" d="M 30 112 A 80 80 0 0 1 190 112" stroke="url(#gg-${id})"/>
+      <line class="g-needle" x1="110" y1="112" x2="30" y2="112"/>
+      <circle class="g-hub" cx="110" cy="112" r="4.5"/>
+    </svg>
+    <div class="g-num"><span class="g-val">0.0</span><span class="g-unit">%</span></div>
+    <div class="g-cap">${cap} · ${sub}</div>
+  </div>`;
+}
+
+/* breakdown — location / status / category, monochrome + categorical */
+const ch = mplads.charts || {};
+const loc = ch['Location wise Development Work Recommendation'] || {};
+const st = ch['Development Work Recommendation Status'] || {};
+const cat = ch['Work Category wise Development Work Recommendation'] || {};
+const totalRec = rec.raw ? parseFloat(String(rec.raw).replace(/,/g, '')) : 1;
+const bar = (pct, cls) => `<div class="bar"><i class="${cls || ''}" style="width:${Math.max(0, Math.min(100, pct))}%"></i></div>`;
+const brow = (label, v, pct, cls) => `<div><div class="brow"><span class="bl">${label}</span><span class="bv">${cr(v)}</span></div>${bar(pct, cls)}</div>`;
+const pctOf = v => 100 * (v / totalRec);
+$('#where-label').textContent = 'Where it goes';
+$('#bd').innerHTML =
+  `<div class="panel"><span class="pk">Location</span>` +
+  brow('🏙️ Urban', loc.Urban || 0, pctOf(loc.Urban || 0)) +
+  brow('🌾 Rural', loc.Rural || 0, pctOf(loc.Rural || 0)) +
+  `</div>` +
+  `<div class="panel"><span class="pk">Status</span>` +
+  brow('⏳ Unsanctioned', st.Unsanctioned || 0, pctOf(st.Unsanctioned || 0)) +
+  brow('🚧 On going', st['On Going'] || 0, pctOf(st['On Going'] || 0), 'mid') +
+  brow('✅ Completed', st.Completed || 0, pctOf(st.Completed || 0), 'lo') +
+  `</div>` +
+  `<div class="panel"><span class="pk">Category</span>` +
+  brow('Normal / others', cat['Normal and Others'] || 0, 100, '') +
+  `</div>`;
+
+/* ── works ledger ──────────────────────────────────────────────────── */
+const works = mplads.works || [];
+$('#works-heading').textContent = `Works · ${works.length} recommended`;
+const stageKey = s => {
+  s = (s || '').toLowerCase();
+  if (s.includes('partially')) return 'partial';
+  if (s.includes('complete') || s.includes('completed')) return 'done';
+  return 'pending';
+};
+const stageLabel = s => tc((s || '').replace(/^work\s+/, ''));
+function renderWorks() {
+  let rows = works;
+  if (worksPage.filter !== 'All') rows = works.filter(w => (w.stage || '').toLowerCase().includes(worksPage.filter.toLowerCase()));
+  const count = Math.max(1, Math.ceil(rows.length / worksPage.size));
+  worksPage.n = Math.min(worksPage.n, count - 1);
+  const slice = rows.slice(worksPage.n * worksPage.size, worksPage.n * worksPage.size + worksPage.size);
+  $('#works-table').innerHTML =
+    `<thead><tr><th>Work</th><th>Recommended</th><th>Stage</th><th>Date</th></tr></thead><tbody>` +
+    slice.map(w => {
+      const st = stageKey(w.stage);
+      const desc = tc(w.description || '');
+      return `<tr><td><div class="wdesc">${esc(desc)}</div><div class="wmeta">${esc(tc(w.category || ''))} · ${esc(tc(w.agency || ''))}</div></td>` +
+        `<td class="amt">₹${nf(w.recommended_amount || 0)}</td>` +
+        `<td><span class="stage ${st}">${esc(stageLabel(w.stage))}</span></td>` +
+        `<td class="wdate">${esc(w.recommended_date || '')}</td></tr>`;
+    }).join('') + `</tbody>`;
+  $('#works-pager').innerHTML = pagerHTML(worksPage.n, count, 'works');
+  wirePager('#works-pager', 'works', count, () => renderWorks());
+}
+$('#works-filters').innerHTML = ['All', 'Pending', 'Partially', 'Completed'].map(f =>
+  `<button class="wf ${f === 'All' ? 'on' : ''}" data-wf="${f}">${f}</button>`).join('');
+$('#works-filters').addEventListener('click', e => {
+  const b = e.target.closest('[data-wf]'); if (!b) return;
+  worksPage.filter = b.dataset.wf; worksPage.n = 0;
+  $('#works-filters .wf').forEach(x => x.classList.toggle('on', x === b));
+  renderWorks();
+});
+renderWorks();
+}
+
+/* ── parliamentary record ──────────────────────────────────────────── */
+if (!par) {
+  $('#ls-body').innerHTML = voidHTML('this member\u2019s Sansad record', 'the Lok Sabha Secretariat (sansad.in)');
+} else {
+const att = par.attendance || {};
+const attPct = att.totalDays ? 100 * att.signedDays / att.totalDays : 0;
+const bills = par.bills || [];
+const questions = (par.questions || []).map(q => ({ ...q, subject: String(q.subject || '').trim(), ministry: String(q.ministry || '').trim() }));
+const qStarred = questions.filter(q => q.type === 'STARRED').length;
+$('#ls-stats').innerHTML =
+  `<div class="ls-stat"><span class="ls-num" style="color:${attPct >= 85 ? 'var(--good)' : 'var(--bad)'}">${attPct.toFixed(1)}%</span>` +
+  `<span class="ls-cap">Attendance · ${att.signedDays} of ${att.totalDays} days</span>` +
+  `<div class="att-bar"><span class="att-fill ${attPct >= 85 ? 'good' : ''}" style="width:${attPct}%"></span><span class="att-tick" style="left:85%"><span>good ≥85%</span></span></div></div>` +
+  `<div class="ls-stat"><span class="ls-num">${questions.length}</span><span class="ls-cap">Questions · ${questions.length - qStarred} unstarred · ${qStarred} starred</span></div>` +
+  `<div class="ls-stat"><span class="ls-num">${bills.length}</span><span class="ls-cap">Private member bills · all pending</span></div>`;
+
+$('#bills-label').textContent = `Bills · ${bills.length}`;
+$('#bills').innerHTML = bills.length ? bills.map(b =>
+  `<div class="bill"><span class="bill-no">No. ${esc(b.billNumber ?? '')}</span>` +
+  `<div class="bill-body"><span class="bill-title">${esc(b.billName || '')}</span>` +
+  `<span class="bill-meta">${esc(b.introducedOn || '')} · ${esc(b.status || 'Pending')} · ` +
+  `<a class="src" href="${esc(b.sourceUrl || 'https://sansad.in/ls/legislation/bills')}" target="_blank" rel="noopener">official text ↗</a></span></div></div>`).join('')
+  : `<p class="srcrow">No private member bills on record.</p>`;
+
+$('#q-label').textContent = `Questions · ${questions.length}`;
+$('#q-filters').innerHTML = ['All', 'Starred', 'Unstarred'].map(f =>
+  `<button class="wf ${f === 'All' ? 'on' : ''}" data-qf="${f}">${f}</button>`).join('');
+$('#q-filters').addEventListener('click', e => {
+  const b = e.target.closest('[data-qf]'); if (!b) return;
+  qPage.filter = b.dataset.qf; qPage.n = 0;
+  $('#q-filters .wf').forEach(x => x.classList.toggle('on', x === b));
+  renderQuestions();
+});
+
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const fmtDate = s => { const m = String(s || '').match(/(\d{2})\.(\d{2})\.(\d{4})/); return m ? `${+m[1]} ${MONTHS[+m[2] - 1]} ${m[3]}` : s; };
+/* split the minister letterhead off the replyText so the clamp preview shows the
+   actual reply, not the signature block */
+function splitReply(rt) {
+  const lines = String(rt || '').split('\n').map(l => l.trim()).filter(Boolean);
+  if (lines.length >= 2 && /^\([^)]*\)$/.test(lines[1])) return { who: lines[0] + ' ' + lines[1], body: lines.slice(2).join('\n') };
+  return { who: '', body: lines.join('\n') };
+}
+function renderQuestions() {
+  let rows = questions;
+  if (qPage.filter !== 'All') rows = questions.filter(q => q.type === qPage.filter.toUpperCase());
+  const count = Math.max(1, Math.ceil(rows.length / qPage.size));
+  qPage.n = Math.min(qPage.n, count - 1);
+  const slice = rows.slice(qPage.n * qPage.size, qPage.n * qPage.size + qPage.size);
+  $('#questions').innerHTML = slice.map(q => {
+    const rt = splitReply(q.replyText);
+    const hasBody = rt.body && rt.body.length > 40;
+    return `<div class="q"><span class="q-type">${esc(tc(q.type || ''))}</span><div class="q-body">` +
+      `<span class="q-title">${esc(q.subject)}</span>` +
+      `<span class="q-meta">${esc(tc(q.ministry))} · ${esc(fmtDate(q.date))} · <a class="src" href="${esc(q.pdfUrl || q.sourceUrl || '')}" target="_blank" rel="noopener">official Q&amp;A ↗</a></span>` +
+      (hasBody ? `<div class="q-ans"><span class="q-answered">${esc(rt.who ? 'Answer · ' + tc(rt.who) : 'Answer')}</span>` +
+        `<div class="q-ans-scroll"><div class="q-ans-text">${esc(rt.body)}</div><div class="q-ans-fade" aria-hidden="true"></div></div>` +
+        `<button class="q-toggle" type="button" aria-expanded="false"><span class="tg" aria-hidden="true">+</span><span class="tl">See full answer</span></button></div>` : '') +
+      `</div></div>`;
+  }).join('');
+  $('#q-pager').innerHTML = pagerHTML(qPage.n, count, 'q');
+  wirePager('#q-pager', 'q', count, () => renderQuestions());
+  initAnswers();
+}
+renderRecord = renderQuestions;
+}
+
+/* ── assembly seats ────────────────────────────────────────────────── */
+if (acTopo && acTopo.objects && acTopo.objects.acs) {
+  const geoms = acTopo.objects.acs.geometries || [];
+  const seats = geoms.filter(g => fold((g.properties || {}).pc) === fold(constituency))
+    .map(g => g.properties).sort((a, b) => (a.no || 0) - (b.no || 0));
+  $('#ac-heading').textContent = seats.length ? `Made of ${seats.length} assembly seats` : 'Assembly seats';
+  $('#ac-cross').innerHTML = seats.length ? seats.map(s =>
+    `<a href="../mla/?s=${S}&c=${fold(s.ac)}">${esc(s.ac)}</a>`
+  ).join('<span style="color:var(--muted)"> · </span>') : 'No assembly seats matched this constituency.';
+} else {
+  $('#ac-heading').textContent = 'Assembly seats';
+  $('#ac-cross').textContent = 'Assembly seats unavailable for this state.';
+}
+
+/* ── pager ─────────────────────────────────────────────────────────── */
+function pagerHTML(p, count, which) {
+  if (count <= 1) return '';
+  const nums = pageList(p, count).map(item =>
+    item === '…' ? `<span class="ell">…</span>` :
+    `<button type="button" data-page="${item}"${item === p ? ' class="cur" aria-current="page"' : ''}>${item + 1}</button>`).join('');
+  return `<button type="button" data-page="${p - 1}" aria-label="Previous page"${p === 0 ? ' disabled' : ''}>‹</button>` + nums +
+    `<button type="button" data-page="${p + 1}" aria-label="Next page"${p === count - 1 ? ' disabled' : ''}>›</button>`;
+}
+function pageList(p, count) {
+  if (count <= 7) return [...Array(count).keys()];
+  const pages = [...new Set([0, count - 1, p - 1, p, p + 1])].filter(i => i >= 0 && i < count).sort((a, b) => a - b);
+  const out = [];
+  for (let i = 0; i < pages.length; i++) { if (i && pages[i] - pages[i - 1] > 1) out.push('…'); out.push(pages[i]); }
+  return out;
+}
+function wirePager(sel, which, count, rerender) {
+  const el = $(sel);
+  el.querySelectorAll('button[data-page]').forEach(b => {
+    b.addEventListener('click', () => {
+      const t = Number(b.dataset.page);
+      if (Number.isNaN(t)) return;
+      if (which === 'works') worksPage.n = t; else qPage.n = t;
+      rerender();
+    });
+  });
+}
+
+/* ── gauges ────────────────────────────────────────────────────────── */
+const G_CX = 110, G_CY = 112, G_R = 74;
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const ease = t => 1 - Math.pow(1 - t, 3);
+const setGauge = (g, v) => {
+  const angle = Math.PI * (1 - v);
+  g.querySelector('.g-needle').setAttribute('x2', G_CX + G_R * Math.cos(angle));
+  g.querySelector('.g-needle').setAttribute('y2', G_CY - G_R * Math.sin(angle));
+  g.querySelector('.g-val').textContent = (v * 100).toFixed(1);
+};
+const runGauge = g => {
+  const target = parseFloat(g.dataset.target) / 100;
+  if (reduced) { setGauge(g, target); return; }
+  const dur = 1200, start = performance.now();
+  const tick = now => {
+    const t = Math.min(1, (now - start) / dur);
+    setGauge(g, target * ease(t));
+    if (t < 1) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+};
+const gauges = [...document.querySelectorAll('.gauge')];
+const gStarted = new WeakSet();
+const gstart = g => { if (!gStarted.has(g)) { gStarted.add(g); runGauge(g); } };
+const gio = new IntersectionObserver(es => {
+  for (const e of es) if (e.isIntersecting) { gstart(e.target); gio.unobserve(e.target); }
+}, { threshold: 0.4 });
+gauges.forEach(g => gio.observe(g));
+setTimeout(() => gauges.forEach(gstart), 600);
+
+/* ── answer expand/collapse ────────────────────────────────────────── */
+const ansAttached = new WeakSet();
+const updateFade = ans => {
+  const t = ans.querySelector('.q-ans-text');
+  if (!t) return;
+  const atEnd = t.scrollHeight - t.scrollTop - t.clientHeight < 4;
+  ans.classList.toggle('at-end', atEnd);
+};
+const attachAnswer = ans => {
+  if (ansAttached.has(ans)) return;
+  ansAttached.add(ans);
+  const t = ans.querySelector('.q-ans-text');
+  const btn = ans.querySelector('.q-toggle');
+  if (!t || !btn) return;
+  if (t.scrollHeight <= t.clientHeight + 1) { btn.hidden = true; return; }
+  const tg = btn.querySelector('.tg'), tl = btn.querySelector('.tl');
+  btn.addEventListener('click', () => {
+    const open = ans.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (tg) tg.textContent = open ? '−' : '+';
+    if (tl) tl.textContent = open ? 'Show less' : 'See full answer';
+    if (open) updateFade(ans);
+  });
+  t.addEventListener('scroll', () => updateFade(ans));
+};
+function initAnswers() { document.querySelectorAll('.q-ans').forEach(attachAnswer); }
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(initAnswers);
+if (renderRecord) renderRecord();
+</script>
+</body>
+</html>

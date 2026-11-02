@@ -1,0 +1,109 @@
+{
+  "state": "IN-DL",
+  "section": "bills",
+  "ok": 10,
+  "failed": 0,
+  "total_bytes": 7523595,
+  "entries": [
+    {
+      "url": "https://delhiassembly.delhi.gov.in/sites/default/files/dlas/govt-bills/bill09.pdf",
+      "path": "documents/318ce68fd3-bills.pdf",
+      "sha256": "7946a82cfb2051009478d4b0c49a1e94aa2d40ee3a5fb2c09d58741445a64a8e",
+      "bytes": 852255,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:48.429907+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://delhiassembly.delhi.gov.in/sites/default/files/dlas/govt-bills/275857_1.pdf",
+      "path": "documents/d11fc9134d-bills.pdf",
+      "sha256": "042f83d358a41e692934e7b271483ac6f77ac555c73c4ce406562444ac6bfbcd",
+      "bytes": 609002,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:48.432432+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://delhiassembly.delhi.gov.in/sites/default/files/dlas/govt-bills/269273_1.pdf",
+      "path": "documents/b0853af17b-bills.pdf",
+      "sha256": "d065b51668f7429743b762d601e8c43b3044b8abffa57e84f6e288005c16f446",
+      "bytes": 1111747,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:48.432892+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://delhiassembly.delhi.gov.in/sites/default/files/dlas/govt-bills/122026.pdf",
+      "path": "documents/a21b0deb1c-bills.pdf",
+      "sha256": "23740afd4b187f523ff68dbd1ce15791b1ed73a9d4571510f60642475a862d81",
+      "bytes": 543726,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:48.433560+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://delhiassembly.delhi.gov.in/sites/default/files/dlas/govt-bills/275835.pdf",
+      "path": "documents/c4c1dc17f9-bills.pdf",
+      "sha256": "d57d78a232a266a56a92b07e8f1b0db116b0835ce23447a98d1e2d99e9d1a333",
+      "bytes": 1186455,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:48.434173+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://delhiassembly.delhi.gov.in/sites/default/files/dlas/govt-bills/bill08.pdf",
+      "path": "documents/df4c79f005-bills.pdf",
+      "sha256": "c1e75618152b46d82aaf2732b5561edd76858000e99b97a6f2cd97d0884b8e46",
+      "bytes": 488191,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:48.435785+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://delhiassembly.delhi.gov.in/sites/default/files/dlas/govt-bills/275928.pdf",
+      "path": "documents/1466d7e907-bills.pdf",
+      "sha256": "9631cca66d8d67ac49d57e7a6622dbd39fc6ac6160ee51a69a7b017d25f6e1f9",
+      "bytes": 547703,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:48.436687+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://delhiassembly.delhi.gov.in/sites/default/files/dlas/govt-bills/271414.pdf",
+      "path": "documents/175095611f-bills.pdf",
+      "sha256": "cb9a3d4594c64be5c354d611584fc981518c0f4f9a4df54a2d6514e05909b767",
+      "bytes": 782941,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:48.438175+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://delhiassembly.delhi.gov.in/sites/default/files/dlas/govt-bills/272090_passed.pdf",
+      "path": "documents/284932c4ea-bills.pdf",
+      "sha256": "c3111e5115d8f48c7cd2384cecb3b0ed0f2846ac0d76885865af86384615232e",
+      "bytes": 579583,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:48.438654+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://delhiassembly.delhi.gov.in/sites/default/files/dlas/govt-bills/271389.pdf",
+      "path": "documents/fda86d2756-bills.pdf",
+      "sha256": "1ab51492fc65073143cdd7d372ba2ed458cf01ca495aad4c87e7e51f140795ad",
+      "bytes": 821992,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:06:48.439929+00:00",
+      "ok": true,
+      "reason": ""
+    }
+  ]
+}

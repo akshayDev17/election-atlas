@@ -1,0 +1,109 @@
+{
+  "state": "IN-SK",
+  "section": "bills",
+  "ok": 10,
+  "failed": 0,
+  "total_bytes": 36993417,
+  "entries": [
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/sikkim/2026/Bill10of2026SK.pdf",
+      "path": "documents/88aed77404-bills.pdf",
+      "sha256": "8aaac9d19d5e9c277343b15d4b776a092df051ce8655935cb2024fb2a00eb8e1",
+      "bytes": 1634812,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:48.048674+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/sikkim/2026/Bill8of2026SK.pdf",
+      "path": "documents/f6ac2b11d6-bills.pdf",
+      "sha256": "a0859a93ceaeecf31cf8662bc3e6df8a03b292794fbbaaa0d5696960ce614e70",
+      "bytes": 730320,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:48.052826+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/sikkim/2026/Bill7of2026SK.pdf",
+      "path": "documents/5d2a274ad7-bills.pdf",
+      "sha256": "7b2a476fff02f48e5a3bf55bea5cd9c397e1a57717bb641d6de5c1f27c79c592",
+      "bytes": 13414289,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:48.054268+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/sikkim/2026/Bill6of2026SK.pdf",
+      "path": "documents/6ff6d3fa26-bills.pdf",
+      "sha256": "b2e8a3b02769e54ed752ca3ee8c257c6e6b2ca1639412ea32108506aecb3251f",
+      "bytes": 8986183,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:48.065808+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/sikkim/2026/Bill5of2026SK.pdf",
+      "path": "documents/8dfb8c8c94-bills.pdf",
+      "sha256": "2ca31bbd9fcd19308fe0bb63164d628462671b35aacd19c25eb2ba3df0b12e0e",
+      "bytes": 2521618,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:48.075631+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/sikkim/2026/Bill4of2026SK.pdf",
+      "path": "documents/a43485cc25-bills.pdf",
+      "sha256": "32951f4bff6d790947fd825a9c75578c211552b4635cada4bc4de18077f0783d",
+      "bytes": 5886434,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:48.078181+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/sikkim/2026/Bill3of2026SK.pdf",
+      "path": "documents/20a13f8ee6-bills.pdf",
+      "sha256": "0f5a1692ca7e63f4486b0039da40306ebe57d9621673544bb7e2f1a38ff531d7",
+      "bytes": 851495,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:48.083800+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/sikkim/2025/Bill25of2025SK.pdf",
+      "path": "documents/e5d17f2c5c-bills.pdf",
+      "sha256": "33900659c47dcc84f0083bf8f073e4c5994d6ac6a165cad8549480503b29216a",
+      "bytes": 1727627,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:48.085142+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/sikkim/2025/Bill24of2025SK.pdf",
+      "path": "documents/60b5dc26aa-bills.pdf",
+      "sha256": "559cd6681c1bd8bd1c04b34a8cbb25df991dd83273e916fb9130a8da5da9f2b0",
+      "bytes": 583281,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:48.086981+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/sikkim/2025/Bill23of2025SK.pdf",
+      "path": "documents/eed9f79d71-bills.pdf",
+      "sha256": "bcb2c9eaffb2c82607ce160e38b370510c324034cbdec6141578dede189ea37a",
+      "bytes": 657358,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:48.088408+00:00",
+      "ok": true,
+      "reason": ""
+    }
+  ]
+}

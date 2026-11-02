@@ -1,0 +1,602 @@
+{
+ "results/ls/1980.json": {
+  "reproduced": "no",
+  "differences": "The current build-ls-results.py does not reproduce this file. Every party's votes, every region's seat total and electors match; only some per-party seat counts differ (committed->rebuilt): IN-KL CPM 6->7, IND 2->1; IN-MN CPI 0->1, IND 1->0; IN-UP JnP 2->3, IND 2->1. The committed file is byte-identical to a rebuild from this same PDF when split_winner() is replaced by the rule the builder's own comment says was fixed (summing votes by party and giving the seat to the largest party total), which hands seats to IND whenever the independents' combined votes beat the real winner. So the source is right and the committed seat counts are stale: the file was not regenerated after the winner fix. Source is part1 (Vol I) of the old.eci.gov.in file page; the recoverer finds all expected seats in it. The three ECI party lists (2024 table 3, 2019 table 3, 2014 list) are read for every year: build_party_index() borrows every other year's ABBREVIATION<->NAME bridge, and a trace shows each list supplies bridge entries the build uses.",
+  "sources": [
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/4117-general-election-1980-vol-i-ii/?do=download&r=9752&confirm=1&t=1",
+    "sha256": "c739cb72c63c645b1a3e00b1c1ba125cc7dff2e897f5474a865da705b59f0f76",
+    "bytes": 1320246,
+    "fetched_at": "2026-11-02T08:58:57Z",
+    "role": "eci_pdfs/general-election-1980-vol-i-ii_part1.pdf"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://www.eci.gov.in/eci-backend/public/all_files/GE-2024-statistical-report/3-List-Of-Political-Parties-Participated.xlsx",
+    "sha256": "88af41cdee72ad51a5a9563dca69f5966fc2012995a78db6d9a889cdb39244aa",
+    "bytes": 41097,
+    "fetched_at": "2026-11-02T08:52:44Z",
+    "role": "ls2024_statistical/3-List-Of-Political-Parties-Participated.xlsx"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/13599-3-list-of-political-parties-participated/?do=download&r=37907&confirm=1&t=1",
+    "sha256": "ffbb50e92a9ea05635ad45f3d4888c31f4c12b605297c170d459216d500109b8",
+    "bytes": 130048,
+    "fetched_at": "2026-11-02T08:58:54Z",
+    "role": "eci_pdfs/GE2019_3-list-of-political-parties-participated_part1.xls"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/2844-list-of-political-parties-participated/?do=download&r=6612&confirm=1&t=1",
+    "sha256": "009c9309f7d14b15c5f353f4ab95ec974533a8ddf7db31bfd9ec5ea8be3a9386",
+    "bytes": 33332,
+    "fetched_at": "2026-11-02T08:58:56Z",
+    "role": "eci_pdfs/GE2014_list-of-political-parties-participated_part2.xlsx"
+   }
+  ]
+ },
+ "results/ls/1984.json": {
+  "reproduced": "no",
+  "differences": "The current build-ls-results.py does not reproduce this file. Every party's votes, every region's seat total and electors match; only some per-party seat counts differ (committed->rebuilt): IN-BR INC 49->50, IND 2->1; IN-KL INC 12->13, ICS 0->1, JnP 0->1, IND 3->0; IN-MH INC 42->43, IND 2->1; IN-MN INC 1->2, IND 1->0; IN-UP INC 80->83, IND 3->0. The committed file is byte-identical to a rebuild from this same PDF when split_winner() is replaced by the rule the builder's own comment says was fixed (summing votes by party and giving the seat to the largest party total), which hands seats to IND whenever the independents' combined votes beat the real winner. So the source is right and the committed seat counts are stale: the file was not regenerated after the winner fix. Source is part1 (Vol I) of the old.eci.gov.in file page; the recoverer finds all expected seats in it. The three ECI party lists (2024 table 3, 2019 table 3, 2014 list) are read for every year: build_party_index() borrows every other year's ABBREVIATION<->NAME bridge, and a trace shows each list supplies bridge entries the build uses.",
+  "sources": [
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/4118-general-election-1984-vol-i-ii/?do=download&r=9755&confirm=1&t=1",
+    "sha256": "e525e642637ccf5770b190ccb3c6c8ff6ab6ab4bbdc5b4684f14136c1e0fb9c3",
+    "bytes": 981267,
+    "fetched_at": "2026-11-02T08:58:57Z",
+    "role": "eci_pdfs/general-election-1984-vol-i-ii_part1.pdf"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://www.eci.gov.in/eci-backend/public/all_files/GE-2024-statistical-report/3-List-Of-Political-Parties-Participated.xlsx",
+    "sha256": "88af41cdee72ad51a5a9563dca69f5966fc2012995a78db6d9a889cdb39244aa",
+    "bytes": 41097,
+    "fetched_at": "2026-11-02T08:52:44Z",
+    "role": "ls2024_statistical/3-List-Of-Political-Parties-Participated.xlsx"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/13599-3-list-of-political-parties-participated/?do=download&r=37907&confirm=1&t=1",
+    "sha256": "ffbb50e92a9ea05635ad45f3d4888c31f4c12b605297c170d459216d500109b8",
+    "bytes": 130048,
+    "fetched_at": "2026-11-02T08:58:54Z",
+    "role": "eci_pdfs/GE2019_3-list-of-political-parties-participated_part1.xls"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/2844-list-of-political-parties-participated/?do=download&r=6612&confirm=1&t=1",
+    "sha256": "009c9309f7d14b15c5f353f4ab95ec974533a8ddf7db31bfd9ec5ea8be3a9386",
+    "bytes": 33332,
+    "fetched_at": "2026-11-02T08:58:56Z",
+    "role": "eci_pdfs/GE2014_list-of-political-parties-participated_part2.xlsx"
+   }
+  ]
+ },
+ "results/ls/1989.json": {
+  "reproduced": "no",
+  "differences": "The current build-ls-results.py does not reproduce this file. Every party's votes, every region's seat total and electors match; only some per-party seat counts differ (committed->rebuilt): IN-MH INC 27->28, IND 4->3; IN-UP BJP 7->8, INC 13->15, IND 5->2. The committed file is byte-identical to a rebuild from this same PDF when split_winner() is replaced by the rule the builder's own comment says was fixed (summing votes by party and giving the seat to the largest party total), which hands seats to IND whenever the independents' combined votes beat the real winner. So the source is right and the committed seat counts are stale: the file was not regenerated after the winner fix. Source is part1 (Vol I) of the old.eci.gov.in file page; the recoverer finds all expected seats in it. The three ECI party lists (2024 table 3, 2019 table 3, 2014 list) are read for every year: build_party_index() borrows every other year's ABBREVIATION<->NAME bridge, and a trace shows each list supplies bridge entries the build uses.",
+  "sources": [
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/4120-general-election-1989-vol-i-ii/?do=download&r=9761&confirm=1&t=1",
+    "sha256": "e67c8f9fa3058bbc51579dfe45c7665ea7eb5092378e412d85318d6350980b3b",
+    "bytes": 1291945,
+    "fetched_at": "2026-11-02T08:58:58Z",
+    "role": "eci_pdfs/general-election-1989-vol-i-ii_part1.pdf"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://www.eci.gov.in/eci-backend/public/all_files/GE-2024-statistical-report/3-List-Of-Political-Parties-Participated.xlsx",
+    "sha256": "88af41cdee72ad51a5a9563dca69f5966fc2012995a78db6d9a889cdb39244aa",
+    "bytes": 41097,
+    "fetched_at": "2026-11-02T08:52:44Z",
+    "role": "ls2024_statistical/3-List-Of-Political-Parties-Participated.xlsx"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/13599-3-list-of-political-parties-participated/?do=download&r=37907&confirm=1&t=1",
+    "sha256": "ffbb50e92a9ea05635ad45f3d4888c31f4c12b605297c170d459216d500109b8",
+    "bytes": 130048,
+    "fetched_at": "2026-11-02T08:58:54Z",
+    "role": "eci_pdfs/GE2019_3-list-of-political-parties-participated_part1.xls"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/2844-list-of-political-parties-participated/?do=download&r=6612&confirm=1&t=1",
+    "sha256": "009c9309f7d14b15c5f353f4ab95ec974533a8ddf7db31bfd9ec5ea8be3a9386",
+    "bytes": 33332,
+    "fetched_at": "2026-11-02T08:58:56Z",
+    "role": "eci_pdfs/GE2014_list-of-political-parties-participated_part2.xlsx"
+   }
+  ]
+ },
+ "results/ls/1991.json": {
+  "reproduced": "no",
+  "differences": "The current build-ls-results.py does not reproduce this file. Every party's votes, every region's seat total and electors match; only some per-party seat counts differ (committed->rebuilt): IN-DH BJP 5->6, IND 1->0; IN-MH INC 37->38, IND 1->0. The committed file is byte-identical to a rebuild from this same PDF when split_winner() is replaced by the rule the builder's own comment says was fixed (summing votes by party and giving the seat to the largest party total), which hands seats to IND whenever the independents' combined votes beat the real winner. So the source is right and the committed seat counts are stale: the file was not regenerated after the winner fix. Source is part1 (Vol I) of the old.eci.gov.in file page; the recoverer finds all expected seats in it. The three ECI party lists (2024 table 3, 2019 table 3, 2014 list) are read for every year: build_party_index() borrows every other year's ABBREVIATION<->NAME bridge, and a trace shows each list supplies bridge entries the build uses.",
+  "sources": [
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/4121-general-election-1991-vol-i-ii/?do=download&r=9764&confirm=1&t=1",
+    "sha256": "02f1f8d0a4c5efff83e880700dbfb39942cdec62911fd0dcfc6eeb0087c81130",
+    "bytes": 1333275,
+    "fetched_at": "2026-11-02T08:59:59Z",
+    "role": "eci_pdfs/general-election-1991-vol-i-ii_part1.pdf"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://www.eci.gov.in/eci-backend/public/all_files/GE-2024-statistical-report/3-List-Of-Political-Parties-Participated.xlsx",
+    "sha256": "88af41cdee72ad51a5a9563dca69f5966fc2012995a78db6d9a889cdb39244aa",
+    "bytes": 41097,
+    "fetched_at": "2026-11-02T08:52:44Z",
+    "role": "ls2024_statistical/3-List-Of-Political-Parties-Participated.xlsx"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/13599-3-list-of-political-parties-participated/?do=download&r=37907&confirm=1&t=1",
+    "sha256": "ffbb50e92a9ea05635ad45f3d4888c31f4c12b605297c170d459216d500109b8",
+    "bytes": 130048,
+    "fetched_at": "2026-11-02T08:58:54Z",
+    "role": "eci_pdfs/GE2019_3-list-of-political-parties-participated_part1.xls"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/2844-list-of-political-parties-participated/?do=download&r=6612&confirm=1&t=1",
+    "sha256": "009c9309f7d14b15c5f353f4ab95ec974533a8ddf7db31bfd9ec5ea8be3a9386",
+    "bytes": 33332,
+    "fetched_at": "2026-11-02T08:58:56Z",
+    "role": "eci_pdfs/GE2014_list-of-political-parties-participated_part2.xlsx"
+   }
+  ]
+ },
+ "results/ls/1996.json": {
+  "reproduced": "no",
+  "differences": "The current build-ls-results.py does not reproduce this file. Every party's votes, every region's seat total and electors match; only some per-party seat counts differ (committed->rebuilt): IN-BR BJP 17->18, IND 2->1; IN-GJ BJP 15->16, INC 9->10, IND 2->0; IN-JK INC 2->4, JD 0->1, IND 3->0; IN-RJ BJP 11->12, IND 1->0; IN-UP BJP 51->52, IND 2->1. The committed file is byte-identical to a rebuild from this same PDF when split_winner() is replaced by the rule the builder's own comment says was fixed (summing votes by party and giving the seat to the largest party total), which hands seats to IND whenever the independents' combined votes beat the real winner. So the source is right and the committed seat counts are stale: the file was not regenerated after the winner fix. Source is part1 (Vol I) of the old.eci.gov.in file page; the recoverer finds all expected seats in it. The three ECI party lists (2024 table 3, 2019 table 3, 2014 list) are read for every year: build_party_index() borrows every other year's ABBREVIATION<->NAME bridge, and a trace shows each list supplies bridge entries the build uses.",
+  "sources": [
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/4123-general-election-1996-vol-i-ii/?do=download&r=9770&confirm=1&t=1",
+    "sha256": "80dd228547b7e338538aee60d76f559d5959a0df0b5b791e80b0c09e56afc177",
+    "bytes": 2152346,
+    "fetched_at": "2026-11-02T08:59:59Z",
+    "role": "eci_pdfs/general-election-1996-vol-i-ii_part1.pdf"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://www.eci.gov.in/eci-backend/public/all_files/GE-2024-statistical-report/3-List-Of-Political-Parties-Participated.xlsx",
+    "sha256": "88af41cdee72ad51a5a9563dca69f5966fc2012995a78db6d9a889cdb39244aa",
+    "bytes": 41097,
+    "fetched_at": "2026-11-02T08:52:44Z",
+    "role": "ls2024_statistical/3-List-Of-Political-Parties-Participated.xlsx"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/13599-3-list-of-political-parties-participated/?do=download&r=37907&confirm=1&t=1",
+    "sha256": "ffbb50e92a9ea05635ad45f3d4888c31f4c12b605297c170d459216d500109b8",
+    "bytes": 130048,
+    "fetched_at": "2026-11-02T08:58:54Z",
+    "role": "eci_pdfs/GE2019_3-list-of-political-parties-participated_part1.xls"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/2844-list-of-political-parties-participated/?do=download&r=6612&confirm=1&t=1",
+    "sha256": "009c9309f7d14b15c5f353f4ab95ec974533a8ddf7db31bfd9ec5ea8be3a9386",
+    "bytes": 33332,
+    "fetched_at": "2026-11-02T08:58:56Z",
+    "role": "eci_pdfs/GE2014_list-of-political-parties-participated_part2.xlsx"
+   }
+  ]
+ },
+ "results/ls/2004.json": {
+  "reproduced": "no",
+  "differences": "The current build-ls-results.py does not reproduce this file. Every party's votes, every region's seat total and electors match; only some per-party seat counts differ (committed->rebuilt): IN-AP TDP 4->5, IND 1->0; IN-MH SHS 11->12, IND 1->0. The committed file is byte-identical to a rebuild from this same PDF when split_winner() is replaced by the rule the builder's own comment says was fixed (summing votes by party and giving the seat to the largest party total), which hands seats to IND whenever the independents' combined votes beat the real winner. So the source is right and the committed seat counts are stale: the file was not regenerated after the winner fix. Source is part1 (Vol I) of the old.eci.gov.in file page; the recoverer finds all expected seats in it. The three ECI party lists (2024 table 3, 2019 table 3, 2014 list) are read for every year: build_party_index() borrows every other year's ABBREVIATION<->NAME bridge, and a trace shows each list supplies bridge entries the build uses.",
+  "sources": [
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/4126-general-election-2004-vol-i-ii-iii/?do=download&r=9780&confirm=1&t=1",
+    "sha256": "62e99a3a663c6c908a64bb27a5e7c6a58d297b3b6d14aa0ae88a8e61a7c9e917",
+    "bytes": 1266244,
+    "fetched_at": "2026-11-02T09:00:00Z",
+    "role": "eci_pdfs/general-election-2004-vol-i-ii-iii_part1.pdf"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://www.eci.gov.in/eci-backend/public/all_files/GE-2024-statistical-report/3-List-Of-Political-Parties-Participated.xlsx",
+    "sha256": "88af41cdee72ad51a5a9563dca69f5966fc2012995a78db6d9a889cdb39244aa",
+    "bytes": 41097,
+    "fetched_at": "2026-11-02T08:52:44Z",
+    "role": "ls2024_statistical/3-List-Of-Political-Parties-Participated.xlsx"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/13599-3-list-of-political-parties-participated/?do=download&r=37907&confirm=1&t=1",
+    "sha256": "ffbb50e92a9ea05635ad45f3d4888c31f4c12b605297c170d459216d500109b8",
+    "bytes": 130048,
+    "fetched_at": "2026-11-02T08:58:54Z",
+    "role": "eci_pdfs/GE2019_3-list-of-political-parties-participated_part1.xls"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/2844-list-of-political-parties-participated/?do=download&r=6612&confirm=1&t=1",
+    "sha256": "009c9309f7d14b15c5f353f4ab95ec974533a8ddf7db31bfd9ec5ea8be3a9386",
+    "bytes": 33332,
+    "fetched_at": "2026-11-02T08:58:56Z",
+    "role": "eci_pdfs/GE2014_list-of-political-parties-participated_part2.xlsx"
+   }
+  ]
+ },
+ "results/ls/2009.json": {
+  "reproduced": "bytes",
+  "differences": "None. The three ECI party lists (2024 table 3, 2019 table 3, 2014 list) are read for every year: build_party_index() borrows every other year's ABBREVIATION<->NAME bridge, and a trace shows each list supplies bridge entries the build uses. (Removing all three lists leaves this output unchanged, but the build does read them.)",
+  "sources": [
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/2857-constituency-wise-detailed-result/?do=download&r=6640&confirm=1&t=1",
+    "sha256": "0689cff95684502c78b00a751184fc08a74fda9dd8ea33aef2aeb87ba20ae6a2",
+    "bytes": 595992,
+    "fetched_at": "2026-11-02T08:58:56Z",
+    "role": "eci_pdfs/GE2009_constituency-wise-detailed-result.pdf"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://www.eci.gov.in/eci-backend/public/all_files/GE-2024-statistical-report/3-List-Of-Political-Parties-Participated.xlsx",
+    "sha256": "88af41cdee72ad51a5a9563dca69f5966fc2012995a78db6d9a889cdb39244aa",
+    "bytes": 41097,
+    "fetched_at": "2026-11-02T08:52:44Z",
+    "role": "ls2024_statistical/3-List-Of-Political-Parties-Participated.xlsx"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/13599-3-list-of-political-parties-participated/?do=download&r=37907&confirm=1&t=1",
+    "sha256": "ffbb50e92a9ea05635ad45f3d4888c31f4c12b605297c170d459216d500109b8",
+    "bytes": 130048,
+    "fetched_at": "2026-11-02T08:58:54Z",
+    "role": "eci_pdfs/GE2019_3-list-of-political-parties-participated_part1.xls"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/2844-list-of-political-parties-participated/?do=download&r=6612&confirm=1&t=1",
+    "sha256": "009c9309f7d14b15c5f353f4ab95ec974533a8ddf7db31bfd9ec5ea8be3a9386",
+    "bytes": 33332,
+    "fetched_at": "2026-11-02T08:58:56Z",
+    "role": "eci_pdfs/GE2014_list-of-political-parties-participated_part2.xlsx"
+   }
+  ]
+ },
+ "results/ls/2014.json": {
+  "reproduced": "bytes",
+  "differences": "None (byte-identical with both HEAD and 65f546d parties.json). The three ECI party lists (2024 table 3, 2019 table 3, 2014 list) are read for every year: build_party_index() borrows every other year's ABBREVIATION<->NAME bridge, and a trace shows each list supplies bridge entries the build uses. The PC-wise summary table supplies each PDF constituency's state; the state-wise table supplies electors. The 'list of successful candidates' file is named in source.detail_table but is not read.",
+  "sources": [
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/2785-constituency-wise-detailed-result/?do=download&r=6463&confirm=1&t=1",
+    "sha256": "870fa786fb43324576ab9cfb8a2a482e59a7e0780a5ff98900a492a6281d8fd6",
+    "bytes": 1154509,
+    "fetched_at": "2026-11-02T08:58:55Z",
+    "role": "eci_pdfs/GE2014_constituency-wise-detailed-result_part1.pdf"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/2840-constituencypc-wise-summary-table/?do=download&r=6600&confirm=1&t=1",
+    "sha256": "cecfde99e60dbe0b18a3f5586b2da5198df0890627548120bb7460fa4c428a66",
+    "bytes": 56132,
+    "fetched_at": "2026-11-02T08:58:56Z",
+    "role": "eci_pdfs/GE2014_constituencypc-wise-summary-table_part2.xlsx"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/2824-state-wise-seat-won-and-valid-votes-polled-by-political-party/?do=download&r=6558&confirm=1&t=1",
+    "sha256": "e261d6a93ab3fce8126b9ed50fa2c6440f2533a86c64b24f466992b91dce36dc",
+    "bytes": 21859,
+    "fetched_at": "2026-11-02T08:58:55Z",
+    "role": "eci_pdfs/GE2014_state-wise-seat-won-and-valid-votes-polled-by-political-party_part2.xlsx"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://www.eci.gov.in/eci-backend/public/all_files/GE-2024-statistical-report/3-List-Of-Political-Parties-Participated.xlsx",
+    "sha256": "88af41cdee72ad51a5a9563dca69f5966fc2012995a78db6d9a889cdb39244aa",
+    "bytes": 41097,
+    "fetched_at": "2026-11-02T08:52:44Z",
+    "role": "ls2024_statistical/3-List-Of-Political-Parties-Participated.xlsx"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/13599-3-list-of-political-parties-participated/?do=download&r=37907&confirm=1&t=1",
+    "sha256": "ffbb50e92a9ea05635ad45f3d4888c31f4c12b605297c170d459216d500109b8",
+    "bytes": 130048,
+    "fetched_at": "2026-11-02T08:58:54Z",
+    "role": "eci_pdfs/GE2019_3-list-of-political-parties-participated_part1.xls"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/2844-list-of-political-parties-participated/?do=download&r=6612&confirm=1&t=1",
+    "sha256": "009c9309f7d14b15c5f353f4ab95ec974533a8ddf7db31bfd9ec5ea8be3a9386",
+    "bytes": 33332,
+    "fetched_at": "2026-11-02T08:58:56Z",
+    "role": "eci_pdfs/GE2014_list-of-political-parties-participated_part2.xlsx"
+   }
+  ]
+ },
+ "results/ls/2019.json": {
+  "reproduced": "bytes",
+  "differences": "None (byte-identical with both HEAD and 65f546d parties.json). The three ECI party lists (2024 table 3, 2019 table 3, 2014 list) are read for every year: build_party_index() borrows every other year's ABBREVIATION<->NAME bridge, and a trace shows each list supplies bridge entries the build uses. Files are from the old.eci.gov.in category 'General Election 2019 (Including Vellore PC)'. Table 7 is read only by the PC-number audit; table 4 (successful candidates) is configured but not read.",
+  "sources": [
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/13539-33-constituency-wise-detailed-result/?do=download&r=37785&confirm=1&t=1",
+    "sha256": "31e4eb273f07d159966e603650f89eeacf3e9d61a0be3da696fe90814fb517cc",
+    "bytes": 2255360,
+    "fetched_at": "2026-11-02T08:58:53Z",
+    "role": "eci_pdfs/GE2019_33-constituency-wise-detailed-result_part1.xls"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/13571-17-state-wise-seat-won-valid-votes-polled-by-political-parties/?do=download&r=37851&confirm=1&t=1",
+    "sha256": "0140a3158ecf3ca230d086abadc0e9ee2491394ffc874cdc85654c66343f0ac3",
+    "bytes": 268800,
+    "fetched_at": "2026-11-02T08:58:54Z",
+    "role": "eci_pdfs/GE2019_17-state-wise-seat-won-valid-votes-polled-by-political-parties_part2.xls"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://www.eci.gov.in/eci-backend/public/all_files/GE-2024-statistical-report/3-List-Of-Political-Parties-Participated.xlsx",
+    "sha256": "88af41cdee72ad51a5a9563dca69f5966fc2012995a78db6d9a889cdb39244aa",
+    "bytes": 41097,
+    "fetched_at": "2026-11-02T08:52:44Z",
+    "role": "ls2024_statistical/3-List-Of-Political-Parties-Participated.xlsx"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/13599-3-list-of-political-parties-participated/?do=download&r=37907&confirm=1&t=1",
+    "sha256": "ffbb50e92a9ea05635ad45f3d4888c31f4c12b605297c170d459216d500109b8",
+    "bytes": 130048,
+    "fetched_at": "2026-11-02T08:58:54Z",
+    "role": "eci_pdfs/GE2019_3-list-of-political-parties-participated_part1.xls"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/2844-list-of-political-parties-participated/?do=download&r=6612&confirm=1&t=1",
+    "sha256": "009c9309f7d14b15c5f353f4ab95ec974533a8ddf7db31bfd9ec5ea8be3a9386",
+    "bytes": 33332,
+    "fetched_at": "2026-11-02T08:58:56Z",
+    "role": "eci_pdfs/GE2014_list-of-political-parties-participated_part2.xlsx"
+   }
+  ]
+ },
+ "results/ls/2024.json": {
+  "reproduced": "bytes",
+  "differences": "Byte-identical when data/parties.json is the version from commit 65f546d, the commit that added these result files. With HEAD's parties.json (LJSP, RPIA and others added on 2026-09-13/14, after the build) the same sources give the same votes, seats and electors, but different party codes: RPPRINAT->RPIA (11 seats' `o`; IN-AP RPIA votes 11879->12828 as RPPRINAT's 949 merge into it, and IN-AS/MN/PB/TG RPPRINAT renamed RPIA), LJPRV->LJSP (5 Bihar winners, IN-BR 5 seats / 2810250 votes). The three ECI party lists (2024 table 3, 2019 table 3, 2014 list) are read for every year: build_party_index() borrows every other year's ABBREVIATION<->NAME bridge, and a trace shows each list supplies bridge entries the build uses. Table 7 (PC-wise summary) is read only by the PC-number audit and feeds no output.",
+  "sources": [
+   {
+    "publisher": "eci",
+    "url": "https://www.eci.gov.in/eci-backend/public/all_files/GE-2024-statistical-report/33-Constituency-Wise-Detailed-Result.xls",
+    "sha256": "91010daf2f545c89b053a45ebf17f04c6a602e0017d0b81d20f4eb5c456a0fac",
+    "bytes": 2812928,
+    "fetched_at": "2026-11-02T08:52:28Z",
+    "role": "ls2024_statistical/33-Constituency-Wise-Detailed-Result.xls"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://www.eci.gov.in/eci-backend/public/all_files/GE-2024-statistical-report/17-State-Wise-Seat-Won-&-Valid-Votes-Polled-by-Political-Parties.xls",
+    "sha256": "422da477798bca93f436ffe70e073e56cc7f56fa32ed67cbf021cc4c6369ba02",
+    "bytes": 223232,
+    "fetched_at": "2026-11-02T08:52:29Z",
+    "role": "ls2024_statistical/17-State-Wise-Seat-Won-&-Valid-Votes-Polled-by-Political-Parties.xls"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://www.eci.gov.in/eci-backend/public/all_files/GE-2024-statistical-report/3-List-Of-Political-Parties-Participated.xlsx",
+    "sha256": "88af41cdee72ad51a5a9563dca69f5966fc2012995a78db6d9a889cdb39244aa",
+    "bytes": 41097,
+    "fetched_at": "2026-11-02T08:52:44Z",
+    "role": "ls2024_statistical/3-List-Of-Political-Parties-Participated.xlsx"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/13599-3-list-of-political-parties-participated/?do=download&r=37907&confirm=1&t=1",
+    "sha256": "ffbb50e92a9ea05635ad45f3d4888c31f4c12b605297c170d459216d500109b8",
+    "bytes": 130048,
+    "fetched_at": "2026-11-02T08:58:54Z",
+    "role": "eci_pdfs/GE2019_3-list-of-political-parties-participated_part1.xls"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/2844-list-of-political-parties-participated/?do=download&r=6612&confirm=1&t=1",
+    "sha256": "009c9309f7d14b15c5f353f4ab95ec974533a8ddf7db31bfd9ec5ea8be3a9386",
+    "bytes": 33332,
+    "fetched_at": "2026-11-02T08:58:56Z",
+    "role": "eci_pdfs/GE2014_list-of-political-parties-participated_part2.xlsx"
+   }
+  ]
+ },
+ "results/ls/pc/2009.json": {
+  "reproduced": "bytes",
+  "differences": "None. The three ECI party lists (2024 table 3, 2019 table 3, 2014 list) are read for every year: build_party_index() borrows every other year's ABBREVIATION<->NAME bridge, and a trace shows each list supplies bridge entries the build uses. (Removing all three lists leaves this output unchanged.)",
+  "sources": [
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/2857-constituency-wise-detailed-result/?do=download&r=6640&confirm=1&t=1",
+    "sha256": "0689cff95684502c78b00a751184fc08a74fda9dd8ea33aef2aeb87ba20ae6a2",
+    "bytes": 595992,
+    "fetched_at": "2026-11-02T08:58:56Z",
+    "role": "eci_pdfs/GE2009_constituency-wise-detailed-result.pdf"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://www.eci.gov.in/eci-backend/public/all_files/GE-2024-statistical-report/3-List-Of-Political-Parties-Participated.xlsx",
+    "sha256": "88af41cdee72ad51a5a9563dca69f5966fc2012995a78db6d9a889cdb39244aa",
+    "bytes": 41097,
+    "fetched_at": "2026-11-02T08:52:44Z",
+    "role": "ls2024_statistical/3-List-Of-Political-Parties-Participated.xlsx"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/13599-3-list-of-political-parties-participated/?do=download&r=37907&confirm=1&t=1",
+    "sha256": "ffbb50e92a9ea05635ad45f3d4888c31f4c12b605297c170d459216d500109b8",
+    "bytes": 130048,
+    "fetched_at": "2026-11-02T08:58:54Z",
+    "role": "eci_pdfs/GE2019_3-list-of-political-parties-participated_part1.xls"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/2844-list-of-political-parties-participated/?do=download&r=6612&confirm=1&t=1",
+    "sha256": "009c9309f7d14b15c5f353f4ab95ec974533a8ddf7db31bfd9ec5ea8be3a9386",
+    "bytes": 33332,
+    "fetched_at": "2026-11-02T08:58:56Z",
+    "role": "eci_pdfs/GE2014_list-of-political-parties-participated_part2.xlsx"
+   }
+  ]
+ },
+ "results/ls/pc/2014.json": {
+  "reproduced": "bytes",
+  "differences": "None. The three ECI party lists (2024 table 3, 2019 table 3, 2014 list) are read for every year: build_party_index() borrows every other year's ABBREVIATION<->NAME bridge, and a trace shows each list supplies bridge entries the build uses.",
+  "sources": [
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/2785-constituency-wise-detailed-result/?do=download&r=6463&confirm=1&t=1",
+    "sha256": "870fa786fb43324576ab9cfb8a2a482e59a7e0780a5ff98900a492a6281d8fd6",
+    "bytes": 1154509,
+    "fetched_at": "2026-11-02T08:58:55Z",
+    "role": "eci_pdfs/GE2014_constituency-wise-detailed-result_part1.pdf"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/2840-constituencypc-wise-summary-table/?do=download&r=6600&confirm=1&t=1",
+    "sha256": "cecfde99e60dbe0b18a3f5586b2da5198df0890627548120bb7460fa4c428a66",
+    "bytes": 56132,
+    "fetched_at": "2026-11-02T08:58:56Z",
+    "role": "eci_pdfs/GE2014_constituencypc-wise-summary-table_part2.xlsx"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://www.eci.gov.in/eci-backend/public/all_files/GE-2024-statistical-report/3-List-Of-Political-Parties-Participated.xlsx",
+    "sha256": "88af41cdee72ad51a5a9563dca69f5966fc2012995a78db6d9a889cdb39244aa",
+    "bytes": 41097,
+    "fetched_at": "2026-11-02T08:52:44Z",
+    "role": "ls2024_statistical/3-List-Of-Political-Parties-Participated.xlsx"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/13599-3-list-of-political-parties-participated/?do=download&r=37907&confirm=1&t=1",
+    "sha256": "ffbb50e92a9ea05635ad45f3d4888c31f4c12b605297c170d459216d500109b8",
+    "bytes": 130048,
+    "fetched_at": "2026-11-02T08:58:54Z",
+    "role": "eci_pdfs/GE2019_3-list-of-political-parties-participated_part1.xls"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/2844-list-of-political-parties-participated/?do=download&r=6612&confirm=1&t=1",
+    "sha256": "009c9309f7d14b15c5f353f4ab95ec974533a8ddf7db31bfd9ec5ea8be3a9386",
+    "bytes": 33332,
+    "fetched_at": "2026-11-02T08:58:56Z",
+    "role": "eci_pdfs/GE2014_list-of-political-parties-participated_part2.xlsx"
+   }
+  ]
+ },
+ "results/ls/pc/2019.json": {
+  "reproduced": "bytes",
+  "differences": "None. The three ECI party lists (2024 table 3, 2019 table 3, 2014 list) are read for every year: build_party_index() borrows every other year's ABBREVIATION<->NAME bridge, and a trace shows each list supplies bridge entries the build uses.",
+  "sources": [
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/13539-33-constituency-wise-detailed-result/?do=download&r=37785&confirm=1&t=1",
+    "sha256": "31e4eb273f07d159966e603650f89eeacf3e9d61a0be3da696fe90814fb517cc",
+    "bytes": 2255360,
+    "fetched_at": "2026-11-02T08:58:53Z",
+    "role": "eci_pdfs/GE2019_33-constituency-wise-detailed-result_part1.xls"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://www.eci.gov.in/eci-backend/public/all_files/GE-2024-statistical-report/3-List-Of-Political-Parties-Participated.xlsx",
+    "sha256": "88af41cdee72ad51a5a9563dca69f5966fc2012995a78db6d9a889cdb39244aa",
+    "bytes": 41097,
+    "fetched_at": "2026-11-02T08:52:44Z",
+    "role": "ls2024_statistical/3-List-Of-Political-Parties-Participated.xlsx"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/13599-3-list-of-political-parties-participated/?do=download&r=37907&confirm=1&t=1",
+    "sha256": "ffbb50e92a9ea05635ad45f3d4888c31f4c12b605297c170d459216d500109b8",
+    "bytes": 130048,
+    "fetched_at": "2026-11-02T08:58:54Z",
+    "role": "eci_pdfs/GE2019_3-list-of-political-parties-participated_part1.xls"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/2844-list-of-political-parties-participated/?do=download&r=6612&confirm=1&t=1",
+    "sha256": "009c9309f7d14b15c5f353f4ab95ec974533a8ddf7db31bfd9ec5ea8be3a9386",
+    "bytes": 33332,
+    "fetched_at": "2026-11-02T08:58:56Z",
+    "role": "eci_pdfs/GE2014_list-of-political-parties-participated_part2.xlsx"
+   }
+  ]
+ },
+ "results/ls/pc/2024.json": {
+  "reproduced": "bytes",
+  "differences": "Byte-identical when data/parties.json is the version from commit 65f546d, the commit that added these result files. With HEAD's parties.json (LJSP, RPIA and others added on 2026-09-13/14, after the build) the same sources give the same votes, seats and electors, but different party codes: RPPRINAT->RPIA in `o` of 11 constituencies, LJPRV->LJSP as `p` of S04_16/21/23/25/40. The three ECI party lists (2024 table 3, 2019 table 3, 2014 list) are read for every year: build_party_index() borrows every other year's ABBREVIATION<->NAME bridge, and a trace shows each list supplies bridge entries the build uses.",
+  "sources": [
+   {
+    "publisher": "eci",
+    "url": "https://www.eci.gov.in/eci-backend/public/all_files/GE-2024-statistical-report/33-Constituency-Wise-Detailed-Result.xls",
+    "sha256": "91010daf2f545c89b053a45ebf17f04c6a602e0017d0b81d20f4eb5c456a0fac",
+    "bytes": 2812928,
+    "fetched_at": "2026-11-02T08:52:28Z",
+    "role": "ls2024_statistical/33-Constituency-Wise-Detailed-Result.xls"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://www.eci.gov.in/eci-backend/public/all_files/GE-2024-statistical-report/3-List-Of-Political-Parties-Participated.xlsx",
+    "sha256": "88af41cdee72ad51a5a9563dca69f5966fc2012995a78db6d9a889cdb39244aa",
+    "bytes": 41097,
+    "fetched_at": "2026-11-02T08:52:44Z",
+    "role": "ls2024_statistical/3-List-Of-Political-Parties-Participated.xlsx"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/13599-3-list-of-political-parties-participated/?do=download&r=37907&confirm=1&t=1",
+    "sha256": "ffbb50e92a9ea05635ad45f3d4888c31f4c12b605297c170d459216d500109b8",
+    "bytes": 130048,
+    "fetched_at": "2026-11-02T08:58:54Z",
+    "role": "eci_pdfs/GE2019_3-list-of-political-parties-participated_part1.xls"
+   },
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/2844-list-of-political-parties-participated/?do=download&r=6612&confirm=1&t=1",
+    "sha256": "009c9309f7d14b15c5f353f4ab95ec974533a8ddf7db31bfd9ec5ea8be3a9386",
+    "bytes": 33332,
+    "fetched_at": "2026-11-02T08:58:56Z",
+    "role": "eci_pdfs/GE2014_list-of-political-parties-participated_part2.xlsx"
+   }
+  ]
+ },
+ "results/ls/detail/2019.json": {
+  "reproduced": "bytes",
+  "differences": "No script in the repository writes results/ls/detail/ (git history shows these files were committed in 65f546d with no writer). A reconstruction (scripts/rebuild_detail.py in the work dir: table 33 rows, builder's own read_sheet/GeoIndex join, candidates sorted by total votes, keys in table order, compact JSON) reproduces the committed file byte for byte. Party codes are the raw ECI abbreviations from table 33, so no party list feeds this file.",
+  "sources": [
+   {
+    "publisher": "eci",
+    "url": "https://old.eci.gov.in/files/file/13539-33-constituency-wise-detailed-result/?do=download&r=37785&confirm=1&t=1",
+    "sha256": "31e4eb273f07d159966e603650f89eeacf3e9d61a0be3da696fe90814fb517cc",
+    "bytes": 2255360,
+    "fetched_at": "2026-11-02T08:58:53Z",
+    "role": "eci_pdfs/GE2019_33-constituency-wise-detailed-result_part1.xls"
+   }
+  ]
+ },
+ "results/ls/detail/2024.json": {
+  "reproduced": "bytes",
+  "differences": "No script in the repository writes results/ls/detail/ (git history shows these files were committed in 65f546d with no writer). A reconstruction (scripts/rebuild_detail.py in the work dir: table 33 rows, builder's own read_sheet/GeoIndex join, candidates sorted by total votes, keys in table order, compact JSON) reproduces the committed file byte for byte. Party codes are the raw ECI abbreviations from table 33, so no party list feeds this file.",
+  "sources": [
+   {
+    "publisher": "eci",
+    "url": "https://www.eci.gov.in/eci-backend/public/all_files/GE-2024-statistical-report/33-Constituency-Wise-Detailed-Result.xls",
+    "sha256": "91010daf2f545c89b053a45ebf17f04c6a602e0017d0b81d20f4eb5c456a0fac",
+    "bytes": 2812928,
+    "fetched_at": "2026-11-02T08:52:28Z",
+    "role": "ls2024_statistical/33-Constituency-Wise-Detailed-Result.xls"
+   }
+  ]
+ }
+}

@@ -1,0 +1,109 @@
+{
+  "state": "IN-ML",
+  "section": "bills",
+  "ok": 10,
+  "failed": 0,
+  "total_bytes": 5840872,
+  "entries": [
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/meghalaya/2026/LB44-2026MG.pdf",
+      "path": "documents/ea7f5f4dfd-bills.pdf",
+      "sha256": "44615b52751954ba327c9388273da88814b0ec9fd6a7e6ba906d8e676f61f766",
+      "bytes": 630872,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:39.742019+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/meghalaya/2026/LB43-2026MG.pdf",
+      "path": "documents/3d753fd372-bills.pdf",
+      "sha256": "0cbf3ff08ea6528814a9214f372d05528fc6ee940b2b6b8ed2b4d3a06806920f",
+      "bytes": 511558,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:39.743450+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/meghalaya/2026/LB42-2026MG.pdf",
+      "path": "documents/2515ccdc15-bills.pdf",
+      "sha256": "a638f3d3bf60ee538d0447dfb8980d3db7a1ea513a5cb8b68ff3fc4b19da810d",
+      "bytes": 534786,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:39.744294+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/meghalaya/2026/LB40-2026MG.pdf",
+      "path": "documents/c867c6ee92-bills.pdf",
+      "sha256": "7fdb20c0d88d3185e5605a1aed9318c3c9ac3277ee4efb7ba0590759116d44db",
+      "bytes": 607492,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:39.745608+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/meghalaya/2026/LB38-2026MG.pdf",
+      "path": "documents/de49518af5-bills.pdf",
+      "sha256": "153a9299581670b3b52d2b38e21a8fb30526f0260decfcd2eefd53eaed3266ef",
+      "bytes": 459727,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:39.746545+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/meghalaya/2026/LB34-2026MG.pdf",
+      "path": "documents/2a322a5d70-bills.pdf",
+      "sha256": "faa19254f2a9f382a73d7412b13827508586fe1f44e65bd7369a3248a134aecc",
+      "bytes": 604864,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:39.748532+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/meghalaya/2026/LB32-2026MG.pdf",
+      "path": "documents/99d4763d85-bills.pdf",
+      "sha256": "a43dc8b40041802b317e94d9a1eb8e0c660e63b7e51ade1cee4aff76be5b0320",
+      "bytes": 463681,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:39.749523+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/meghalaya/2026/Ord1of2026MG.pdf",
+      "path": "documents/b194b343d2-bills.pdf",
+      "sha256": "d7fa8c02a7f1d7208df1dc43257dda2bc1ba93b6825e2d0263f5cab8fcdfbd67",
+      "bytes": 920494,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:39.750505+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/meghalaya/2025/LB90of2025MG.pdf",
+      "path": "documents/fff849d501-bills.pdf",
+      "sha256": "075f54fe663511c894cc56e535b6aa598adf56f30eacaf52149eda1a3b6fc7c3",
+      "bytes": 438255,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:39.752210+00:00",
+      "ok": true,
+      "reason": ""
+    },
+    {
+      "url": "https://prsindia.org/files/bills_acts/bills_states/meghalaya/2025/LB89of2025MG.pdf",
+      "path": "documents/8831033073-bills.pdf",
+      "sha256": "75ba765c82fff8b5dd768f9412dbe74621d3fc7068d7ef997fed26c7a5b51c21",
+      "bytes": 669143,
+      "content_type": "application/pdf",
+      "fetched_at": "2026-09-23T07:04:39.754369+00:00",
+      "ok": true,
+      "reason": ""
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "name": "election-atlas-worker",
+  "private": true,
+  "type": "module",
+  "description": "The Election Atlas Worker; deployed with npx wrangler@4.151.1 (see .github/workflows/deploy.yml)."
+}

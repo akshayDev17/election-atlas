@@ -1,0 +1,109 @@
+{
+  "state": "IN-NL",
+  "section": "bills",
+  "ok": 0,
+  "failed": 10,
+  "total_bytes": 0,
+  "entries": [
+    {
+      "url": "https://cms.neva.gov.in/NeVA/NL/FileStructures///IntroductionPdf/192%20of2025_Introduction.pdf",
+      "path": "",
+      "sha256": "",
+      "bytes": 0,
+      "content_type": "",
+      "fetched_at": "2026-09-23T07:06:40.184169+00:00",
+      "ok": false,
+      "reason": "fetch HTTPError"
+    },
+    {
+      "url": "https://cms.neva.gov.in/NeVA/NL/FileStructures///IntroductionPdf/191%20of2024_Introduction.pdf",
+      "path": "",
+      "sha256": "",
+      "bytes": 0,
+      "content_type": "",
+      "fetched_at": "2026-09-23T07:06:40.184204+00:00",
+      "ok": false,
+      "reason": "fetch HTTPError"
+    },
+    {
+      "url": "https://cms.neva.gov.in/NeVA/NL/FileStructures///IntroductionPdf/190%20of2024_Introduction.pdf",
+      "path": "",
+      "sha256": "",
+      "bytes": 0,
+      "content_type": "",
+      "fetched_at": "2026-09-23T07:06:40.184207+00:00",
+      "ok": false,
+      "reason": "fetch HTTPError"
+    },
+    {
+      "url": "https://cms.neva.gov.in/NeVA/NL/FileStructures///IntroductionPdf/189%20of2024_Introduction.pdf",
+      "path": "",
+      "sha256": "",
+      "bytes": 0,
+      "content_type": "",
+      "fetched_at": "2026-09-23T07:06:40.184208+00:00",
+      "ok": false,
+      "reason": "fetch HTTPError"
+    },
+    {
+      "url": "https://cms.neva.gov.in/NeVA/NL/FileStructures///IntroductionPdf/188%20of2024_Introduction.pdf",
+      "path": "",
+      "sha256": "",
+      "bytes": 0,
+      "content_type": "",
+      "fetched_at": "2026-09-23T07:06:40.184210+00:00",
+      "ok": false,
+      "reason": "fetch HTTPError"
+    },
+    {
+      "url": "https://cms.neva.gov.in/NeVA/NL/FileStructures///IntroductionPdf/187%20of2024_Introduction.pdf",
+      "path": "",
+      "sha256": "",
+      "bytes": 0,
+      "content_type": "",
+      "fetched_at": "2026-09-23T07:06:40.184212+00:00",
+      "ok": false,
+      "reason": "fetch HTTPError"
+    },
+    {
+      "url": "https://cms.neva.gov.in/NeVA/NL/FileStructures///IntroductionPdf/186%20of2024_Introduction.pdf",
+      "path": "",
+      "sha256": "",
+      "bytes": 0,
+      "content_type": "",
+      "fetched_at": "2026-09-23T07:06:40.184214+00:00",
+      "ok": false,
+      "reason": "fetch HTTPError"
+    },
+    {
+      "url": "https://cms.neva.gov.in/NeVA/NL/FileStructures///IntroductionPdf/174%20of2023_Introduction.pdf",
+      "path": "",
+      "sha256": "",
+      "bytes": 0,
+      "content_type": "",
+      "fetched_at": "2026-09-23T07:06:40.184215+00:00",
+      "ok": false,
+      "reason": "fetch HTTPError"
+    },
+    {
+      "url": "https://cms.neva.gov.in/NeVA/NL/FileStructures///IntroductionPdf/164%20of2023_Introduction.pdf",
+      "path": "",
+      "sha256": "",
+      "bytes": 0,
+      "content_type": "",
+      "fetched_at": "2026-09-23T07:06:40.184217+00:00",
+      "ok": false,
+      "reason": "fetch HTTPError"
+    },
+    {
+      "url": "https://cms.neva.gov.in/NeVA/NL/FileStructures///IntroductionPdf/161of2023_Introduction.pdf",
+      "path": "",
+      "sha256": "",
+      "bytes": 0,
+      "content_type": "",
+      "fetched_at": "2026-09-23T07:06:40.184218+00:00",
+      "ok": false,
+      "reason": "fetch HTTPError"
+    }
+  ]
+}

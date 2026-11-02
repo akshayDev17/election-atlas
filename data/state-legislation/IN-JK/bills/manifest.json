@@ -1,0 +1,19 @@
+{
+  "state": "IN-JK",
+  "section": "bills",
+  "ok": 0,
+  "failed": 1,
+  "total_bytes": 0,
+  "entries": [
+    {
+      "url": "https://jkla.neva.gov.in/",
+      "path": "",
+      "sha256": "",
+      "bytes": 0,
+      "content_type": "",
+      "fetched_at": "2026-09-23T07:06:23.595043+00:00",
+      "ok": false,
+      "reason": "html response, not a document"
+    }
+  ]
+}
