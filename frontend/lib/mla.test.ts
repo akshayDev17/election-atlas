@@ -3,9 +3,9 @@
 // name, a number or a zero standing in for a missing result.
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { acCycles } from './atlas.ts';
+import { acCycles, fold } from './atlas.ts';
 import {
-  findSeat, formatMargin, heroOf, isMapped, keyify, parentSeat, partyLook, readQuery, resultMissing, shownCycle,
+  findSeat, formatMargin, heroOf, isMapped, parentSeat, partyLook, readQuery, resultMissing, shownCycle,
   stateNameOf, type AcDetailDoc, type AcTopoDoc, type CoverageDoc,
 } from './mla.ts';
 import { readData } from './testData.ts';
@@ -22,9 +22,9 @@ test('the query: state upper-cased and defaulting to Uttar Pradesh, seat key low
 });
 
 test('a seat key drops reservation marks and punctuation', () => {
-  assert.equal(keyify('Rampur Maniharan(SC)'), 'rampurmaniharan');
-  assert.equal(keyify('SAHARANPUR'), 'saharanpur');
-  assert.equal(keyify(undefined), '');
+  assert.equal(fold('Rampur Maniharan(SC)'), 'rampurmaniharan');
+  assert.equal(fold('SAHARANPUR'), 'saharanpur');
+  assert.equal(fold(undefined), '');
 });
 
 test('the hero shows the latest cycle whose result has been added', () => {
@@ -73,7 +73,7 @@ test('every mapped seat in every covered state has a result in its shown cycle',
     const detail = readData<AcDetailDoc>(`results/ac/${state}/${year}-detail.json`);
     const topo = readData<AcTopoDoc>(`geo/ac/${state}.json`);
     for (const g of topo.objects?.acs?.geometries ?? []) {
-      const seat = findSeat(topo, keyify(g.properties.ac));
+      const seat = findSeat(topo, fold(g.properties.ac));
       const hero = heroOf({ detail, seatNo: seat.no, shownYear: year, cycles, stateName: state });
       assert.equal(hero.kind, 'result', `${state} ${g.properties.ac}`);
     }

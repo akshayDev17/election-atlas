@@ -5,18 +5,18 @@
    some constituencies only, and availability.json says which, so a missing one
    shows "not available yet" and never stops the rest of the page. */
 import { Fragment, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { fetchOptional, listed, loadAvailability, lsDetailAvailable, membersAvailable, nf, titleCase } from '@/lib/atlas';
+import { fold, getListed, listed, loadAvailability, lsDetailAvailable, membersAvailable, nf, titleCase } from '@/lib/atlas';
 import { DATA, pageURL } from '@/lib/base';
 import {
   MPLADS_MISSING, QUESTIONS_PAGE, QUESTION_FILTERS, RECORD_MISSING, WORKS_PAGE, WORK_FILTERS,
-  answerOf, assemblySeats, caveatText, cr, filterQuestions, filterWorks, findSeat, fmtDate, fold, fundModel,
+  answerOf, assemblySeats, caveatText, cr, filterQuestions, filterWorks, findSeat, fmtDate, fundModel,
   pageOf, parseQuery, recordModel, resolveMember, stageKey, stageLabel, winnerOf,
   type AcTopo, type DetailDoc, type Gauge, type MembersDoc, type MpladsDoc, type ParliamentDoc, type PcTopo,
   type QuestionFilter, type WorkFilter,
 } from '@/lib/mp';
-import { pageList } from '@/lib/national';
 import type { PartiesDoc, RegionsDoc, SymbolsDoc } from '@/lib/types';
 import { Monogram, OfficialPhotoLink } from './Member';
+import { Pager } from './Pager';
 
 type Query = { S: string; C: string };
 type Loaded = {
@@ -30,14 +30,6 @@ type Loaded = {
   acTopo: AcTopo | null;
   members: MembersDoc | null;
 };
-
-/* Optional files are fetched only when availability.json lists them, so a seat
-   without them costs no 404; fetchOptional still absorbs one if the index is stale. */
-async function getListed<T>(on: boolean, url: string): Promise<T | null> {
-  if (!on) return null;
-  const res = await fetchOptional<T>(url);
-  return res.ok ? res.doc : null;
-}
 
 async function loadMp({ S, C }: Query): Promise<Loaded> {
   const avail = await loadAvailability(DATA);
@@ -329,26 +321,6 @@ export default function MpView() {
       </div>
       <footer className="credits"><p>Member photos: linked to sansad.in, not stored here. Party symbols: Wikimedia Commons contributors (<a href={`${DATA}parties-symbols.json`}>licences listed</a>).</p></footer>
     </>
-  );
-}
-
-/* ── pager ────────────────────────────────────────────────────────────── */
-function Pager({ id, label, page, count, onPage }: {
-  id: string; label: string; page: number; count: number; onPage: (p: number) => void;
-}) {
-  return (
-    <nav className="pager" id={id} aria-label={label}>
-      {count > 1 && (
-        <>
-          <button type="button" aria-label="Previous page" disabled={page === 0} onClick={() => onPage(page - 1)}>‹</button>
-          {pageList(page, count).map((item, i) => item === '…'
-            ? <span key={`e${i}`} className="ell">…</span>
-            : <button key={item} type="button" className={item === page ? 'cur' : undefined}
-                aria-current={item === page ? 'page' : undefined} onClick={() => onPage(item)}>{item + 1}</button>)}
-          <button type="button" aria-label="Next page" disabled={page === count - 1} onClick={() => onPage(page + 1)}>›</button>
-        </>
-      )}
-    </nav>
   );
 }
 

@@ -12,13 +12,13 @@ import {
   type CSSProperties, type ReactNode,
 } from 'react';
 import {
-  ECI, PRESIDENT, byelAvailable, coverNote, fetchOptional, formedLater, loadAvailability, lsResultsAvailable,
+  ECI, PRESIDENT, byelAvailable, coverNote, fetchOptional, formedLater, getListed, loadAvailability, lsResultsAvailable,
   lsStateAvailable, nf, notAvailable, parentsOf, partOfText, pc1, resultRegion, titleCase, unionRoster,
 } from '@/lib/atlas';
 import { DATA, pageURL } from '@/lib/base';
 import {
   NAT_DEFAULT, PAGE_SIZE, RANK_LABEL, aggregate, aggregateStates, belowCutMessage, byeNote, compactPortfolio,
-  memberMatches, nationalRows, pageList, partyMatches, portfolioList, regionLeader, resolveSeats, seatLabel,
+  memberMatches, nationalRows, partyMatches, portfolioList, regionLeader, resolveSeats, seatLabel,
   seatMaps, sortMinisters, type Aggregate, type Sort, type Tense,
 } from '@/lib/national';
 import type {
@@ -26,6 +26,7 @@ import type {
   StateYearDoc, SymbolsDoc,
 } from '@/lib/types';
 import { HoverCard, type HoverCardHandle } from './HoverCard';
+import { Pager } from './Pager';
 import { Monogram, OfficialPhotoLink, Swatch } from './Member';
 
 type GeoProps = Record<string, string>;
@@ -85,14 +86,6 @@ async function loadCore(): Promise<Core | null> {
     states: feature(statesTopo, statesTopo.objects[stateLevel.topologyObject]) as unknown as GeoFC,
     pcs: feature(pcsTopo, pcsTopo.objects[pcLevel.topologyObject]) as unknown as GeoFC,
   };
-}
-
-/* Optional files are fetched only when availability.json lists them, so a year
-   without them costs no 404; fetchOptional still absorbs one if the index is stale. */
-async function getListed<T>(on: boolean, url: string): Promise<T | null> {
-  if (!on) return null;
-  const res = await fetchOptional<T>(url);
-  return res.ok ? res.doc : null;
 }
 
 async function loadCabinet(avail: Availability, y: number): Promise<Cabinet> {
@@ -451,7 +444,7 @@ export default function NationalView() {
                 </tbody>
               </table>
             </ScrollFade>
-            <Pager page={curPage} count={pageCount} onPage={setPage} />
+            <Pager id="ntable-pager" label="Table pages" page={curPage} count={pageCount} onPage={setPage} />
           </section>
 
           <Belt
@@ -663,25 +656,6 @@ function ScrollFade({ children }: { children: ReactNode }) {
         setEdges({ up: s.scrollTop > 2, down: s.scrollTop < max - 2 });
       }}>{children}</div>
     </div>
-  );
-}
-
-/* Page numbers under the table: prev/next at the ends, a window around the
-   current page when there are many. */
-function Pager({ page, count, onPage }: { page: number; count: number; onPage: (p: number) => void }) {
-  return (
-    <nav className="pager" id="ntable-pager" aria-label="Table pages">
-      {count > 1 && (
-        <>
-          <button type="button" aria-label="Previous page" disabled={page === 0} onClick={() => onPage(page - 1)}>‹</button>
-          {pageList(page, count).map((item, i) => item === '…'
-            ? <span key={`e${i}`} className="pager-ell" aria-hidden="true">…</span>
-            : <button key={item} type="button" className={item === page ? 'cur' : undefined}
-                aria-current={item === page ? 'page' : undefined} onClick={() => onPage(item)}>{item + 1}</button>)}
-          <button type="button" aria-label="Next page" disabled={page === count - 1} onClick={() => onPage(page + 1)}>›</button>
-        </>
-      )}
-    </nav>
   );
 }
 

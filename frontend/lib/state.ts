@@ -3,7 +3,7 @@
    every "not available yet" sentence. Explicit input, explicit output; the page
    holds the inputs (state, years, tense, sort, selection) and renders these. */
 import {
-  ECI, byelAvailable, coverNote, formedLater, lsResultsAvailable, lsStateAvailable, notAvailable, resultRegion, stateRoster,
+  ECI, byelAvailable, coverNote, formedLater, seatFold, lsResultsAvailable, lsStateAvailable, notAvailable, resultRegion, stateRoster,
 } from './atlas.ts';
 import type { Candidate, SeatResolved } from './card.ts';
 import type { Sort, Tense } from './national.ts';
@@ -96,20 +96,10 @@ export const latestCycle = (cycles: readonly Cycle[]): number | undefined =>
 export const cycleAvailable = (cycles: readonly Cycle[], y: number): boolean =>
   cycles.some(c => c.year === y && c.ok);
 
-/* Seat name → MPLADS constituency_key, mirroring the fetcher's keyify: lowercase,
-   drop "(SC)"/"(ST)", then the trailing state abbreviation the MPLADS portal
-   appends to seats shared across states ("HAMIRPURUP" → "hamirpur"). */
-export function keyify(name: string | undefined, stateCode: string): string {
-  const abbr = (stateCode.split('-')[1] || '').toLowerCase();
-  let s = String(name || '').toLowerCase().replace(/\(sc\)|\(st\)/g, '');
-  s = s.replace(/[^a-z0-9]/g, '');
-  if (abbr && s.endsWith(abbr)) s = s.slice(0, -abbr.length);
-  return s;
-}
-
+/* Seat name → MPLADS constituency_key, folded as the fetcher folds it. */
 export function mpKeysByName(index: MpladsIndex | null, stateCode: string): Map<string, string> {
   const m = new Map<string, string>();
-  for (const mp of index?.mps ?? []) m.set(keyify(mp.constituency, stateCode), mp.constituency_key);
+  for (const mp of index?.mps ?? []) m.set(seatFold(mp.constituency, stateCode), mp.constituency_key);
   return m;
 }
 
@@ -167,18 +157,6 @@ export function seatPaint(
   if (vacant) return { fill: 'var(--vacant)', bye, vacant };
   const leftOut = !!party && selection.size > 0 && !selection.has(party);
   return { fill: !party || leftOut ? 'var(--paper-2)' : colour(party), bye, vacant };
-}
-
-/* The colour of the whole state on a state-level year: the party that won most
-   seats (most votes breaks a tie), or null when no party won a seat. */
-export function stateLeader(agg: StateAgg | null): string | null {
-  if (!agg) return null;
-  let best: [string, Tally] | null = null;
-  for (const e of agg.m) {
-    if (e[1].seats <= 0) continue;
-    if (!best || e[1].seats > best[1].seats || (e[1].seats === best[1].seats && e[1].votes > best[1].votes)) best = e;
-  }
-  return best ? best[0] : null;
 }
 
 /* Candidate lists for the hover cards, keyed as the map's shapes are: a Lok

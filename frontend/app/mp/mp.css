@@ -117,7 +117,7 @@ td:first-child{text-align:left;padding-right:var(--s4)}
 .pager button:hover{color:var(--ink);background:var(--paper-2)}
 .pager button.cur{color:var(--ink);background:var(--paper-2);font-weight:500}
 .pager button:disabled{opacity:.35;cursor:default}
-.pager .ell{color:var(--muted);padding:0 2px}
+.pager-ell{color:var(--muted);padding:0 2px}
 
 /* parliamentary record */
 .ls-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s4);margin-top:var(--s4)}

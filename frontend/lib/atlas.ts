@@ -16,6 +16,15 @@ export async function fetchOptional<T = unknown>(url: string): Promise<Optional<
   try { return { ok: true, doc: (await r.json()) as T }; } catch { return { ok: false, reason: 'error' }; }
 }
 
+/* A file availability.json lists: fetched only when listed, so an unlisted file
+   costs no 404; fetchOptional still absorbs one if the index is stale. null when
+   unlisted or unreadable. */
+export async function getListed<T>(on: boolean, url: string): Promise<T | null> {
+  if (!on) return null;
+  const res = await fetchOptional<T>(url);
+  return res.ok ? res.doc : null;
+}
+
 /* data/availability.json says which optional files exist, so a page never has to
    probe for one. If the index itself cannot be read, every optional file reads
    as not available: the page shows "not available yet" rather than guessing. */
@@ -80,6 +89,20 @@ export const notAvailable = (what: string, publisher: string, verb = 'has'): str
 export const ECI = 'the Election Commission of India';
 export const PRESIDENT = 'the President’s Secretariat';
 export const CMO_UP = 'the Chief Minister’s Office, Uttar Pradesh';
+
+/* ── seat names as keys ─────────────────────────────────────────────────
+   A seat name as a URL key: lower case, reservation marks and punctuation
+   dropped. seatFold also drops the trailing state abbreviation the MPLADS portal
+   appends to seats shared across states ("HAMIRPURUP" → "hamirpur"), which is how
+   the state page links to the MP page and how the MP page finds its seat. */
+export const fold = (s: string | undefined | null): string =>
+  String(s || '').toLowerCase().replace(/\(sc\)|\(st\)/g, '').replace(/[^a-z0-9]/g, '');
+
+export function seatFold(name: string | undefined | null, state: string): string {
+  const abbr = (state.split('-')[1] || '').toLowerCase();
+  const k = fold(name);
+  return abbr && k.endsWith(abbr) ? k.slice(0, -abbr.length) : k;
+}
 
 /* ── formatting ───────────────────────────────────────────────────────── */
 export const nf = (n: number): string => Math.round(n).toLocaleString('en-IN');

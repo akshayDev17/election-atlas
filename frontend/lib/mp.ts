@@ -3,7 +3,7 @@
    record, and the assembly seats under the constituency. Every function takes
    its inputs explicitly and returns what the page renders; nothing here fetches
    or holds state. */
-import { notAvailable, titleCase } from './atlas.ts';
+import { fold, notAvailable, seatFold, titleCase } from './atlas.ts';
 
 /* ── the data files this page reads (fields it uses only) ─────────────── */
 
@@ -74,14 +74,6 @@ export function parseQuery(search: string): { S: string; C: string } {
  * the fold the state page uses to link here (lowercase, no (SC)/(ST), no
  * trailing state abbreviation); the seat's unique_id then joins the 2024 result.
  * That never depends on how the result file spells the name ("Baharaich"). */
-export const fold = (s: string | undefined | null): string =>
-  String(s || '').toLowerCase().replace(/\(sc\)|\(st\)/g, '').replace(/[^a-z0-9]/g, '');
-
-export function seatFold(name: string, state: string): string {
-  const abbr = (state.split('-')[1] || '').toLowerCase();
-  const k = fold(name);
-  return abbr && k.endsWith(abbr) ? k.slice(0, -abbr.length) : k;
-}
 
 export function findSeat(topo: PcTopo | null, state: string, key: string): PcGeomProps | null {
   const geoms = topo?.objects?.pcs?.geometries ?? [];

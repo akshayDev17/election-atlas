@@ -4,10 +4,10 @@
 // through how the result file spells it.
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { notAvailable } from './atlas.ts';
+import { fold, notAvailable, seatFold } from './atlas.ts';
 import {
   MPLADS_MISSING, RECORD_MISSING, ageFrom, answerOf, assemblySeats, caveatText, filterQuestions, filterWorks,
-  findSeat, fmtDate, fold, fundModel, pageOf, parseQuery, recordModel, resolveMember, seatFold, splitReply,
+  findSeat, fmtDate, fundModel, pageOf, parseQuery, recordModel, resolveMember, splitReply,
   stageKey, stageLabel, tile, winnerOf,
   type AcTopo, type DetailDoc, type MembersDoc, type MpladsDoc, type ParliamentDoc, type PcTopo,
 } from './mp.ts';

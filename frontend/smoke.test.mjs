@@ -31,13 +31,7 @@ function serve(root) {
     const path = normalize(decodeURIComponent(url.pathname));
     let file = join(root, path);
     if (!file.startsWith(root)) { res.writeHead(400).end(); return; }
-    if (existsSync(file) && statSync(file).isDirectory()) {
-      if (!url.pathname.endsWith('/')) {
-        res.writeHead(307, { location: url.pathname + '/' + url.search }).end();
-        return;
-      }
-      file = join(file, 'index.html');
-    }
+    if (existsSync(file) && statSync(file).isDirectory()) file = join(file, 'index.html');
     if (!existsSync(file) || !statSync(file).isFile()) { res.writeHead(404).end('Not Found'); return; }
     res.writeHead(200, { 'content-type': TYPES[extname(file)] ?? 'application/octet-stream' });
     res.end(readFileSync(file));
@@ -102,9 +96,3 @@ for (const [name, path, ready, expect] of PAGES) {
     assert.doesNotMatch(text, /could not be loaded/i);
   });
 }
-
-test('a directory URL without its slash redirects to it, query kept', async () => {
-  const res = await fetch(`${origin}/elections/india/state?s=IN-UP&y=2024`, { redirect: 'manual' });
-  assert.equal(res.status, 307);
-  assert.equal(res.headers.get('location'), '/elections/india/state/?s=IN-UP&y=2024');
-});

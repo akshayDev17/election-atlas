@@ -3,11 +3,12 @@
 // "not available yet" sentences that stand in for absent data.
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { CMO_UP, acCycles, parentsOf } from './atlas.ts';
+import { CMO_UP, acCycles, parentsOf, seatFold } from './atlas.ts';
+import { regionLeader } from './national.ts';
 import {
   DEFAULT_SORT, acCardRows, aggregateFrom, aggregateStateLevel, beltAsOf, beltVoidText, cabinetPublisher,
-  cycleAvailable, firstLsYear, keyify, latestCycle, lsVoid, lsYearKind, missingCaption, mpKeysByName, pageCountOf,
-  pcCaption, pcCardRows, resolvePcSeats, seatPaint, seatsByParty, standsAvailable, stateLeader, tableRows,
+  cycleAvailable, firstLsYear, latestCycle, lsVoid, lsYearKind, missingCaption, mpKeysByName, pageCountOf,
+  pcCaption, pcCardRows, resolvePcSeats, seatPaint, seatsByParty, standsAvailable, tableRows,
   tenseAfterLoad, unknownSeatsText, type AcYearDoc, type DetailDoc,
 } from './state.ts';
 import { readData } from './testData.ts';
@@ -51,7 +52,7 @@ test('Uttar Pradesh 1980 state-level: what the file holds, the seats adding up t
   assert.deepEqual(up.includes, ['IN-UT'], 'the 1980 entry covers present-day Uttarakhand');
   assert.equal([...up.agg.m.values()].reduce((n, t) => n + t.seats, 0), 85);
   assert.equal(up.agg.total, doc.regions['IN-UP'].parties.reduce((n, p) => n + p.votes, 0));
-  assert.equal(stateLeader(up.agg), 'INC');
+  assert.equal(regionLeader(up.agg.m), 'INC');
   const rows = tableRows(up.agg, DEFAULT_SORT, null);
   assert.equal(rows[0].code, 'INC');
   assert.ok(rows.every(r => r.seats > 0 || r.votes > 0));
@@ -61,7 +62,7 @@ test('a state the state-level file holds no entry for, nor for a state it was pa
   const doc: StateYearDoc = { year: 1980, regions: { 'IN-UP': { seats: 85, electors: null, parties: [] } } };
   assert.equal(aggregateStateLevel(doc, 'IN-TG', parents), null);
   assert.equal(aggregateStateLevel(doc, 'IN-KL', parents), null);
-  assert.equal(stateLeader(null), null);
+  assert.equal(regionLeader(undefined), null);
 });
 
 test('the empty Lok Sabha panel: not available yet only when the year’s file is not in the data', () => {
@@ -101,7 +102,7 @@ test('1980: Telangana, Uttarakhand, Chhattisgarh and Jharkhand read the entry of
     assert.equal(own.partOf, parent);
     assert.deepEqual(own.includes, []);
     assert.equal(own.seats, doc.regions[parent].seats);
-    assert.equal(stateLeader(own.agg), stateLeader(whole.agg), `${successor} takes ${parent}'s fill`);
+    assert.equal(regionLeader(own.agg.m), regionLeader(whole.agg.m), `${successor} takes ${parent}'s fill`);
     assert.equal(whole.partOf, null);
     assert.ok(whole.includes.includes(successor), `${parent} 1980 includes present-day ${successor}`);
   }
@@ -249,12 +250,12 @@ test('party seats for row focus skip seats with no known holder', () => {
 });
 
 test('the MPLADS join: seat names keyed as the fetcher keys them', () => {
-  assert.equal(keyify('HAMIRPURUP', 'IN-UP'), 'hamirpur');
-  assert.equal(keyify('Bhadohi', 'IN-UP'), 'bhadohi');
-  assert.equal(keyify('Nagina (SC)', 'IN-UP'), 'nagina');
+  assert.equal(seatFold('HAMIRPURUP', 'IN-UP'), 'hamirpur');
+  assert.equal(seatFold('Bhadohi', 'IN-UP'), 'bhadohi');
+  assert.equal(seatFold('Nagina (SC)', 'IN-UP'), 'nagina');
   const idx = readData<{ mps: { constituency: string; constituency_key: string }[] }>('mplads/IN-UP/index.json');
   const m = mpKeysByName(idx, 'IN-UP');
-  assert.equal(m.get(keyify('Agra', 'IN-UP')), 'agra');
+  assert.equal(m.get(seatFold('Agra', 'IN-UP')), 'agra');
   assert.equal(mpKeysByName(null, 'IN-UP').size, 0);
 });
 

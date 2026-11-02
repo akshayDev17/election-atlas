@@ -14,16 +14,16 @@ import {
   type CSSProperties, type ReactNode,
 } from 'react';
 import {
-  CMO_UP, ECI, acCycles, byelAvailable, fetchOptional, loadAvailability, lsDetailAvailable,
-  lsStateAvailable, membersAvailable, nf, notAvailable, parentsOf, partOfText, pc1, stateRoster, titleCase,
+  CMO_UP, ECI, acCycles, byelAvailable, fetchOptional, getListed, loadAvailability, lsDetailAvailable,
+  lsStateAvailable, membersAvailable, nf, notAvailable, parentsOf, partOfText, pc1, seatFold, stateRoster, titleCase,
 } from '@/lib/atlas';
 import { DATA, pageURL } from '@/lib/base';
 import { cardModel, type Candidate, type CardFoot, type CardHead, type SeatResolved } from '@/lib/card';
-import { memberMatches, pageList, seatLabel, sortMinisters, type Sort, type SortKey, type Tense } from '@/lib/national';
+import { memberMatches, regionLeader, seatLabel, sortMinisters, type Sort, type SortKey, type Tense } from '@/lib/national';
 import {
   DEFAULT_SORT, MEMBER_YEAR, PAGE_SIZE, acCardRows, aggregateFrom, aggregateStateLevel, beltAsOf, beltVoidText,
-  cabinetPublisher, cycleAvailable, firstLsYear, keyify, latestCycle, lsVoid, lsYearKind, missingCaption, mpKeysByName,
-  pageCountOf, pcCaption, pcCardRows, resolvePcSeats, seatPaint, seatsByParty, standsAvailable, stateLeader,
+  cabinetPublisher, cycleAvailable, firstLsYear, latestCycle, lsVoid, lsYearKind, missingCaption, mpKeysByName,
+  pageCountOf, pcCaption, pcCardRows, resolvePcSeats, seatPaint, seatsByParty, standsAvailable,
   tableRows, tenseAfterLoad, unknownSeatsText,
   type AcRow, type AcYearDoc, type Coverage, type Cycle, type DetailDoc, type MembersDoc, type MpladsIndex,
   type StateAgg, type TableRow,
@@ -34,6 +34,7 @@ import type {
 } from '@/lib/types';
 import { HoverCard, type HoverCardHandle } from './HoverCard';
 import { Monogram, OfficialPhotoLink, Swatch } from './Member';
+import { Pager } from './Pager';
 
 type GeoProps = Record<string, string | number>;
 type GeoFeature = Feature<Geometry, GeoProps>;
@@ -83,14 +84,6 @@ type PerPanel<T> = { ac: T; pc: T };
 const EMPTY: ReadonlySet<string> = new Set();
 const NO_CABINET: Cabinet = { elected: null, stands: null };
 const NO_RESOLVED = { resolved: new Map<string, SeatResolved>(), stands: null };
-
-/* Optional files are fetched only when availability.json lists them, so a year
-   without them costs no 404; fetchOptional still absorbs one if the index is stale. */
-async function getListed<T>(on: boolean, url: string): Promise<T | null> {
-  if (!on) return null;
-  const res = await fetchOptional<T>(url);
-  return res.ok ? res.doc : null;
-}
 
 /* The first four files draw the page at all; if one cannot be read the page says
    so and stops, rather than half-painting. */
@@ -335,7 +328,7 @@ export default function StateView() {
      colour of the party that won most of its seats. */
   const wholeFill = useMemo(() => {
     if (pcData?.kind !== 'state') return null;
-    const lead = stateLeader(pcData.agg);
+    const lead = regionLeader(pcData.agg.m);
     return !lead || (sel.pc.size > 0 && !sel.pc.has(lead)) ? 'var(--paper-2)' : colour(lead);
   }, [pcData, sel.pc, colour]);
 
@@ -386,7 +379,7 @@ export default function StateView() {
   const openSeat = useCallback((which: Which, key: string) => {
     if (!core || which !== 'pc') return;
     const shape = core.pcShapes.find(s => s.key === key);
-    const mp = core.mpKeyByName.get(keyify(shape ? String(shape.f.properties.ls_seat_name) : '', core.stateCode));
+    const mp = core.mpKeyByName.get(seatFold(shape ? String(shape.f.properties.ls_seat_name) : '', core.stateCode));
     if (mp) location.href = pageURL('mp', { s: core.stateCode, c: mp });
   }, [core]);
 
@@ -860,16 +853,7 @@ function SeatTable(props: {
                 )}
               </tbody>
             </table>
-            {pageCount > 1 && (
-              <nav className="pager" aria-label="Table pages">
-                <button type="button" aria-label="Previous page" disabled={cur === 0} onClick={() => props.onPage(cur - 1)}>‹</button>
-                {pageList(cur, pageCount).map((item, i) => item === '…'
-                  ? <span key={`e${i}`} className="pager-ell" aria-hidden="true">…</span>
-                  : <button key={item} type="button" className={item === cur ? 'cur' : undefined}
-                      aria-current={item === cur ? 'page' : undefined} onClick={() => props.onPage(item)}>{item + 1}</button>)}
-                <button type="button" aria-label="Next page" disabled={cur === pageCount - 1} onClick={() => props.onPage(cur + 1)}>›</button>
-              </nav>
-            )}
+            {pageCount > 1 && <Pager label="Table pages" page={cur} count={pageCount} onPage={props.onPage} />}
           </>
         )}
       </div>

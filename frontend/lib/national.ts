@@ -1,6 +1,7 @@
 /* The national page's arithmetic: every figure it shows is derived here from the
    published counts, in one pass, with no state. The page holds the inputs (year,
    tense, query, sort) and renders what these return. */
+import { resolveSeat } from './stands.ts';
 import type { ByeDoc, Minister, Party, PcYearDoc, StateYearDoc } from './types.ts';
 
 export type Tense = 'elected' | 'stands';
@@ -57,7 +58,8 @@ export function aggregateStates(doc: StateYearDoc): Aggregate {
 }
 
 /* The party that won most seats in a region (most votes breaks a tie), or null
-   when the region has no result: the colour of a state on a state-level map. */
+   when the region has no result or no party won a seat: the colour of a state on
+   a state-level map, national or state page. */
 export function regionLeader(m: Map<string, Tally> | undefined): string | null {
   if (!m) return null;
   let best: [string, Tally] | null = null;
@@ -83,16 +85,8 @@ export function resolveSeats(year: PcYearDoc | null, bye: ByeDoc | null, tense: 
   for (const seat of bye?.seats ?? []) {
     const r = resolved.get(seat.uid);
     if (!r) continue;
-    const byes = seat.events.filter(e => e.type === 'bye');
-    r.byeCount = byes.length;
-    if (tense !== 'stands') continue;
-    const last = seat.events[seat.events.length - 1];
-    if (last && last.type === 'vacated') { r.p = null; r.vacant = true; }
-    else if (byes.length) {
-      const w = (byes[byes.length - 1] as Extract<typeof byes[number], { type: 'bye' }>).winner;
-      r.p = w ? w.p : null;
-      r.unknown = !w;
-    }
+    r.byeCount = seat.events.filter(e => e.type === 'bye').length;
+    if (tense === 'stands') Object.assign(r, resolveSeat(year.constituencies[seat.uid].p, seat.events));
   }
   return resolved;
 }

@@ -2,7 +2,7 @@
    shows, the seat's result in that cycle, and the "not available yet" sentence
    when no added cycle carries it. Every function takes its inputs and returns
    what the page renders; the page holds no arithmetic of its own. */
-import { ECI, notAvailable, titleCase } from './atlas.ts';
+import { ECI, fold, notAvailable, titleCase } from './atlas.ts';
 import type { PartiesDoc, RegionsDoc, SymbolsDoc } from './types.ts';
 
 /* results/ac/{state}/{year}-detail.json: every candidate in every assembly seat,
@@ -17,10 +17,6 @@ export type AcTopoDoc = { objects?: { acs?: { geometries?: { properties: AcGeomP
 
 /* geo/ac/coverage.json: the states whose assembly boundaries the atlas stands behind. */
 export type CoverageDoc = { checked?: Record<string, unknown> };
-
-/* A seat name as a URL key: lower case, reservation marks and punctuation dropped. */
-export const keyify = (s: string | undefined | null): string =>
-  String(s || '').toLowerCase().replace(/\(sc\)|\(st\)/g, '').replace(/[^a-z0-9]/g, '');
 
 /* ?s=IN-UP&c=behat. The state defaults to Uttar Pradesh, as it always has. */
 export function readQuery(search: string): { state: string; seat: string } {
@@ -43,7 +39,7 @@ export type Seat = { name: string; no: string; pc: string };
 /* The seat the key names. When the geometry has no such seat the key stands as
    the name, with no number (so no result is read) and no parent seat. */
 export function findSeat(topo: AcTopoDoc | null, key: string): Seat {
-  const g = (topo?.objects?.acs?.geometries ?? []).find(x => keyify(x.properties.ac) === key);
+  const g = (topo?.objects?.acs?.geometries ?? []).find(x => fold(x.properties.ac) === key);
   return g ? { name: g.properties.ac, no: String(g.properties.no), pc: g.properties.pc || '' } : { name: key, no: '', pc: '' };
 }
 
@@ -82,7 +78,7 @@ export const formatMargin = (pct: number): string => `+${pct.toFixed(1)}%`;
 /* The Lok Sabha seat this assembly seat sits inside, for the cross-link to its
    MP page; null when the geometry does not say. */
 export const parentSeat = (pc: string): { title: string; key: string } | null =>
-  pc ? { title: titleCase(pc), key: keyify(pc) } : null;
+  pc ? { title: titleCase(pc), key: fold(pc) } : null;
 
 /* A party as the hero shows it: name, colour (the registry's fallback colour for
    a party outside it), and its symbol file when one is listed. */
