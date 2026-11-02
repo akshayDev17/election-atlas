@@ -1,0 +1,524 @@
+:root{
+  --paper:#EEF1F8; --paper-2:#E3E9F4; --ink:#0F1220; --muted:#525A6B;
+  --rule:#D3D9E6; --rule-2:#BCC4D6; --rule-3:#7C8598; --vacant:#C7CDD9;
+  --serif:"Newsreader",ui-serif,Georgia,serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+
+  /* No accent colour on this page. Every hue here belongs to a party: an accent
+     would compete with the palette that carries the data. The one non-party
+     colour is --ink, used for the state outlines and the card's structure. */
+
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px; --s8:64px;
+  --r1:3px; --r2:6px;
+  --col:86rem;
+  /* The table's measure is fixed, not proportional: a table whose columns move
+     as the window changes is a table the reader has to re-read every time. */
+  --table-w:clamp(16.5rem,20vw,19rem);
+  /* The belt's two knobs: how wide each member card is, and how many rows
+     stack before the strip continues right. */
+  --belt-card-w:9.25rem;
+  --belt-rows:3;
+  --pad:max(clamp(1.25rem,4vw,4.5rem),calc((100vw - var(--col)) / 2));
+  --ease:cubic-bezier(.2,0,0,1);
+
+  /* The one dial. 1 = the map fits the screen exactly and never scrolls.
+     Raise it to trade vertical scroll for width: India is taller than wide, so
+     at 1 a laptop gives the map about half the screen width. */
+  --map-spill:1;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+html,body{height:100%}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--serif);font-optical-sizing:auto;
+  font-size:1.0625rem;line-height:1.65;
+  font-variant-numeric:tabular-nums;
+  -webkit-font-smoothing:antialiased;
+  /* One screen, and the browser does the arithmetic. There is no hand-tuned
+     chrome constant left to drift out of step with the masthead: main takes the
+     whole viewport, the masthead takes what it needs, and the map takes exactly
+     the remainder. */
+  display:flex;flex-direction:column;
+  min-height:100dvh;
+}
+p{margin:0}
+.lbl{
+  font-family:var(--mono);font-size:.625rem;line-height:1.4;
+  letter-spacing:.15em;text-transform:uppercase;color:var(--muted);
+}
+
+/* ── shell ────────────────────────────────────────────────────────────── */
+main{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;padding:0 var(--pad)}
+.hair{height:1px;background:var(--rule);border:0;margin:0}
+/* The caveat. It has to be read before any figure, so it sits in the masthead
+   and not in a footer, where on level two it would land below the maps it is
+   warning about. It takes a surface and an edge rather than a hue: every
+   saturated colour on this page is a party, and the obvious warning orange is
+   the one BJP already owns. --ink on --paper-2 is 15.28:1 (APCA Lc 91.9). */
+.caveat{
+  font-family:var(--mono);font-size:.6875rem;line-height:1.5;
+  color:var(--ink);background:var(--paper-2);
+  border-inline-start:3px solid var(--ink);
+  padding:var(--s3) var(--s4);
+  margin:var(--s4) 0 0;
+}
+
+/* ── masthead ─────────────────────────────────────────────────────────── */
+.masthead{flex:0 0 auto;padding-top:clamp(1rem,2.4vw,2rem)}
+.mh-top{display:flex;align-items:baseline;justify-content:space-between;gap:var(--s5);flex-wrap:wrap}
+.mh-top .lbl{margin:0}
+.mh-left{display:flex;align-items:baseline;gap:var(--s5);flex-wrap:wrap;margin:0}
+/* The way back. This page is reached from the portfolio and until now had no
+   route home again — the footer that carried it was deleted. Same type as the
+   eyebrow beside it, so it reads as part of the masthead rather than as chrome. */
+.back{
+  font-family:var(--mono);font-size:.625rem;line-height:1.4;
+  letter-spacing:.15em;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;
+  transition:color .18s var(--ease);
+}
+.back:hover{color:var(--ink)}
+.back:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:2px}
+.years{display:flex;align-items:baseline;gap:2px;margin-bottom:-6px}
+.year{
+  appearance:none;background:none;border:0;cursor:pointer;
+  font-family:var(--mono);font-size:.8125rem;letter-spacing:.06em;color:var(--muted);
+  padding:6px 10px 8px;border-bottom:2px solid transparent;
+  transition:color .18s var(--ease),border-color .18s var(--ease);
+}
+.year:hover{color:var(--ink)}
+.year[aria-pressed="true"]{color:var(--ink);border-bottom-color:var(--ink)}
+.year:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:2px}
+.year[disabled]{opacity:.4;cursor:default}
+/* a year whose result has not been added: still selectable, it shows "not available yet" */
+.year.na{color:var(--rule-3);text-decoration:line-through;text-decoration-thickness:1px}
+.year.na[aria-pressed="true"]{color:var(--muted)}
+.mh-tools{display:flex;align-items:baseline;justify-content:flex-end;gap:var(--s5);flex-wrap:wrap}
+/* The tense is the page's mode: as counted on polling day, or as the term
+   actually ended up. It is a sibling of the year selector — same instrument
+   cluster, same idiom, one row, so it costs the map no height. */
+.tense{display:flex;align-items:baseline;gap:2px;margin-bottom:-6px;
+  border-inline-start:1px solid var(--rule-2);padding-inline-start:var(--s4);margin-inline-start:var(--s3)}
+.tense-opt{
+  appearance:none;background:none;border:0;cursor:pointer;
+  font-family:var(--mono);font-size:.75rem;letter-spacing:.05em;color:var(--muted);
+  padding:6px 8px 8px;border-bottom:2px solid transparent;
+  transition:color .18s var(--ease),border-color .18s var(--ease);
+}
+.tense-opt:hover{color:var(--ink)}
+.tense-opt[aria-pressed="true"]{color:var(--ink);border-bottom-color:var(--ink)}
+.tense-opt:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:2px}
+
+/* ── search ───────────────────────────────────────────────────────────── *
+ * A query is a fill-in line, docked to the surface it searches: party search
+ * above the national table, minister search inside the belt head. The label
+ * sits above the line so the narrow columns stay legible. No accent enters:
+ * the active edge is --ink, the same colour as the selection edge and the
+ * state outlines. */
+.find{display:flex;flex-direction:column;gap:var(--s1)}
+.find-label{font-family:var(--mono);font-size:.5625rem;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--muted);cursor:pointer}
+.find-line{display:flex;align-items:baseline;gap:var(--s2);
+  border-bottom:1px solid var(--rule-3);
+  transition:border-color .18s var(--ease),box-shadow .18s var(--ease)}
+/* Focus is the underline thickening, not a rectangle: a 1px rule grows to a 2px
+   --ink line (border + shadow, so nothing shifts), the same idiom the year tabs
+   use. The caret already marks the field, so no outline is needed. */
+.find-line:focus-within{border-bottom-color:var(--ink);box-shadow:0 1px 0 0 var(--ink)}
+.find-line input{
+  appearance:none;background:none;border:0;outline:0;padding:5px 0 4px;margin:0;
+  font-family:var(--mono);font-size:.8125rem;color:var(--ink);
+  flex:1 1 auto;min-width:0;border-radius:0;
+}
+.find-line input::placeholder{color:var(--muted)}
+.search-count{font-family:var(--mono);font-size:.625rem;color:var(--muted);flex:0 0 auto;
+  white-space:nowrap;padding-bottom:5px}
+.search-clear{
+  appearance:none;background:none;border:0;cursor:pointer;padding:2px 6px 5px;min-height:24px;
+  font-family:var(--mono);font-size:.625rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted);transition:color .18s var(--ease);
+}
+.search-clear:hover{color:var(--ink)}
+.search-clear:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:2px}
+.search-clear[hidden]{display:none}
+.ntable .find{margin-bottom:var(--s3)}
+.belt .find{margin-bottom:var(--s3)}
+
+/* ── the plate and its key ────────────────────────────────────────────── *
+ * The map is height-bound: at 1440px it is 649px wide inside a 1325px column,
+ * because India is taller than wide and height is what binds. So the table is
+ * not taking room from the map — it is occupying ground the map could never
+ * have used. The map is left-justified so that vacated width lands where the
+ * table goes, instead of sitting as a gutter on both sides. */
+.field{
+  flex:1 1 auto;min-height:0;
+  /* max-content, not 1fr: the map is height-bound, so a fractional column takes
+     all the slack and pushes the table to the far edge — leaving a gap that
+     measured 76px at 900 wide and 421px at 1280. A fixed track keeps the table
+     beside the plate, and the slack falls past both as a trailing margin, which
+     is the one form of empty space a reader reads as intended. */
+  display:grid;grid-template-columns:max-content var(--table-w) minmax(0,1fr);
+  gap:clamp(1.25rem,2.6vw,3rem);
+  padding:clamp(.5rem,1.5vw,1rem) 0 clamp(.75rem,1.2vw,1.25rem);
+}
+.mapfig{
+  min-height:0;margin:0;
+  position:relative;
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:center;
+  /* One line is reserved below the map for the status readout, so the map's
+     height (and the width derived from it) accounts for the note instead of
+     the note overflowing the figure. */
+  padding-bottom:calc(var(--s3) + 0.875rem);
+}
+#map{
+  display:block;margin:0;overflow:visible;
+  /* India's projected extent is 0.8839 wide to 1 tall — taller than wide, which
+     is the whole problem. A map wide enough to fill a 1440px viewport is 1629px
+     tall; one that fits a 900px viewport is 795px wide. Width and height cannot
+     both be filled, so height is the binding constraint and width is derived:
+     whatever height the viewport can spare, times the ratio, capped by the
+     column so it can never spill sideways either.
+     0.8839 = geoMercator extent of lon 68.09..97.40 by lat 6.76..37.04. */
+  aspect-ratio:884 / 1000;
+  /* Height is the constraint, so it is the one that is set; width follows from
+     India's ratio. max-width catches the narrow screen where the derived width
+     would exceed the column — there the map is width-bound instead, and because
+     the svg letterboxes its own drawing, the map simply centres in the space
+     rather than distorting. */
+  height:calc(100% * var(--map-spill));
+  width:auto;
+  max-width:100%;
+}
+
+/* Constituency fill. No stroke: a boundary is only visible where two adjacent
+   seats were won by different parties, which is the whole point of shading at
+   this granularity. */
+#map .pc{fill:var(--c,var(--paper-2));stroke:none;transition:fill .22s var(--ease)}
+/* A by-election seat wears a dashed --ink outline — a scar, not a hue. The
+   dashed edge is the one device left over: fill is hover, the leading edge is
+   selection, the solid stroke is the state boundary. Vacant is the same dash
+   but with a grey fill, so the two never read as a party. */
+#map .pc.bye,#map .pc.vacant{stroke:var(--ink);stroke-width:.8;stroke-dasharray:2.5 2.5;stroke-opacity:.7}
+/* An election fought on boundaries older than the atlas geometry (1980-2004) has
+   a state-level result only: each state takes the colour of the party that won
+   most of its seats, under the same outlines. */
+#map .stf{fill:var(--c,var(--paper-2));stroke:none;transition:fill .22s var(--ease)}
+
+/* The only line the map draws. fill:none plus pointer-events:all makes the whole
+   area of a state hoverable while drawing nothing inside it. */
+#map .st{
+  fill:none;stroke:var(--ink);stroke-width:1.1;stroke-linejoin:round;
+  pointer-events:all;cursor:pointer;
+  transition:stroke-width .16s var(--ease),stroke-opacity .24s var(--ease);
+}
+#map .st:hover,#map .st.is-active{stroke-width:2.4}
+#map .st:focus-visible{outline:none;stroke-width:3.2}
+
+/* Clicking inside the map but not on a state leaves the click on the <svg> root,
+   and the browser focuses it and paints its default focus ring around the whole
+   element — which arrives in the OS accent colour, so it is orange on a machine
+   whose accent is orange and reads as a border this page drew. It does not come
+   from here; no rule below draws anything on the root.
+   Removing it costs no keyboard user anything. The root is not a tab stop, and
+   every element inside it that IS reachable by keyboard shows focus three other
+   ways at once: its stroke goes 1.1px -> 3.2px, it is the one region the scrim
+   does not wash, and it lifts off the plane on a cast shadow. */
+#map,#map .st:focus{outline:none}
+
+/* ── focus + context ──────────────────────────────────────────────────── *
+ * Highlighting a border alone asks the reader to find the difference between
+ * two 1px lines. Instead the map is divided into a focus and a context: the
+ * hovered state keeps its colour, and everything else recedes — the map plane
+ * is pushed back so the one region comes forward.
+ *
+ * Two layers, both sharing one mask whose hole is the hovered state:
+ *
+ *   .scrim  a wash of the page colour over the whole map. It desaturates the
+ *           context by moving it toward the background rather than toward grey,
+ *           so the country's shape stays legible while its colours stop
+ *           competing. The mask keeps the wash off the focus itself.
+ *
+ *   .lift   the same shape again, nudged down and blurred, and masked the same
+ *           way so only the part falling OUTSIDE the hovered state survives.
+ *           What is left is a cast shadow, which is what actually reads as
+ *           height — you are seeing the state lifted off the plane, not just
+ *           tinted differently.
+ *
+ * Both are one element each, updated by writing a `d` attribute, so the cost of
+ * hovering does not scale with 543 constituencies.
+ */
+#map .scrim,#map .lift{pointer-events:none;transition:opacity .24s var(--ease)}
+#map .scrim{fill:var(--paper);opacity:0}
+#map .lift{fill:var(--ink);opacity:0}
+#map.has-focus .scrim{opacity:.62}
+#map.has-focus .lift{opacity:.24}
+/* with one state brought forward, the other borders become noise */
+#map.has-focus .st:not(.is-active){stroke-opacity:.26}
+
+/* The note is a status line, not a caption: it holds the message when a year has
+   no result file, and takes no space at all the rest of the time. */
+.mapnote{position:absolute;inset-inline-start:0;inset-block-end:0;text-align:left}
+.mapnote:empty{display:none}
+
+/* ── the national table ───────────────────────────────────────────────── *
+ * The map shows the shape of a result; this shows its arithmetic and acts on
+ * the map rather than describing it. Rows are controls, so they have to look
+ * operable. Selection is --ink on a --paper-2 surface, never a hue: every
+ * saturated colour on this page belongs to a party, and a selection highlight
+ * in the usual warning orange would read as BJP. */
+.ntable{display:flex;flex-direction:column;min-height:0;font-family:var(--mono);align-self:start}
+/* The head holds only the two resets, and both are hidden until they apply, so
+   the row keeps a reserved height rather than letting the table jump down the
+   moment a reset appears. */
+.ntable-head{display:flex;align-items:baseline;justify-content:flex-end;
+  gap:var(--s3);min-height:1.25rem;padding:0 0 var(--s2)}
+/* Both resets stay hidden until they apply — but the one that escapes a
+   filtered map is the head's loudest control, not its quietest, so clearing a
+   selection is set at body scale in --ink while the sort reset stays a label. */
+.ntable-actions{display:flex;align-items:baseline;gap:var(--s3)}
+.reset{
+  appearance:none;background:none;border:0;cursor:pointer;padding:2px 4px;
+  font-family:var(--mono);font-size:.5625rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);transition:color .18s var(--ease);
+}
+.reset:hover{color:var(--ink)}
+.reset:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:2px}
+.reset[hidden]{display:none}
+.reset.loud{font-size:.6875rem;letter-spacing:.04em;text-transform:none;color:var(--ink)}
+/* No scrollbar. The fades below are the cue instead: a gradient from the page
+   ground at whichever edge still has content behind it, so the rows dissolve
+   rather than being cut by a hard line at the container's edge.
+   What that gives up is the position indicator and click-drag scrolling. Wheel,
+   trackpad and keyboard all still scroll, and tabbing to a row button brings it
+   into view, so every row stays reachable — but it is a real trade, not free. */
+/* With 10 rows a page, the table no longer fills the column or scrolls: it is
+   its own height, and the pager below it carries the rest of the rows. */
+.ntable-view{position:relative}
+.ntable-scroll{scrollbar-width:none}
+.ntable-scroll::-webkit-scrollbar{display:none}
+/* The fade exists only where there IS more: a container already at its end
+   claims no edge it does not have. */
+.ntable-view::before,.ntable-view::after{
+  content:'';position:absolute;inset-inline:0;height:var(--s6);z-index:2;
+  pointer-events:none;opacity:0;transition:opacity .2s var(--ease);
+}
+.ntable-view::before{
+  inset-block-start:0;
+  background:linear-gradient(to bottom,var(--paper) 25%,transparent);
+}
+.ntable-view::after{
+  inset-block-end:0;
+  background:linear-gradient(to top,var(--paper) 25%,transparent);
+}
+.ntable-view.more-up::before{opacity:1}
+.ntable-view.more-down::after{opacity:1}
+/* fixed layout: otherwise every column re-measures when a sort arrow changes
+   the header label, so the figures shift sideways on each sort. */
+.ntable table{width:100%;border-collapse:collapse;font-size:.6875rem;table-layout:fixed}
+.ntable th:nth-child(2){width:4.25rem}
+.ntable th:nth-child(3){width:5.75rem}
+.ntable th:nth-child(4){width:3.5rem}
+/* The tense delta rides the seats cell, not its own column: a dedicated track
+   squeezes the votes number out of a 288px table. Sign + weight carry it. */
+.ntable .d{font-weight:500;letter-spacing:.02em}
+.ntable th{
+  font-weight:400;font-size:.5625rem;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--muted);text-align:right;padding:0;border-bottom:1px solid var(--rule-2);
+}
+.ntable th button{
+  appearance:none;background:none;border:0;cursor:pointer;width:100%;text-align:right;
+  font:inherit;letter-spacing:inherit;text-transform:inherit;color:inherit;
+  padding:0 0 5px;transition:color .18s var(--ease);
+}
+.ntable th button:hover{color:var(--ink)}
+.ntable th button:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:2px}
+.ntable th[aria-sort="ascending"] button,
+.ntable th[aria-sort="descending"] button{color:var(--ink)}
+.ntable th:first-child button{text-align:left;cursor:default}
+.ntable td{
+  padding:5px 0;text-align:right;border-top:1px solid var(--rule);
+  transition:color .18s var(--ease);
+}
+.ntable tr:first-child td{border-top:0}
+.ntable th:first-child,.ntable td:first-child{text-align:left;padding-inline-start:var(--s2)}
+.ntable th+th,.ntable td+td{padding-inline-start:var(--s4)}
+.ntable .pick{
+  appearance:none;background:none;border:0;padding:0;cursor:pointer;font:inherit;
+  color:inherit;display:flex;align-items:center;gap:7px;width:100%;text-align:left;
+}
+.ntable .pick:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:2px}
+.ntable .sw{width:9px;height:9px;border-radius:2px;flex:0 0 auto;background:var(--c);
+  box-shadow:inset 0 0 0 1px rgba(15,18,32,.2);transition:opacity .18s var(--ease)}
+.ntable tbody tr{cursor:pointer;transition:background .14s var(--ease),color .18s var(--ease)}
+/* Hover and selection must never share a shape. Hover is a FILL; selection is a
+   LEADING EDGE. Sharing one surface meant that with a filter live, hovering a
+   row left out of the selection wore exactly what the selected rows were
+   wearing, and a 2px line was the only thing telling them apart. */
+.ntable tbody tr:hover{background:var(--paper-2)}
+.ntable tbody tr.sel{box-shadow:inset 2px 0 0 var(--ink)}
+/* with a selection standing, the rows left out of it say so quietly */
+.ntable tbody.has-sel tr:not(.sel){color:var(--muted)}
+.ntable tbody.has-sel tr:not(.sel) .sw{opacity:.4}
+/* Page numbers under the table: quiet, the current one filled. */
+.pager{display:flex;align-items:center;justify-content:flex-end;gap:var(--s2);margin-top:var(--s3)}
+.pager button{
+  appearance:none;background:none;border:0;cursor:pointer;
+  font-family:var(--mono);font-size:.6875rem;color:var(--muted);
+  min-width:1.5rem;height:1.5rem;padding:0 6px;border-radius:var(--r2);
+  transition:color .18s var(--ease),background .14s var(--ease);
+}
+.pager button:hover{color:var(--ink);background:var(--paper-2)}
+.pager button.cur{color:var(--ink);background:var(--paper-2);font-weight:500}
+.pager button:disabled{opacity:.35;cursor:default}
+.pager button:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:var(--r2)}
+.pager-ell{color:var(--muted);padding:0 2px;font-family:var(--mono);font-size:.6875rem}
+
+/* ── the hover card ───────────────────────────────────────────────────── */
+#card{
+  position:fixed;z-index:9;min-width:19rem;max-width:24rem;
+  background:#fff;border:1px solid var(--rule-2);border-radius:var(--r2);
+  box-shadow:0 6px 26px rgba(15,18,32,.14);
+  padding:14px 16px 12px;
+  opacity:0;pointer-events:none;
+  transition:opacity .14s var(--ease);
+}
+#card.on{opacity:1}
+#card .sub{font-family:var(--mono);font-size:.625rem;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--muted);margin:0 0 2px}
+#card h2{margin:0;font-size:1.125rem;font-weight:400;line-height:1.2;letter-spacing:-.01em}
+#card .meta{font-family:var(--mono);font-size:.6875rem;color:var(--muted);margin:4px 0 10px}
+#card table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:.6875rem}
+#card th{
+  font-weight:400;font-size:.5625rem;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--muted);text-align:right;padding:0 0 5px;border-bottom:1px solid var(--rule-2);
+}
+#card td{padding:4px 0;text-align:right;border-top:1px solid var(--rule)}
+#card tr:first-child td{border-top:0}
+/* The label column is the only one that is not a number, so it is the only one
+   that is left-aligned. Everything else right-aligns so digits line up on the
+   ones place — mixing the two made the party labels and the seat counts meet at
+   the same cell edge with no gap at all. */
+#card th:first-child,#card td:first-child{text-align:left}
+/* a gutter, so two columns cannot touch however narrow the card gets */
+#card th+th,#card td+td{padding-left:16px}
+#card td.p{display:flex;align-items:center;gap:7px}
+#card .sw{width:9px;height:9px;border-radius:2px;flex:0 0 auto;background:var(--c);
+  box-shadow:inset 0 0 0 1px rgba(15,18,32,.2)}
+#card .more{color:var(--muted)}
+#card .open{
+  font-family:var(--mono);font-size:.625rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink);margin:10px 0 0;padding-top:8px;border-top:1px solid var(--rule);
+}
+
+
+/* ── the tense delta ──────────────────────────────────────────────────── */
+/* A gain or loss is a sign, not a colour — no hue may enter the table, since
+   every saturated hue is a party. It is its own right-aligned track, not a
+   footnote riding the seats cell, so the shift is a first-class figure. */
+
+/* ── the cabinet belt ─────────────────────────────────────────────────── *
+ * The field's third track is land the height-bound map can never reach. The
+ * belt fills it downward first (grid-auto-flow:column), then continues right
+ * with horizontal scroll; the fades are the only cue there is more, and they
+ * exist only where overflow does. */
+.belt{display:flex;flex-direction:column;min-width:0;min-height:0}
+.belt-head{display:flex;flex-direction:column;gap:2px;padding:0 0 var(--s2)}
+.belt-title{font-family:var(--serif);font-size:.9375rem;line-height:1.25;color:var(--ink);margin:0}
+.belt-asof{font-family:var(--mono);font-size:.625rem;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
+.belt-view{position:relative;flex:1 1 auto;min-height:0}
+.belt-scroll{
+  height:100%;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;
+  display:grid;grid-auto-flow:column;grid-auto-columns:var(--belt-card-w);
+  grid-template-rows:repeat(var(--belt-rows),auto);align-content:start;
+  gap:var(--s3) var(--s4);overscroll-behavior-x:contain;padding:2px 2px var(--s3);
+  scroll-snap-type:x mandatory;
+}
+.belt-scroll::-webkit-scrollbar{display:none}
+/* The strip is its own keyboard control: tab to it, arrow-key scroll. */
+.belt-scroll:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:var(--r2)}
+.belt-view::before,.belt-view::after{
+  content:'';position:absolute;inset-block:0;width:var(--s6);z-index:2;
+  pointer-events:none;opacity:0;transition:opacity .2s var(--ease);
+}
+.belt-view::before{inset-inline-start:0;background:linear-gradient(to right,var(--paper) 18%,transparent)}
+.belt-view::after{inset-inline-end:0;background:linear-gradient(to left,var(--paper) 18%,transparent)}
+.belt-view.more-l::before{opacity:1}
+.belt-view.more-r::after{opacity:1}
+.belt-card{display:flex;flex-direction:column;gap:3px;min-width:0;scroll-snap-align:start}
+/* The minister search recedes non-matches the same way the map does: toward the
+   ground, not toward transparency. A raw opacity here put the names at 1.68:1.
+   Desaturating the face and muting the name keeps every dimmed value readable
+   while the colour is the thing that goes away. */
+.belt-card .belt-face,.belt-card .belt-name{transition:filter .22s var(--ease),color .22s var(--ease)}
+.belt-card.dim .belt-face{filter:saturate(.22) brightness(.92)}
+.belt-card.dim .belt-name{color:var(--muted)}
+.belt-face{
+  aspect-ratio:3/4;background:var(--paper-2);border:1px solid var(--rule);
+  border-radius:var(--r2);display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:1.4rem;color:var(--muted);letter-spacing:.02em;
+  overflow:hidden;
+}
+.belt-name{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:.8125rem;line-height:1.25;font-weight:500;color:#2E3440;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.belt-role{font-family:var(--mono);font-size:.75rem;line-height:1.4;letter-spacing:.02em;color:var(--muted);margin:0;display:flex;align-items:baseline;gap:4px;min-width:0}
+.belt-role-main{flex:1 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.belt-plus{flex:0 0 auto;color:var(--ink);font-weight:500}
+.belt-seat{font-family:var(--mono);font-size:.75rem;line-height:1.35;color:var(--muted);margin:0;display:flex;align-items:center;gap:6px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.belt .sw{width:9px;height:9px;border-radius:2px;flex:0 0 auto;background:var(--c);box-shadow:inset 0 0 0 1px rgba(15,18,32,.2)}
+.belt .belt-sym{flex:0 0 auto;max-width:18px;max-height:18px;width:auto;height:auto;display:block}
+.belt-empty{font-family:var(--mono);font-size:.6875rem;line-height:1.7;color:var(--muted);max-width:30ch}
+#card .min-list{list-style:none;margin:10px 0 0;padding:0;font-family:var(--mono);font-size:.6875rem;line-height:1.55;color:var(--muted)}
+#card .min-list li{padding:4px 0;border-top:1px solid var(--rule)}
+#card .min-list li:first-child{border-top:0}
+
+/* ── not available yet, monograms, credits ────────────────────────────── *
+ * A view whose data has not been added says so in one quiet sentence inside a
+ * hairline box: never a number, a name or a zero standing in for the data. */
+.void{display:flex;align-items:center;justify-content:center;min-height:8rem;
+  border:1px solid var(--rule);border-radius:var(--r2);padding:var(--s5)}
+.void p{max-width:34ch;text-align:center;font-family:var(--mono);font-size:.6875rem;
+  line-height:1.7;color:var(--muted)}
+.belt .void{flex:1 1 auto;align-self:stretch}
+.void[hidden],.find[hidden],.belt-view[hidden]{display:none}
+/* A tense with no record behind it stays in the row, plainly unavailable. */
+.tense-opt[aria-disabled="true"]{color:var(--rule-3);cursor:default;text-decoration:line-through;
+  text-decoration-thickness:1px}
+.tense-opt[aria-disabled="true"]:hover{color:var(--rule-3)}
+.monogram{display:flex;align-items:center;justify-content:center;width:100%;height:100%;
+  background:var(--mono-bg,var(--paper-2));color:var(--mono-ink,var(--muted));font-family:var(--serif);letter-spacing:.02em}
+.photo-link{display:block;font-family:var(--mono);font-size:.5625rem;line-height:1.4;
+  color:var(--muted);letter-spacing:.02em}
+.photo-link a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+.photo-link a:hover{color:var(--ink)}
+.credits{flex:0 0 auto;padding:var(--s2) var(--pad) var(--s3);font-family:var(--mono);
+  font-size:.5625rem;line-height:1.5;letter-spacing:.04em;color:var(--muted)}
+.credits a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+
+/* ── responsive ───────────────────────────────────────────────────────── */
+/* Side by side until the map can no longer hold its shape in the width left
+   over. Below that the table moves under the plate into a bounded region with
+   its own scroll, so the PAGE still never scrolls: the no-scroll rule is the
+   primary constraint here, so the table gives ground rather than the map. */
+@media (max-width:56rem){
+  .field{
+    grid-template-columns:minmax(0,1fr);
+    grid-template-rows:minmax(0,3fr) minmax(0,2fr);
+    gap:var(--s4);
+  }
+  .ntable{border-top:1px solid var(--rule-2);padding-top:var(--s2)}
+  /* The belt fills width the height-bound map can never use. On a narrow screen
+     the map is width-bound, so that land does not exist and the belt would only
+     squeeze the map — it is a desktop element here. The minister search lives
+     inside it, so it disappears with the belt rather than needing its own rule. */
+  .belt{display:none}
+}
+@media (max-width:44rem){
+  #card{min-width:0;max-width:calc(100vw - 20px)}
+}
+@media (prefers-reduced-motion:reduce){
+  #map .pc,#map .stf,#map .st,#map .scrim,#map .lift,.year,#card,
+  .ntable td,.ntable tbody tr,.ntable .sw,.tense-opt,
+  .belt-view::before,.belt-view::after,.belt-card .belt-face,.belt-card .belt-name,
+  .find-line,.search-clear,.pager button{transition:none}
+}

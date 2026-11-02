@@ -3,8 +3,9 @@
 
     python3 backend/check_no_routes.py backend/wrangler.jsonc
 
-Until the owner approves routing akshayprabhakant.com/work/election-atlas to
-this Worker, it may answer only on its workers.dev preview URL: the config must
+Until the owner's approved routes (akshayprabhakant.com/elections, /elections/*,
+/work/election-atlas and /work/election-atlas/*) are attached in their own step,
+this Worker may answer only on its workers.dev preview URL: the config must
 carry no `route`/`routes` (top level or in any environment) and no custom domain.
 """
 import json

@@ -1,0 +1,380 @@
+:root{
+  --paper:#EEF1F8; --paper-2:#E3E9F4; --ink:#0F1220; --muted:#525A6B;
+  --rule:#D3D9E6; --rule-2:#BCC4D6; --rule-3:#7C8598;
+  --serif:"Newsreader",ui-serif,Georgia,serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px;
+  --r2:6px;
+  --col:86rem;
+  --pad:max(clamp(1.25rem,4vw,4.5rem),calc((100vw - var(--col)) / 2));
+  --ease:cubic-bezier(.2,0,0,1);
+  --map-h:clamp(16rem,78vh,46rem);
+  --aspect:1;
+  --vacant:#C7CDD9;
+  --belt-card-w:9rem;
+  --belt-rows:2;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+html,body{height:100%}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--serif);font-optical-sizing:auto;font-size:1.0625rem;line-height:1.65;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;
+  display:flex;flex-direction:column;min-height:100dvh;
+}
+p{margin:0}
+.lbl{
+  font-family:var(--mono);font-size:.625rem;line-height:1.4;
+  letter-spacing:.15em;text-transform:uppercase;color:var(--muted);
+}
+main{flex:1 1 auto;display:flex;flex-direction:column;padding:0 var(--pad)}
+.hair{height:1px;background:var(--rule);border:0;margin:0}
+/* The caveat. It has to be read before any figure, so it sits in the masthead
+   and not in a footer, where on level two it would land below the maps it is
+   warning about. It takes a surface and an edge rather than a hue: every
+   saturated colour on this page is a party, and the obvious warning orange is
+   the one BJP already owns. --ink on --paper-2 is 15.28:1 (APCA Lc 91.9). */
+.caveat{
+  font-family:var(--mono);font-size:.6875rem;line-height:1.5;
+  color:var(--ink);background:var(--paper-2);
+  border-inline-start:3px solid var(--ink);
+  padding:var(--s3) var(--s4);
+  margin:var(--s4) 0 0;
+}
+
+/* ── masthead ─────────────────────────────────────────────────────────── */
+.masthead{flex:0 0 auto;padding-top:clamp(1rem,2.4vw,2rem)}
+.mh-left{display:flex;align-items:baseline;gap:var(--s5);flex-wrap:wrap;margin:0}
+.mh-top .lbl{margin:0}
+.back{
+  font-family:var(--mono);font-size:.625rem;line-height:1.4;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--muted);text-decoration:none;
+  transition:color .18s var(--ease);
+}
+.back:hover{color:var(--ink)}
+.back:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:2px}
+
+h1{margin:0;font-weight:400}
+.mh-top{display:flex;align-items:baseline;justify-content:space-between;gap:var(--s5);flex-wrap:wrap}
+/* The tense is the page's mode: as counted on polling day, or as the term
+   actually ended up. Same idiom as the year selectors, page-wide. */
+.tense{display:flex;align-items:baseline;gap:2px}
+.tense-opt{
+  appearance:none;background:none;border:0;cursor:pointer;
+  font-family:var(--mono);font-size:.75rem;letter-spacing:.05em;color:var(--muted);
+  padding:3px 8px 5px;border-bottom:2px solid transparent;
+  transition:color .18s var(--ease),border-color .18s var(--ease);
+}
+.tense-opt:hover{color:var(--ink)}
+.tense-opt[aria-pressed="true"]{color:var(--ink);border-bottom-color:var(--ink)}
+.tense-opt:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:2px}
+
+/* ── the two grids, split by a rule down the middle ───────────────────── */
+.panels{
+  flex:0 0 auto;display:grid;gap:0 clamp(1.25rem,2.5vw,2.5rem);
+  grid-template-columns:1fr;padding-bottom:clamp(1rem,2vw,1.5rem);
+}
+.split{display:none}
+.panel{min-width:0;display:flex;flex-direction:column;gap:var(--s2);padding-top:var(--s5)}
+.panel-head{display:flex;flex-direction:column;gap:var(--s2)}
+.tier{
+  font-family:var(--mono);font-size:.625rem;line-height:1.4;letter-spacing:.15em;
+  text-transform:uppercase;margin:0;
+}
+.tier .name{color:var(--ink)}
+.tier .sep{color:var(--rule-2);padding:0 .6em}
+#cap-ac,#cap-pc{color:var(--muted)}
+.years{display:flex;align-items:baseline;gap:2px}
+.year{
+  appearance:none;background:none;border:0;cursor:pointer;
+  font-family:var(--mono);font-size:.75rem;letter-spacing:.06em;color:var(--muted);
+  padding:3px 8px 5px;border-bottom:2px solid transparent;
+  transition:color .18s var(--ease),border-color .18s var(--ease);
+}
+.year:hover{color:var(--ink)}
+.year[aria-pressed="true"]{color:var(--ink);border-bottom-color:var(--ink)}
+.year:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:2px}
+.year[disabled]{opacity:.4;cursor:default}
+
+.panel figure{margin:0;display:flex;align-items:center;justify-content:center}
+.panel svg{
+  display:block;overflow:visible;height:auto;
+  width:min(100%, calc(var(--map-h) * var(--aspect)));
+  aspect-ratio:var(--aspect);
+}
+.pc,.ac{fill:var(--c);stroke:none;cursor:pointer}
+#map-pc .pc{stroke:var(--paper);stroke-width:.75;stroke-linejoin:round}
+#map-ac .ac{stroke:var(--paper);stroke-width:.5;stroke-linejoin:round}
+.panels.ready .ac,.panels.ready .pc{transition:fill .22s var(--ease)}
+.panel .edge{fill:none;stroke:var(--ink);stroke-width:1.1;stroke-linejoin:round;pointer-events:none}
+/* A click focuses the shape, and :focus-visible deliberately does NOT match
+   after a click — so matching only :focus-visible missed the case a reader
+   actually hits, and the browser's own 5px `auto` outline drew a rectangle
+   around the shape in the OS accent colour. This page does not draw it.
+   Removing it costs no keyboard user anything: the focused shape is marked at
+   2.4px in --ink, it is the one region the scrim does not wash, and it lifts
+   off the plane on a cast shadow.
+   A click landing between shapes focuses the <svg> root instead and draws the
+   same ring around the whole map. Neither root is a tab stop, so nothing is
+   lost there either. */
+#map-pc,#map-ac,.pc:focus,.ac:focus{outline:none}
+/* Scoped by id on purpose: `#map-pc .pc` / `#map-ac .ac` carry an id and so
+   outrank a bare `.marked`, which meant this rule never applied and the focused
+   shape kept its paper hairline instead of taking an ink outline. */
+#map-pc .pc.marked,#map-ac .ac.marked{stroke:var(--ink);stroke-width:2.4;stroke-opacity:1}
+.panels.ready .marked{transition:stroke-width .16s var(--ease)}
+.scrim,.lift{pointer-events:none}
+.panels.ready .scrim,.panels.ready .lift{transition:opacity .24s var(--ease)}
+.scrim{fill:var(--paper);opacity:0}
+.lift{fill:var(--ink);opacity:0}
+.panel.has-focus .scrim{opacity:.62}
+.panel.has-focus .lift{opacity:.24}
+.panel.has-focus .edge{stroke-opacity:.3}
+
+/* ── the hover card: one constituency's own result ────────────────────── */
+#card{
+  position:fixed;z-index:9;
+  /* the table can push the card wider than its own max-width, so cap both ends
+     against the viewport rather than trusting min/max alone */
+  min-width:min(22rem, calc(100vw - 16px));
+  max-width:min(27rem, calc(100vw - 16px));
+  background:#fff;border:1px solid var(--rule-2);border-radius:var(--r2);
+  box-shadow:0 6px 26px rgba(15,18,32,.14);
+  padding:14px 16px 12px;opacity:0;pointer-events:none;
+  transition:opacity .14s var(--ease);
+}
+#card.on{opacity:1}
+#card .sub{font-family:var(--mono);font-size:.5625rem;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--muted);margin:0 0 2px}
+#card h3{margin:0;font-size:1.0625rem;font-weight:400;line-height:1.2;letter-spacing:-.01em}
+/* the winner's monogram sits top-right, level with the eyebrow */
+#card .top{display:flex;align-items:flex-start;gap:13px}
+#card .who{flex:1 1 auto;min-width:0}
+#card .face{
+  flex:0 0 auto;width:68px;height:85px;border-radius:var(--r2);overflow:hidden;
+  border:1px solid var(--rule-2);background:var(--paper);
+}
+#card .meta{font-family:var(--mono);font-size:.6875rem;color:var(--muted);
+  margin:5px 0 10px;line-height:1.45}
+#card .meta span{display:block}
+#card table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:.6875rem}
+#card th{
+  font-weight:400;font-size:.5625rem;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--muted);text-align:right;padding:0 0 5px;border-bottom:1px solid var(--rule-2);
+}
+#card td{padding:4px 0;text-align:right;border-top:1px solid var(--rule)}
+#card tr:first-child td{border-top:0}
+#card th:nth-child(1),#card td:nth-child(1),
+#card th:nth-child(2),#card td:nth-child(2){text-align:left}
+#card th+th,#card td+td{padding-left:12px}
+#card .cell{display:flex;align-items:center;gap:6px}
+#card td.name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:11rem}
+#card .sw{width:9px;height:9px;border-radius:2px;flex:0 0 auto;background:var(--c);
+  box-shadow:inset 0 0 0 1px rgba(15,18,32,.2)}
+#card .more{color:var(--muted)}
+#card .bye-title{font-family:var(--mono);font-size:.5625rem;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);margin:10px 0 4px;padding-top:8px;border-top:1px solid var(--rule)}
+#card .bye table{font-family:var(--mono);font-size:.6875rem}
+#card .bye td{padding:3px 0;text-align:left}
+#card .bye td:first-child{padding-right:10px;color:var(--muted);white-space:nowrap}
+#card .bye td.name{white-space:normal;max-width:none}
+#card .bye tr.vac td{color:var(--muted)}
+#card .pcode{color:var(--muted)}
+#card .vacant-note{font-family:var(--mono);font-size:.6875rem;color:var(--muted);margin-top:10px;padding-top:8px;border-top:1px solid var(--rule)}
+
+/* ── tables ───────────────────────────────────────────────────────────── */
+.table{flex:0 0 auto}
+.table-head{display:flex;align-items:baseline;justify-content:space-between;gap:var(--s4)}
+.reset{
+  appearance:none;background:none;border:0;cursor:pointer;padding:2px 4px;
+  font-family:var(--mono);font-size:.5625rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);display:inline-flex;align-items:center;gap:5px;
+  transition:color .18s var(--ease);
+}
+.reset:hover{color:var(--ink)}
+.reset:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:2px}
+.reset[hidden]{display:none}
+table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:.6875rem}
+th{
+  font-weight:400;font-size:.5625rem;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--muted);text-align:right;padding:0;border-bottom:1px solid var(--rule-2);
+}
+th button{
+  appearance:none;background:none;border:0;cursor:pointer;width:100%;text-align:right;
+  font:inherit;letter-spacing:inherit;text-transform:inherit;color:inherit;
+  padding:0 0 5px;transition:color .18s var(--ease);
+}
+th button:hover{color:var(--ink)}
+th button:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:2px}
+th[aria-sort] button{color:var(--ink)}
+th:first-child button{text-align:left;cursor:default}
+td{padding:4px 0;text-align:right;border-top:1px solid var(--rule)}
+tr:first-child td{border-top:0}
+th:first-child,td:first-child{text-align:left}
+.table th:first-child,.table td:first-child{padding-inline-start:var(--s2)}
+th+th,td+td{padding-left:16px}
+td .cell{display:flex;align-items:center;gap:7px}
+td .d{font-weight:500;letter-spacing:.02em}
+/* Page numbers under the table: quiet, the current one filled. */
+.pager{display:flex;align-items:center;justify-content:flex-end;gap:var(--s2);margin-top:var(--s3)}
+.pager button{
+  appearance:none;background:none;border:0;cursor:pointer;
+  font-family:var(--mono);font-size:.6875rem;color:var(--muted);
+  min-width:1.5rem;height:1.5rem;padding:0 6px;border-radius:var(--r2);
+  transition:color .18s var(--ease),background .14s var(--ease);
+}
+.pager button:hover{color:var(--ink);background:var(--paper-2)}
+.pager button.cur{color:var(--ink);background:var(--paper-2);font-weight:500}
+.pager button:disabled{opacity:.35;cursor:default}
+.pager button:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:var(--r2)}
+.pager-ell{color:var(--muted);padding:0 2px;font-family:var(--mono);font-size:.6875rem}
+.sw{width:9px;height:9px;border-radius:2px;flex:0 0 auto;background:var(--c);
+  box-shadow:inset 0 0 0 1px rgba(15,18,32,.2)}
+.more{color:var(--muted)}
+
+/* ── the table rows are controls, exactly as on level one ─────────────── *
+ * Scoped to .table on purpose: the hover card contains a table too, and a bare
+ * `tbody tr` rule would make its candidate rows look clickable.
+ * Hover and selection must never share a shape — hover is a FILL, selection is
+ * a LEADING EDGE — or a hovered row left out of the selection wears exactly
+ * what the selected rows are wearing. */
+.table-actions{display:flex;align-items:baseline;gap:var(--s3)}
+.reset.loud{font-size:.6875rem;letter-spacing:.04em;text-transform:none;color:var(--ink)}
+.sw{transition:opacity .18s var(--ease)}
+.table tbody tr{cursor:pointer;transition:background .14s var(--ease),color .18s var(--ease)}
+.table tbody tr:hover{background:var(--paper-2)}
+.table tbody tr.sel{box-shadow:inset 2px 0 0 var(--ink)}
+.table tbody.has-sel tr:not(.sel){color:var(--muted)}
+.table tbody.has-sel tr:not(.sel) .sw{opacity:.4}
+.table tbody tr.more{cursor:default}
+.table tbody tr.more:hover{background:none}
+.table .pick{
+  appearance:none;background:none;border:0;padding:0;cursor:pointer;font:inherit;
+  color:inherit;display:flex;align-items:center;gap:7px;width:100%;text-align:left;
+}
+.table .pick:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:2px}
+
+.void{
+  min-height:12rem;display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--rule);border-radius:var(--r2);padding:var(--s5);
+}
+.void p{max-width:40ch;text-align:center;font-family:var(--mono);font-size:.6875rem;
+  line-height:1.7;color:var(--muted)}
+
+/* ── by-election marks ────────────────────────────────────────────────── */
+#map-pc .pc.bye,#map-pc .pc.vacant{stroke:var(--ink);stroke-width:.8;stroke-dasharray:2.5 2.5;stroke-opacity:.7}
+
+/* ── the cabinet belt ─────────────────────────────────────────────────── */
+.belt{display:flex;flex-direction:column;min-width:0;padding:var(--s3) 0 0;border-top:1px solid var(--rule-2)}
+.belt-head{display:flex;align-items:baseline;justify-content:space-between;gap:var(--s4);flex-wrap:wrap;padding:0 0 var(--s3)}
+.belt-title{font-family:var(--serif);font-size:1.0625rem;line-height:1.25;color:var(--ink);margin:0;font-weight:400}
+.belt-asof{font-family:var(--mono);font-size:.5625rem;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
+/* ── search (docked to the belt it filters) ───────────────────────────── */
+.find{display:flex;flex-direction:column;gap:var(--s1);margin-bottom:var(--s3)}
+.find-label{font-family:var(--mono);font-size:.5625rem;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--muted);cursor:pointer}
+.find-line{display:flex;align-items:baseline;gap:var(--s2);
+  border-bottom:1px solid var(--rule-3);
+  transition:border-color .18s var(--ease),box-shadow .18s var(--ease)}
+.find-line:focus-within{border-bottom-color:var(--ink);box-shadow:0 1px 0 0 var(--ink)}
+.find-line input{
+  appearance:none;background:none;border:0;outline:0;padding:5px 0 4px;margin:0;
+  font-family:var(--mono);font-size:.8125rem;color:var(--ink);
+  flex:1 1 auto;min-width:0;border-radius:0;
+}
+.find-line input::placeholder{color:var(--muted)}
+.search-count{font-family:var(--mono);font-size:.625rem;color:var(--muted);flex:0 0 auto;
+  white-space:nowrap;padding-bottom:5px}
+.search-clear{
+  appearance:none;background:none;border:0;cursor:pointer;padding:2px 6px 5px;min-height:24px;
+  font-family:var(--mono);font-size:.625rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted);transition:color .18s var(--ease);
+}
+.search-clear:hover{color:var(--ink)}
+.search-clear:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:2px}
+.search-clear[hidden]{display:none}
+.belt-view{position:relative}
+.belt-scroll{
+  overflow-x:auto;overflow-y:hidden;scrollbar-width:none;
+  display:grid;grid-auto-flow:column;grid-auto-columns:var(--belt-card-w);
+  grid-template-rows:repeat(var(--belt-rows),auto);align-content:start;
+  gap:var(--s3) var(--s4);overscroll-behavior-x:contain;padding:2px 2px var(--s3);
+  scroll-snap-type:x mandatory;
+}
+.belt-scroll::-webkit-scrollbar{display:none}
+/* The strip is its own keyboard control: tab to it, arrow-key scroll. */
+.belt-scroll:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:var(--r2)}
+.belt-view::before,.belt-view::after{
+  content:'';position:absolute;inset-block:0;width:var(--s6);z-index:2;
+  pointer-events:none;opacity:0;transition:opacity .2s var(--ease);
+}
+.belt-view::before{inset-inline-start:0;background:linear-gradient(to right,var(--paper) 18%,transparent)}
+.belt-view::after{inset-inline-end:0;background:linear-gradient(to left,var(--paper) 18%,transparent)}
+.belt-view.more-l::before{opacity:1}
+.belt-view.more-r::after{opacity:1}
+.belt-card{display:flex;flex-direction:column;gap:3px;min-width:0;scroll-snap-align:start}
+/* The minister search recedes non-matches toward the ground, not transparency:
+   a raw opacity here would drop the names below readable contrast. */
+.belt-card .belt-face,.belt-card .belt-name{transition:filter .22s var(--ease),color .22s var(--ease)}
+.belt-card.dim .belt-face{filter:saturate(.22) brightness(.92)}
+.belt-card.dim .belt-name{color:var(--muted)}
+.belt-face{
+  aspect-ratio:3/4;background:var(--paper-2);border:1px solid var(--rule);
+  border-radius:var(--r2);display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:1.4rem;color:var(--muted);letter-spacing:.02em;
+  overflow:hidden;
+}
+.belt-name{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:.8125rem;line-height:1.25;font-weight:500;color:#2E3440;margin:0}
+.belt-role{font-family:var(--mono);font-size:.75rem;line-height:1.4;letter-spacing:.02em;color:var(--muted);margin:0}
+.belt-seat{font-family:var(--mono);font-size:.75rem;line-height:1.35;color:var(--muted);margin:0;display:flex;align-items:center;gap:6px}
+.belt .sw{width:9px;height:9px;border-radius:2px;flex:0 0 auto;background:var(--c);box-shadow:inset 0 0 0 1px rgba(15,18,32,.2)}
+.belt .belt-sym{flex:0 0 auto;max-width:18px;max-height:18px;width:auto;height:auto;display:block}
+
+/* ── not available yet, monograms, credits ────────────────────────────── */
+/* A year with no data stays in its row, quieter, and still answers a click
+   with the "not available yet" state rather than an error. */
+.year.na{color:var(--rule-3);text-decoration:line-through;text-decoration-thickness:1px}
+.year.na[aria-pressed="true"]{color:var(--muted)}
+.tense-opt[aria-disabled="true"]{color:var(--rule-3);cursor:default;text-decoration:line-through;
+  text-decoration-thickness:1px}
+.tense-opt[aria-disabled="true"]:hover{color:var(--rule-3)}
+.table .void{min-height:7rem;margin-top:var(--s2)}
+.belt .void{min-height:7rem}
+.void[hidden],.find[hidden],.belt-view[hidden],.belt[hidden]{display:none}
+.monogram{display:flex;align-items:center;justify-content:center;width:100%;height:100%;
+  background:var(--mono-bg,var(--paper-2));color:var(--mono-ink,var(--muted));font-family:var(--serif);letter-spacing:.02em}
+#card .face .monogram{font-size:1.4rem}
+.photo-link{display:block;font-family:var(--mono);font-size:.5625rem;line-height:1.4;
+  color:var(--muted);letter-spacing:.02em}
+.photo-link a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+.photo-link a:hover{color:var(--ink)}
+#card .photo-link{margin-top:3px;text-align:right}
+#card .portrait{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end}
+.credits{flex:0 0 auto;padding:var(--s3) var(--pad) var(--s4);font-family:var(--mono);
+  font-size:.5625rem;line-height:1.5;letter-spacing:.04em;color:var(--muted);border-top:1px solid var(--rule)}
+.credits a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+
+@media (min-width:60rem){
+  .panels{grid-template-columns:1fr 1px 1fr}
+  /* Apple-ish: barely there, and it dissolves before it reaches either end
+     rather than stopping dead against the content. */
+  .split{
+    display:block;align-self:stretch;margin-top:var(--s5);
+    background:linear-gradient(to bottom,
+      transparent 0, var(--rule) 9%, var(--rule) 91%, transparent 100%);
+  }
+  .panel{padding-top:var(--s5)}
+}
+@media (prefers-reduced-motion:reduce){
+  .ac,.pc,.scrim,.lift,.year,.back,.edge,.marked,th button,#card,
+  .tense-opt,.belt-view::before,.belt-view::after,
+  .belt-card .belt-face,.belt-card .belt-name,.find-line,.search-clear,.pager button{transition:none}
+}
+
+/* ── new in the Next.js port ──────────────────────────────────────────── */
+/* A Lok Sabha year with only the state-level result (1980-2004: boundaries that
+   predate the atlas geometry) draws no constituency: the whole state takes the
+   colour of the party that won most of its seats. */
+#map-pc .stf{fill:var(--c);stroke:none}
+.panels.ready .stf{transition:fill .22s var(--ease)}
+@media (prefers-reduced-motion:reduce){ .stf{transition:none} }

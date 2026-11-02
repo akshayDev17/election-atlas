@@ -1,9 +1,11 @@
 name: Deploy
 
-# Exports the atlas's data files from D1, refuses to deploy unless they are what
-# the pinned github.io commit committed and the provenance gate passes over both
-# the export and D1 itself, then deploys the Worker. The config carries no
-# routes: the Worker answers only on its workers.dev preview URL.
+# Builds the Next.js frontend, exports the atlas's data files from D1, refuses to
+# deploy unless they are what the pinned github.io commit committed and the
+# provenance gate passes over both the export and D1 itself, then deploys the
+# Worker. The atlas is served at /elections/india/; the old address
+# /work/election-atlas/* answers 308 to it. The config carries no routes: the
+# Worker answers only on its workers.dev preview URL.
 
 on:
   workflow_dispatch:
@@ -51,6 +53,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -74,6 +78,13 @@ jobs:
           python3 backend/d1/export.py --db d1.sqlite --out exported \
             --compare atlas-source/work/election-atlas/data --overlay backend/d1/inputs
 
+      - name: Build the frontend (Next.js static export, type-checked)
+        working-directory: frontend
+        run: |
+          npm ci
+          npm run build
+          npm run test:export
+
       - name: Assemble the site
         env:
           PENDING_OK: ${{ inputs.pending_ok && '--pending-ok' || '' }}
@@ -83,7 +94,7 @@ jobs:
             --complete-against atlas-source/work/election-atlas/data $PENDING_OK
 
       - name: Provenance gate over the export and over D1
-        run: python3 tools/check_provenance.py dist/work/election-atlas/data --db d1.sqlite
+        run: python3 tools/check_provenance.py dist/elections/india/data --db d1.sqlite
 
       - name: Provenance gate, asked of D1 directly
         working-directory: backend
@@ -113,10 +124,10 @@ jobs:
           PENDING_OK: ${{ inputs.pending_ok }}
         run: |
           if [ "$PENDING_OK" = true ]; then
-            python3 dist/work/election-atlas/tools/build-availability.py
-            jq -c .ls dist/work/election-atlas/data/availability.json
+            python3 dist/elections/india/tools/build-availability.py
+            jq -c .ls dist/elections/india/data/availability.json
           else
-            python3 dist/work/election-atlas/tools/build-availability.py --check
+            python3 dist/elections/india/tools/build-availability.py --check
           fi
 
       - name: Static-asset limits (20,000 files, 25 MiB each)
@@ -132,19 +143,23 @@ jobs:
       - name: Smoke test the preview
         run: |
           base=$(grep -oE 'https://[a-z0-9.-]+\.workers\.dev' deploy.log | head -1)
-          echo "preview: $base/work/election-atlas/"
+          echo "preview: $base/elections/india/"
           test -n "$base"
           echo "$base" > preview-base.txt
           # A new deploy can take a few seconds to answer on workers.dev: wait for the
           # atlas root (up to 2 minutes) before judging anything.
           for _ in $(seq 1 24); do
-            [ "$(curl -s -o /dev/null -w '%{http_code}' "$base/work/election-atlas/")" = 200 ] && break
+            [ "$(curl -s -o /dev/null -w '%{http_code}' "$base/elections/india/")" = 200 ] && break
             sleep 5
           done
-          for p in "" data/manifest.json data/availability.json data/results/ac/IN-UP/2022.json state/; do
-            code=$(curl -s -o /dev/null -w '%{http_code}' "$base/work/election-atlas/$p")
-            echo "$code /work/election-atlas/$p"; test "$code" = 200
+          for p in "" data/manifest.json data/availability.json data/results/ac/IN-UP/2022.json state/ mp/ mla/; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "$base/elections/india/$p")
+            echo "$code /elections/india/$p"; test "$code" = 200
           done
+          # the old address answers a permanent redirect to the same URL here, query kept
+          want="$base/elections/india/state/?s=IN-UP&y=2024"
+          got=$(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' "$base/work/election-atlas/state/?s=IN-UP&y=2024")
+          echo "$got /work/election-atlas/state/?s=IN-UP&y=2024"; test "$got" = "308 $want"
 
       - name: Provenance gate over what the preview serves
-        run: python3 tools/check_provenance.py dist/work/election-atlas/data --remote "$(cat preview-base.txt)/work/election-atlas/"
+        run: python3 tools/check_provenance.py dist/elections/india/data --remote "$(cat preview-base.txt)/elections/india/"

@@ -94,6 +94,11 @@ class ProvenanceGate(unittest.TestCase):
         write(self.atlas, 'index.html', '<p>the assembly figures are synthetic</p>')
         self.assertFails('says "synthetic"')
 
+    def test_page_code_saying_synthetic_fails(self):
+        # the frontend's static export: the page code is in its _next/static chunks
+        write(self.atlas, '_next/static/chunks/app/page-1a2b.js', 'const note="synthetic seats";')
+        self.assertFails('_next/static/chunks/app/page-1a2b.js:1: says "synthetic"')
+
     def test_retired_path_for_a_year_that_was_never_a_cycle_fails(self):
         write(self.data, 'results/ac/IN-UP/2024.json', {**PUBLISHED_PC, 'election': 'ac'})
         self.assertFails('2024 is not a real assembly cycle for IN-UP')
@@ -161,6 +166,23 @@ class Remote(unittest.TestCase):
         r = self.run_remote()
         self.assertEqual(r.returncode, 1, r.stdout)
         self.assertIn("provenance is 'synthetic'", r.stdout)
+
+    def test_host_serving_synthetic_page_code_fails(self):
+        page = '<script src="/_next/static/chunks/page-1a2b.js" async=""></script>'
+        write(self.served, 'index.html', page)
+        write(self.listed, 'index.html', page)
+        write(self.served, '_next/static/chunks/page-1a2b.js', 'const note="synthetic seats";')
+        r = self.run_remote()
+        self.assertEqual(r.returncode, 1, r.stdout)
+        self.assertIn('_next/static/chunks/page-1a2b.js:1: says "synthetic"', r.stdout)
+
+    def test_page_code_the_host_does_not_serve_fails(self):
+        page = '<script src="/_next/static/chunks/gone-9z.js"></script>'
+        write(self.served, 'index.html', page)
+        write(self.listed, 'index.html', page)
+        r = self.run_remote()
+        self.assertEqual(r.returncode, 1, r.stdout)
+        self.assertIn('gone-9z.js not served', r.stdout)
 
     def test_file_the_host_does_not_serve_fails(self):
         (self.served / 'data' / 'results/ls/pc/2024.json').unlink()

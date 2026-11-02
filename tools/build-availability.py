@@ -9,6 +9,7 @@ not been added shows "not available yet" without a 404 in the console. Every
 entry is derived from the files under data/; nothing here is typed by hand.
 
   ls.results[year]                  results/ls/pc/{year}.json
+  ls.state[year]                    results/ls/{year}.json (the state-level rollup)
   ls.byel[year]                     results/ls/byel/{year}.json
   ls.detail[year]                   results/ls/detail/{year}.json
   cabinet.union[year].as_it_stands  cabinet/union/{year}.json
@@ -52,6 +53,7 @@ def build(data):
                  'from the files under data/. A false entry, or a key that is not listed, means '
                  'that file has not been added yet; the pages say so instead of drawing it.'),
         'ls': {'results': {str(y): has(f'results/ls/pc/{y}.json') for y in ls_years},
+               'state': {str(y): has(f'results/ls/{y}.json') for y in ls_years},
                'byel': {str(y): has(f'results/ls/byel/{y}.json') for y in ls_years},
                'detail': {str(y): has(f'results/ls/detail/{y}.json') for y in ls_years}},
         'cabinet': {

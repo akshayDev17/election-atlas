@@ -5,7 +5,13 @@
         --inventory <github.io>/.atlas-cutover/url-inventory.tsv --dist dist \\
         --manifests <github.io>/work/election-atlas/data/state-legislation --out results.tsv
 
-Checks, for every /work/election-atlas row of the inventory:
+The inventory lists the atlas at its old address, /work/election-atlas/. The
+atlas now lives at /elections/india/, so every row is checked twice:
+
+  moved     the old URL answers a permanent redirect (308 or 301) whose Location
+            is the same path under /elections/india/, query kept;
+
+and then, at that new URL, by its kind:
 
   file      200, and the body is byte-identical to the built asset in --dist
             (an explicit .../index.html answers 307 to its directory on Workers
@@ -23,7 +29,10 @@ Checks, for every /work/election-atlas row of the inventory:
             it with the query string intact.
 
 Paths revision §7 dropped from the new repository (tools/vendor/, tools/tessdata/)
-are expected to answer 404 and are counted separately. So are the data files a
+are expected to answer 404 and are counted separately, and so is the hand-written
+page code the Next.js frontend replaced (lib/, vendor/, state/card.js,
+state/stands.js): its pages are the export's, its code is in content-hashed
+chunks under _next/static/. So are the data files a
 deploy listed as pending (--pending, the PENDING lines of build_site.py
 --pending-ok): not in D1 yet, they answer 404 and the pages say "not available
 yet" for them. Every asset in --dist
@@ -40,8 +49,10 @@ import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-ATLAS = '/work/election-atlas/'
+OLD = '/work/election-atlas'
+ATLAS = '/elections/india/'
 RETIRED_BY_S7 = ('tools/vendor/', 'tools/tessdata/')
+RETIRED_BY_REBUILD = ('lib/', 'vendor/', 'state/card.js', 'state/stands.js')
 MiB = 1024 * 1024
 
 
@@ -115,6 +126,9 @@ def check_row(base, row, dist, pdfs, pending=frozenset()):
     if kind == 'file' and rel.startswith(RETIRED_BY_S7):
         status, _h, _b = get(base + url, read=False)
         return 'retired-s7', ('ok' if status == 404 else 'FAIL'), f'{status} (dropped by revision §7)'
+    if kind == 'file' and rel.startswith(RETIRED_BY_REBUILD):
+        status, _h, _b = get(base + url, read=False)
+        return 'retired-rebuild', ('ok' if status == 404 else 'FAIL'), f'{status} (page code replaced by the Next.js frontend)'
     if kind == 'file' and rel.endswith('.pdf'):
         if rel not in pdfs:
             return kind, 'FAIL', 'PDF not in any bill manifest'
@@ -127,13 +141,17 @@ def check_row(base, row, dist, pdfs, pending=frozenset()):
         status, h, body = get(base + url)
         local = dist / url.lstrip('/')
         note = ''
-        if status in (301, 302, 307, 308) and url.endswith('/index.html'):
+        if status in (301, 302, 307, 308) and url.endswith('.html'):
+            # Workers static assets serve an explicit .html URL without its
+            # extension (index.html as its directory): one redirect, same bytes
             loc = urllib.parse.urljoin(base + url, header(h, 'location') or '')
-            if loc != base + url[:-len('index.html')]:
+            want = url[:-len('index.html')] if url.endswith('/index.html') else url[:-len('.html')]
+            if loc != base + want:
                 return kind, 'FAIL', f'{status} -> {loc}'
             status, h, body = get(loc)
-            note = f' (via {status} after the redirect to the directory)'
-            kind = 'file (index.html redirects to its directory)'
+            note = f' (via {status} after the redirect to {want})'
+            kind = ('file (index.html redirects to its directory)' if url.endswith('/index.html')
+                    else 'file (.html redirects to its extension-less URL)')
         if status != 200:
             return kind, 'FAIL', f'{status}'
         if not local.exists():
@@ -164,6 +182,26 @@ def check_row(base, row, dist, pdfs, pending=frozenset()):
     return kind, 'skip', 'not an atlas row'
 
 
+def new_url(old_url):
+    """/work/election-atlas[/rest][?query] -> /elections/india/[rest][?query]."""
+    path, sep, query = old_url.partition('?')
+    return ATLAS + path[len(OLD):].lstrip('/') + sep + query
+
+
+def check_moved(base, row, dist, pdfs, pending=frozenset()):
+    """The old URL redirects permanently to its new URL; the new URL passes its kind's check."""
+    url = new_url(row['url'])
+    status, h, _b = get(base + row['url'], read=False)
+    loc = urllib.parse.urljoin(base + row['url'], header(h, 'location') or '')
+    if status not in (301, 308) or loc != base + url:
+        return row['kind'], 'FAIL', f'old address {row["url"]} -> {status} {loc} (want 308 -> {url})'
+    if row['kind'] == 'redirect' and url.endswith('/'):
+        # the bare old root moves straight to the new root's directory URL
+        row = {**row, 'kind': 'page'}
+    kind, verdict, detail = check_row(base, {**row, 'url': url}, dist, pdfs, pending)
+    return kind, verdict, f'{status} from the old address; {detail}'
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split('\n\n')[0])
     ap.add_argument('--base', required=True, help='host to check, e.g. https://election-atlas.x.workers.dev')
@@ -186,16 +224,16 @@ def main(argv=None):
                 line = line[len('PENDING '):]
             if line.startswith('data/'):
                 pending.add(line)
-    rows = [r for r in read_inventory(args.inventory) if r['url'].startswith('/work/election-atlas')]
-    listed = {r['url'] for r in rows}
+    rows = [r for r in read_inventory(args.inventory) if r['url'] == OLD or r['url'].startswith(OLD + '/')]
+    listed = {new_url(r['url']) for r in rows}
     extra = [{'kind': 'file', 'url': '/' + p.relative_to(dist).as_posix(), 'expect': '200'}
              for p in sorted(dist.rglob('*')) if p.is_file() and '/' + p.relative_to(dist).as_posix() not in listed]
     for r in extra:
         r['kind'] = 'file'
         r['_new'] = True
-    todo = rows + extra
     with ThreadPoolExecutor(args.jobs) as pool:
-        results = list(pool.map(lambda r: (r, *check_row(base, r, dist, pdfs, pending)), todo))
+        results = list(pool.map(lambda r: (r, *check_moved(base, r, dist, pdfs, pending)), rows))
+        results += list(pool.map(lambda r: (r, *check_row(base, r, dist, pdfs, pending)), extra))
     summary = {}
     lines = []
     for r, kind, verdict, detail in results:

@@ -1,18 +1,18 @@
 // node --test backend/src/test_index.mjs
 import assert from "node:assert/strict";
 import test from "node:test";
-import worker, { byteSpan, parseRange, r2Key } from "./index.js";
+import worker, { byteSpan, movedTo, parseRange, r2Key } from "./index.js";
 
-const PDF = "/work/election-atlas/data/state-legislation/IN-AP/bills/documents/f6d43f9459-bills.pdf";
+const PDF = "/elections/india/data/state-legislation/IN-AP/bills/documents/f6d43f9459-bills.pdf";
 
 test("a PDF URL maps to its key relative to the atlas root", () => {
   assert.equal(r2Key(PDF), "data/state-legislation/IN-AP/bills/documents/f6d43f9459-bills.pdf");
 });
 
 test("dot segments and broken escapes never reach R2", () => {
-  assert.equal(r2Key("/work/election-atlas/data/state-legislation/%2e%2e/x.pdf"), null);
-  assert.equal(r2Key("/work/election-atlas/data/state-legislation//x.pdf"), null);
-  assert.equal(r2Key("/work/election-atlas/data/state-legislation/%E0%A4.pdf"), null);
+  assert.equal(r2Key("/elections/india/data/state-legislation/%2e%2e/x.pdf"), null);
+  assert.equal(r2Key("/elections/india/data/state-legislation//x.pdf"), null);
+  assert.equal(r2Key("/elections/india/data/state-legislation/%E0%A4.pdf"), null);
 });
 
 test("byteSpan covers offset, open-ended and suffix ranges", () => {
@@ -94,8 +94,44 @@ test("a PDF missing from R2 is 404", async () => {
 });
 
 test("the bill index JSON and every page fall through to the static assets", async () => {
-  for (const path of ["/work/election-atlas/data/state-legislation/IN-AP/bills/index.json", "/work/election-atlas/state/"]) {
+  for (const path of ["/elections/india/data/state-legislation/IN-AP/bills/index.json", "/elections/india/state/"]) {
     const res = await worker.fetch(new Request(`https://x${path}`), env({}));
     assert.equal(await res.text(), `asset ${path}`);
   }
+});
+
+const call = (url, init) => worker.fetch(new Request(url, init), env({ [KEY]: BYTES }));
+
+test("the old address answers 308 to the same path under /elections/india/, query kept", async () => {
+  const cases = [
+    ["https://x/work/election-atlas", "https://x/elections/india/"],
+    ["https://x/work/election-atlas/", "https://x/elections/india/"],
+    ["https://x/work/election-atlas/state/?s=IN-UP&y=2024&t=stands", "https://x/elections/india/state/?s=IN-UP&y=2024&t=stands"],
+    ["https://x/work/election-atlas/mp?s=IN-PB&c=bhatinda", "https://x/elections/india/mp?s=IN-PB&c=bhatinda"],
+    ["https://x/work/election-atlas/data/manifest.json", "https://x/elections/india/data/manifest.json"],
+    ["https://x/work/election-atlas/data/state-legislation/IN-AP/bills/documents/f6d43f9459-bills.pdf",
+     `https://x${PDF}`],
+  ];
+  for (const [from, to] of cases) {
+    const res = await call(from);
+    assert.equal(res.status, 308, from);
+    assert.equal(res.headers.get("location"), to, from);
+  }
+});
+
+test("a HEAD or ranged request to the old address is redirected too, never served", async () => {
+  const res = await call("https://x/work/election-atlas/data/state-legislation/IN-AP/bills/documents/f6d43f9459-bills.pdf",
+    { method: "HEAD", headers: { range: "bytes=0-7" } });
+  assert.equal(res.status, 308);
+});
+
+test("only the old atlas prefix moves", () => {
+  assert.equal(movedTo(new URL("https://x/work/election-atlasx/")), null);
+  assert.equal(movedTo(new URL("https://x/work/")), null);
+  assert.equal(movedTo(new URL("https://x/elections/india/")), null);
+});
+
+test("pages and data under /elections/india/ are the static assets", async () => {
+  const res = await call("https://x/elections/india/state/?s=IN-UP");
+  assert.equal(await res.text(), "asset /elections/india/state/");
 });

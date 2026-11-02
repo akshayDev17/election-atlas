@@ -41,12 +41,11 @@ Each stops with an error on a source shape it does not expect.
   Delhi and Goa, Daman & Diu in their own regions, read a winner whose long name runs
   into the party column (Dhenkanal 1991, INC), and count Srinagar's unopposed return
   (1980 and 1989, JKN) with its report page.
-- `node --test tools/test_stands.mjs`: the state page's "as it stands" seat tally
-  (`state/stands.js`) adds up to each state's seat count.
-- `node --test tools/test_card.mjs`: the state page's hover card (`state/card.js`)
-  shows only the hovered seat, including an AC listed in a file's `no_result`.
-- `node --test tools/test_member_link.mjs`: members are initials on the party colour
-  plus a "View official photo on sansad.in" link built from the Sansad member number.
+- the pages' own tests live with the frontend (`frontend/lib/*.test.ts`, run with
+  `npm --prefix frontend run test:lib`): the "as it stands" seat tally adds up to each
+  state's seat count, a hover card shows only the hovered seat (including an AC listed
+  in a file's `no_result`), and members are initials on the party colour plus a "View
+  official photo on sansad.in" link built from the Sansad member number.
 - `python3 tools/test_no_stored_portraits.py`: no portrait files under `data/photos/ls`
   or `data/photos/cabinet`, no `photos` key in `data/availability.json`, no `photo`
   field on any cabinet member, and an integer `mpsno` (and no image field) for every
@@ -130,7 +129,9 @@ Each stops with an error on a source shape it does not expect.
 
 - writes `data/availability.json`: which optional files exist (by-elections,
   cabinet rosters per tense, assembly cycles per state, Sansad records, MPLADS
-  files, the Lok Sabha member record), so the pages show "not available yet" instead of probing
+  files, the Lok Sabha member record, and which Lok Sabha years have the
+  constituency-level or only the state-level result), so the pages show "not
+  available yet" instead of probing
 - reads years from `manifest.elections.ls.years` and assembly cycles from
   `manifest.elections.ac.cycles`
 - run: `python3 tools/build-availability.py`
@@ -143,27 +144,13 @@ Each stops with an error on a source shape it does not expect.
     and an https source URL on a government publisher's host
   - no metadata field (`note*`, `source*`, `_note`, `caveat`, `provenance`)
     may say synthetic, dummy, invented, placeholder, fake or mock
-  - the four pages, `lib/atlas.js` and `manifest.json` never say "synthetic"
+  - the four pages (the frontend export's HTML and its `_next/static` chunks) and
+    `manifest.json` never say "synthetic"
   - the removed dummy files never come back, by path or by bytes
 - run: `python3 tools/check_provenance.py data` (add `--db <SQLite copy of D1>` to check D1 too)
 - negative tests: `python3 -m unittest discover -s tools -p 'test_*.py'`
 - CI: `.github/workflows/ci.yml` on every pull request, and `deploy.yml` over the D1
   export and D1 itself before every deploy
-
-### version_modules.py
-
-- stamps every JS module URL the pages load with a content hash, e.g.
-  `../lib/atlas.js?v=89698364`, in the pages' `<script>` imports and in the modules'
-  own imports (`vendor/d3-geo.js` -> `d3-array.js` -> `internmap.js`)
-- why: the live site caches the pages for 10 minutes but `.js` files for 4 hours, so
-  an unversioned module lets a returning visitor run a new page against an old module
-  (a missing export is a SyntaxError and the page stops)
-- versions are computed leaves first, so a change to any module changes the URL in
-  every module and page that reaches it
-- run after editing any page's imports or any `.js` file under `lib/`, `state/` or
-  `vendor/`: `python3 tools/version_modules.py`; never edit a `?v=` by hand
-- verify: `python3 tools/version_modules.py --check` (CI runs this)
-- tests: `python3 tools/test_version_modules.py`
 
 ## Data file conventions
 

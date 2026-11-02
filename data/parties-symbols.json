@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "note": "Party symbol/logo images fetched from Wikipedia. `symbols` maps party code to its image; a party absent here had no usable image. Paths are relative to work/election-atlas/data/. Images Wikipedia carries only under a fair-use rationale are not kept: that rationale does not extend to this site, so those parties show their colour swatch.",
+  "note": "Party symbol/logo images fetched from Wikipedia. `symbols` maps party code to its image; a party absent here had no usable image. Paths are relative to the atlas data directory (data/). Images Wikipedia carries only under a fair-use rationale are not kept: that rationale does not extend to this site, so those parties show their colour swatch.",
   "symbols": {
     "BJP": {
       "file": "photos/parties/BJP.png",

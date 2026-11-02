@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "note": "Canonical state and union territory codes, with the exact name each carries in the current geometry file so the join is explicit rather than guessed.",
+  "note": "Canonical state and union territory codes, with the exact name each carries in the current geometry file so the join is explicit rather than guessed. A state or union territory carved out of another carries formedFrom, the code of the state it was formed from.",
   "regions": [
     {
       "code": "IN-AP",
@@ -40,7 +40,8 @@
       "type": "state",
       "sourceNames": [
         "Chhattisgarh"
-      ]
+      ],
+      "formedFrom": "IN-MP"
     },
     {
       "code": "IN-GA",
@@ -80,7 +81,8 @@
       "type": "state",
       "sourceNames": [
         "Jharkhand"
-      ]
+      ],
+      "formedFrom": "IN-BR"
     },
     {
       "code": "IN-KA",
@@ -192,7 +194,8 @@
       "type": "state",
       "sourceNames": [
         "Telangana"
-      ]
+      ],
+      "formedFrom": "IN-AP"
     },
     {
       "code": "IN-TR",
@@ -216,7 +219,8 @@
       "type": "state",
       "sourceNames": [
         "Uttarakhand"
-      ]
+      ],
+      "formedFrom": "IN-UP"
     },
     {
       "code": "IN-WB",
@@ -276,7 +280,8 @@
       "type": "ut",
       "sourceNames": [
         "Ladakh"
-      ]
+      ],
+      "formedFrom": "IN-JK"
     },
     {
       "code": "IN-LD",

@@ -8,18 +8,24 @@
   "compatibility_date": "2026-10-10",
 
   // No "routes" here. This Worker answers only on its workers.dev preview URL
-  // until the owner approves attaching akshayprabhakant.com/work/election-atlas
-  // and /work/election-atlas/* (the deploy workflow refuses a config with routes).
+  // until the owner's approved routes are attached in a separate step
+  // (akshayprabhakant.com/elections, /elections/*, /work/election-atlas and
+  // /work/election-atlas/*); the deploy workflow refuses a config with routes.
   "workers_dev": true,
 
   "assets": {
-    // built by backend/build_site.py: the atlas at its full path, with the data
-    // files exported from D1
+    // built by backend/build_site.py: the Next.js export at the atlas's full
+    // path (/elections/india/), with the data files exported from D1
     "directory": "../dist",
     "binding": "ASSETS",
     // Assets first (free, no Worker invocation); the Worker runs only for the
-    // bill PDFs, which it streams from R2.
-    "run_worker_first": ["/work/election-atlas/data/state-legislation/*"]
+    // bill PDFs, which it streams from R2, and for the old address, which it
+    // redirects (308) to /elections/india/.
+    "run_worker_first": [
+      "/elections/india/data/state-legislation/*",
+      "/work/election-atlas",
+      "/work/election-atlas/*"
+    ]
   },
 
   "r2_buckets": [{ "binding": "DOCS", "bucket_name": "election-atlas-docs" }],

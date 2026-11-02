@@ -1,8 +1,10 @@
 name: CI
 
 # On every pull request and push: the provenance gate and its negative tests, the
-# tool and Worker unit tests, and the full JSON -> D1 -> JSON round trip in a local
-# SQLite built from the migration. No Cloudflare access.
+# tool and Worker unit tests, the full JSON -> D1 -> JSON round trip in a local
+# SQLite built from the migration, and the Next.js frontend (type-checked build,
+# library tests, export contract, and a browser smoke over the assembled site).
+# No Cloudflare access.
 
 on:
   pull_request:
@@ -43,6 +45,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
       - run: pip install -r requirements.txt
 
       - name: Refuse a Worker config with routes
@@ -53,6 +57,20 @@ jobs:
 
       - name: Worker unit tests
         run: node --test backend/src/test_index.mjs
+
+      - name: Frontend — install
+        working-directory: frontend
+        run: npm ci
+
+      # `next build` type-checks (TypeScript strict) and writes the static export
+      # to frontend/out, which build_site.py lays under dist/elections/india/.
+      - name: Frontend — static export build
+        working-directory: frontend
+        run: npm run build
+
+      - name: Frontend — export contract
+        working-directory: frontend
+        run: npm run test:export
 
       - name: Import the pinned data into a local D1 (SQLite) and export it back
         run: |
@@ -78,14 +96,25 @@ jobs:
       - name: Assemble the site and run the provenance gate over it and the local D1
         run: |
           python3 backend/build_site.py --out dist --data-from exported --complete-against atlas-source/work/election-atlas/data
-          python3 tools/check_provenance.py dist/work/election-atlas/data --db d1.sqlite
-          python3 dist/work/election-atlas/tools/build-availability.py --check
-
-      - name: JS module URLs carry current content-hash versions
-        run: python3 tools/version_modules.py --check
+          python3 tools/check_provenance.py dist/elections/india/data --db d1.sqlite
+          python3 dist/elections/india/tools/build-availability.py --check
 
       - name: Tool tests, with the exported data in place
         run: |
           cp -R exported/. data/
           python3 -m unittest discover -s tools -p 'test_*.py' -v
-          for t in tools/test_*.mjs; do node --test "$t"; done
+
+      # The data adapters (tenses, by-election resolution, not-available-yet
+      # rules), against the exported data copied into data/ above.
+      - name: Frontend — library tests
+        working-directory: frontend
+        run: npm run test:lib
+
+      # National, state, MP and MLA pages in Chrome over the assembled site: each
+      # must draw with zero console errors and no failed request.
+      - name: Frontend — browser smoke
+        working-directory: frontend
+        env:
+          SMOKE_DIST: ${{ github.workspace }}/dist
+          CHROME_PATH: /usr/bin/google-chrome
+        run: npm run test:smoke
