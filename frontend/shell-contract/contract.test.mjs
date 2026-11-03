@@ -9,7 +9,7 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { before, test } from 'node:test';
-import { APP, DIST, SHELL, THROWING_SHELL, logMatching, siteThemes, startSession, unboundConfig } from './session.mjs';
+import { APP, DIST, SHELL, THROWING_SHELL, logMatching, shellAssetBase, siteThemes, startSession, unboundConfig } from './session.mjs';
 
 const ROOT = '/elections/india/';
 const SITE = join(DIST, 'elections/india');
@@ -24,12 +24,13 @@ const PAGES = {
   [`${ROOT}mla/?s=IN-BR&c=agiaon`]: 'mla/index.html',
 };
 
-let build;
+let build, assetBase;
 before(() => {
   assert.ok(siteThemes, 'set SITE_THEMES_DIR to a checkout of akshayDev17/site-themes');
   assert.ok(existsSync(SHELL), `no site-shell config at ${SHELL}`);
   assert.ok(existsSync(join(SITE, 'index.html')), 'no assembled site: run `npm run build` and backend/build_site.py first');
   build = JSON.parse(readFileSync(join(siteThemes, 'shell/generated/build.json'), 'utf8'));
+  assetBase = shellAssetBase();
 });
 
 async function session(t, configs) {
@@ -39,11 +40,11 @@ async function session(t, configs) {
 }
 
 const asBuilt = (file) => readFileSync(join(SITE, file), 'utf8');
-/** The built page plus site-shell's one insertion, right after its leading <meta charset>; it links the shared files at /_site/ (site-shell's ASSET_BASE). */
+/** The built page plus site-shell's one insertion, right after its leading <meta charset>; it links the shared files at site-shell's asset base. */
 function composed(file) {
   const page = asBuilt(file);
   assert.equal(page.split(META).length, 2, `${file} has exactly one ${META}`);
-  const scripts = build.scripts.map((f) => `<script defer src="/_site/${build.id}/${f}"></script>`).join('');
+  const scripts = build.scripts.map((f) => `<script defer src="${assetBase}${build.id}/${f}"></script>`).join('');
   return page.replace(META, META + build.inline + scripts);
 }
 
@@ -99,6 +100,7 @@ test('bound, site-shell not running: compose rejects and the page is fetched aga
     const res = await fetch(`${s.origin}${path}`);
     assert.equal(res.status, 200, path);
     assert.equal(res.headers.get('x-site-shell'), null, path);
+    assert.equal(res.headers.get('etag'), null, `${path}: the fail-open copy carries no validator`);
     assert.equal(await res.text(), asBuilt(file), path);
   }
   assert.match(await logMatching(s, /site-shell: compose failed/), /site-shell: compose failed/);
@@ -110,6 +112,7 @@ test('site-shell throws: fail open to the page as built', async (t) => {
     const res = await fetch(`${s.origin}${path}`);
     assert.equal(res.status, 200, path);
     assert.equal(res.headers.get('x-site-shell'), null, path);
+    assert.equal(res.headers.get('etag'), null, `${path}: the fail-open copy carries no validator`);
     assert.equal(await res.text(), asBuilt(file), path);
   }
   assert.match(await logMatching(s, /fault: compose threw/), /fault: compose threw/);

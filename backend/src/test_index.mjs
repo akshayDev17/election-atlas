@@ -215,10 +215,16 @@ test("unbound: with no SHELL binding a page is served exactly as built", async (
 test("fail open: compose() rejecting (site-shell missing, unreachable or throwing) re-fetches the page as built", async (t) => {
   const errors = t.mock.method(console, "error", () => {});
   for (const fail of ['Worker "site-shell" not found.', "fault: compose threw"]) {
-    const e = { ASSETS: assets(), SHELL: shell({ fail }) };
+    const built = () => new Response(HTML, {
+      headers: { "content-type": "text/html", etag: '"built"', "last-modified": "Tue, 03 Nov 2026 08:00:00 GMT" },
+    });
+    const e = { ASSETS: assets(built), SHELL: shell({ fail }) };
     const res = await worker.fetch(new Request("https://x/elections/india/mp/?s=IN-UP&c=gorakhpur"), e);
     assert.equal(res.status, 200);
     assert.equal(res.headers.get("x-site-shell"), null);
+    assert.equal(res.headers.get("content-type"), "text/html");
+    assert.equal(res.headers.get("etag"), null, "no validator, so a later visit is never a 304 onto this copy");
+    assert.equal(res.headers.get("last-modified"), null);
     assert.equal(await res.text(), HTML, "the page as built, not a 500 from the spent body");
     assert.deepEqual(e.ASSETS.calls, ["/elections/india/mp/", "/elections/india/mp/"], "the same page fetched again");
   }

@@ -21,7 +21,7 @@ import { extname, join, normalize } from 'node:path';
 import { after, before, test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 import puppeteer from 'puppeteer-core';
-import { APP, SHELL, siteThemes, startSession } from './shell-contract/session.mjs';
+import { APP, SHELL, shellAssetBase, siteThemes, startSession } from './shell-contract/session.mjs';
 
 const DIST = process.env.SMOKE_DIST ?? fileURLToPath(new URL('../dist/', import.meta.url));
 const CHROME = process.env.CHROME_PATH
@@ -44,11 +44,11 @@ function serveFile(root, req, res) {
 
 const serve = (root) => createServer((req, res) => serveFile(root, req, res));
 
-/* The zone's routing in front of the local atlas Worker: /_site/* is site-shell's
-   own static files (akshayprabhakant.com/_site/*), everything else the Worker. */
-function route(workerOrigin, shared) {
+/* The zone's routing in front of the local atlas Worker: site-shell's asset base
+   (akshayprabhakant.com/_site/*) is its own static files, everything else the Worker. */
+function route(workerOrigin, assetBase, shared) {
   return createServer((req, res) => {
-    if (req.url.startsWith('/_site/')) { serveFile(shared, req, res); return; }
+    if (req.url.startsWith(assetBase)) { serveFile(shared, req, res); return; }
     const upstream = request(new URL(req.url, workerOrigin), { method: req.method, headers: req.headers }, (up) => {
       res.writeHead(up.statusCode, up.headers);
       up.pipe(res);
@@ -62,14 +62,15 @@ function route(workerOrigin, shared) {
    mismatch with site-shell's head block as an error or a warning). */
 const isProblem = (m) => m.type() === 'error' || /hydrat/i.test(m.text());
 
-let server, worker, browser, origin;
+let server, worker, browser, origin, assetBase;
 
 before(async () => {
   assert.ok(existsSync(join(DIST, 'elections/india/index.html')), `no assembled site at ${DIST}`);
   assert.ok(CHROME, 'set CHROME_PATH to a Chrome binary');
   if (siteThemes) {
     worker = await startSession([APP, SHELL]);
-    server = route(worker.origin, join(siteThemes, 'shell/public'));
+    assetBase = shellAssetBase();
+    server = route(worker.origin, assetBase, join(siteThemes, 'shell/public'));
   } else {
     server = serve(normalize(DIST));
   }
@@ -85,16 +86,16 @@ after(async () => {
 });
 
 /* Through the Worker, every page is composed by site-shell: its boot script and
-   tokens sit right after <meta charset>, and its picker script loads from the
-   shared /_site/ path (site-shell's ASSET_BASE), which answers. */
+   tokens sit right after <meta charset>, and its picker script loads from
+   site-shell's shared asset base, which answers. */
 test('site-shell: every page is composed', { skip: !siteThemes && 'set SITE_THEMES_DIR' }, async () => {
   for (const [name, path] of PAGES) {
     const res = await fetch(origin + path);
     assert.match(res.headers.get('x-site-shell') ?? '', /^[0-9a-f]{12}; app=atlas$/, name);
     const html = await res.text();
     assert.match(html, /^<!DOCTYPE html>(?:<!--[^>]*-->)?<html[^>]*><head><meta charSet="utf-8"\/><script data-site-shell>/, name);
-    const js = html.match(/<script defer src="(\/_site\/[0-9a-f]{12}\/site\.js)"><\/script>/)?.[1];
-    assert.ok(js, name);
+    const js = html.match(/<script defer src="([^"]+\/[0-9a-f]{12}\/site\.js)"><\/script>/)?.[1];
+    assert.ok(js?.startsWith(assetBase), `${name}: ${js}`);
     assert.equal((await fetch(origin + js)).status, 200, `${name}: ${js}`);
   }
 });

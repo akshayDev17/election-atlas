@@ -52,6 +52,8 @@ export default {
  * gets the page exactly as built. The page's body went to site-shell with the
  * call, so the fallback fetches the page again (a static asset, so free);
  * returning `res` there would answer 500 ("Body has already been used").
+ * That copy carries no validator, like a composed page, so the browser never
+ * revalidates it into a 304 once site-shell is back.
  */
 async function withShell(res, env, refetch, app) {
   const type = res.headers.get("content-type") || "";
@@ -60,7 +62,11 @@ async function withShell(res, env, refetch, app) {
     return await env.SHELL.compose(res, { app });
   } catch (err) {
     console.error("site-shell: compose failed, serving the page as built:", String(err));
-    return refetch();
+    const page = await refetch();
+    const headers = new Headers(page.headers);
+    headers.delete("etag");
+    headers.delete("last-modified");
+    return new Response(page.body, { status: page.status, statusText: page.statusText, headers });
   }
 }
 

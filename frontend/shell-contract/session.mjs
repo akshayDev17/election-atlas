@@ -60,6 +60,14 @@ function stripJsonc(text) {
 }
 
 /**
+ * Where the site-shell under test links its shared files from composed pages:
+ * its ASSET_BASE var, else compose's own default, as the atlas passes none.
+ */
+export function shellAssetBase() {
+  return JSON.parse(stripJsonc(readFileSync(SHELL, 'utf8'))).vars?.ASSET_BASE ?? '/_site/';
+}
+
+/**
  * The deployed config minus its SHELL binding, written to a scratch file (its
  * relative paths made absolute), so the unbound case can never drift from it.
  */
