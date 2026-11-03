@@ -19,11 +19,24 @@
 //   /elections, /elections/
 //     No page lives there; both answer a permanent redirect (308) to
 //     /elections/india/, query kept. Other /elections/* paths are not claimed.
+//
+//   /elections/india/, state/, mp/, mla/ (the four pages)
+//     Served from the assets, then passed through site-shell's compose() (the
+//     SHELL service binding, akshayDev17/site-themes shell/), which adds the
+//     shared site theme to the page's <head> as it streams out. It fails open:
+//     with site-shell missing, unreachable or throwing, the page is served
+//     exactly as built.
+//
+//   /elections/india/_site/*
+//     site-shell's own files (its picker script), forwarded to site-shell with
+//     the atlas prefix stripped, until akshayprabhakant.com/_site/* is routed to
+//     site-shell directly.
 
 const ATLAS_ROOT = "/elections/india/";
 const OLD_ROOT = "/work/election-atlas";
 const ELECTIONS_ROOT = "/elections";
 const DOCS_PREFIX = `${ATLAS_ROOT}data/state-legislation/`;
+const SHELL_PREFIX = `${ATLAS_ROOT}_site/`;
 
 export default {
   async fetch(request, env) {
@@ -33,9 +46,31 @@ export default {
     if (url.pathname.startsWith(DOCS_PREFIX) && url.pathname.endsWith(".pdf")) {
       return servePdf(request, env, url);
     }
-    return env.ASSETS.fetch(request);
+    if (url.pathname.startsWith(SHELL_PREFIX) && env.SHELL) {
+      return env.SHELL.fetch(new Request(new URL(url.pathname.slice(ATLAS_ROOT.length - 1), url), request));
+    }
+    const page = () => env.ASSETS.fetch(request);
+    return withShell(await page(), env, page, "atlas", SHELL_PREFIX);
   },
 };
+
+/**
+ * Passes an HTML page through site-shell's compose(), failing open: with no
+ * binding, or when site-shell is missing, unreachable or throws, the visitor
+ * gets the page exactly as built. The page's body went to site-shell with the
+ * call, so the fallback fetches the page again (a static asset, so free);
+ * returning `res` there would answer 500 ("Body has already been used").
+ */
+async function withShell(res, env, refetch, app, assetBase) {
+  const type = res.headers.get("content-type") || "";
+  if (!env.SHELL || res.status !== 200 || !type.startsWith("text/html")) return res;
+  try {
+    return await env.SHELL.compose(res, { app, assetBase });
+  } catch (err) {
+    console.error("site-shell: compose failed, serving the page as built:", String(err));
+    return refetch();
+  }
+}
 
 /**
  * Where a redirected URL lives now: /work/election-atlas[/rest][?query] is

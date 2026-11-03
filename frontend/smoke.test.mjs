@@ -1,10 +1,15 @@
 // Browser smoke over the assembled site: node --test smoke.test.mjs   (npm run test:smoke)
 //
-//   SMOKE_DIST   the assembled static assets (backend/build_site.py --out), default ../dist
-//   CHROME_PATH  a Chrome or Chromium binary (CI: /usr/bin/google-chrome)
+//   SMOKE_DIST       the assembled static assets (backend/build_site.py --out), default ../dist
+//   CHROME_PATH      a Chrome or Chromium binary (CI: /usr/bin/google-chrome)
+//   SITE_THEMES_DIR  a checkout of akshayDev17/site-themes: serve the site through
+//                    the atlas Worker and the real site-shell in `wrangler dev`
+//                    instead (shell-contract/session.mjs; it serves ../dist), so
+//                    every page is composed as in production
 //
 // Serves SMOKE_DIST the way the Worker's asset layer does (a directory URL serves
-// its index.html) and opens the national, state, MP and MLA pages in a real browser. Each page must
+// its index.html), or the Worker itself with SITE_THEMES_DIR, and opens the
+// national, state, MP and MLA pages in a real browser. Each page must
 // draw its content with zero console errors, no uncaught exception and no failed
 // request: a page fetches only the files availability.json lists, so even a
 // missing file never costs a 404.
@@ -15,6 +20,7 @@ import { extname, join, normalize } from 'node:path';
 import { after, before, test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 import puppeteer from 'puppeteer-core';
+import { APP, SHELL, siteThemes, startSession } from './shell-contract/session.mjs';
 
 const DIST = process.env.SMOKE_DIST ?? fileURLToPath(new URL('../dist/', import.meta.url));
 const CHROME = process.env.CHROME_PATH
@@ -37,20 +43,39 @@ function serve(root) {
   });
 }
 
-let server, browser, origin;
+let server, worker, browser, origin;
 
 before(async () => {
   assert.ok(existsSync(join(DIST, 'elections/india/index.html')), `no assembled site at ${DIST}`);
   assert.ok(CHROME, 'set CHROME_PATH to a Chrome binary');
-  server = serve(normalize(DIST));
-  await new Promise((r) => server.listen(0, '127.0.0.1', r));
-  origin = `http://127.0.0.1:${server.address().port}`;
+  if (siteThemes) {
+    worker = await startSession([APP, SHELL]);
+    origin = worker.origin;
+  } else {
+    server = serve(normalize(DIST));
+    await new Promise((r) => server.listen(0, '127.0.0.1', r));
+    origin = `http://127.0.0.1:${server.address().port}`;
+  }
   browser = await puppeteer.launch({ executablePath: CHROME, headless: true, args: ['--no-sandbox'] });
 });
 
 after(async () => {
   await browser?.close();
   server?.close();
+  await worker?.stop();
+});
+
+/* Through the Worker, every page is composed by site-shell: its boot script and
+   tokens sit right after <meta charset>, and its picker script loads from the
+   atlas's own _site/ path. */
+test('site-shell: every page is composed', { skip: !siteThemes && 'set SITE_THEMES_DIR' }, async () => {
+  for (const [name, path] of PAGES) {
+    const res = await fetch(origin + path);
+    assert.match(res.headers.get('x-site-shell') ?? '', /^[0-9a-f]{12}; app=atlas$/, name);
+    const html = await res.text();
+    assert.match(html, /^<!DOCTYPE html>(?:<!--[^>]*-->)?<html[^>]*><head><meta charSet="utf-8"\/><script data-site-shell>/, name);
+    assert.match(html, /<script defer src="\/elections\/india\/_site\/[0-9a-f]{12}\/site\.js"><\/script>/, name);
+  }
 });
 
 /* Open a page, wait for `ready` (a selector that only appears once the page has

@@ -9,7 +9,8 @@
     "typecheck": "tsc --noEmit",
     "test:lib": "node --experimental-strip-types --test lib/*.test.ts",
     "test:export": "node --test export.test.mjs",
-    "test:smoke": "node --test smoke.test.mjs"
+    "test:smoke": "node --test smoke.test.mjs",
+    "test:shell": "node --test shell-contract/contract.test.mjs"
   },
   "dependencies": {
     "d3-geo": "3.1.1",
@@ -28,6 +29,7 @@
     "@types/topojson-client": "3.1.5",
     "@types/topojson-specification": "1.0.5",
     "puppeteer-core": "23.11.1",
-    "typescript": "5.9.3"
+    "typescript": "5.9.3",
+    "wrangler": "4.152.0"
   }
 }

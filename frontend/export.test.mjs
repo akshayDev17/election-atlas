@@ -78,3 +78,19 @@ test('each page inlines the theme boot script in <head> and has the picker in it
     assert.match(html, /<header[^>]*>(?:(?!<\/header>)[\s\S])*<site-theme-picker hide-label=""/, `${page}: no picker in header`);
   }
 });
+
+// site-shell composes the theme into each page at the edge; if that and the
+// bundled theme are both missing, the shared tokens must still be defined. The
+// pages' CSS carries the Classic Light block under :where(:root) (zero
+// specificity, so any theme rule wins), declaring every token the theme does.
+test('the CSS carries the :where(:root) Classic Light fallback for every shared token', () => {
+  const css = all.filter((p) => p.startsWith('_next/static/css/')).map((p) => readFileSync(join(out, p), 'utf8')).join('\n');
+  const fallback = css.match(/:where\(:root\)\{([^}]*)\}/)?.[1];
+  assert.ok(fallback, 'no :where(:root) block in the CSS');
+  assert.match(fallback, /^color-scheme:light;--surface:#EEF1F8;/);
+  const themes = readFileSync(fileURLToPath(import.meta.resolve('site-themes/themes.css')), 'utf8');
+  const light = themes.match(/\[data-theme="classic-light"\][^{]*\{([^}]*)\}/)?.[1];
+  assert.ok(light, 'no Classic Light rule in site-themes/themes.css');
+  const names = (block) => [...block.matchAll(/(--[a-z0-9-]+)\s*:/g)].map((m) => m[1]).sort();
+  assert.deepEqual(names(fallback), names(light));
+});

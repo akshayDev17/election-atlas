@@ -3,6 +3,10 @@ import { bootScript } from 'site-themes';
 // The shared themes, bundled into this build: imported here, before any page's
 // own stylesheet, so each page's alias block reads tokens that already exist.
 import 'site-themes/themes.css';
+// Classic Light for the shared tokens if no theme reaches the page (site-shell's
+// composed <head> and the bundled themes.css both missing). Zero specificity:
+// any theme rule wins over it.
+import './site-fallback.css';
 
 // Each page imports its own stylesheet (the four pages have always been styled
 // separately) and pages link to each other with plain anchors, so a page never
