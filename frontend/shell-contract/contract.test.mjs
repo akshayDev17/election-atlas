@@ -28,11 +28,13 @@ const PAGES = {
   '/elections/': 'elections/index.html',
   '/elections/?page=999': 'elections/index.html',
 };
-// The crumbs each atlas path's site path ends with: the page's own, after the
-// app name, named from the data the page reads (backend/src/sitepath.js). The
-// country list has no site path slot.
+// The crumbs (data-tail) each page's site path is drawn with: the page's own,
+// after the app name, named from the data the page reads (backend/src/sitepath.js).
+// The country list is the atlas's root: its slot has no data-tail, so no crumbs.
 const INDIA = { label: 'India', href: ROOT };
 const TAILS = {
+  '/elections/': [],
+  '/elections/?page=999': [],
   [ROOT]: [{ label: 'India' }],
   [`${ROOT}?y=2024&t=stands`]: [{ label: 'India' }],
   [`${ROOT}state/`]: [INDIA, { label: 'Uttar Pradesh' }],
@@ -60,8 +62,9 @@ async function session(t, configs) {
 }
 
 const asBuilt = (file) => readFileSync(join(DIST, file), 'utf8');
-// The site path slot as React renders it, and its content.
-const SLOT = /(<site-slot name="site-path" data-tail=")([^"]*)(">)([\s\S]*?)(<\/site-slot>)/;
+// The site path slot as the page renders it (the atlas pages with a data-tail),
+// and its content.
+const SLOT = /(<site-slot name="site-path")( data-tail="[^"]*")?(>)([\s\S]*?)(<\/site-slot>)/;
 const FILLED = '<!-- the slot\'s content -->';
 const attr = (s) => s.replace(/[&"<>']/g, (c) => ({ '&': '&amp;', '"': '&quot;', '<': '&lt;', '>': '&gt;', "'": '&#39;' })[c]);
 /** `html` with the site path's content set aside, and that content. */
@@ -82,32 +85,41 @@ function composed(file, path) {
   assert.equal(page.split(META).length, 2, `${file} has exactly one ${META}`);
   const scripts = build.scripts.map((f) => `<script defer src="${assetBase}${build.id}/${f}"></script>`).join('');
   return page.replace(META, META + build.inline + scripts)
-    .replace(SLOT, (_, open, _tail, gt, _content, close) => open + attr(JSON.stringify(TAILS[path])) + gt + FILLED + close);
+    .replace(SLOT, (_, open, tail, gt, _content, close) =>
+      open + (tail === undefined ? '' : ` data-tail="${attr(JSON.stringify(TAILS[path]))}"`) + gt + FILLED + close);
 }
 
 /**
- * The site path site-shell filled the slot with: every listed app linked from
- * its root, the atlas marked as the current app, then the page's crumbs, each
- * a link but the last, which is the current page as plain text.
+ * The site path site-shell filled the slot with: the row of every listed app,
+ * each linked from its root, with nothing before it (no site name, no lock), the
+ * atlas marked as the current app at its root (/elections/); then the page's
+ * trail on its own line, led by the atlas unless its first crumb already links
+ * there, each crumb a link but the last, which is the current page as plain
+ * text, and no trail at all at the atlas's root.
  */
 function assertSitePath(content, tail, path) {
   assert.match(content, /^<style data-site-shell>/, `${path}: the path carries its own style`);
-  assert.match(content, /<nav class="sp" aria-label="Site path">/, path);
-  assert.match(content, /<a class="sp-long" href="\/">akshayprabhakant\.com<span class="site-vh"> home<\/span><\/a>/, `${path}: the way home`);
+  assert.match(content, /<\/style><nav class="sp" aria-label="Site"><ul class="sp-apps"><li>/, `${path}: the row of apps comes first`);
+  assert.doesNotMatch(content, /akshayprabhakant\.com|Portfolio/, `${path}: no separate site name or crumb`);
+  assert.doesNotMatch(content, /\u{1F512}|sp-lock/u, `${path}: no lock symbol`);
   const atlas = apps.find((a) => a.id === 'atlas');
-  assert.equal(atlas?.path, ROOT, 'the app list has the atlas at its root');
+  assert.equal(atlas?.path, '/elections/', 'the app list has the atlas at its root, the country list');
   for (const app of apps.filter((a) => a.listed && a.id !== 'atlas')) {
     assert.ok(content.includes(`<li><a href="${app.path}">${attr(app.label)}`), `${path}: links ${app.label}`);
   }
-  assert.ok(content.includes(`<a class="sp-app" href="${ROOT}" aria-current="true"><span class="sp-label">${atlas.label}</span>`),
+  const here = tail.length === 0 ? 'page' : 'true';
+  assert.ok(content.includes(`<a class="sp-app" href="${atlas.path}" aria-current="${here}"><span class="sp-label">${atlas.label}</span>`),
     `${path}: the atlas is the current app, linked to its root`);
-  const crumbs = [...content.matchAll(/<span class="sp-crumb"><span class="sp-sep" aria-hidden="true">\/<\/span>(<a href="([^"]*)">([^<]*)<\/a>|<span class="sp-here sp-page" aria-current="page">([^<]*)<\/span>)<\/span>/g)]
-    .map((m) => (m[4] !== undefined ? { label: m[4], current: true } : { label: m[3], href: m[2] }));
-  const want = tail.map((c, i) => (i === tail.length - 1 ? { label: attr(c.label), current: true } : { label: attr(c.label), href: attr(c.href) }));
-  assert.deepEqual(crumbs, want, `${path}: the page's crumbs`);
+  const drawn = [...(content.match(/<nav class="sp-trail" aria-label="Breadcrumb"><ol>([\s\S]*?)<\/ol><\/nav>/)?.[1] ?? '')
+    .matchAll(/<li>(?:<a href="([^"]*)">([^<]*)<\/a>|<span aria-current="page">([^<]*)<\/span>)<\/li>/g)]
+    .map((m) => (m[3] !== undefined ? { label: m[3], current: true } : { label: m[2], href: m[1] }));
+  const led = tail.length && tail[0].href !== atlas.path ? [{ label: atlas.label, href: atlas.path }, ...tail] : tail;
+  const trail = led.length < 2 ? [] : led;
+  const want = trail.map((c, i) => (i === trail.length - 1 ? { label: attr(c.label), current: true } : { label: attr(c.label), href: attr(c.href) }));
+  assert.deepEqual(drawn, want, `${path}: the page's trail`);
 }
 
-test('bound to site-shell: every page gains the theme head block, each atlas page its site path, and nothing else', async (t) => {
+test('bound to site-shell: every page gains the theme head block and its site path, and nothing else', async (t) => {
   const s = await session(t, [APP, SHELL]);
   for (const [path, file] of Object.entries(PAGES)) {
     const res = await fetch(`${s.origin}${path}`);
@@ -115,16 +127,11 @@ test('bound to site-shell: every page gains the theme head block, each atlas pag
     assert.equal(res.status, 200, path);
     assert.equal(res.headers.get('x-site-shell'), `${build.id}; app=atlas`, path);
     assert.equal(res.headers.get('etag'), null, `${path}: composed HTML carries no validator`);
-    if (TAILS[path]) {
-      const { page, content } = setAside(body);
-      assert.equal(page, composed(file, path), `${path}: the built page plus the head insertion and the path's crumbs`);
-      assertSitePath(content, TAILS[path], path);
-      assert.doesNotMatch(content, /class="back"/, `${path}: the page's own back link is replaced`);
-      assert.equal(body.match(/data-site-shell/g).length, 3, `${path}: one boot <script>, one tokens <style> and the path's <style>`);
-    } else {
-      assert.equal(body, composed(file, path), `${path}: the built page plus the head insertion`);
-      assert.equal(body.match(/data-site-shell/g).length, 2, `${path}: one boot <script> and one tokens <style>`);
-    }
+    const { page, content } = setAside(body);
+    assert.equal(page, composed(file, path), `${path}: the built page plus the head insertion and the path's crumbs`);
+    assertSitePath(content, TAILS[path], path);
+    assert.doesNotMatch(content, /class="back"/, `${path}: the page's own back link is replaced`);
+    assert.equal(body.match(/data-site-shell/g).length, 3, `${path}: one boot <script>, one tokens <style> and the path's <style>`);
     assert.ok(body.indexOf(META) < 1024, `${path}: <meta charset> stays inside the first 1024 bytes`);
   }
 

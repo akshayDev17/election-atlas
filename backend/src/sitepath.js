@@ -1,5 +1,5 @@
-// The atlas's crumbs in the site path (akshayprabhakant.com / the apps / India /
-// Uttar Pradesh / Gorakhpur).
+// The atlas's crumbs in the site path: under the row of the site's apps, the
+// page's trail (Election Atlas › India › Uttar Pradesh › Gorakhpur).
 //
 // Each page places <site-slot name="site-path" data-tail="…"> (frontend/
 // components/SitePath.tsx), and site-shell's compose() draws the path from it,

@@ -1,7 +1,8 @@
-/* The site path: akshayprabhakant.com / the apps / this page's crumbs. The page
-   only places <site-slot name="site-path">; site-shell's compose() fills it from
-   the shared app list (akshayDev17/site-themes, shell/nav.ts) as the Worker
-   serves the page, with the atlas marked as the current app.
+/* The site path: the row of the site's apps, then this page's trail on its own
+   line. The page only places <site-slot name="site-path">, at the top of its
+   masthead with its heading under it; site-shell's compose() fills it from the
+   shared app list (akshayDev17/site-themes, shell/nav.ts) as the Worker serves
+   the page, with the atlas marked as the current app.
 
    `tail` is the page's own crumbs after the app name, as compose() reads them
    from data-tail; the last one is the current page. A page's HTML is the same

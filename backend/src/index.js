@@ -30,7 +30,7 @@
 //     Served from the assets, then passed through site-shell's compose() (the
 //     SHELL service binding, akshayDev17/site-themes shell/), which adds the
 //     shared site theme to the page's <head> as it streams out and fills an
-//     atlas page's <site-slot name="site-path"> with the site path. The state, MP and
+//     page's <site-slot name="site-path"> with the site path. The state, MP and
 //     MLA pages first get their crumbs for the request's query written into
 //     that slot (sitepath.js). It fails open: with site-shell missing,
 //     unreachable or throwing, the page is served exactly as built. The shared

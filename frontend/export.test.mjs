@@ -25,13 +25,13 @@ test('the four pages are exported at their directory URLs', () => {
   for (const page of PAGES) assert.ok(existsSync(join(out, page)), `${page} missing`);
 });
 
-test('every page and asset a page links is under /elections/india/', () => {
+test('every page and asset a page links is under /elections/india/, but the way back', () => {
   for (const page of PAGES) {
     const html = readFileSync(join(out, page), 'utf8');
     const refs = [...html.matchAll(/\b(?:href|src)="(\/[^"]*)"/g)].map((m) => m[1]);
     assert.ok(refs.length > 0, page);
-    // "/" alone is the way back to the site's home page
-    for (const ref of refs) assert.ok(ref === '/' || ref.startsWith(`${BASE}/`), `${page} links ${ref}`);
+    // "/elections/" alone is the national page's way back, up to the country list
+    for (const ref of refs) assert.ok(ref === '/elections/' || ref.startsWith(`${BASE}/`), `${page} links ${ref}`);
   }
 });
 

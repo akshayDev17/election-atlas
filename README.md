@@ -21,9 +21,11 @@ covers Latin Extended-A, so an accented name never pulls a second font file.
 The shared site theme comes from site-shell (`akshayDev17/site-themes`, `shell/`). The Worker binds
 it as `SHELL` and passes each of the five pages' HTML (the four atlas pages and the country list)
 through its `compose()`, which adds the theme's boot script and tokens right after
-`<meta charset>`, and fills each atlas masthead's `<site-slot name="site-path">`
-(`frontend/components/SitePath.tsx`) with the site path: the switcher between the site's apps, then
-the page's own crumbs (India / state / seat). A page's HTML is one file for every query, so the
+`<meta charset>`, and fills the `<site-slot name="site-path">` at the top of each page's masthead
+(`frontend/components/SitePath.tsx`, and the country list's header) with the site path: the row of
+the site's apps, with Election Atlas current and linked to the country list, then on its own line
+the page's trail (Election Atlas › India › state › seat; none on the country list, the atlas's
+root). The page's own heading sits under both. A page's HTML is one file for every query, so the
 Worker first writes the crumbs for the request's query into the slot, named from the same data
 files the page reads (`backend/src/sitepath.js`). The page loads site-shell's own files (its picker
 script) from `akshayprabhakant.com/_site/*`, which is routed to site-shell, not to this Worker. It

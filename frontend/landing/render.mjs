@@ -188,8 +188,9 @@ h1,h2,p,figure,ol,ul,dl,dd{margin:0}ol,ul{padding:0;list-style:none}a{color:inhe
 abbr[title]{text-decoration:none}
 :focus-visible{outline:2px solid var(--focus);outline-offset:3px}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px var(--pad);font-size:16px}
-.bar a{text-decoration:none}.bar a:hover{text-decoration:underline}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:8px 16px;padding:20px var(--pad);font-size:16px}
+.bar>site-slot{flex:0 1 auto;min-width:0}
+.bar .back{text-decoration:none}.bar .back:hover{text-decoration:underline}
 site-theme-picker{font-size:15px;min-height:24px}
 .btn{display:inline-block;background:var(--text);color:var(--surface);text-decoration:none;font-size:16px;line-height:1;padding:13px 18px;transition:transform .18s var(--ease),opacity .18s var(--ease)}
 .btn:hover{transform:translateY(-2px)}.btn:active{transform:none;opacity:.85}
@@ -233,7 +234,7 @@ site-theme-picker{font-size:15px;min-height:24px}
   .txt{display:contents}.card h2,.meta,.seatbar{grid-column:2}.meta,.seatbar{margin-top:0}
   .res,.st,.card .go{grid-column:1/-1}.card h2{font-size:26px}.res div{grid-template-columns:5.6em minmax(0,1fr)}
 }
-@media (max-width:760px){.top{grid-template-columns:1fr;padding-top:16px}.top h1{font-size:clamp(40px,11vw,64px)}}
+@media (max-width:760px){.bar{flex-wrap:wrap}.bar>site-slot{flex-basis:100%}.top{grid-template-columns:1fr;padding-top:16px}.top h1{font-size:clamp(40px,11vw,64px)}}
 @media (prefers-reduced-motion:reduce){.btn,.btn:hover{transition:none;transform:none}.card{transition:none}}
 `;
 
@@ -264,7 +265,7 @@ ${cardsHtml(countries, n, pictures)}
 ${CSS.trim()}</style>
 </head>
 <body>
-<header class="bar"><a href="/">← Akshay Prabhakant</a><site-theme-picker hide-label=""></site-theme-picker></header>
+<header class="bar"><site-slot name="site-path"><a class="back" href="/">← Akshay Prabhakant</a></site-slot><site-theme-picker hide-label=""></site-theme-picker></header>
 <main>
 <section class="top" aria-labelledby="h1">
   <h1 id="h1">Election results, by country</h1>

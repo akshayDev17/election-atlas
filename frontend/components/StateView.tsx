@@ -474,14 +474,12 @@ export default function StateView() {
     <>
       <main>
         <header className="masthead">
+          <SitePath
+            tail={[{ label: 'India', href: pageURL('') }, { label: 'State' }]}
+            fallback={`<a class="back" href="${pageURL('')}">← India</a>`}
+          />
           <div className="mh-top">
-            <div className="mh-left">
-              <SitePath
-                tail={[{ label: 'India', href: pageURL('') }, { label: 'State' }]}
-                fallback={`<a class="back" href="${pageURL('')}">← India</a>`}
-              />
-              <h1 className="lbl" id="eyebrow">{name ? `Election Atlas of ${name}` : 'Election Atlas of India'}</h1>
-            </div>
+            <h1 className="lbl" id="eyebrow">{name ? `Election Atlas of ${name}` : 'Election Atlas of India'}</h1>
             <div className="mh-tools">
               <div className="tense" id="tense" role="group" aria-label="Result as elected or as it stands" hidden={!core}>
                 {([['elected', 'As elected'], ['stands', 'As it stands']] as const).map(([val, label]) => {
