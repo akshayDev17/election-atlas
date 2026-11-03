@@ -1,4 +1,4 @@
-// The /elections page: node --test landing/landing.test.mjs   (npm run test:landing)
+// The /elections page: node --experimental-strip-types --test landing/landing.test.mjs   (npm run test:landing)
 //
 // The render functions, the checks the builder makes before it writes anything,
 // the pictures, a whole build into a scratch site, and (when the assembled site
@@ -16,11 +16,12 @@ import { join } from 'node:path';
 import { after, test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 import {
-  NONE_YET, PAGE_SIZE, ROOT, card, cardsHtml, countryHref, credits, page, pageCount, pageHref, pageSlice,
+  NONE_YET, PAGE_SIZE, ROOT, card, cardsHtml, countryHref, credits, page, pageCount, pageFromQuery, pageHref, pageSlice,
   pagerLinks, searchIndex, whereLine,
 } from './render.mjs';
 import { RESERVED, aToZ, build, checkCountries, fallbackCss } from './build.mjs';
 import { MAP_ONLY, RESULT_MAPS, flagShapeSvg, pictureOf, rasterise } from './pictures.mjs';
+import { listPageNumber } from '../../backend/src/index.js';
 
 const here = fileURLToPath(new URL('.', import.meta.url));
 const repo = join(here, '../..');
@@ -76,6 +77,22 @@ test('ten countries to a page, A to Z, and one page even for one country', () =>
   assert.deepEqual(pageSlice(list, 1).map((c) => c.name), list.slice(0, 10).map((c) => c.name));
   assert.deepEqual(pageSlice(list, 2).map((c) => c.name), ['Sri Lanka', 'United Kingdom', 'Uruguay']);
   assert.deepEqual(pageSlice(list, 3), []);
+});
+
+const QUERIES = ['', '?page=1', '?page=2', '?page=5', '?page=6', '?page=0', '?page=-1', '?page=2.5', '?page=02',
+  '?page=two', '?page=', '?y=2024', '?page=3&page=4', '?y=2024&page=4'];
+
+test('?page=N is read as a whole page the list has; anything else is page 1', () => {
+  const want = [1, 1, 2, 5, 1, 1, 1, 1, 1, 1, 1, 1, 3, 4];
+  QUERIES.forEach((search, i) => assert.equal(pageFromQuery(search, 5), want[i], search));
+  assert.equal(pageFromQuery('?page=2', 1), 1, 'with one page, page 2 does not exist');
+});
+
+test('the page\'s script and the Worker read ?page= alike for every page the list has', () => {
+  for (const search of QUERIES) {
+    const worker = listPageNumber(search);
+    assert.equal(pageFromQuery(search, 5), worker <= 5 ? worker : 1, search);
+  }
 });
 
 test('the pager: the current page marked, the ends disabled, every link a ?page= address', () => {

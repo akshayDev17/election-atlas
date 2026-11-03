@@ -9,7 +9,7 @@
     "typecheck": "tsc --noEmit",
     "test:lib": "node --experimental-strip-types --test lib/*.test.ts",
     "test:export": "node --test export.test.mjs",
-    "test:landing": "node --test landing/landing.test.mjs",
+    "test:landing": "node --experimental-strip-types --test landing/landing.test.mjs",
     "test:smoke": "node --test smoke.test.mjs",
     "test:shell": "node --test shell-contract/contract.test.mjs"
   },

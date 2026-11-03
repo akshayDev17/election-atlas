@@ -21,6 +21,17 @@ export const pageCount = (count) => Math.max(1, Math.ceil(count / PAGE_SIZE));
 /** The countries on page `n` (1-based) of the A-to-Z list. */
 export const pageSlice = (countries, n) => countries.slice((n - 1) * PAGE_SIZE, n * PAGE_SIZE);
 
+/**
+ * The page a query asks for: `?page=N` for a whole N from 1 to `pages`, else 1
+ * (no page, page=0, page=abc, page=2.5, a page past the end). The page's own
+ * script reads its address with this.
+ */
+export function pageFromQuery(search, pages) {
+  const raw = new URLSearchParams(search).get('page');
+  const n = raw !== null && /^[1-9]\d*$/.test(raw) ? Number(raw) : 1;
+  return n <= pages ? n : 1;
+}
+
 /** The canonical address of page `n`: /elections/ for page 1, /elections/?page=N after. */
 export const pageHref = (n) => (n === 1 ? ROOT : `${ROOT}?page=${n}`);
 
@@ -107,7 +118,8 @@ export function credits(countries, pictures) {
 export const CLIENT = String.raw`
 const PAGES = +document.querySelector('.list').dataset.pages, TOTAL = +document.querySelector('.list').dataset.total, PAGE_SIZE = ${PAGE_SIZE}, ROOT = '${ROOT}';
 const list = () => document.querySelector('.list'), cache = {};
-const pageOf = () => { const raw = new URLSearchParams(location.search).get('page'); const n = /^[1-9]\d*$/.test(raw || '') ? +raw : 1; return n <= PAGES ? n : 1; };
+${pageFromQuery}
+const pageOf = () => pageFromQuery(location.search, PAGES);
 const pageHref = ${pageHref};
 ${whereLine}
 ${pagerLinks}
