@@ -10,6 +10,9 @@
 //               page draws a 1px edge stroke over it in --text-muted, so a flag
 //               with large white or navy fields never fades into the card.
 //
+// India and the USA (MAP_ONLY) are always drawn as result maps, never as flag
+// shapes: listing either without its result map stops the build.
+//
 // Which countries get a picture is never decided here: the builder asks for one
 // picture per country of the derived list, and a country with neither a result
 // map nor an outline and a flag stops the build.
@@ -36,6 +39,9 @@ export const RESULT_MAPS = {
   },
 };
 
+/** The countries whose card picture is their result map and never a flag shape. */
+export const MAP_ONLY = new Set(['IN', 'US']);
+
 /**
  * What a country's picture is, or a thrown error naming what is missing.
  * Pure but for checking that the flag file exists.
@@ -49,6 +55,9 @@ export function pictureOf(country, outlines, { flagsDir = FLAGS, resultMaps = RE
       alt: `Map of ${country.name}, ${year} ${country.election.house} election: each of the ${Object.keys(country.seats.winners).length} constituencies with a result filled with the colour of the party that won it.`,
       credit: map.credit,
     };
+  }
+  if (MAP_ONLY.has(country.code)) {
+    throw new Error(`no picture for ${country.name} (${country.code}): it is drawn only as a result map, and ${map ? 'D1 names no seat winners for it' : 'the atlas has no result map for it (RESULT_MAPS)'}`);
   }
   const outline = outlines[country.code];
   const flag = join(flagsDir, `${country.code.toLowerCase()}.svg`);

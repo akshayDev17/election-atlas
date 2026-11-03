@@ -27,9 +27,13 @@ const readJson = (p) => JSON.parse(readFileSync(p, 'utf8'));
 /** The Classic Light fallback block, without its comment. */
 export const fallbackCss = () => readFileSync(join(here, '../app/site-fallback.css'), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '').trim();
 
-/** Refuses a list the page cannot be built from; returns it unchanged. */
+/**
+ * Refuses a list the page cannot be built from; returns it unchanged. An empty
+ * list builds the page that says no country is published yet: whether a deploy
+ * may ship it is backend/build_site.py's call (only with --pending-ok).
+ */
 export function checkCountries(countries, site) {
-  if (!Array.isArray(countries) || countries.length === 0) throw new Error('no countries to list');
+  if (!Array.isArray(countries)) throw new Error('the country list is not a list');
   const seen = new Set();
   for (const c of countries) {
     if (!/^[A-Z]{2}$/.test(c.code ?? '')) throw new Error(`bad country code: ${JSON.stringify(c.code)}`);

@@ -148,6 +148,8 @@ jobs:
         run: $WRANGLER deploy | tee ../deploy.log
 
       - name: Smoke test the preview
+        env:
+          PENDING_OK: ${{ inputs.pending_ok }}
         run: |
           base=$(grep -oE 'https://[a-z0-9.-]+\.workers\.dev' deploy.log | head -1)
           echo "preview: $base/elections/india/"
@@ -168,12 +170,14 @@ jobs:
           got=$(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' "$base/work/election-atlas/state/?s=IN-UP&y=2024")
           echo "$got /work/election-atlas/state/?s=IN-UP&y=2024"; test "$got" = "308 $want"
           # the country list: /elections answers 308 to it, it lists India (D1 holds
-          # its published result and its page exists), and its search index answers
+          # its published result and its page exists; with pending_ok, D1 may list no
+          # country yet and the page says "not available yet"), and its search index answers
           got=$(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' "$base/elections?page=1")
           echo "$got /elections?page=1"; test "$got" = "308 $base/elections/?page=1"
           code=$(curl -s -o list.html -w '%{http_code}' "$base/elections/")
           echo "$code /elections/"; test "$code" = 200
-          grep -q '<a class="btn" href="/elections/india/">Open India</a>' list.html
+          grep -q '<a class="btn" href="/elections/india/">Open India</a>' list.html \
+            || { test "$PENDING_OK" = true && grep -q 'Not available yet' list.html && ! grep -q '<article' list.html; }
           code=$(curl -s -o /dev/null -w '%{http_code}' "$base/elections/index.json")
           echo "$code /elections/index.json"; test "$code" = 200
           # every page passes through site-shell (the SHELL binding), and the picker

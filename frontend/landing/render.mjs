@@ -21,18 +21,6 @@ export const pageCount = (count) => Math.max(1, Math.ceil(count / PAGE_SIZE));
 /** The countries on page `n` (1-based) of the A-to-Z list. */
 export const pageSlice = (countries, n) => countries.slice((n - 1) * PAGE_SIZE, n * PAGE_SIZE);
 
-/**
- * The page a query asks for: `?page=N` for a whole N from 1 to `pages`, else 1
- * (no page, page=0, page=abc, page=2.5, a page past the end). The Worker and the
- * page's own script read it the same way.
- */
-export function pageFromQuery(search, pages) {
-  const raw = new URLSearchParams(search).get('page');
-  if (raw === null || !/^[1-9]\d*$/.test(raw)) return 1;
-  const n = Number(raw);
-  return n <= pages ? n : 1;
-}
-
 /** The canonical address of page `n`: /elections/ for page 1, /elections/?page=N after. */
 export const pageHref = (n) => (n === 1 ? ROOT : `${ROOT}?page=${n}`);
 
@@ -97,6 +85,9 @@ export function card(c, pic) {
 </article></li>`;
 }
 
+/** What the page says while D1 lists no country (a deploy made before every import day has run). */
+export const NONE_YET = 'Not available yet: no country’s national result is published in the atlas.';
+
 /** The cards of page `n`, as the pager and search insert them. */
 export const cardsHtml = (countries, n, pictures) => pageSlice(countries, n).map((c) => card(c, pictures[c.code])).join('\n');
 
@@ -105,7 +96,7 @@ export function credits(countries, pictures) {
   const results = countries.map((c) => `${esc(c.name)}, <a href="${esc(c.election.source.url)}">${esc(c.election.source.publisher)}</a>`).join('; ');
   const kinds = new Set(countries.map((c) => pictures[c.code].kind));
   const maps = countries.filter((c) => pictures[c.code].kind === 'result-map').map((c) => pictures[c.code].credit);
-  const parts = [`<span>Results: ${results}.</span>`];
+  const parts = countries.length ? [`<span>Results: ${results}.</span>`] : [];
   if (maps.length) parts.push(`<span>Maps: ${maps.map(esc).join(' ')}</span>`);
   if (kinds.has('flag-shape')) parts.push('<span>Country outlines: Natural Earth (public domain). Flags: flag-icons (MIT); national flag designs are public domain in most countries.</span>');
   parts.push('<span>Type: Newsreader (SIL Open Font License).</span>');
@@ -114,28 +105,22 @@ export function credits(countries, pictures) {
 
 // Client: page swap (fetch only that page's cards) and search over the small index.
 export const CLIENT = String.raw`
-const PAGES = +document.querySelector('.list').dataset.pages, TOTAL = +document.querySelector('.list').dataset.total, SIZE = ${PAGE_SIZE}, ROOT = '${ROOT}';
+const PAGES = +document.querySelector('.list').dataset.pages, TOTAL = +document.querySelector('.list').dataset.total, PAGE_SIZE = ${PAGE_SIZE}, ROOT = '${ROOT}';
 const list = () => document.querySelector('.list'), cache = {};
 const pageOf = () => { const raw = new URLSearchParams(location.search).get('page'); const n = /^[1-9]\d*$/.test(raw || '') ? +raw : 1; return n <= PAGES ? n : 1; };
-const href = n => n === 1 ? ROOT : ROOT + '?page=' + n;
-const where = n => { const a = (n - 1) * SIZE + 1, z = Math.min(n * SIZE, TOTAL); return 'Page ' + n + ' of ' + PAGES + ' · ' + (a === z ? 'country ' + a : 'countries ' + a + '–' + z) + ' of ' + TOTAL + ', A to Z'; };
-function pagerHTML(n) {
-  const link = (i, label, rel) => '<a href="' + href(i) + '" data-p="' + i + '"' + (rel ? ' rel="' + rel + '"' : '') + (i === n && !rel ? ' aria-current="page"' : '') + '>' + label + '</a>';
-  const off = label => '<span class="off" aria-disabled="true">' + label + '</span>';
-  let h = n > 1 ? link(n - 1, 'Previous', 'prev') : off('Previous');
-  for (let i = 1; i <= PAGES; i++) h += link(i, String(i));
-  return h + (n < PAGES ? link(n + 1, 'Next', 'next') : off('Next'));
-}
+const pageHref = ${pageHref};
+${whereLine}
+${pagerLinks}
 async function show(n, slug, push) {
   const ol = list();
   if (+ol.dataset.page !== n) {
     const html = cache[n] || (cache[n] = await (await fetch(ROOT + 'cards/' + n + '.html')).text());
     ol.innerHTML = html; ol.dataset.page = n;
   }
-  document.querySelector('.where').textContent = where(n);
-  document.querySelector('.pager').innerHTML = pagerHTML(n);
+  document.querySelector('.where').textContent = whereLine(n, PAGES, TOTAL);
+  document.querySelector('.pager').innerHTML = pagerLinks(n, PAGES);
   document.title = n > 1 ? 'Election Atlas: page ' + n : 'Election Atlas';
-  if (push) history.pushState({ n }, '', href(n) + (slug ? '#c-' + slug : ''));
+  if (push) history.pushState({ n }, '', pageHref(n) + (slug ? '#c-' + slug : ''));
   if (slug) {
     const el = document.getElementById('c-' + slug);
     if (!el) return;
@@ -145,7 +130,7 @@ async function show(n, slug, push) {
   } else if (push) document.querySelector('.where').scrollIntoView();
 }
 // The address names the page shown: drop a page the list does not have (or page=1).
-if (location.search && href(pageOf()) !== location.pathname + location.search) history.replaceState(null, '', href(pageOf()) + location.hash);
+if (location.search && pageHref(pageOf()) !== location.pathname + location.search) history.replaceState(null, '', pageHref(pageOf()) + location.hash);
 document.addEventListener('click', e => { const a = e.target.closest('.pager a[data-p]'); if (!a || e.metaKey || e.ctrlKey || e.shiftKey) return; e.preventDefault(); show(+a.dataset.p, null, true); });
 addEventListener('popstate', () => show(pageOf(), location.hash.slice(3) || null, false));
 
@@ -248,6 +233,14 @@ site-theme-picker{font-size:15px;min-height:24px}
  */
 export function page(countries, n, pictures, { fallbackCss }) {
   const pages = pageCount(countries.length), total = countries.length;
+  const top = total ? `
+    <p class="count">${plural(total, 'country', 'countries')}${pages > 1 ? `, ${PAGE_SIZE} per page` : ''}.</p>
+    <div class="find" hidden><label for="q">Find a country</label><input id="q" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="qlist" autocomplete="off" spellcheck="false"><ul id="qlist" role="listbox" aria-label="Matching countries" hidden></ul><output role="status"></output></div>` : '';
+  const list = total ? `<p class="where">${whereLine(n, pages, total)}</p>
+<ol class="list" data-page="${n}" data-pages="${pages}" data-total="${total}">
+${cardsHtml(countries, n, pictures)}
+</ol>
+<nav class="pager" aria-label="Pages">${pagerLinks(n, pages)}</nav>` : `<p class="where">${NONE_YET}</p>`;
   return `<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${n > 1 ? `Election Atlas: page ${n}` : 'Election Atlas'}</title>
@@ -264,22 +257,16 @@ ${CSS.trim()}</style>
 <section class="top" aria-labelledby="h1">
   <h1 id="h1">Election results, by country</h1>
   <div>
-    <p>The latest national result for each country the atlas holds, from that country’s own election authority, A to Z.</p>
-    <p class="count">${plural(total, 'country', 'countries')}${pages > 1 ? `, ${PAGE_SIZE} per page` : ''}.</p>
-    <div class="find" hidden><label for="q">Find a country</label><input id="q" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="qlist" autocomplete="off" spellcheck="false"><ul id="qlist" role="listbox" aria-label="Matching countries" hidden></ul><output role="status"></output></div>
+    <p>The latest national result for each country the atlas holds, from that country’s own election authority, A to Z.</p>${top}
   </div>
 </section>
 <section aria-labelledby="h-list"><h2 class="vh" id="h-list">Countries</h2>
-<p class="where">${whereLine(n, pages, total)}</p>
-<ol class="list" data-page="${n}" data-pages="${pages}" data-total="${total}">
-${cardsHtml(countries, n, pictures)}
-</ol>
-<nav class="pager" aria-label="Pages">${pagerLinks(n, pages)}</nav>
+${list}
 </section>
 </main>
 <footer class="foot"><a href="/">← Akshay Prabhakant</a>${credits(countries, pictures)}</footer>
-<script type="module">${CLIENT.trim()}</script>
-</body>
+${total ? `<script type="module">${CLIENT.trim()}</script>
+` : ''}</body>
 </html>
 `;
 }

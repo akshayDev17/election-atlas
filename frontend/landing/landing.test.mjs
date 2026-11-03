@@ -16,11 +16,11 @@ import { join } from 'node:path';
 import { after, test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 import {
-  PAGE_SIZE, ROOT, card, cardsHtml, countryHref, credits, page, pageCount, pageFromQuery, pageHref, pageSlice,
+  NONE_YET, PAGE_SIZE, ROOT, card, cardsHtml, countryHref, credits, page, pageCount, pageHref, pageSlice,
   pagerLinks, searchIndex, whereLine,
 } from './render.mjs';
 import { RESERVED, build, checkCountries, fallbackCss } from './build.mjs';
-import { RESULT_MAPS, flagShapeSvg, pictureOf, rasterise } from './pictures.mjs';
+import { MAP_ONLY, RESULT_MAPS, flagShapeSvg, pictureOf, rasterise } from './pictures.mjs';
 
 const here = fileURLToPath(new URL('.', import.meta.url));
 const repo = join(here, '../..');
@@ -42,7 +42,7 @@ const INDIA = {
 };
 
 /** INDIA's record under `codes`' names, A to Z: paging fixtures only. */
-const NAMES = { AU: 'Australia', CA: 'Canada', DE: 'Germany', FR: 'France', GB: 'United Kingdom', IL: 'Israel', JP: 'Japan', NP: 'Nepal', RS: 'Serbia', ES: 'Spain', LK: 'Sri Lanka', US: 'United States' };
+const NAMES = { AU: 'Australia', CA: 'Canada', DE: 'Germany', FR: 'France', GB: 'United Kingdom', IL: 'Israel', JP: 'Japan', NP: 'Nepal', RS: 'Serbia', ES: 'Spain', LK: 'Sri Lanka', UY: 'Uruguay' };
 function several(codes) {
   return [INDIA, ...codes.map((code) => ({ ...INDIA, code, name: NAMES[code], slug: NAMES[code].toLowerCase().replace(/ /g, '-'), seats: null, history: null }))]
     .sort((a, b) => a.name.localeCompare(b.name, 'en'));
@@ -74,20 +74,13 @@ test('ten countries to a page, A to Z, and one page even for one country', () =>
   assert.deepEqual([0, 1, 10, 11, 20, 41].map(pageCount), [1, 1, 1, 2, 2, 5]);
   const list = several(Object.keys(NAMES));
   assert.deepEqual(pageSlice(list, 1).map((c) => c.name), list.slice(0, 10).map((c) => c.name));
-  assert.deepEqual(pageSlice(list, 2).map((c) => c.name), ['Sri Lanka', 'United Kingdom', 'United States']);
+  assert.deepEqual(pageSlice(list, 2).map((c) => c.name), ['Sri Lanka', 'United Kingdom', 'Uruguay']);
   assert.deepEqual(pageSlice(list, 3), []);
 });
 
-test('?page=N is read as a whole page the list has; anything else is page 1', () => {
-  const cases = [['', 1], ['?page=1', 1], ['?page=2', 2], ['?page=5', 5], ['?page=6', 1], ['?page=0', 1], ['?page=-1', 1],
-    ['?page=2.5', 1], ['?page=02', 1], ['?page=two', 1], ['?page=', 1], ['?y=2024', 1], ['?page=3&page=4', 3]];
-  for (const [search, n] of cases) assert.equal(pageFromQuery(search, 5), n, search);
-  assert.equal(pageFromQuery('?page=2', 1), 1, 'with one page, page 2 does not exist');
+test('the pager: the current page marked, the ends disabled, every link a ?page= address', () => {
   assert.equal(pageHref(1), '/elections/');
   assert.equal(pageHref(3), '/elections/?page=3');
-});
-
-test('the pager: the current page marked, the ends disabled, every link a ?page= address', () => {
   assert.equal(pagerLinks(1, 1),
     '<span class="off" aria-disabled="true">Previous</span><a href="/elections/" data-p="1" aria-current="page">1</a><span class="off" aria-disabled="true">Next</span>');
   const middle = pagerLinks(2, 3);
@@ -107,7 +100,8 @@ test('the search index holds every country once: name, aliases, slug and page, i
   const index = searchIndex(list, ALIASES);
   assert.deepEqual(index.map((o) => o.s), list.map((c) => c.slug));
   assert.deepEqual(index.map((o) => o.p), list.map((_, i) => (i < 10 ? 1 : 2)));
-  assert.deepEqual(index.find((o) => o.s === 'united-states').a, ['USA', 'US', 'America', 'United States of America']);
+  const us = { ...INDIA, code: 'US', name: 'United States', slug: 'united-states' };
+  assert.deepEqual(searchIndex([us], ALIASES)[0].a, ['USA', 'US', 'America', 'United States of America']);
   assert.deepEqual(index.find((o) => o.s === 'nepal').a, []);
   assert.deepEqual(Object.keys(index[0]).sort(), ['a', 'n', 'p', 's'], 'nothing but what search needs');
 });
@@ -181,7 +175,7 @@ test('page 2 of the list is its own page, with its own cards, title and canonica
   const html = page(list, 2, picturesFor(list), { fallbackCss: fallbackCss() });
   assert.match(html, /<title>Election Atlas: page 2<\/title>/);
   assert.match(html, /<link rel="canonical" href="\/elections\/\?page=2">/);
-  assert.deepEqual([...html.matchAll(/<h2 id="h-[^"]+"><a href="[^"]+">([^<]+)</g)].map((m) => m[1]), ['Sri Lanka', 'United Kingdom', 'United States']);
+  assert.deepEqual([...html.matchAll(/<h2 id="h-[^"]+"><a href="[^"]+">([^<]+)</g)].map((m) => m[1]), ['Sri Lanka', 'United Kingdom', 'Uruguay']);
   assert.equal(cardsHtml(list, 2, picturesFor(list)).match(/<article/g).length, 3);
   assert.match(html, /<p class="count">13 countries, 10 per page\.<\/p>/);
 });
@@ -192,7 +186,7 @@ test('the builder refuses a list it cannot publish', () => {
   const root = site([INDIA]);
   assert.equal(checkCountries([INDIA], root).length, 1);
   const refuse = (list, needle) => assert.throws(() => checkCountries(list, root), needle);
-  refuse([], /no countries/);
+  refuse({}, /not a list/);
   const uk = several(['GB']).find((c) => c.code === 'GB');
   refuse([INDIA, uk], /no country page at \/elections\/united-kingdom\//);
   refuse([{ ...INDIA, slug: 'cards' }], /path of the \/elections page itself/);
@@ -209,10 +203,21 @@ test('the builder refuses a list it cannot publish', () => {
 
 test('a picture is the result map where the atlas draws one, else the flag shape, else the build stops', () => {
   assert.equal(pictureOf(INDIA, OUTLINES).kind, 'result-map');
-  assert.equal(pictureOf({ ...INDIA, seats: null }, OUTLINES).kind, 'flag-shape', 'no seat winners: no result map');
-  const us = several(['US']).find((c) => c.code === 'US');
-  assert.equal(pictureOf(us, OUTLINES).kind, 'flag-shape', 'no seat boundaries published for it');
-  assert.throws(() => pictureOf({ ...us, code: 'ZZ', name: 'Nowhere' }, OUTLINES), /no picture for Nowhere \(ZZ\): no outline/);
+  const uk = several(['GB']).find((c) => c.code === 'GB');
+  assert.equal(pictureOf(uk, OUTLINES).kind, 'flag-shape', 'no result map for it');
+  assert.throws(() => pictureOf({ ...uk, code: 'ZZ', name: 'Nowhere' }, OUTLINES), /no picture for Nowhere \(ZZ\): no outline/);
+});
+
+test('India and the USA are drawn only as result maps: never a flag shape, though both have an outline and a flag', async () => {
+  assert.deepEqual([...MAP_ONLY].sort(), ['IN', 'US']);
+  const us = { ...INDIA, code: 'US', name: 'United States', slug: 'united-states', seats: null, history: null };
+  assert.ok(OUTLINES.US && OUTLINES.IN, 'an outline exists for each, so a flag shape could be drawn');
+  assert.throws(() => pictureOf(us, OUTLINES), /no picture for United States \(US\): it is drawn only as a result map, and the atlas has no result map for it/);
+  assert.throws(() => pictureOf({ ...INDIA, seats: null }, OUTLINES), /no picture for India \(IN\): it is drawn only as a result map, and D1 names no seat winners/);
+  const list = [INDIA, us];
+  const root = site(list);
+  await assert.rejects(build({ countries: list, site: root }), /United States \(US\): it is drawn only as a result map/);
+  assert.ok(!existsSync(join(root, 'elections', 'index.html')), 'nothing written: the USA is not listed');
 });
 
 test('a flag shape is the flag stretched to the outline box and clipped to the outline', () => {
@@ -263,6 +268,21 @@ test('thirteen countries: two pages, each prerendered with its cards file', asyn
   assert.equal(listed(join(out, 'img')).length, 13 * 3);
 });
 
+test('no country yet: the page says results are not available yet, with no card, pager, search or script', async () => {
+  const root = site([]);
+  const r = await build({ countries: [], site: root });
+  assert.deepEqual([r.countries, r.pages], [0, 1]);
+  const out = join(root, 'elections');
+  const html = readFileSync(join(out, 'index.html'), 'utf8');
+  assert.match(html, new RegExp(`<p class="where">${NONE_YET}</p>`));
+  assert.match(NONE_YET, /^Not available yet/);
+  assert.doesNotMatch(html, /<article|class="list"|class="pager"|class="find"|<script|Results:/);
+  assert.match(html, /<h1 id="h1">Election results, by country<\/h1>/);
+  assert.match(html, /Type: Newsreader/);
+  assert.deepEqual(JSON.parse(readFileSync(join(out, 'index.json'), 'utf8')), []);
+  assert.deepEqual(listed(join(out, 'img')), []);
+});
+
 // ── the assembled site ──────────────────────────────────────────────────
 
 const DIST = process.env.LANDING_DIST ?? join(repo, 'dist');
@@ -271,7 +291,12 @@ const built = existsSync(join(DIST, 'elections/index.html'));
 test('the built /elections: every card links a country page that exists, and search indexes exactly the cards', { skip: !built && `no assembled site at ${DIST}` }, () => {
   const out = join(DIST, 'elections');
   const index = JSON.parse(readFileSync(join(out, 'index.json'), 'utf8'));
-  assert.ok(index.length > 0);
+  if (index.length === 0) {
+    const html = readFileSync(join(out, 'index.html'), 'utf8');
+    assert.match(html, new RegExp(`<p class="where">${NONE_YET}</p>`), 'no country listed: built only with --pending-ok, and it says so');
+    assert.doesNotMatch(html, /<article/);
+    return;
+  }
   const pages = Math.max(...index.map((o) => o.p));
   const slugs = [];
   for (let n = 1; n <= pages; n++) {

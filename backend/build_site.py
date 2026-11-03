@@ -28,7 +28,8 @@ pictures (it needs `npm --prefix frontend ci` for its packages).
 file that directory holds: every data file the pages read before the move must
 be either exported from D1 or committed here. With --pending-ok the missing files
 are listed as pending instead (a deploy made before every import day has run);
-the pages then show "not available yet" for them.
+the pages then show "not available yet" for them, and /elections, while D1 lists
+no country yet, says so instead of refusing the build.
 """
 import argparse
 import json
@@ -95,13 +96,19 @@ def build(out, data_from=None, frontend=None):
     return site
 
 
-def build_landing(out, db):
-    """Derives the listed countries from D1 and renders /elections from them."""
+def build_landing(out, db, pending_ok=False):
+    """Derives the listed countries from D1 and renders /elections from them.
+
+    With none listed it refuses, unless `pending_ok`: then /elections says no
+    country's result is published yet ("not available yet") and shows no card.
+    """
     listed, skipped = country_list.derive(db, out)
     for code, why in skipped:
         print(f'build_site: {code} not on /elections: {why}')
-    if not listed:
+    if not listed and not pending_ok:
         sys.exit('build_site: D1 holds no country with a published national result and a country page')
+    if not listed:
+        print('build_site: PENDING /elections lists no country yet (the page says "not available yet")')
     with tempfile.TemporaryDirectory() as tmp:
         path = Path(tmp) / 'countries.json'
         path.write_text(json.dumps(listed, ensure_ascii=False), encoding='utf-8')
@@ -125,10 +132,10 @@ def main(argv=None):
     ap.add_argument('--db', required=True, help='SQLite copy of the D1 database: the /elections page lists the countries it holds')
     ap.add_argument('--complete-against', help='data directory whose results/ and cabinet/ files must all be present')
     ap.add_argument('--pending-ok', action='store_true',
-                    help='list files missing against --complete-against as pending instead of failing')
+                    help='list files missing against --complete-against as pending instead of failing, and build /elections while D1 lists no country')
     args = ap.parse_args(argv)
     site = build(args.out, args.data_from, args.frontend)
-    build_landing(args.out, args.db)
+    build_landing(args.out, args.db, args.pending_ok)
     if args.complete_against:
         missing = missing_against(site, args.complete_against)
         if missing and args.pending_ok:
