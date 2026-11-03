@@ -234,19 +234,23 @@ test('theme: a choice made with the header picker carries over to the next page'
   page.on('console', (m) => { if (isProblem(m)) problems.push(`console: ${m.text()}`); });
   page.on('pageerror', (e) => problems.push(`exception: ${e.message}`));
   const pickerValue = () => page.evaluate(() =>
-    document.querySelector('header site-theme-picker')?.shadowRoot?.querySelector('select')?.value);
+    document.querySelector('header site-theme-picker')?.shadowRoot?.querySelector('[role="option"][aria-selected="true"]')?.dataset.value);
   await page.goto(`${origin}/elections/india/?y=2024`, { waitUntil: 'networkidle0' });
-  await page.waitForFunction(() => document.querySelector('header site-theme-picker')?.shadowRoot?.querySelector('select'));
+  await page.waitForFunction(() => document.querySelector('header site-theme-picker')?.shadowRoot?.querySelector('[role="combobox"]'));
   assert.equal(await pickerValue(), 'system');
-  const select = await page.evaluateHandle(() => document.querySelector('header site-theme-picker').shadowRoot.querySelector('select'));
-  // labelled for screen readers: the select sits inside a <label> whose text is "Theme"
-  assert.equal(await select.evaluate((s) => s.labels?.[0]?.firstElementChild?.textContent), 'Theme');
+  const combobox = await page.evaluateHandle(() => document.querySelector('header site-theme-picker').shadowRoot.querySelector('[role="combobox"]'));
+  // labelled for screen readers: the combobox is labelled by an element whose text is "Theme"
+  assert.equal(await combobox.evaluate((c) => c.getRootNode().getElementById(c.getAttribute('aria-labelledby'))?.textContent), 'Theme');
   // the picker offers System, Classic Light and Classic Dark only
-  assert.deepEqual(await select.evaluate((s) => [...s.options].map((o) => o.value)), ['system', 'classic-light', 'classic-dark']);
-  await select.select('classic-dark');
+  assert.deepEqual(await combobox.evaluate((c) => [...c.getRootNode().querySelectorAll('[role="option"]')].map((o) => o.dataset.value)), ['system', 'classic-light', 'classic-dark']);
+  // choose Classic Dark as a reader would: open the list, then click the option
+  await combobox.click();
+  await page.waitForFunction((c) => c.getAttribute('aria-expanded') === 'true', {}, combobox);
+  const option = await combobox.evaluateHandle((c) => c.getRootNode().querySelector('[role="option"][data-value="classic-dark"]'));
+  await option.click();
   assert.equal(await page.evaluate(() => document.documentElement.dataset.theme), 'classic-dark');
   await page.goto(`${origin}/elections/india/state/?s=IN-UP&y=2024`, { waitUntil: 'networkidle0' });
-  await page.waitForFunction(() => document.querySelector('header site-theme-picker')?.shadowRoot?.querySelector('select'));
+  await page.waitForFunction(() => document.querySelector('header site-theme-picker')?.shadowRoot?.querySelector('[role="combobox"]'));
   assert.equal(await page.evaluate(() => document.documentElement.dataset.theme), 'classic-dark');
   assert.equal(await pickerValue(), 'classic-dark');
   await context.close();
@@ -269,11 +273,11 @@ for (const [stored, scheme, expected] of [['slate-light', 'light', 'classic-ligh
       requestAnimationFrame(() => { window.__firstFrameTheme = document.documentElement.dataset.theme; });
     }, stored);
     await page.goto(`${origin}/elections/india/?y=2024`, { waitUntil: 'networkidle0' });
-    await page.waitForFunction(() => document.querySelector('header site-theme-picker')?.shadowRoot?.querySelector('select'));
+    await page.waitForFunction(() => document.querySelector('header site-theme-picker')?.shadowRoot?.querySelector('[role="combobox"]'));
     assert.equal(await page.evaluate(() => window.__firstFrameTheme), expected);
     assert.equal(await page.evaluate(() => document.documentElement.dataset.theme), expected);
     assert.equal(await page.evaluate(() =>
-      document.querySelector('header site-theme-picker').shadowRoot.querySelector('select').value), 'system');
+      document.querySelector('header site-theme-picker').shadowRoot.querySelector('[role="option"][aria-selected="true"]')?.dataset.value), 'system');
     await context.close();
     assert.deepEqual(problems, []);
   });

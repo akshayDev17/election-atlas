@@ -28,7 +28,7 @@ a{color:var(--ink)}
    line at the top; the eyebrow sits under it, with the theme picker at the right. */
 .mh{display:flex;flex-direction:column;gap:var(--s3)}
 .mh-tools{display:flex;align-items:baseline;justify-content:space-between;gap:var(--s4);flex-wrap:wrap}
-/* The shared theme picker (site-shell's site.js): a labelled native <select> that draws
+/* The shared theme picker (site-shell's site.js): a labelled combobox (part "select") that draws
    itself from the theme tokens. Only its type is set here, to the masthead's
    mono so it reads as one of the instruments beside it. */
 site-theme-picker::part(select){font-family:var(--mono);font-size:.6875rem;letter-spacing:.04em}
