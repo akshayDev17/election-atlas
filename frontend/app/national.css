@@ -106,7 +106,7 @@ main{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;padding:0 var
 .year.na{color:var(--rule-3);text-decoration:line-through;text-decoration-thickness:1px}
 .year.na[aria-pressed="true"]{color:var(--muted)}
 .mh-tools{display:flex;align-items:baseline;justify-content:flex-end;gap:var(--s5);flex-wrap:wrap}
-/* The shared theme picker (site-shell's site.js): a labelled native <select> that draws
+/* The shared theme picker (site-shell's site.js): a labelled combobox (part "select") that draws
    itself from the theme tokens. Only its type is set here, to the masthead's
    mono so it reads as one of the instruments beside it. */
 site-theme-picker::part(select){font-family:var(--mono);font-size:.6875rem;letter-spacing:.04em}
