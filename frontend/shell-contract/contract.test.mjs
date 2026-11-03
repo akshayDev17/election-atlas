@@ -132,7 +132,7 @@ test('bound to site-shell: every page gains the theme head block, each atlas pag
   // never composed, validators and 304 kept.
   const css = asBuilt('elections/india/index.html').match(/href="(\/elections\/india\/_next\/static\/css\/[^"]+\.css)"/)[1];
   const picture = asBuilt('elections/index.html').match(/src="(\/elections\/img\/[^"]+\.webp)"/)[1];
-  for (const path of [css, `${ROOT}data/manifest.json`, '/elections/cards/1.html', '/elections/index.json', picture]) {
+  for (const path of [css, `${ROOT}data/manifest.json`, '/elections/cards/1.json', '/elections/index.json', picture]) {
     const res = await fetch(`${s.origin}${path}`);
     assert.equal(res.status, 200, path);
     assert.equal(res.headers.get('x-site-shell'), null, path);

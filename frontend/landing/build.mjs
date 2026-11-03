@@ -7,7 +7,7 @@
 // Writes, under <site>/elections/:
 //   index.html           page 1, whole (the Worker serves it at /elections/)
 //   page/<N>/index.html  page N >= 2, whole (the Worker serves it at /elections/?page=N)
-//   cards/<N>.html       page N's cards alone, which the pager and search fetch
+//   cards/<N>.json       page N's cards alone ({"html": ...}), which the pager and search fetch
 //   index.json           the search index: name, aliases, slug and page of every country
 //   img/*.webp           each country's picture at 240, 360 and 720 px wide
 //   fonts/newsreader.woff2
@@ -49,13 +49,15 @@ export function checkCountries(countries, site) {
     if (!/^https:\/\//.test(e.source?.url ?? '') || !e.source?.publisher) throw new Error(`${c.code}: no https source`);
     if (!existsSync(join(site, 'elections', c.slug, 'index.html'))) throw new Error(`${c.code}: no country page at /elections/${c.slug}/`);
   }
-  const sorted = [...countries].sort((a, b) => a.name.localeCompare(b.name, 'en'));
-  if (sorted.some((c, i) => c !== countries[i])) throw new Error('countries are not in A-to-Z order');
   return countries;
 }
 
-export async function build({ countries, site, outlines = readJson(join(here, 'outlines.json')).outlines, aliases = readJson(join(here, 'aliases.json')).aliases }) {
-  checkCountries(countries, site);
+/** The list A to Z: by name as the page's locale orders it, the country code breaking a tie. */
+export const aToZ = (countries) =>
+  [...countries].sort((a, b) => a.name.localeCompare(b.name, 'en') || (a.code < b.code ? -1 : a.code > b.code ? 1 : 0));
+
+export async function build({ countries: derived, site, outlines = readJson(join(here, 'outlines.json')).outlines, aliases = readJson(join(here, 'aliases.json')).aliases }) {
+  const countries = aToZ(checkCountries(derived, site));
   const root = join(site, 'elections');
   const pictures = Object.fromEntries(countries.map((c) => [c.code, pictureOf(c, outlines)]));
   const write = (rel, data) => {
@@ -74,7 +76,7 @@ export async function build({ countries, site, outlines = readJson(join(here, 'o
   const css = fallbackCss();
   for (let n = 1; n <= pages; n++) {
     write(n === 1 ? 'index.html' : `page/${n}/index.html`, page(countries, n, pictures, { fallbackCss: css }));
-    write(`cards/${n}.html`, cardsHtml(countries, n, pictures) + '\n');
+    write(`cards/${n}.json`, JSON.stringify({ html: cardsHtml(countries, n, pictures) }));
   }
   write('index.json', JSON.stringify(searchIndex(countries, aliases)));
   mkdirSync(join(root, 'fonts'), { recursive: true });

@@ -4,7 +4,7 @@
 // One card template for every country, A to Z, PAGE_SIZE to a page, the page in the
 // URL (/elections/?page=3). The Worker serves page N's prerendered HTML at that URL,
 // and the pager swaps pages in place by fetching only that page's cards
-// (/elections/cards/N.html). Search runs on the device over one small index of
+// (/elections/cards/N.json). Search runs on the device over one small index of
 // every country (/elections/index.json: name, aliases, slug, page); choosing a match
 // fetches only that country's page of cards.
 
@@ -114,7 +114,7 @@ ${pagerLinks}
 async function show(n, slug, push) {
   const ol = list();
   if (+ol.dataset.page !== n) {
-    const html = cache[n] || (cache[n] = await (await fetch(ROOT + 'cards/' + n + '.html')).text());
+    const html = cache[n] || (cache[n] = (await (await fetch(ROOT + 'cards/' + n + '.json')).json()).html);
     ol.innerHTML = html; ol.dataset.page = n;
   }
   document.querySelector('.where').textContent = whereLine(n, PAGES, TOTAL);

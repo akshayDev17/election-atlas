@@ -19,7 +19,7 @@ import {
   NONE_YET, PAGE_SIZE, ROOT, card, cardsHtml, countryHref, credits, page, pageCount, pageHref, pageSlice,
   pagerLinks, searchIndex, whereLine,
 } from './render.mjs';
-import { RESERVED, build, checkCountries, fallbackCss } from './build.mjs';
+import { RESERVED, aToZ, build, checkCountries, fallbackCss } from './build.mjs';
 import { MAP_ONLY, RESULT_MAPS, flagShapeSvg, pictureOf, rasterise } from './pictures.mjs';
 
 const here = fileURLToPath(new URL('.', import.meta.url));
@@ -194,8 +194,6 @@ test('the builder refuses a list it cannot publish', () => {
   refuse([{ ...INDIA, election: { ...INDIA.election, source: { ...INDIA.election.source, url: 'http://eci.gov.in/' } } }], /no https source/);
   refuse([{ ...INDIA, election: { ...INDIA.election, top: [{ ...INDIA.election.top[0], seats: 600 }] } }], /seats out of range/);
   refuse([{ ...INDIA, code: 'IND' }], /bad country code/);
-  const both = site(several(['GB']));
-  assert.throws(() => checkCountries([several(['GB'])[1], several(['GB'])[0]], both), /A-to-Z/);
   for (const name of ['page', 'cards', 'img', 'fonts']) assert.ok(RESERVED.has(name), name);
 });
 
@@ -248,11 +246,24 @@ test('one country: page 1, its cards, the search index, its pictures and the fon
   assert.deepEqual([r.countries, r.pages], [1, 1]);
   const out = join(root, 'elections');
   assert.ok(existsSync(join(out, 'index.html')));
-  assert.deepEqual(listed(join(out, 'cards')), ['1.html']);
+  assert.deepEqual(listed(join(out, 'cards')), ['1.json']);
   assert.ok(!existsSync(join(out, 'page')));
   assert.deepEqual(JSON.parse(readFileSync(join(out, 'index.json'), 'utf8')), [{ n: 'India', a: ['Bharat'], s: 'india', p: 1 }]);
   assert.deepEqual(listed(join(out, 'img')), ['india-map-2024-240.webp', 'india-map-2024-360.webp', 'india-map-2024-720.webp']);
   assert.ok(existsSync(join(out, 'fonts/newsreader.woff2')));
+});
+
+test('the builder puts the derived list A to Z itself, as the page\'s locale orders accented names', async () => {
+  const as = (code, name) => ({ ...INDIA, code, name, slug: name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase(), seats: null, history: null });
+  const derived = [as('AL', 'Albania'), as('AX', 'Åland'), as('TM', 'Turkmenistan'), as('TR', 'Türkiye')];
+  const root = site(derived);
+  await build({ countries: derived, site: root });
+  const out = join(root, 'elections');
+  const want = ['Åland', 'Albania', 'Türkiye', 'Turkmenistan'];
+  assert.deepEqual(JSON.parse(readFileSync(join(out, 'index.json'), 'utf8')).map((o) => o.n), want);
+  const cards = JSON.parse(readFileSync(join(out, 'cards/1.json'), 'utf8')).html;
+  assert.deepEqual([...cards.matchAll(/<h2 id="h-[^"]+"><a href="[^"]+">([^<]+)</g)].map((m) => m[1]), want);
+  assert.deepEqual(aToZ([as('TR', 'Twin'), as('AL', 'Twin')]).map((c) => c.code), ['AL', 'TR'], 'the code breaks a tie');
 });
 
 test('thirteen countries: two pages, each prerendered with its cards file', async () => {
@@ -261,9 +272,9 @@ test('thirteen countries: two pages, each prerendered with its cards file', asyn
   const r = await build({ countries: list, site: root });
   assert.equal(r.pages, 2);
   const out = join(root, 'elections');
-  assert.deepEqual(listed(join(out, 'cards')), ['1.html', '2.html']);
+  assert.deepEqual(listed(join(out, 'cards')), ['1.json', '2.json']);
   assert.ok(existsSync(join(out, 'page/2/index.html')));
-  assert.equal(readFileSync(join(out, 'cards/2.html'), 'utf8').match(/<article/g).length, 3);
+  assert.equal(JSON.parse(readFileSync(join(out, 'cards/2.json'), 'utf8')).html.match(/<article/g).length, 3);
   assert.equal(JSON.parse(readFileSync(join(out, 'index.json'), 'utf8')).filter((o) => o.p === 2).length, 3);
   assert.equal(listed(join(out, 'img')).length, 13 * 3);
 });
@@ -300,7 +311,7 @@ test('the built /elections: every card links a country page that exists, and sea
   const pages = Math.max(...index.map((o) => o.p));
   const slugs = [];
   for (let n = 1; n <= pages; n++) {
-    const cards = readFileSync(join(out, 'cards', `${n}.html`), 'utf8');
+    const cards = JSON.parse(readFileSync(join(out, 'cards', `${n}.json`), 'utf8')).html;
     const whole = readFileSync(join(out, n === 1 ? 'index.html' : `page/${n}/index.html`), 'utf8');
     for (const html of [cards, whole]) {
       for (const [, href] of html.matchAll(/<a class="btn" href="\/elections\/([^"]+)\/">Open /g)) {

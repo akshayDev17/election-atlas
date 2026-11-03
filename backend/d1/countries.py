@@ -18,8 +18,9 @@ card says what the country page says: seats are the constituencies each party
 won at the general election, and a vote share is the party's votes over every
 vote polled (NOTA included), as the national page derives them.
 
-The output is a build artifact, sorted A to Z by name, that the page builder
-(frontend/landing/build.mjs) renders. It carries D1's facts only; the pictures
+The output is a build artifact that the page builder (frontend/landing/build.mjs)
+renders, in an order kept only so the file is deterministic: the builder puts
+the list A to Z itself. It carries D1's facts only; the pictures
 and search aliases are the builder's own assets.
 """
 import argparse

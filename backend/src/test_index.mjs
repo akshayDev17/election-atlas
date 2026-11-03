@@ -160,7 +160,7 @@ test("a prerendered list page's own path answers 308 to /elections/?page=N", asy
 test("other /elections paths are not redirected", () => {
   for (const u of ["https://x/elections/", "https://x/elections/?page=2", "https://x/elections/usa/",
     "https://x/elections/india", "https://x/electionsx", "https://x/elections//", "https://x/elections/pages/2/",
-    "https://x/elections/cards/1.html", "https://x/elections/index.json"]) {
+    "https://x/elections/cards/1.json", "https://x/elections/index.json"]) {
     assert.equal(movedTo(new URL(u)), null, u);
   }
 });
@@ -207,7 +207,7 @@ test("/elections/?page=N serves page N's prerendered page, and page 1 for no pag
 });
 
 test("the list's cards, search index, pictures and font are plain static assets", async () => {
-  for (const path of ["/elections/cards/1.html", "/elections/index.json", "/elections/img/india-map-2024-360.webp", "/elections/fonts/newsreader.woff2"]) {
+  for (const path of ["/elections/cards/1.json", "/elections/index.json", "/elections/img/india-map-2024-360.webp", "/elections/fonts/newsreader.woff2"]) {
     const res = await call(`https://x${path}`);
     assert.equal(await res.text(), `asset ${path}`, path);
   }
