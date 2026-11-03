@@ -18,7 +18,7 @@
 
 import { shownState } from "../../frontend/lib/atlas.ts";
 import { findSeat as findAssemblySeat, isMapped, readQuery, stateNameOf } from "../../frontend/lib/mla.ts";
-import { findSeat as findParliamentSeat, parseQuery } from "../../frontend/lib/mp.ts";
+import { constituencyOf, findSeat as findParliamentSeat, parseQuery } from "../../frontend/lib/mp.ts";
 
 const ATLAS_ROOT = "/elections/india/";
 const STATE_PAGE = `${ATLAS_ROOT}state/`;
@@ -43,14 +43,20 @@ export function tailQuery(url) {
   }
 }
 
-// A state code as regions.json writes them; any other ?s= names no file.
+// A state code as regions.json writes them, and a seat key as the pages link
+// with; any other ?s= or ?c= names no file.
 const STATE_CODE = /^IN-[A-Z]{2}$/;
+const SEAT_KEY = /^[a-z0-9]+$/;
 
 /** The data files a page's crumbs are named from, relative to the data directory. */
 export function tailFiles(query) {
   if (query.page === "state") return ["regions.json"];
   const own = STATE_CODE.test(query.state);
-  if (query.page === "mp") return own ? ["regions.json", `geo/ls/${query.state}.json`] : ["regions.json"];
+  if (query.page === "mp") {
+    if (!own) return ["regions.json"];
+    const files = ["regions.json", `geo/ls/${query.state}.json`];
+    return SEAT_KEY.test(query.seat) ? [...files, `parliament/${query.state}/${query.seat}.json`] : files;
+  }
   return own ? ["regions.json", "geo/ac/coverage.json", `geo/ac/${query.state}.json`] : ["regions.json"];
 }
 
@@ -74,7 +80,8 @@ export function tailFor(query, docs) {
   const stateCrumb = { label: stateName, href: `${STATE_PAGE}?s=${encodeURIComponent(state)}` };
   if (query.page === "mp") {
     const pc = findParliamentSeat(docs[`geo/ls/${state}.json`] ?? null, state, query.seat);
-    return [india, stateCrumb, { label: pc?.ls_seat_name || query.seat }];
+    const par = docs[`parliament/${state}/${query.seat}.json`] ?? null;
+    return [india, stateCrumb, { label: constituencyOf(par, pc, query.seat) }];
   }
   const coverage = docs["geo/ac/coverage.json"] ?? null;
   const ac = findAssemblySeat(isMapped(coverage, state) ? docs[`geo/ac/${state}.json`] ?? null : null, query.seat);

@@ -207,7 +207,7 @@ test("with SHELL bound, the four pages are composed with the app name", async ()
   assert.deepEqual(e.ASSETS.calls, [
     "/elections/india/",
     "/elections/india/state/", data("regions.json"),
-    "/elections/india/mp/", data("regions.json"), data("geo/ls/IN-UP.json"),
+    "/elections/india/mp/", data("regions.json"), data("geo/ls/IN-UP.json"), data("parliament/IN-UP/gorakhpur.json"),
     "/elections/india/mla/", data("regions.json"), data("geo/ac/coverage.json"), data("geo/ac/IN-UP.json"),
     "/elections/india/state/", data("regions.json"),
   ]);
@@ -237,7 +237,7 @@ test("fail open: compose() rejecting (site-shell missing, unreachable or throwin
     assert.equal(await res.text(), HTML, "the page as built, not a 500 from the spent body");
     assert.deepEqual(e.ASSETS.calls, [
       "/elections/india/mp/", "/elections/india/data/regions.json", "/elections/india/data/geo/ls/IN-UP.json",
-      "/elections/india/mp/",
+      "/elections/india/data/parliament/IN-UP/gorakhpur.json", "/elections/india/mp/",
     ], "the same page fetched again");
   }
   assert.equal(errors.mock.callCount(), 2);
@@ -277,11 +277,14 @@ const slotted = (tail) =>
   '<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/></head><body><header>' +
   `<site-slot name="site-path" data-tail="${tail}"><a class="back" href="/">← Akshay Prabhakant</a></site-slot>` +
   "</header></body></html>";
-const REGIONS = { regions: [{ code: "IN-UP", name: "Uttar Pradesh" }, { code: "IN-BR", name: "Bihar" }, { code: "IN-JK", name: "Jammu & Kashmir" }] };
+const REGIONS = { regions: [{ code: "IN-UP", name: "Uttar Pradesh" }, { code: "IN-BR", name: "Bihar" }, { code: "IN-JK", name: "Jammu & Kashmir" }, { code: "IN-PB", name: "Punjab" }] };
 const DOCS = {
   "regions.json": REGIONS,
   "geo/ls/IN-UP.json": { objects: { pcs: { geometries: [{ properties: { ls_seat_name: "Bijnor" } }, { properties: { ls_seat_name: "Gorakhpur" } }] } } },
   "geo/ls/IN-JK.json": { objects: { pcs: { geometries: [{ properties: { ls_seat_name: "Anantnag-Rajouri" } }] } } },
+  // the geometry spells the seat Bathinda; the page links it, and names it from the Lok Sabha record
+  "geo/ls/IN-PB.json": { objects: { pcs: { geometries: [{ properties: { ls_seat_name: "Bathinda" } }] } } },
+  "parliament/IN-PB/bhatinda.json": { profile: { constituency: "Bathinda", state: "Punjab" } },
   "geo/ac/coverage.json": { checked: { "IN-BR": true } },
   "geo/ac/IN-BR.json": { objects: { acs: { geometries: [{ properties: { ac: "Agiaon (SC)" } }, { properties: { ac: "Valmiki Nagar" } }] } } },
   // present, but not listed in coverage.json: the MLA page does not use it
@@ -337,6 +340,9 @@ test("crumbs follow the pages' own defaults and fallbacks", async () => {
   // a seat the geometry does not have stands as its key, as on the page
   assert.deepEqual(await tailSent("/elections/india/mp/?s=IN-UP&c=nowhere"),
     [INDIA, { label: "Uttar Pradesh", href: "/elections/india/state/?s=IN-UP" }, { label: "nowhere" }]);
+  // a Lok Sabha record names the seat ahead of the geometry, as on the page
+  assert.deepEqual(await tailSent("/elections/india/mp/?s=IN-PB&c=bhatinda"),
+    [INDIA, { label: "Punjab", href: "/elections/india/state/?s=IN-PB" }, { label: "Bathinda" }]);
   // a state coverage.json does not list has no assembly lookup, so the key stands
   assert.deepEqual(await tailSent("/elections/india/mla/?s=IN-UP&c=behat"),
     [INDIA, { label: "Uttar Pradesh", href: "/elections/india/state/?s=IN-UP" }, { label: "behat" }]);
@@ -350,6 +356,8 @@ test("crumbs follow the pages' own defaults and fallbacks", async () => {
 test("a query that is not a state code reads no state file", () => {
   assert.deepEqual(tailFiles(tailQuery(new URL("https://x/elections/india/mp/?s=../../x&c=y"))), ["regions.json"]);
   assert.deepEqual(tailFiles(tailQuery(new URL("https://x/elections/india/mla/?s=IN-UP%2F..&c=y"))), ["regions.json"]);
+  assert.deepEqual(tailFiles(tailQuery(new URL("https://x/elections/india/mp/?s=IN-UP&c=..%2F..%2Fx"))),
+    ["regions.json", "geo/ls/IN-UP.json"], "a seat that is not a key reads no record");
   assert.equal(tailQuery(new URL("https://x/elections/india/")), null);
   assert.equal(tailQuery(new URL("https://x/elections/india/data/x.json")), null);
   // with no data at all, the crumbs still name the page by its query
