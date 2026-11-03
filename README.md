@@ -4,27 +4,39 @@ A data-driven map of India's elected representatives, from India to state to MP 
 [akshayprabhakant.com/elections/india](https://akshayprabhakant.com/elections/india/)
 by this repository's Worker.
 The Worker answers the old address, `/work/election-atlas/*`, with a permanent redirect (308)
-to the same path under `/elections/india/`, and the bare `/elections` and `/elections/` with
-a permanent redirect to `/elections/india/`, query kept in both.
+to the same path under `/elections/india/`, query kept.
 
-The shared site theme comes from site-shell (`akshayDev17/site-themes`, `shell/`). The Worker
-binds it as `SHELL` and passes each of the four pages' HTML through its `compose()`, which adds
-the theme's boot script and tokens right after `<meta charset>`, and fills each masthead's
-`<site-slot name="site-path">` (`frontend/components/SitePath.tsx`) with the site path: the
-switcher between the site's apps, then the page's own crumbs (India / state / seat). A page's HTML
-is one file for every query, so the Worker first writes the crumbs for the request's query into
-the slot, named from the same data files the page reads (`backend/src/sitepath.js`). The page
-loads site-shell's own files (its picker script) from `akshayprabhakant.com/_site/*`, which is
-routed to site-shell, not to this Worker. It fails open: with site-shell missing, unreachable or
-throwing, the page is served exactly as built, its slot showing the page's own back link, and the
-`:where(:root)` Classic Light block (`frontend/app/site-fallback.css`) keeps every shared token
-defined. The frontend bundles no theme code: each header renders a plain
-`<site-theme-picker hide-label>`, which site-shell's script defines. So `next dev`, which has no
-Worker in front of it, shows Classic Light from the fallback block and no picker. For theme work,
-use the harness in `frontend/shell-contract/` and the browser smoke with `SITE_THEMES_DIR` (below):
-they serve `dist/` through this Worker and the real site-shell, with `/_site/*` answered from
-site-shell's files as the zone route does. **Deploy order:** site-shell must exist before this
-Worker is deployed with the binding, or `wrangler deploy` refuses.
+The same Worker serves the country list at
+[akshayprabhakant.com/elections](https://akshayprabhakant.com/elections/): one card per
+country with its latest national result, A to Z, ten to a page with the page in the address
+(`/elections/?page=3`), and a search that runs on the device over one small index of every
+country. **Which countries it lists comes from D1, not from a hand-kept list**
+(`backend/d1/countries.py`): a nation whose published national result D1 holds, and whose
+country page (`/elections/<slug>/`) the site has. Today that is India. Each card's picture is
+the country's result map where the atlas publishes seat boundaries (India), and otherwise its
+outline (Natural Earth, public domain) filled with its flag (flag-icons, MIT), both generated
+at build time as WebP (`frontend/landing/`). The page self-hosts one Newsreader subset that
+covers Latin Extended-A, so an accented name never pulls a second font file.
+
+The shared site theme comes from site-shell (`akshayDev17/site-themes`, `shell/`). The Worker binds
+it as `SHELL` and passes each of the five pages' HTML (the four atlas pages and the country list)
+through its `compose()`, which adds the theme's boot script and tokens right after
+`<meta charset>`, and fills each atlas masthead's `<site-slot name="site-path">`
+(`frontend/components/SitePath.tsx`) with the site path: the switcher between the site's apps, then
+the page's own crumbs (India / state / seat). A page's HTML is one file for every query, so the
+Worker first writes the crumbs for the request's query into the slot, named from the same data
+files the page reads (`backend/src/sitepath.js`). The page loads site-shell's own files (its picker
+script) from `akshayprabhakant.com/_site/*`, which is routed to site-shell, not to this Worker. It
+fails open: with site-shell missing, unreachable or throwing, the page is served exactly as built,
+its slot showing the page's own back link, and the `:where(:root)` Classic Light block
+(`frontend/app/site-fallback.css`) keeps every shared token defined. The frontend bundles no theme
+code: each header renders a plain `<site-theme-picker hide-label>`, which site-shell's script
+defines. So `next dev`, which has no Worker in front of it, shows Classic Light from the fallback
+block and no picker. For theme work, use the harness in `frontend/shell-contract/` and the browser
+smoke with `SITE_THEMES_DIR` (below): they serve `dist/` through this Worker and the real
+site-shell, with `/_site/*` answered from site-shell's files as the zone route does. **Deploy
+order:** site-shell must exist before this Worker is deployed with the binding, or
+`wrangler deploy` refuses.
 
 This repository started from a single commit of that site's `work/election-atlas` tree
 (`backend/atlas-source.json` names the commit), carrying published data only: no
@@ -35,6 +47,7 @@ history, no bill PDFs and no stored portraits. `CONTEXT.md` defines the terms us
 | path | what |
 |---|---|
 | `frontend/` | the pages: Next.js 15 + React 19 + TypeScript, a static export with basePath `/elections/india` (national, `state/`, `mp/`, `mla/`), built the way the other apps on the site build theirs |
+| `frontend/landing/` | the `/elections` country list: its renderer, card pictures, outlines (`outlines.json`, keyed by ISO code), search aliases and font; `backend/build_site.py --db` runs it over the countries `backend/d1/countries.py` derives from D1 |
 | `data/` | data the pages read that is not in D1: geometry, regions, parties, MPLADS, Sansad records, member directory, bill indexes, `manifest.json`, `availability.json` |
 | `tools/` | the harvesters and the provenance gate (`tools/README.md`) |
 | `backend/` | the Cloudflare Worker, its D1 schema, import and export, and the deploy checks |
@@ -61,10 +74,10 @@ Nothing but published data reaches D1, the exported files or the site:
 
 | workflow | trigger | does |
 |---|---|---|
-| `ci.yml` | pull request, push | gate tests, Worker tests, the full JSON → D1 → JSON round trip in a local SQLite, the frontend (type-checked build, library tests, export contract, browser smoke over the assembled site), and the Worker with `akshayDev17/site-themes` `main`'s site-shell in local `wrangler dev` (the contract, then the browser smoke again through it); no Cloudflare access |
+| `ci.yml` | pull request, push | gate tests, Worker tests, the full JSON → D1 → JSON round trip in a local SQLite, the frontend (type-checked build, library tests, export contract, the country list built from that D1 and its tests, browser smoke over the assembled site), and the Worker with `akshayDev17/site-themes` `main`'s site-shell in local `wrangler dev` (the contract, then the browser smoke again through it); no Cloudflare access |
 | `r2-upload.yml` | manual | uploads every manifest-listed PDF of the pinned commit to R2, verifying sha256 before and after |
 | `d1-import.yml` | manual, `day` = 1 or 2 | applies migrations, then imports one day (1: assembly, cabinets, by-elections; 2: Lok Sabha), printing D1's rows written; the free plan allows 100,000 a day |
-| `deploy.yml` | manual | builds the frontend, exports D1, diffs it against the committed JSON, runs the gate, deploys the Worker, and smoke-tests the preview (including the old address's redirect, and that every page is composed by site-shell) |
+| `deploy.yml` | manual | builds the frontend, exports D1, diffs it against the committed JSON, derives the country list from that D1, runs the gate, deploys the Worker, and smoke-tests the preview (including the old address's redirect, the country list, and that every page is composed by site-shell) |
 
 The Worker config (`backend/wrangler.jsonc`) carries **no routes**, and CI and the deploy refuse one that does (`backend/check_no_routes.py`). The owner's approved routes (`akshayprabhakant.com/elections`, `/elections/*`, `/work/election-atlas` and `/work/election-atlas/*`) are attached outside this config, in a step of their own.
 
@@ -82,7 +95,8 @@ python3 tools/check_provenance.py data
 npm --prefix frontend ci
 npm --prefix frontend run build            # type-checks; static export in frontend/out
 npm --prefix frontend run test:export
-python3 backend/build_site.py --out dist --data-from <exported data dir>
+python3 backend/build_site.py --out dist --data-from <exported data dir> --db <D1 copy>
+npm --prefix frontend run test:landing     # the /elections country list, then the built one in dist/
 cp -R <exported data dir>/. data/           # the library tests read the exported results
 npm --prefix frontend run test:lib
 CHROME_PATH=<chrome binary> npm --prefix frontend run test:smoke   # serves dist/

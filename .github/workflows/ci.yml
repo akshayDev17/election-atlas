@@ -4,6 +4,7 @@ name: CI
 # tool and Worker unit tests, the full JSON -> D1 -> JSON round trip in a local
 # SQLite built from the migration, the Next.js frontend (type-checked build,
 # library tests, export contract, and a browser smoke over the assembled site),
+# the /elections country list derived from that D1 and its tests,
 # and the Worker with the real site-shell in local workerd (contract and the
 # browser smoke again, composed). No Cloudflare access.
 
@@ -93,10 +94,12 @@ jobs:
             --overlay backend/d1/inputs
 
       # The data files are build artifacts here: materialize them from the export
-      # so the tools that read data/results and data/cabinet can be tested.
+      # so the tools that read data/results and data/cabinet can be tested. The
+      # /elections country list is derived from the local D1 (--db) and rendered
+      # beside the atlas.
       - name: Assemble the site and run the provenance gate over it and the local D1
         run: |
-          python3 backend/build_site.py --out dist --data-from exported --complete-against atlas-source/work/election-atlas/data
+          python3 backend/build_site.py --out dist --data-from exported --db d1.sqlite --complete-against atlas-source/work/election-atlas/data
           python3 tools/check_provenance.py dist/elections/india/data --db d1.sqlite
           python3 dist/elections/india/tools/build-availability.py --check
 
@@ -105,13 +108,23 @@ jobs:
           cp -R exported/. data/
           python3 -m unittest discover -s tools -p 'test_*.py' -v
 
+      # The /elections page: pagination and its address, the search index, the
+      # card, the builder's refusals, the pictures, and the built list itself
+      # (every card's country page exists; search indexes exactly the cards).
+      - name: Frontend — country list tests
+        working-directory: frontend
+        env:
+          LANDING_DIST: ${{ github.workspace }}/dist
+        run: npm run test:landing
+
       # The data adapters (tenses, by-election resolution, not-available-yet
       # rules), against the exported data copied into data/ above.
       - name: Frontend — library tests
         working-directory: frontend
         run: npm run test:lib
 
-      # National, state, MP and MLA pages in Chrome over the assembled site: each
+      # The country list and the national, state, MP and MLA pages in Chrome over
+      # the assembled site: each
       # must draw with zero console errors and no failed request.
       - name: Frontend — browser smoke
         working-directory: frontend

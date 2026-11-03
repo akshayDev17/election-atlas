@@ -10,7 +10,7 @@
 //
 // Serves SMOKE_DIST the way the Worker's asset layer does (a directory URL serves
 // its index.html), or the Worker itself with SITE_THEMES_DIR, and opens the
-// national, state, MP and MLA pages in a real browser. Each page must
+// country list and the national, state, MP and MLA pages in a real browser. Each page must
 // draw its content with zero console errors, no uncaught exception and no failed
 // request: a page fetches only the files availability.json lists, so even a
 // missing file never costs a 404.
@@ -123,6 +123,7 @@ async function visit(path, ready, expect) {
 }
 
 const PAGES = [
+  ['country list', '/elections/', '.card img[src$=".webp"]', /Election results, by country/],
   ['national, 2024', '/elections/india/?y=2024', '#map path.pc', /Union council of ministers · 2024/],
   ['national, 2024 as it stands', '/elections/india/?y=2024&t=stands', '#map path.pc', /As it stands · \d+ by-election/],
   ['national, 1980 (state level)', '/elections/india/?y=1980', '#map path.stf', /state-level result/],
@@ -142,6 +143,41 @@ for (const [name, path, ready, expect] of PAGES) {
     assert.doesNotMatch(text, /could not be loaded/i);
   });
 }
+
+/* The country list: India's card opens India's page; search, on the device over
+   the small index, finds a country by an alias and jumps to its card; a page the
+   list does not have leaves the address for page 1. */
+test('country list: India\'s card, search by alias, and the page in the address', async () => {
+  const page = await browser.newPage();
+  await page.setViewport({ width: 390, height: 844, isMobile: true, hasTouch: true, deviceScaleFactor: 2 });
+  const problems = [];
+  page.on('console', (m) => { if (isProblem(m)) problems.push(`console: ${m.text()}`); });
+  page.on('pageerror', (e) => problems.push(`exception: ${e.message}`));
+  page.on('requestfailed', (r) => problems.push(`failed: ${r.url()} ${r.failure()?.errorText}`));
+  await page.goto(`${origin}/elections/?page=999`, { waitUntil: 'networkidle0' });
+  assert.equal(await page.evaluate(() => location.pathname + location.search), '/elections/', 'no page 999: the address is page 1\'s');
+  // the pictures load lazily: bring the card into view first
+  await page.$eval('#c-india', (el) => el.scrollIntoView());
+  await page.waitForFunction(() => document.querySelector('#c-india img').complete, { timeout: 15000 });
+  const india = await page.$eval('#c-india', (el) => ({
+    name: el.querySelector('h2').textContent,
+    open: el.querySelector('a.btn').getAttribute('href'),
+    picture: el.querySelector('img').complete && el.querySelector('img').naturalWidth > 0,
+  }));
+  assert.deepEqual(india, { name: 'India', open: '/elections/india/', picture: true });
+  await page.focus('#q');
+  await page.keyboard.type('bhar');
+  await page.waitForFunction(() => !document.querySelector('#qlist').hidden);
+  assert.equal(await page.$eval('#qlist', (el) => el.innerText.replace(/\s+/g, ' ').trim()), 'India page 1');
+  assert.equal(await page.$eval('.find output', (el) => el.textContent), '1 match');
+  await page.keyboard.press('Enter');
+  await page.waitForFunction(() => location.hash === '#c-india');
+  assert.equal(await page.evaluate(() => document.activeElement?.closest('article')?.id), 'c-india');
+  await Promise.all([page.waitForNavigation({ waitUntil: 'networkidle0' }), page.click('#c-india a.btn')]);
+  assert.equal(await page.evaluate(() => location.pathname), '/elections/india/');
+  await page.close();
+  assert.deepEqual(problems, []);
+});
 
 /* Without site-shell (the static export served as built: site-shell down, or
    unbound), no theme reaches the page. It must still draw in Classic Light from
