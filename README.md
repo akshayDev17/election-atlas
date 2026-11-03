@@ -74,7 +74,7 @@ Nothing but published data reaches D1, the exported files or the site:
 
 | workflow | trigger | does |
 |---|---|---|
-| `ci.yml` | pull request, push | gate tests, Worker tests, the full JSON → D1 → JSON round trip in a local SQLite, the frontend (type-checked build, library tests, export contract, browser smoke over the assembled site), and the Worker with `akshayDev17/site-themes` `main`'s site-shell in local `wrangler dev` (the contract, then the browser smoke again through it); no Cloudflare access |
+| `ci.yml` | pull request, push | gate tests, Worker tests, the full JSON → D1 → JSON round trip in a local SQLite, the frontend (type-checked build, library tests, export contract, the country list built from that D1 and its tests, browser smoke over the assembled site), and the Worker with `akshayDev17/site-themes` `main`'s site-shell in local `wrangler dev` (the contract, then the browser smoke again through it); no Cloudflare access |
 | `r2-upload.yml` | manual | uploads every manifest-listed PDF of the pinned commit to R2, verifying sha256 before and after |
 | `d1-import.yml` | manual, `day` = 1 or 2 | applies migrations, then imports one day (1: assembly, cabinets, by-elections; 2: Lok Sabha), printing D1's rows written; the free plan allows 100,000 a day |
 | `deploy.yml` | manual | builds the frontend, exports D1, diffs it against the committed JSON, derives the country list from that D1, runs the gate, deploys the Worker, and smoke-tests the preview (including the old address's redirect, the country list, and that every page is composed by site-shell) |
