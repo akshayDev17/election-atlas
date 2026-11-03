@@ -52,7 +52,9 @@ main{flex:1 1 auto;display:flex;flex-direction:column;padding:0 var(--pad)}
 
 /* ── masthead ─────────────────────────────────────────────────────────── */
 .masthead{flex:0 0 auto;padding-top:clamp(1rem,2.4vw,2rem)}
-.mh-left{display:flex;align-items:baseline;gap:var(--s5);flex-wrap:wrap;margin:0}
+/* The site path (site-shell's row of apps, then this page's trail) is its own
+   line at the top of the masthead; the eyebrow and the tools sit under it. */
+.masthead>site-slot{margin-bottom:var(--s3)}
 .mh-top .lbl{margin:0}
 .back{
   font-family:var(--mono);font-size:.625rem;line-height:1.4;letter-spacing:.15em;
@@ -64,8 +66,7 @@ main{flex:1 1 auto;display:flex;flex-direction:column;padding:0 var(--pad)}
 
 h1{margin:0;font-weight:400}
 .mh-top{display:flex;align-items:baseline;justify-content:space-between;gap:var(--s5);flex-wrap:wrap}
-/* The site path (site-shell) is wider than the old back link and pushes the tools
-   onto the next row; margin-left keeps them at the right, where they sat beside it. */
+/* margin-left keeps the tools at the right when they wrap under the eyebrow. */
 .mh-tools{display:flex;align-items:baseline;justify-content:flex-end;gap:var(--s5);flex-wrap:wrap;margin-left:auto}
 /* The shared theme picker (site-shell's site.js): a labelled native <select> that draws
    itself from the theme tokens. Only its type is set here, to the masthead's

@@ -324,11 +324,9 @@ export default function NationalView() {
     <>
       <main>
         <header className="masthead">
+          <SitePath tail={[{ label: 'India' }]} fallback={'<a class="back" href="/elections/">← Election Atlas</a>'} />
           <div className="mh-top">
-            <div className="mh-left">
-              <SitePath tail={[{ label: 'India' }]} fallback={'<a class="back" href="/">← Akshay Prabhakant</a>'} />
-              <p className="lbl">Election Atlas of India</p>
-            </div>
+            <p className="lbl">Election Atlas of India</p>
             <div className="mh-tools">
               <div className="years" id="years" role="group" aria-label="General election year">
                 {core && yearsList.map(y => {

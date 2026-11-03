@@ -77,10 +77,12 @@ main{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;padding:0 var
 .masthead{flex:0 0 auto;padding-top:clamp(1rem,2.4vw,2rem)}
 .mh-top{display:flex;align-items:baseline;justify-content:space-between;gap:var(--s5);flex-wrap:wrap}
 .mh-top .lbl{margin:0}
-.mh-left{display:flex;align-items:baseline;gap:var(--s5);flex-wrap:wrap;margin:0}
-/* The way back. This page is reached from the portfolio and until now had no
-   route home again — the footer that carried it was deleted. Same type as the
-   eyebrow beside it, so it reads as part of the masthead rather than as chrome. */
+/* The site path (site-shell's row of apps, then this page's trail) is its own
+   line at the top of the masthead; the eyebrow and the tools sit under it. */
+.masthead>site-slot{margin-bottom:var(--s3)}
+/* The way back, shown in the site path's place when site-shell does not compose
+   the page: up to the country list. Same type as the eyebrow under it, so it
+   reads as part of the masthead rather than as chrome. */
 .back{
   font-family:var(--mono);font-size:.625rem;line-height:1.4;
   letter-spacing:.15em;text-transform:uppercase;
