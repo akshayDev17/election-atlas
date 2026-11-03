@@ -1,4 +1,4 @@
-// node --test backend/src/test_index.mjs
+// node --experimental-strip-types --test backend/src/test_index.mjs
 import assert from "node:assert/strict";
 import test from "node:test";
 import worker, { byteSpan, movedTo, parseRange, r2Key } from "./index.js";

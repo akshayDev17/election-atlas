@@ -3,7 +3,7 @@
    record, and the assembly seats under the constituency. Every function takes
    its inputs explicitly and returns what the page renders; nothing here fetches
    or holds state. */
-import { fold, notAvailable, seatFold, titleCase } from './atlas.ts';
+import { DEFAULT_STATE, fold, notAvailable, seatFold, titleCase } from './atlas.ts';
 
 /* ── the data files this page reads (fields it uses only) ─────────────── */
 
@@ -58,7 +58,6 @@ export type PcTopo = TopoWith<'pcs', PcGeomProps>;
 export type AcTopo = TopoWith<'acs', AcGeomProps>;
 
 /* ── the query ────────────────────────────────────────────────────────── */
-export const DEFAULT_STATE = 'IN-UP';
 export const DEFAULT_SEAT = 'gorakhpur';
 
 export function parseQuery(search: string): { S: string; C: string } {

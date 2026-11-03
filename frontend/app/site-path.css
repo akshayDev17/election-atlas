@@ -8,7 +8,9 @@
    edge and below its bottom, Close button and all. 100vw and 100dvh stay the
    screen's size, so the sheet is sized to the screen's width and its bottom
    lifted to the screen's bottom (bottom: 0 when the page fits). The more
-   specific selector wins over site-shell's own .sp-sheet rule. */
+   specific selector wins over site-shell's own .sp-sheet rule.
+   Temporary: remove this override once site-shell's own .sp-sheet fix (100vw
+   width, bottom lifted to the screen) ships in akshayDev17/site-themes. */
 site-slot[name="site-path"] .sp-sheet{
   left:0;right:auto;width:100vw;max-width:100vw;
   bottom:0;bottom:calc(100% - 100dvh);

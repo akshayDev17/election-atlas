@@ -16,41 +16,31 @@
 //
 // The national page's crumb ("India") is fixed, so its HTML is left as built.
 
+import { shownState } from "../../frontend/lib/atlas.ts";
+import { findSeat as findAssemblySeat, isMapped, readQuery, stateNameOf } from "../../frontend/lib/mla.ts";
+import { findSeat as findParliamentSeat, parseQuery } from "../../frontend/lib/mp.ts";
+
 const ATLAS_ROOT = "/elections/india/";
 const STATE_PAGE = `${ATLAS_ROOT}state/`;
-// The defaults each page applies to a missing query (frontend/lib/mp.ts,
-// lib/mla.ts, components/StateView.tsx).
-const DEFAULT_STATE = "IN-UP";
-const DEFAULT_MP_SEAT = "gorakhpur";
 
 /**
  * Which page a request is for and the query it reads, with the page's own
- * defaults; null for the national page and anything else.
+ * defaults (frontend/lib/mp.ts parseQuery, lib/mla.ts readQuery); null for the
+ * national page and anything else.
  */
 export function tailQuery(url) {
-  const q = url.searchParams;
-  const state = (q.get("s") || "").toUpperCase();
-  const seat = (q.get("c") || "").toLowerCase();
   switch (url.pathname) {
     case STATE_PAGE:
-      return { page: "state", state };
-    case `${ATLAS_ROOT}mp/`:
-      return { page: "mp", state: state || DEFAULT_STATE, seat: seat || DEFAULT_MP_SEAT };
+      return { page: "state", state: (url.searchParams.get("s") || "").toUpperCase() };
+    case `${ATLAS_ROOT}mp/`: {
+      const { S, C } = parseQuery(url.search);
+      return { page: "mp", state: S, seat: C };
+    }
     case `${ATLAS_ROOT}mla/`:
-      return { page: "mla", state: state || DEFAULT_STATE, seat };
+      return { page: "mla", ...readQuery(url.search) };
     default:
       return null;
   }
-}
-
-// The seat key the state page links with (frontend/lib/atlas.ts fold and
-// seatFold): lowercase, no (SC)/(ST), letters and digits only, and for seatFold
-// no trailing state abbreviation.
-const fold = (s) => String(s || "").toLowerCase().replace(/\(sc\)|\(st\)/g, "").replace(/[^a-z0-9]/g, "");
-function seatFold(name, state) {
-  const abbr = (state.split("-")[1] || "").toLowerCase();
-  const k = fold(name);
-  return abbr && k.endsWith(abbr) ? k.slice(0, -abbr.length) : k;
 }
 
 // A state code as regions.json writes them; any other ?s= names no file.
@@ -66,33 +56,29 @@ export function tailFiles(query) {
 
 /**
  * The crumbs for `query`, from its data files (`docs`, keyed as tailFiles names
- * them; a file that could not be read is null). Each name falls back the way
- * the page's does: an unknown state to its code (the state page shows Uttar
- * Pradesh for one), an unknown seat to its key. With no data at all the crumbs
- * still name the page, by its query.
+ * them; a file that could not be read is null), looked up with the pages' own
+ * rules (frontend/lib). Each name falls back the way the page's does: an unknown
+ * state to its code (the state page shows Uttar Pradesh for one), an unknown
+ * seat to its key. With no data at all the crumbs still name the page, by its
+ * query.
  */
 export function tailFor(query, docs) {
-  const regions = docs["regions.json"]?.regions ?? [];
-  const known = (code) => regions.find((r) => r.code === code);
-  // The state page shows Uttar Pradesh for a missing or unknown state (known only
-  // once regions.json is read).
-  const unknown = !query.state || (regions.length > 0 && !known(query.state));
-  const state = query.page === "state" && unknown ? DEFAULT_STATE : query.state;
-  const stateName = known(state)?.name || state;
+  const regionsDoc = docs["regions.json"] ?? null;
+  const regions = regionsDoc?.regions ?? [];
+  // The state page's fallback needs regions.json, except for a missing state.
+  const state = query.page === "state" && (regions.length > 0 || !query.state) ? shownState(regions, query.state) : query.state;
   const india = { label: "India", href: ATLAS_ROOT };
+  const stateName = stateNameOf(regionsDoc, state);
   if (query.page === "state") return [india, { label: stateName }];
 
   const stateCrumb = { label: stateName, href: `${STATE_PAGE}?s=${encodeURIComponent(state)}` };
   if (query.page === "mp") {
-    const pcs = docs[`geo/ls/${state}.json`]?.objects?.pcs?.geometries ?? [];
-    const pc = pcs.find((g) => g.properties && (seatFold(g.properties.ls_seat_name, state) === query.seat || fold(g.properties.ls_seat_name) === query.seat));
-    return [india, stateCrumb, { label: pc?.properties.ls_seat_name || query.seat }];
+    const pc = findParliamentSeat(docs[`geo/ls/${state}.json`] ?? null, state, query.seat);
+    return [india, stateCrumb, { label: pc?.ls_seat_name || query.seat }];
   }
-  // The MLA page looks a seat up only in a state coverage.json lists.
-  const mapped = !!docs["geo/ac/coverage.json"]?.checked?.[state];
-  const acs = mapped ? docs[`geo/ac/${state}.json`]?.objects?.acs?.geometries ?? [] : [];
-  const ac = acs.find((g) => fold(g.properties?.ac) === query.seat);
-  return [india, stateCrumb, { label: ac?.properties.ac || query.seat || "Assembly seat" }];
+  const coverage = docs["geo/ac/coverage.json"] ?? null;
+  const ac = findAssemblySeat(isMapped(coverage, state) ? docs[`geo/ac/${state}.json`] ?? null : null, query.seat);
+  return [india, stateCrumb, { label: ac.name || "Assembly seat" }];
 }
 
 const escapeAttr = (s) => s.replace(/[&"<>']/g, (c) => ({ "&": "&amp;", '"': "&quot;", "<": "&lt;", ">": "&gt;", "'": "&#39;" })[c]);

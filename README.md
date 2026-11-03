@@ -75,7 +75,7 @@ The Worker config (`backend/wrangler.jsonc`) carries **no routes**, and CI and t
 ```sh
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 python3 -m unittest discover -s backend/d1 -p 'test_*.py'
-node --test backend/src/test_index.mjs
+node --experimental-strip-types --test backend/src/test_index.mjs
 python3 tools/check_provenance.py data
 
 # the frontend (Node 22)
