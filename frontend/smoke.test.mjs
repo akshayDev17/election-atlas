@@ -43,6 +43,10 @@ function serve(root) {
   });
 }
 
+/* A console error, or any console message about hydration (React reports a
+   mismatch with site-shell's head block as an error or a warning). */
+const isProblem = (m) => m.type() === 'error' || /hydrat/i.test(m.text());
+
 let server, worker, browser, origin;
 
 before(async () => {
@@ -85,7 +89,7 @@ async function visit(path, ready, expect) {
   const page = await browser.newPage();
   await page.setViewport({ width: 1440, height: 900 });
   const problems = [];
-  page.on('console', (m) => { if (m.type() === 'error') problems.push(`console: ${m.text()}`); });
+  page.on('console', (m) => { if (isProblem(m)) problems.push(`console: ${m.text()}`); });
   page.on('pageerror', (e) => problems.push(`exception: ${e.message}`));
   page.on('requestfailed', (r) => problems.push(`failed: ${r.url()} ${r.failure()?.errorText}`));
   page.on('response', (r) => {
@@ -147,7 +151,7 @@ test('theme: a choice made with the header picker carries over to the next page'
   const context = await browser.createBrowserContext();
   const page = await context.newPage();
   const problems = [];
-  page.on('console', (m) => { if (m.type() === 'error') problems.push(`console: ${m.text()}`); });
+  page.on('console', (m) => { if (isProblem(m)) problems.push(`console: ${m.text()}`); });
   page.on('pageerror', (e) => problems.push(`exception: ${e.message}`));
   const pickerValue = () => page.evaluate(() =>
     document.querySelector('header site-theme-picker')?.shadowRoot?.querySelector('select')?.value);
@@ -177,7 +181,7 @@ for (const [stored, scheme, expected] of [['slate-light', 'light', 'classic-ligh
     const context = await browser.createBrowserContext();
     const page = await context.newPage();
     const problems = [];
-    page.on('console', (m) => { if (m.type() === 'error') problems.push(`console: ${m.text()}`); });
+    page.on('console', (m) => { if (isProblem(m)) problems.push(`console: ${m.text()}`); });
     page.on('pageerror', (e) => problems.push(`exception: ${e.message}`));
     await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: scheme }]);
     await page.evaluateOnNewDocument((id) => {
