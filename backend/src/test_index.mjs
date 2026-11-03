@@ -1,7 +1,8 @@
-// node --test backend/src/test_index.mjs
+// node --experimental-strip-types --test backend/src/test_index.mjs
 import assert from "node:assert/strict";
 import test from "node:test";
 import worker, { byteSpan, movedTo, parseRange, r2Key } from "./index.js";
+import { tailFiles, tailFor, tailQuery, withTail } from "./sitepath.js";
 
 const PDF = "/elections/india/data/state-legislation/IN-AP/bills/documents/f6d43f9459-bills.pdf";
 
@@ -201,7 +202,15 @@ test("with SHELL bound, the four pages are composed with the app name", async ()
   }
   assert.equal(e.SHELL.calls.compose.length, 5);
   for (const opts of e.SHELL.calls.compose) assert.deepEqual(opts, { app: "atlas" });
-  assert.deepEqual(e.ASSETS.calls, [...PAGES, "/elections/india/state/"], "one ASSETS fetch per page when compose succeeds");
+  // one fetch per page, plus the data files the state, MP and MLA crumbs are named from
+  const data = (f) => `/elections/india/data/${f}`;
+  assert.deepEqual(e.ASSETS.calls, [
+    "/elections/india/",
+    "/elections/india/state/", data("regions.json"),
+    "/elections/india/mp/", data("regions.json"), data("geo/ls/IN-UP.json"), data("parliament/IN-UP/gorakhpur.json"),
+    "/elections/india/mla/", data("regions.json"), data("geo/ac/coverage.json"), data("geo/ac/IN-UP.json"),
+    "/elections/india/state/", data("regions.json"),
+  ]);
 });
 
 test("unbound: with no SHELL binding a page is served exactly as built", async () => {
@@ -226,7 +235,10 @@ test("fail open: compose() rejecting (site-shell missing, unreachable or throwin
     assert.equal(res.headers.get("etag"), null, "no validator, so a later visit is never a 304 onto this copy");
     assert.equal(res.headers.get("last-modified"), null);
     assert.equal(await res.text(), HTML, "the page as built, not a 500 from the spent body");
-    assert.deepEqual(e.ASSETS.calls, ["/elections/india/mp/", "/elections/india/mp/"], "the same page fetched again");
+    assert.deepEqual(e.ASSETS.calls, [
+      "/elections/india/mp/", "/elections/india/data/regions.json", "/elections/india/data/geo/ls/IN-UP.json",
+      "/elections/india/data/parliament/IN-UP/gorakhpur.json", "/elections/india/mp/",
+    ], "the same page fetched again");
   }
   assert.equal(errors.mock.callCount(), 2);
   assert.match(String(errors.mock.calls[0].arguments[0]), /site-shell: compose failed/);
@@ -257,4 +269,118 @@ test("redirects and bill PDFs never touch site-shell", async () => {
   const pdf = await worker.fetch(new Request(`https://x${PDF}`), e);
   assert.equal(pdf.headers.get("content-type"), "application/pdf");
   assert.deepEqual(e.SHELL.calls, { compose: [] });
+});
+
+// The site path's crumbs (sitepath.js): each page's slot as React renders it,
+// with the placeholder tail the page ships.
+const slotted = (tail) =>
+  '<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/></head><body><header>' +
+  `<site-slot name="site-path" data-tail="${tail}"><a class="back" href="/">← Akshay Prabhakant</a></site-slot>` +
+  "</header></body></html>";
+const REGIONS = { regions: [{ code: "IN-UP", name: "Uttar Pradesh" }, { code: "IN-BR", name: "Bihar" }, { code: "IN-JK", name: "Jammu & Kashmir" }, { code: "IN-PB", name: "Punjab" }] };
+const DOCS = {
+  "regions.json": REGIONS,
+  "geo/ls/IN-UP.json": { objects: { pcs: { geometries: [{ properties: { ls_seat_name: "Bijnor" } }, { properties: { ls_seat_name: "Gorakhpur" } }] } } },
+  "geo/ls/IN-JK.json": { objects: { pcs: { geometries: [{ properties: { ls_seat_name: "Anantnag-Rajouri" } }] } } },
+  // the geometry spells the seat Bathinda; the page links it, and names it from the Lok Sabha record
+  "geo/ls/IN-PB.json": { objects: { pcs: { geometries: [{ properties: { ls_seat_name: "Bathinda" } }] } } },
+  "parliament/IN-PB/bhatinda.json": { profile: { constituency: "Bathinda", state: "Punjab" } },
+  "geo/ac/coverage.json": { checked: { "IN-BR": true } },
+  "geo/ac/IN-BR.json": { objects: { acs: { geometries: [{ properties: { ac: "Agiaon (SC)" } }, { properties: { ac: "Valmiki Nagar" } }] } } },
+  // present, but not listed in coverage.json: the MLA page does not use it
+  "geo/ac/IN-UP.json": { objects: { acs: { geometries: [{ properties: { ac: "Behat" } }] } } },
+};
+const PLACEHOLDER = "[{&quot;label&quot;:&quot;India&quot;,&quot;href&quot;:&quot;/elections/india/&quot;},{&quot;label&quot;:&quot;State&quot;}]";
+
+/** ASSETS: the slotted page for a page path, the DOCS for data paths, 404 for the rest. */
+function atlasAssets() {
+  return assets((path) => {
+    const file = path.replace("/elections/india/data/", "");
+    if (file in DOCS) return Response.json(DOCS[file]);
+    if (path.startsWith("/elections/india/data/")) return new Response("Not Found", { status: 404, headers: { "content-type": "text/html" } });
+    return new Response(slotted(path === "/elections/india/" ? "[{&quot;label&quot;:&quot;India&quot;}]" : PLACEHOLDER), {
+      headers: { "content-type": "text/html", "content-length": "999" },
+    });
+  });
+}
+
+/** The data-tail compose() is handed for `path`, decoded as compose() decodes it. */
+async function tailSent(path) {
+  let sent;
+  const e = {
+    ASSETS: atlasAssets(),
+    SHELL: { compose: async (res) => { sent = await res.text(); return new Response(sent, { headers: { "content-type": "text/html" } }); } },
+  };
+  const res = await worker.fetch(new Request(`https://x${path}`), e);
+  assert.equal(res.status, 200, path);
+  const raw = sent.match(/<site-slot name="site-path" data-tail="([^"]*)">/)[1];
+  return JSON.parse(raw.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&"));
+}
+
+const INDIA = { label: "India", href: "/elections/india/" };
+
+test("each page hands compose() its crumbs, named from the data the page reads", async () => {
+  assert.deepEqual(await tailSent("/elections/india/"), [{ label: "India" }], "the national page is left as built");
+  assert.deepEqual(await tailSent("/elections/india/?y=2024&t=stands"), [{ label: "India" }]);
+  assert.deepEqual(await tailSent("/elections/india/state/?s=IN-BR&y=2014"), [INDIA, { label: "Bihar" }]);
+  assert.deepEqual(await tailSent("/elections/india/state/?s=in-up"), [INDIA, { label: "Uttar Pradesh" }]);
+  assert.deepEqual(await tailSent("/elections/india/mp/?s=IN-UP&c=gorakhpur"),
+    [INDIA, { label: "Uttar Pradesh", href: "/elections/india/state/?s=IN-UP" }, { label: "Gorakhpur" }]);
+  assert.deepEqual(await tailSent("/elections/india/mla/?s=IN-BR&c=agiaon"),
+    [INDIA, { label: "Bihar", href: "/elections/india/state/?s=IN-BR" }, { label: "Agiaon (SC)" }]);
+});
+
+test("crumbs follow the pages' own defaults and fallbacks", async () => {
+  // no state, or one regions.json does not know: the state page shows Uttar Pradesh
+  assert.deepEqual(await tailSent("/elections/india/state/"), [INDIA, { label: "Uttar Pradesh" }]);
+  assert.deepEqual(await tailSent("/elections/india/state/?s=IN-XX"), [INDIA, { label: "Uttar Pradesh" }]);
+  // the MP page defaults to Gorakhpur, Uttar Pradesh
+  assert.deepEqual(await tailSent("/elections/india/mp/"),
+    [INDIA, { label: "Uttar Pradesh", href: "/elections/india/state/?s=IN-UP" }, { label: "Gorakhpur" }]);
+  // a seat the geometry does not have stands as its key, as on the page
+  assert.deepEqual(await tailSent("/elections/india/mp/?s=IN-UP&c=nowhere"),
+    [INDIA, { label: "Uttar Pradesh", href: "/elections/india/state/?s=IN-UP" }, { label: "nowhere" }]);
+  // a Lok Sabha record names the seat ahead of the geometry, as on the page
+  assert.deepEqual(await tailSent("/elections/india/mp/?s=IN-PB&c=bhatinda"),
+    [INDIA, { label: "Punjab", href: "/elections/india/state/?s=IN-PB" }, { label: "Bathinda" }]);
+  // a state coverage.json does not list has no assembly lookup, so the key stands
+  assert.deepEqual(await tailSent("/elections/india/mla/?s=IN-UP&c=behat"),
+    [INDIA, { label: "Uttar Pradesh", href: "/elections/india/state/?s=IN-UP" }, { label: "behat" }]);
+  assert.deepEqual(await tailSent("/elections/india/mla/?s=IN-BR"),
+    [INDIA, { label: "Bihar", href: "/elections/india/state/?s=IN-BR" }, { label: "Assembly seat" }]);
+  // a name with characters that need escaping survives the attribute
+  assert.deepEqual(await tailSent("/elections/india/mp/?s=IN-JK&c=anantnagrajouri"),
+    [INDIA, { label: "Jammu & Kashmir", href: "/elections/india/state/?s=IN-JK" }, { label: "Anantnag-Rajouri" }]);
+});
+
+test("a query that is not a state code reads no state file", () => {
+  assert.deepEqual(tailFiles(tailQuery(new URL("https://x/elections/india/mp/?s=../../x&c=y"))), ["regions.json"]);
+  assert.deepEqual(tailFiles(tailQuery(new URL("https://x/elections/india/mla/?s=IN-UP%2F..&c=y"))), ["regions.json"]);
+  assert.deepEqual(tailFiles(tailQuery(new URL("https://x/elections/india/mp/?s=IN-UP&c=..%2F..%2Fx"))),
+    ["regions.json", "geo/ls/IN-UP.json"], "a seat that is not a key reads no record");
+  assert.equal(tailQuery(new URL("https://x/elections/india/")), null);
+  assert.equal(tailQuery(new URL("https://x/elections/india/data/x.json")), null);
+  // with no data at all, the crumbs still name the page by its query
+  assert.deepEqual(tailFor(tailQuery(new URL("https://x/elections/india/mp/?s=../../x&c=y")), {}),
+    [INDIA, { label: "../../X", href: "/elections/india/state/?s=..%2F..%2FX" }, { label: "y" }]);
+});
+
+test("withTail rewrites only the site path's data-tail, escaped for the attribute", () => {
+  const page = slotted(PLACEHOLDER);
+  const out = withTail(page, [{ label: `"Q" & A's <b>` }]);
+  assert.equal(out, page.replace(PLACEHOLDER, "[{&quot;label&quot;:&quot;\\&quot;Q\\&quot; &amp; A&#39;s &lt;b&gt;&quot;}]"));
+  assert.equal(withTail(HTML, [{ label: "x" }]), HTML, "a page with no slot is unchanged");
+});
+
+test("crumbs never cost the page: unreadable data falls back to the query, and the length header is dropped", async () => {
+  const e = {
+    ASSETS: assets((path) => path.includes("/data/")
+      ? Promise.reject(new Error("asset fetch failed"))
+      : new Response(slotted(PLACEHOLDER), { headers: { "content-type": "text/html", "content-length": "999" } })),
+    SHELL: shell(),
+  };
+  const res = await worker.fetch(new Request("https://x/elections/india/state/?s=IN-BR"), e);
+  assert.equal(res.status, 200);
+  assert.equal(res.headers.get("x-site-shell"), "test; app=atlas");
+  assert.match(await res.text(), /data-tail="\[\{&quot;label&quot;:&quot;India&quot;,&quot;href&quot;:&quot;\/elections\/india\/&quot;\},\{&quot;label&quot;:&quot;IN-BR&quot;\}\]"/);
 });

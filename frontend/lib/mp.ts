@@ -3,7 +3,7 @@
    record, and the assembly seats under the constituency. Every function takes
    its inputs explicitly and returns what the page renders; nothing here fetches
    or holds state. */
-import { fold, notAvailable, seatFold, titleCase } from './atlas.ts';
+import { DEFAULT_STATE, fold, notAvailable, seatFold, titleCase } from './atlas.ts';
 
 /* ── the data files this page reads (fields it uses only) ─────────────── */
 
@@ -58,7 +58,6 @@ export type PcTopo = TopoWith<'pcs', PcGeomProps>;
 export type AcTopo = TopoWith<'acs', AcGeomProps>;
 
 /* ── the query ────────────────────────────────────────────────────────── */
-export const DEFAULT_STATE = 'IN-UP';
 export const DEFAULT_SEAT = 'gorakhpur';
 
 export function parseQuery(search: string): { S: string; C: string } {
@@ -80,6 +79,11 @@ export function findSeat(topo: PcTopo | null, state: string, key: string): PcGeo
   const g = geoms.find(x => x.properties && (seatFold(x.properties.ls_seat_name, state) === key || fold(x.properties.ls_seat_name) === key));
   return g?.properties ?? null;
 }
+
+/* The seat's name as the page shows it: the Lok Sabha record's, then the
+   geometry's, then the key. */
+export const constituencyOf = (par: ParliamentDoc | null, seat: PcGeomProps | null, key: string): string =>
+  par?.profile?.constituency || seat?.ls_seat_name || key;
 
 /* The candidate with most votes in the seat, or null when the result file has no
    such seat. */
@@ -141,7 +145,7 @@ export function resolveMember(input: {
   const displayName = stripHonorific(name);
   return {
     evidence,
-    constituency: profile.constituency || (seat ? seat.ls_seat_name : key),
+    constituency: constituencyOf(par, seat, key),
     stateName: profile.state || regionName,
     name,
     displayName,

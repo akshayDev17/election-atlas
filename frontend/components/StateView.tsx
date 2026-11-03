@@ -15,7 +15,7 @@ import {
 } from 'react';
 import {
   countOf, CMO_UP, ECI, acCycles, byelAvailable, fetchOptional, getListed, loadAvailability, lsDetailAvailable,
-  lsStateAvailable, membersAvailable, nf, notAvailable, parentsOf, partOfText, pc1, seatFold, stateRoster, titleCase,
+  lsStateAvailable, membersAvailable, nf, notAvailable, parentsOf, partOfText, pc1, seatFold, shownState, stateRoster, titleCase,
 } from '@/lib/atlas';
 import { DATA, pageURL } from '@/lib/base';
 import { cardModel, type Candidate, type CardFoot, type CardHead, type SeatResolved } from '@/lib/card';
@@ -35,6 +35,7 @@ import type {
 import { HoverCard, type HoverCardHandle } from './HoverCard';
 import { Monogram, OfficialPhotoLink, Swatch } from './Member';
 import { Pager } from './Pager';
+import { SitePath } from './SitePath';
 
 type GeoProps = Record<string, string | number>;
 type GeoFeature = Feature<Geometry, GeoProps>;
@@ -102,8 +103,7 @@ async function loadCore(search: string): Promise<{ core: Core } | { fatal: strin
   const regionBySource = new Map<string, string>();
   for (const r of regionsDoc.regions) for (const s of r.sourceNames) regionBySource.set(s, r.code);
 
-  let stateCode = (new URLSearchParams(search).get('s') || '').toUpperCase();
-  if (!regionByCode.has(stateCode)) stateCode = 'IN-UP';
+  const stateCode = shownState(regionsDoc.regions, (new URLSearchParams(search).get('s') || '').toUpperCase());
   const region = regionByCode.get(stateCode)!;
 
   /* No MPLADS directory for the state means no index, and seat clicks just won't navigate. */
@@ -476,7 +476,10 @@ export default function StateView() {
         <header className="masthead">
           <div className="mh-top">
             <div className="mh-left">
-              <a className="back" href={pageURL('')}>← India</a>
+              <SitePath
+                tail={[{ label: 'India', href: pageURL('') }, { label: 'State' }]}
+                fallback={`<a class="back" href="${pageURL('')}">← India</a>`}
+              />
               <h1 className="lbl" id="eyebrow">{name ? `Election Atlas of ${name}` : 'Election Atlas of India'}</h1>
             </div>
             <div className="mh-tools">

@@ -94,6 +94,13 @@ export const ECI = 'the Election Commission of India';
 export const PRESIDENT = 'the President’s Secretariat';
 export const CMO_UP = 'the Chief Minister’s Office, Uttar Pradesh';
 
+/* ── the state a page shows ─────────────────────────────────────────── */
+export const DEFAULT_STATE = 'IN-UP';
+
+/* The state page shows the ?s= state when regions.json lists it, else Uttar Pradesh. */
+export const shownState = (regions: readonly Region[], code: string): string =>
+  regions.some(r => r.code === code) ? code : DEFAULT_STATE;
+
 /* ── seat names as keys ─────────────────────────────────────────────────
    A seat name as a URL key: lower case, reservation marks and punctuation
    dropped. seatFold also drops the trailing state abbreviation the MPLADS portal

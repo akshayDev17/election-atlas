@@ -17,6 +17,7 @@ import {
 import type { PartiesDoc, RegionsDoc, SymbolsDoc } from '@/lib/types';
 import { Monogram, OfficialPhotoLink } from './Member';
 import { Pager } from './Pager';
+import { SitePath } from './SitePath';
 
 type Query = { S: string; C: string };
 type Loaded = {
@@ -86,6 +87,14 @@ export default function MpView() {
     if (member) document.title = `${member.constituency} — Election Atlas of India`;
   }, [member]);
 
+  // Without site-shell the site path keeps its fallback, the way back to this
+  // seat's state; its link is set here, once the query is read. A composed path
+  // has no such link, so this leaves it alone.
+  const path = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (query) path.current?.querySelector('a.back')?.setAttribute('href', pageURL('state', { s: query.S }));
+  }, [query]);
+
   const colour = (code: string): string =>
     data?.parties.parties.find(p => p.code === code)?.colour || data?.parties.fallback?.colour || '#888';
   const symbolSrc = (code: string): string | null => {
@@ -108,7 +117,11 @@ export default function MpView() {
     <>
       <div className="page">
         <header className="mh">
-          <a className="back" id="back" href={pageURL('state', { s: query?.S })}>← State</a>
+          <SitePath
+            ref={path}
+            tail={[{ label: 'India', href: pageURL('') }, { label: 'State' }, { label: 'Constituency' }]}
+            fallback={`<a class="back" id="back" href="${pageURL('state')}">← State</a>`}
+          />
           <div className="mh-tools">
             <p className="lbl">Election Atlas of India</p>
             <site-theme-picker hide-label="" />

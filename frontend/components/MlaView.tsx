@@ -3,7 +3,7 @@
    result for it (winner, margin, votes, candidates), the Lok Sabha seat it sits
    inside, and the records not yet fetched. A seat with no added result says so
    and shows nothing that would read as one. */
-import { type CSSProperties, useEffect, useState } from 'react';
+import { type CSSProperties, useEffect, useRef, useState } from 'react';
 import { acCycles, fetchOptional, loadAvailability, nf, titleCase } from '@/lib/atlas';
 import { DATA, pageURL } from '@/lib/base';
 import {
@@ -12,6 +12,7 @@ import {
 } from '@/lib/mla';
 import type { PartiesDoc, RegionsDoc, SymbolsDoc } from '@/lib/types';
 import { Monogram } from './Member';
+import { SitePath } from './SitePath';
 
 type Loaded = {
   state: string;
@@ -59,6 +60,14 @@ export default function MlaView() {
     if (page) document.title = `${page.seat.name} — Election Atlas of India`;
   }, [page]);
 
+  // Without site-shell the site path keeps its fallback, the way back to this
+  // seat's state; its link is set here, once the page is read. A composed path
+  // has no such link, so this leaves it alone.
+  const path = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (page) path.current?.querySelector('a.back')?.setAttribute('href', pageURL('state', { s: page.state }));
+  }, [page]);
+
   const hero = page?.hero ?? null;
   const result = hero?.kind === 'result' ? hero : null;
   const look = result ? partyLook(result.winner.p, page!.parties, page!.symbols, DATA) : null;
@@ -68,7 +77,11 @@ export default function MlaView() {
     <>
       <div className="page">
         <header className="mh">
-          <a className="back" id="back" href={pageURL('state', page ? { s: page.state } : {})}>← State</a>
+          <SitePath
+            ref={path}
+            tail={[{ label: 'India', href: pageURL('') }, { label: 'State' }, { label: 'Assembly seat' }]}
+            fallback={`<a class="back" id="back" href="${pageURL('state')}">← State</a>`}
+          />
           <div className="mh-tools">
             <p className="lbl">Election Atlas of India</p>
             <site-theme-picker hide-label="" />

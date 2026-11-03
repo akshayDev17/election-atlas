@@ -2,7 +2,7 @@
    shows, the seat's result in that cycle, and the "not available yet" sentence
    when no added cycle carries it. Every function takes its inputs and returns
    what the page renders; the page holds no arithmetic of its own. */
-import { ECI, fold, notAvailable, titleCase } from './atlas.ts';
+import { DEFAULT_STATE, ECI, fold, notAvailable, titleCase } from './atlas.ts';
 import type { PartiesDoc, RegionsDoc, SymbolsDoc } from './types.ts';
 
 /* results/ac/{state}/{year}-detail.json: every candidate in every assembly seat,
@@ -21,7 +21,7 @@ export type CoverageDoc = { checked?: Record<string, unknown> };
 /* ?s=IN-UP&c=behat. The state defaults to Uttar Pradesh, as it always has. */
 export function readQuery(search: string): { state: string; seat: string } {
   const qs = new URLSearchParams(search);
-  return { state: (qs.get('s') || 'IN-UP').toUpperCase(), seat: (qs.get('c') || '').toLowerCase() };
+  return { state: (qs.get('s') || DEFAULT_STATE).toUpperCase(), seat: (qs.get('c') || '').toLowerCase() };
 }
 
 export const stateNameOf = (regions: RegionsDoc | null, code: string): string =>

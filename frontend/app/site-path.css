@@ -1,0 +1,17 @@
+/* The site path's phone sheet (site-shell's <dialog class="sp-sheet">, drawn in
+   the masthead's <site-slot name="site-path">), held to the phone's screen.
+   site-shell pins the fixed sheet to the layout viewport (left, right and
+   bottom 0, width 100%). On a phone, a page wider than the screen grows the
+   layout viewport, in both directions: the national, state and MP pages are
+   wider, today (the year buttons, the party table), so a 390x844 screen gets a
+   layout viewport of up to 581x1258, and the sheet sat past the screen's right
+   edge and below its bottom, Close button and all. 100vw and 100dvh stay the
+   screen's size, so the sheet is sized to the screen's width and its bottom
+   lifted to the screen's bottom (bottom: 0 when the page fits). The more
+   specific selector wins over site-shell's own .sp-sheet rule.
+   Temporary: remove this override once site-shell's own .sp-sheet fix (100vw
+   width, bottom lifted to the screen) ships in akshayDev17/site-themes. */
+site-slot[name="site-path"] .sp-sheet{
+  left:0;right:auto;width:100vw;max-width:100vw;
+  bottom:0;bottom:calc(100% - 100dvh);
+}

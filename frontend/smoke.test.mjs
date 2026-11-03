@@ -242,3 +242,165 @@ for (const [stored, scheme, expected] of [['slate-light', 'light', 'classic-ligh
     assert.deepEqual(problems, []);
   });
 }
+
+/* The site path site-shell draws in each page's masthead (the page places
+   <site-slot name="site-path">): every app inline wherever there is room, a
+   bottom sheet on a portrait phone, the atlas marked as the current app, the
+   page's own crumbs after it, and every target at least 44 px. It must still be
+   there once the page has hydrated: React must not replace it. */
+const CRUMBS = {
+  'national, 2024': ['India'],
+  'state, Uttar Pradesh 2024': ['India', 'Uttar Pradesh'],
+  'MP, Gorakhpur': ['India', 'Uttar Pradesh', 'Gorakhpur'],
+  'MLA, Agiaon': ['India', 'Bihar', 'Agiaon (SC)'],
+};
+const pathPages = PAGES.filter(([name]) => name in CRUMBS);
+
+/* What the site path looks like on the page, once it has drawn. */
+async function readPath(viewport, path, ready) {
+  const page = await browser.newPage();
+  await page.setViewport(viewport);
+  const problems = [];
+  page.on('console', (m) => { if (isProblem(m)) problems.push(`console: ${m.text()}`); });
+  page.on('pageerror', (e) => problems.push(`exception: ${e.message}`));
+  await page.goto(origin + path, { waitUntil: 'networkidle0' });
+  await page.waitForSelector(ready, { timeout: 15000 });
+  const seen = await page.evaluate(() => {
+    const nav = document.querySelector('header site-slot[name="site-path"] nav.sp');
+    if (!nav) return null;
+    const shown = (el) => !!el && el.getClientRects().length > 0 && getComputedStyle(el).visibility !== 'hidden';
+    const targets = [...nav.querySelectorAll('a, button, .sp-here')].filter(shown).map((el) => {
+      const r = el.getBoundingClientRect();
+      // the tap area: what a press just inside each edge lands on
+      const hits = [[r.left + 1, r.top + r.height / 2], [r.right - 1, r.top + r.height / 2]]
+        .every(([x, y]) => el.contains(document.elementFromPoint(x, y)));
+      return { text: el.textContent.trim(), w: r.width, h: r.height, hits };
+    });
+    const pill = nav.querySelector('.sp-pill');
+    const pr = pill.getBoundingClientRect();
+    return {
+      apps: shown(nav.querySelector('.sp-apps')),
+      pill: shown(pill),
+      // the pill is drawn 34 px tall and its tap area is 44: a press 4 px above
+      // or below it still lands on it
+      pillTap: shown(pill) && pr.height >= 34 && [pr.top - 4, pr.bottom + 4].every((y) => pill.contains(document.elementFromPoint(pr.left + pr.width / 2, y))),
+      current: [...nav.querySelectorAll('.sp-apps [aria-current]')].map((el) => [el.querySelector('.sp-label')?.textContent, el.getAttribute('aria-current')]),
+      crumbs: [...nav.querySelectorAll('.sp-crumb')].filter(shown).map((el) => el.textContent.replace('/', '').trim()),
+      here: nav.querySelector('.sp-crumb:last-child [aria-current="page"]')?.textContent ?? null,
+      targets,
+      backLink: !!document.querySelector('header .back'),
+    };
+  });
+  return { page, problems, seen };
+}
+
+for (const viewport of [{ width: 1440, height: 900 }, { width: 1280, height: 800 }, { width: 844, height: 390 }]) {
+  test(`site path at ${viewport.width}x${viewport.height}: the apps inline, the atlas current, the crumbs, 44 px targets`, themed, async () => {
+    for (const [name, path, ready] of pathPages) {
+      const { page, problems, seen } = await readPath(viewport, path, ready);
+      await page.close();
+      assert.ok(seen, `${name}: the site path is drawn and survives hydration`);
+      assert.deepEqual(problems, [], name);
+      assert.equal(seen.apps, true, `${name}: the apps sit inline`);
+      assert.equal(seen.pill, false, `${name}: no pill where there is room`);
+      assert.deepEqual(seen.current, [['Election Atlas', 'true']], `${name}: the atlas is the current app`);
+      assert.deepEqual(seen.crumbs, CRUMBS[name], `${name}: the page's crumbs`);
+      assert.equal(seen.here, CRUMBS[name].at(-1), `${name}: the last crumb is the current page`);
+      assert.equal(seen.backLink, false, `${name}: the site path replaces the page's back link`);
+      for (const t of seen.targets) {
+        assert.ok(t.h >= 44 && t.w >= 44 && t.hits, `${name}: "${t.text}" is ${t.w}x${t.h}, a 44 px target`);
+      }
+    }
+  });
+}
+
+/* The national, state and MP pages are wider than a 390 px phone today (the
+   year buttons, the party table), which grows the phone's layout viewport past
+   the screen; the sheet must stay on the screen regardless (app/site-path.css). */
+test('site path on a portrait phone (390x844): the apps fold into a pill that opens a bottom sheet', themed, async () => {
+  for (const [name, path, ready] of pathPages) {
+    const { page, problems, seen } = await readPath({ width: 390, height: 844, isMobile: true, hasTouch: true }, path, ready);
+    try {
+      assert.ok(seen, `${name}: the site path is drawn and survives hydration`);
+      assert.equal(seen.apps, false, `${name}: the apps are folded`);
+      assert.equal(seen.pill, true, `${name}: the pill shows`);
+      assert.equal(seen.pillTap, true, `${name}: the pill's tap area is 44 px tall`);
+      assert.deepEqual(seen.crumbs, CRUMBS[name].slice(-1), `${name}: only the last crumb shows`);
+      for (const t of seen.targets) assert.ok(t.h >= 34 && t.w >= 44 && t.hits, `${name}: "${t.text}" is ${t.w}x${t.h}`);
+      await page.click('.sp-pill');
+      await page.waitForFunction(() => document.querySelector('#site-path-sheet')?.open);
+      const sheet = await page.evaluate(() => {
+        const d = document.querySelector('#site-path-sheet');
+        const r = d.getBoundingClientRect();
+        // on the phone's screen: inside the visual viewport, whatever the page's width
+        const onScreen = (el) => {
+          const b = el.getBoundingClientRect();
+          return b.left >= 0 && b.right <= visualViewport.width && b.top >= 0 && b.bottom <= visualViewport.height;
+        };
+        return {
+          modal: d.matches(':modal'),
+          // its bottom on the screen's bottom edge
+          bottom: Math.round(r.bottom) === Math.round(visualViewport.height),
+          closeOnScreen: onScreen(d.querySelector('.sp-close')),
+          rowsOnScreen: [...d.querySelectorAll('li a')].every((a) => {
+            const b = a.getBoundingClientRect();
+            return b.left >= 0 && b.right <= visualViewport.width;
+          }),
+          apps: [...d.querySelectorAll('li a')].map((a) => [a.querySelector('.sp-name').textContent.replace(/\(.*\)/, '').trim(), a.getAttribute('href'), a.getAttribute('aria-current')]),
+        };
+      });
+      assert.equal(sheet.modal, true, `${name}: the sheet is modal`);
+      assert.equal(sheet.bottom, true, `${name}: the sheet sits at the bottom`);
+      assert.equal(sheet.closeOnScreen, true, `${name}: the Close button is fully on the phone's screen`);
+      assert.equal(sheet.rowsOnScreen, true, `${name}: every row of the sheet is within the screen's width`);
+      assert.deepEqual(sheet.apps.find(([label]) => label === 'Election Atlas'), ['Election Atlas', '/elections/india/', 'true'], name);
+      assert.ok(sheet.apps.length >= 5, `${name}: every app is listed`);
+      await page.click('.sp-close');
+      await page.waitForFunction(() => !document.querySelector('#site-path-sheet').open);
+      // Escape closes it too
+      await page.click('.sp-pill');
+      await page.waitForFunction(() => document.querySelector('#site-path-sheet')?.open);
+      await page.keyboard.press('Escape');
+      await page.waitForFunction(() => !document.querySelector('#site-path-sheet').open);
+      assert.deepEqual(problems, [], name);
+    } finally {
+      await page.close();
+    }
+  }
+});
+
+test('site path: the crumbs lead back up the atlas', themed, async () => {
+  const page = await browser.newPage();
+  await page.setViewport({ width: 1440, height: 900 });
+  await page.goto(`${origin}/elections/india/mp/?s=IN-UP&c=gorakhpur`, { waitUntil: 'networkidle0' });
+  await Promise.all([page.waitForNavigation(), page.click('.sp-crumb a[href*="state/"]')]);
+  assert.equal(new URL(page.url()).pathname + new URL(page.url()).search, '/elections/india/state/?s=IN-UP');
+  await page.waitForSelector('#map-pc path', { timeout: 15000 });
+  await Promise.all([page.waitForNavigation(), page.click('.sp-crumb a[href="/elections/india/"]')]);
+  assert.equal(new URL(page.url()).pathname, '/elections/india/');
+  await page.close();
+});
+
+/* Without site-shell the slot keeps the page's own back link, as before: home
+   from the national page, India from a state, and the seat's own state from an
+   MP or MLA page. */
+test('no site-shell: each page keeps its back link', { skip: !!siteThemes && 'site-shell composes this run' }, async () => {
+  for (const [path, ready, text, href] of [
+    ['/elections/india/?y=2024', '#map path.pc', '← Akshay Prabhakant', '/'],
+    ['/elections/india/state/?s=IN-UP&y=2024', '#map-pc path', '← India', '/elections/india/'],
+    ['/elections/india/mp/?s=IN-PB&c=bhatinda', '.page', '← State', '/elections/india/state/?s=IN-PB'],
+    ['/elections/india/mla/?s=IN-BR&c=agiaon', '.page', '← State', '/elections/india/state/?s=IN-BR'],
+  ]) {
+    const page = await browser.newPage();
+    await page.goto(origin + path, { waitUntil: 'networkidle0' });
+    await page.waitForSelector(ready, { timeout: 15000 });
+    await page.waitForFunction((h) => document.querySelector('header site-slot .back')?.getAttribute('href') === h, { timeout: 15000 }, href)
+      .catch(() => {});
+    const back = await page.evaluate(() => {
+      const a = document.querySelector('header site-slot[name="site-path"] > a.back');
+      return a && [a.textContent, a.getAttribute('href')];
+    });
+    await page.close();
+    assert.deepEqual(back, [text, href], path);
+  }
+});

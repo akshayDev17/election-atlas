@@ -57,7 +57,7 @@ jobs:
         run: python3 -m unittest discover -s backend/d1 -p 'test_*.py' -v
 
       - name: Worker unit tests
-        run: node --test backend/src/test_index.mjs
+        run: node --experimental-strip-types --test backend/src/test_index.mjs
 
       - name: Frontend — install
         working-directory: frontend
