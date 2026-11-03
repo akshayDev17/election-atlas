@@ -6,8 +6,6 @@ import type { Metadata, Viewport } from 'next';
 // reaches the page: `next dev`, or site-shell down. Zero specificity, so the
 // composed theme always wins over it.
 import './site-fallback.css';
-// The site path's phone sheet, kept on the screen of a phone the page overflows.
-import './site-path.css';
 
 // Each page imports its own stylesheet (the four pages have always been styled
 // separately) and pages link to each other with plain anchors, so a page never
