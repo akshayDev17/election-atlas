@@ -39,11 +39,11 @@ async function session(t, configs) {
 }
 
 const asBuilt = (file) => readFileSync(join(SITE, file), 'utf8');
-/** The built page plus site-shell's one insertion, right after its leading <meta charset>. */
+/** The built page plus site-shell's one insertion, right after its leading <meta charset>; it links the shared files at /_site/ (site-shell's ASSET_BASE). */
 function composed(file) {
   const page = asBuilt(file);
   assert.equal(page.split(META).length, 2, `${file} has exactly one ${META}`);
-  const scripts = build.scripts.map((f) => `<script defer src="${ROOT}_site/${build.id}/${f}"></script>`).join('');
+  const scripts = build.scripts.map((f) => `<script defer src="/_site/${build.id}/${f}"></script>`).join('');
   return page.replace(META, META + build.inline + scripts);
 }
 
@@ -70,15 +70,6 @@ test('bound to site-shell: every page gains the theme head block after <meta cha
     assert.ok(etag, `${path} keeps its ETag`);
     assert.equal((await fetch(`${s.origin}${path}`, { headers: { 'if-none-match': etag } })).status, 304, path);
   }
-
-  // site-shell's own files through the atlas's route: immutable; a missing build is never cached.
-  const js = await fetch(`${s.origin}${ROOT}_site/${build.id}/site.js`);
-  assert.equal(js.status, 200);
-  assert.equal(js.headers.get('cache-control'), 'public, max-age=31536000, immutable');
-  assert.match(await js.text(), /site-theme-picker/);
-  const missing = await fetch(`${s.origin}${ROOT}_site/000000000000/site.js`);
-  assert.equal(missing.status, 404);
-  assert.equal(missing.headers.get('cache-control'), 'no-store');
 
   // The redirects are unchanged.
   for (const [from, to] of [

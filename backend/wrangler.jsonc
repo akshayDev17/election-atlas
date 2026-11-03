@@ -20,11 +20,11 @@
     "binding": "ASSETS",
     // Assets first (free, no Worker invocation); the Worker runs only for the
     // bill PDFs, which it streams from R2, for the old address and the bare
-    // /elections address, which it redirects (308) to /elections/india/, for
-    // the four pages, whose HTML it passes through site-shell for the shared
-    // theme, and for site-shell's own files under _site/. The pages are listed
-    // one by one so every chunk and data file stays free; a query
-    // (state/?s=IN-UP&y=2024) still matches, as patterns match the path only.
+    // /elections address, which it redirects (308) to /elections/india/, and
+    // for the four pages, whose HTML it passes through site-shell for the
+    // shared theme. The pages are listed one by one so every chunk and data
+    // file stays free; a query (state/?s=IN-UP&y=2024) still matches, as
+    // patterns match the path only.
     "run_worker_first": [
       "/elections",
       "/elections/",
@@ -34,8 +34,7 @@
       "/elections/india/",
       "/elections/india/state/",
       "/elections/india/mp/",
-      "/elections/india/mla/",
-      "/elections/india/_site/*"
+      "/elections/india/mla/"
     ]
   },
 

@@ -5,7 +5,8 @@
 //   SITE_THEMES_DIR  a checkout of akshayDev17/site-themes: serve the site through
 //                    the atlas Worker and the real site-shell in `wrangler dev`
 //                    instead (shell-contract/session.mjs; it serves ../dist), so
-//                    every page is composed as in production
+//                    every page is composed as in production, with /_site/*
+//                    served from site-shell's own files as the zone route does
 //
 // Serves SMOKE_DIST the way the Worker's asset layer does (a directory URL serves
 // its index.html), or the Worker itself with SITE_THEMES_DIR, and opens the
@@ -15,7 +16,7 @@
 // missing file never costs a 404.
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync, statSync } from 'node:fs';
-import { createServer } from 'node:http';
+import { createServer, request } from 'node:http';
 import { extname, join, normalize } from 'node:path';
 import { after, before, test } from 'node:test';
 import { fileURLToPath } from 'node:url';
@@ -30,16 +31,30 @@ const TYPES = {
   '.png': 'image/png', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml', '.txt': 'text/plain', '.woff2': 'font/woff2',
 };
 
-function serve(root) {
+function serveFile(root, req, res) {
+  const url = new URL(req.url, 'http://x');
+  const path = normalize(decodeURIComponent(url.pathname));
+  let file = join(root, path);
+  if (!file.startsWith(root)) { res.writeHead(400).end(); return; }
+  if (existsSync(file) && statSync(file).isDirectory()) file = join(file, 'index.html');
+  if (!existsSync(file) || !statSync(file).isFile()) { res.writeHead(404).end('Not Found'); return; }
+  res.writeHead(200, { 'content-type': TYPES[extname(file)] ?? 'application/octet-stream' });
+  res.end(readFileSync(file));
+}
+
+const serve = (root) => createServer((req, res) => serveFile(root, req, res));
+
+/* The zone's routing in front of the local atlas Worker: /_site/* is site-shell's
+   own static files (akshayprabhakant.com/_site/*), everything else the Worker. */
+function route(workerOrigin, shared) {
   return createServer((req, res) => {
-    const url = new URL(req.url, 'http://x');
-    const path = normalize(decodeURIComponent(url.pathname));
-    let file = join(root, path);
-    if (!file.startsWith(root)) { res.writeHead(400).end(); return; }
-    if (existsSync(file) && statSync(file).isDirectory()) file = join(file, 'index.html');
-    if (!existsSync(file) || !statSync(file).isFile()) { res.writeHead(404).end('Not Found'); return; }
-    res.writeHead(200, { 'content-type': TYPES[extname(file)] ?? 'application/octet-stream' });
-    res.end(readFileSync(file));
+    if (req.url.startsWith('/_site/')) { serveFile(shared, req, res); return; }
+    const upstream = request(new URL(req.url, workerOrigin), { method: req.method, headers: req.headers }, (up) => {
+      res.writeHead(up.statusCode, up.headers);
+      up.pipe(res);
+    });
+    upstream.on('error', (err) => res.destroy(err));
+    req.pipe(upstream);
   });
 }
 
@@ -54,12 +69,12 @@ before(async () => {
   assert.ok(CHROME, 'set CHROME_PATH to a Chrome binary');
   if (siteThemes) {
     worker = await startSession([APP, SHELL]);
-    origin = worker.origin;
+    server = route(worker.origin, join(siteThemes, 'shell/public'));
   } else {
     server = serve(normalize(DIST));
-    await new Promise((r) => server.listen(0, '127.0.0.1', r));
-    origin = `http://127.0.0.1:${server.address().port}`;
   }
+  await new Promise((r) => server.listen(0, '127.0.0.1', r));
+  origin = `http://127.0.0.1:${server.address().port}`;
   browser = await puppeteer.launch({ executablePath: CHROME, headless: true, args: ['--no-sandbox'] });
 });
 
@@ -71,14 +86,16 @@ after(async () => {
 
 /* Through the Worker, every page is composed by site-shell: its boot script and
    tokens sit right after <meta charset>, and its picker script loads from the
-   atlas's own _site/ path. */
+   shared /_site/ path (site-shell's ASSET_BASE), which answers. */
 test('site-shell: every page is composed', { skip: !siteThemes && 'set SITE_THEMES_DIR' }, async () => {
   for (const [name, path] of PAGES) {
     const res = await fetch(origin + path);
     assert.match(res.headers.get('x-site-shell') ?? '', /^[0-9a-f]{12}; app=atlas$/, name);
     const html = await res.text();
     assert.match(html, /^<!DOCTYPE html>(?:<!--[^>]*-->)?<html[^>]*><head><meta charSet="utf-8"\/><script data-site-shell>/, name);
-    assert.match(html, /<script defer src="\/elections\/india\/_site\/[0-9a-f]{12}\/site\.js"><\/script>/, name);
+    const js = html.match(/<script defer src="(\/_site\/[0-9a-f]{12}\/site\.js)"><\/script>/)?.[1];
+    assert.ok(js, name);
+    assert.equal((await fetch(origin + js)).status, 200, `${name}: ${js}`);
   }
 });
 

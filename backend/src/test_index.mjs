@@ -173,9 +173,9 @@ function assets(respond = () => new Response(HTML, { headers: { "content-type": 
   };
 }
 
-/** SHELL: compose() marks the page (reading its body, as the RPC transfer does); fetch() echoes the path. */
+/** SHELL: compose() marks the page (reading its body, as the RPC transfer does). */
 function shell({ fail } = {}) {
-  const calls = { compose: [], fetch: [] };
+  const calls = { compose: [] };
   return {
     calls,
     compose: async (res, opts) => {
@@ -186,16 +186,12 @@ function shell({ fail } = {}) {
         headers: { "content-type": "text/html", "x-site-shell": `test; app=${opts.app}` },
       });
     },
-    fetch: async (req) => {
-      calls.fetch.push(new URL(req.url).pathname);
-      return new Response("site.js", { headers: { "content-type": "text/javascript" } });
-    },
   };
 }
 
 const PAGES = ["/elections/india/", "/elections/india/state/", "/elections/india/mp/", "/elections/india/mla/"];
 
-test("with SHELL bound, the four pages are composed with the app name and the forwarded asset base", async () => {
+test("with SHELL bound, the four pages are composed with the app name", async () => {
   const e = { ASSETS: assets(), SHELL: shell() };
   for (const path of [...PAGES, "/elections/india/state/?s=IN-UP&y=2024"]) {
     const res = await worker.fetch(new Request(`https://x${path}`), e);
@@ -204,7 +200,7 @@ test("with SHELL bound, the four pages are composed with the app name and the fo
     assert.match(await res.text(), /<meta charSet="utf-8"\/><script data-site-shell><\/script>/, path);
   }
   assert.equal(e.SHELL.calls.compose.length, 5);
-  for (const opts of e.SHELL.calls.compose) assert.deepEqual(opts, { app: "atlas", assetBase: "/elections/india/_site/" });
+  for (const opts of e.SHELL.calls.compose) assert.deepEqual(opts, { app: "atlas" });
   assert.deepEqual(e.ASSETS.calls, [...PAGES, "/elections/india/state/"], "one ASSETS fetch per page when compose succeeds");
 });
 
@@ -254,20 +250,5 @@ test("redirects and bill PDFs never touch site-shell", async () => {
   }
   const pdf = await worker.fetch(new Request(`https://x${PDF}`), e);
   assert.equal(pdf.headers.get("content-type"), "application/pdf");
-  assert.deepEqual(e.SHELL.calls, { compose: [], fetch: [] });
-});
-
-test("/elections/india/_site/* forwards to site-shell with the atlas prefix stripped", async () => {
-  const e = { ASSETS: assets(), SHELL: shell() };
-  const res = await worker.fetch(new Request("https://x/elections/india/_site/1132669f0ee1/site.js?v=1"), e);
-  assert.equal(await res.text(), "site.js");
-  assert.deepEqual(e.SHELL.calls.fetch, ["/_site/1132669f0ee1/site.js"]);
-  assert.deepEqual(e.ASSETS.calls, []);
-});
-
-test("/elections/india/_site/* without SHELL falls through to ASSETS as before", async () => {
-  const e = { ASSETS: assets(() => new Response("Not Found", { status: 404 })) };
-  const res = await worker.fetch(new Request("https://x/elections/india/_site/1132669f0ee1/site.js"), e);
-  assert.equal(res.status, 404);
-  assert.deepEqual(e.ASSETS.calls, ["/elections/india/_site/1132669f0ee1/site.js"]);
+  assert.deepEqual(e.SHELL.calls, { compose: [] });
 });

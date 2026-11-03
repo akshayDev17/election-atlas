@@ -162,13 +162,14 @@ jobs:
           got=$(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' "$base/work/election-atlas/state/?s=IN-UP&y=2024")
           echo "$got /work/election-atlas/state/?s=IN-UP&y=2024"; test "$got" = "308 $want"
           # every page passes through site-shell (the SHELL binding), and the picker
-          # script it links answers through the atlas's own _site/ path
+          # script it links at the shared /_site/ path answers on the site, where
+          # akshayprabhakant.com/_site/* is routed to site-shell
           for p in "" state/ mp/ mla/; do
             shell=$(curl -s -D - -o page.html "$base/elections/india/$p" | tr -d '\r' | sed -n 's/^x-site-shell: //Ip')
             echo "x-site-shell: $shell /elections/india/$p"; test -n "$shell"
           done
-          js=$(grep -oE '/elections/india/_site/[0-9a-f]{12}/site\.js' page.html | head -1)
-          code=$(curl -s -o /dev/null -w '%{http_code}' "$base$js")
+          js=$(grep -oE '"/_site/[0-9a-f]{12}/site\.js"' page.html | tr -d '"' | head -1)
+          code=$(curl -s -o /dev/null -w '%{http_code}' "https://akshayprabhakant.com$js")
           echo "$code $js"; test -n "$js" && test "$code" = 200
 
       - name: Provenance gate over what the preview serves

@@ -9,9 +9,9 @@ a permanent redirect to `/elections/india/`, query kept in both.
 
 The shared site theme comes from site-shell (`akshayDev17/site-themes`, `shell/`). The Worker
 binds it as `SHELL` and passes each of the four pages' HTML through its `compose()`, which adds
-the theme's boot script and tokens right after `<meta charset>`; `/elections/india/_site/*`
-forwards to site-shell's own files (its picker script) until `akshayprabhakant.com/_site/*` is
-routed to it. It fails open: with site-shell missing, unreachable or throwing, the page is served
+the theme's boot script and tokens right after `<meta charset>`; the page loads site-shell's own
+files (its picker script) from `akshayprabhakant.com/_site/*`, which is routed to site-shell, not
+to this Worker. It fails open: with site-shell missing, unreachable or throwing, the page is served
 exactly as built, and the `:where(:root)` Classic Light block (`frontend/app/site-fallback.css`)
 keeps every shared token defined. The frontend still bundles the `site-themes` package too, so
 `next dev`, which has no Worker in front of it, shows the theme as before. **Deploy order:**
