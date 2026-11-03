@@ -1,9 +1,9 @@
 :root{
-  /* The page's own names for the shared site-themes tokens (themes.css, loaded
-     first by the layout). The theme owns these colours and fonts; the fallback
-     in each var() is the Classic Light value. Do not define the package's own
-     names (--surface, --text, --warn, ...) here: a :root rule would override
-     every theme. */
+  /* The page's own names for the shared site tokens (site-shell's composed
+     <head>; app/site-fallback.css when no theme arrives). The theme owns these
+     colours and fonts; the fallback in each var() is the Classic Light value.
+     Do not define the shared names (--surface, --text, --warn, ...) here: a
+     :root rule would override every theme. */
   --paper:var(--surface,#EEF1F8); --paper-2:var(--surface-2,#E2E8F4);
   --ink:var(--text,#0F1220); --muted:var(--text-muted,#525A6B);
   --rule:var(--line,#D3D9E6); --rule-2:var(--line-strong,#BCC4D6); --rule-3:var(--card-line,#818A9F);
@@ -104,7 +104,7 @@ main{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;padding:0 var
 .year.na{color:var(--rule-3);text-decoration:line-through;text-decoration-thickness:1px}
 .year.na[aria-pressed="true"]{color:var(--muted)}
 .mh-tools{display:flex;align-items:baseline;justify-content:flex-end;gap:var(--s5);flex-wrap:wrap}
-/* The shared theme picker (site-themes): a labelled native <select> that draws
+/* The shared theme picker (site-shell's site.js): a labelled native <select> that draws
    itself from the theme tokens. Only its type is set here, to the masthead's
    mono so it reads as one of the instruments beside it. */
 site-theme-picker::part(select){font-family:var(--mono);font-size:.6875rem;letter-spacing:.04em}

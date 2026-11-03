@@ -11,7 +11,6 @@ import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { test } from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { BOOT_CONFIG } from 'site-themes/boot';
 
 const BASE = '/elections/india';
 const out = fileURLToPath(new URL(`./${process.env.EXPORT_DIR ?? 'out'}/`, import.meta.url));
@@ -63,34 +62,35 @@ test('each page has its own title', () => {
   assert.equal(new Set(titles).size, PAGES.length, titles.join(' | '));
 });
 
-// The shared site theme (site-themes, bundled at build time). Each page sets
-// <html data-theme> from an inline head script, so the first frame is themed and
-// nothing is fetched for it, and carries the picker in its header.
-test('each page inlines the theme boot script in <head> and has the picker in its header', () => {
+// The shared site theme is not in the export: site-shell adds the boot script
+// and tokens to each page at the edge and links the script that defines
+// <site-theme-picker>. The export only places the picker in each header, pins
+// no theme, and carries no theme code or theme rules of its own.
+test('no page carries the theme boot script or pins a theme, and each has the picker in its header', () => {
   for (const page of PAGES) {
     const html = readFileSync(join(out, page), 'utf8');
     const head = html.slice(0, html.indexOf('</head>'));
-    const inline = [...head.matchAll(/<script>([\s\S]*?)<\/script>/g)].map((m) => m[1]);
-    assert.ok(inline.some((js) => js.includes(`(window,${JSON.stringify(BOOT_CONFIG)})`)), `${page}: no inline boot script`);
-    assert.doesNotMatch(head, /<script[^>]*\bsrc="[^"]*site-theme/, `${page}: boot script must be inline`);
-    // the boot script owns data-theme; the server HTML must not pin one
+    assert.doesNotMatch(head, /site-theme|__siteThemeBoot|data-site-shell/, `${page}: theme code in <head>`);
     assert.doesNotMatch(html.match(/<html[^>]*>/)?.[0] ?? '', /data-theme/, page);
-    assert.match(html, /<header[^>]*>(?:(?!<\/header>)[\s\S])*<site-theme-picker hide-label=""/, `${page}: no picker in header`);
+    assert.match(html, /<header[^>]*>(?:(?!<\/header>)[\s\S])*<site-theme-picker hide-label=""><\/site-theme-picker>/, `${page}: no picker in header`);
   }
+  const js = all.filter((p) => p.startsWith('_next/static/') && p.endsWith('.js')).map((p) => readFileSync(join(out, p), 'utf8'));
+  assert.ok(!js.some((src) => /__siteThemeBoot|customElements\.define\(/.test(src)), 'no chunk defines the picker or boots a theme');
 });
 
-// site-shell composes the theme into each page at the edge; if that and the
-// bundled theme are both missing, the shared tokens must still be defined. The
-// pages' CSS carries the Classic Light block under :where(:root) (zero
-// specificity, so any theme rule wins), declaring every token the theme does.
-test('the CSS carries the :where(:root) Classic Light fallback for every shared token', () => {
+// If the composed theme never arrives (site-shell down, `next dev`), the shared
+// tokens must still be defined: the pages' CSS carries the Classic Light block
+// under :where(:root) (zero specificity, so the composed theme always wins), and
+// no other rule declares a shared token or themes by [data-theme].
+test('the CSS declares the shared tokens only in the :where(:root) Classic Light fallback', () => {
   const css = all.filter((p) => p.startsWith('_next/static/css/')).map((p) => readFileSync(join(out, p), 'utf8')).join('\n');
-  const fallback = css.match(/:where\(:root\)\{([^}]*)\}/)?.[1];
-  assert.ok(fallback, 'no :where(:root) block in the CSS');
-  assert.match(fallback, /^color-scheme:light;--surface:#EEF1F8;/);
-  const themes = readFileSync(fileURLToPath(import.meta.resolve('site-themes/themes.css')), 'utf8');
-  const light = themes.match(/\[data-theme="classic-light"\][^{]*\{([^}]*)\}/)?.[1];
-  assert.ok(light, 'no Classic Light rule in site-themes/themes.css');
-  const names = (block) => [...block.matchAll(/(--[a-z0-9-]+)\s*:/g)].map((m) => m[1]).sort();
-  assert.deepEqual(names(fallback), names(light));
+  const blocks = [...css.matchAll(/:where\(:root\)\{([^}]*)\}/g)].map((m) => m[1]);
+  assert.equal(blocks.length, 1, 'exactly one :where(:root) block');
+  assert.match(blocks[0], /^color-scheme:light;--surface:#EEF1F8;/);
+  const shared = new Set([...blocks[0].matchAll(/(--[a-z0-9-]+):/g)].map((m) => m[1]));
+  assert.ok(shared.size >= 20, [...shared].join(' '));
+  const rest = css.replace(/:where\(:root\)\{[^}]*\}/, '');
+  const declared = [...rest.matchAll(/[{;]\s*(--[a-z0-9-]+)\s*:/g)].map((m) => m[1]).filter((n) => shared.has(n));
+  assert.deepEqual(declared, [], 'a shared token declared outside the fallback would override the theme');
+  assert.doesNotMatch(rest, /\[data-theme/, 'theme rules belong to site-shell');
 });

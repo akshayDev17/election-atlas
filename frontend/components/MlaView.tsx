@@ -12,7 +12,6 @@ import {
 } from '@/lib/mla';
 import type { PartiesDoc, RegionsDoc, SymbolsDoc } from '@/lib/types';
 import { Monogram } from './Member';
-import { ThemePicker } from 'site-themes/react';
 
 type Loaded = {
   state: string;
@@ -72,7 +71,7 @@ export default function MlaView() {
           <a className="back" id="back" href={pageURL('state', page ? { s: page.state } : {})}>← State</a>
           <div className="mh-tools">
             <p className="lbl">Election Atlas of India</p>
-            <ThemePicker hideLabel />
+            <site-theme-picker hide-label="" />
           </div>
         </header>
         <hr className="hair" />
