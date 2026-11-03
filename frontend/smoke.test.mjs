@@ -288,7 +288,6 @@ async function readPath(viewport, path, ready) {
       crumbs: [...nav.querySelectorAll('.sp-crumb')].filter(shown).map((el) => el.textContent.replace('/', '').trim()),
       here: nav.querySelector('.sp-crumb:last-child [aria-current="page"]')?.textContent ?? null,
       targets,
-      overflow: document.documentElement.scrollWidth > visualViewport.width,
       backLink: !!document.querySelector('header .back'),
     };
   });
@@ -315,6 +314,9 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 1280, height: 800
   });
 }
 
+/* The national, state and MP pages are wider than a 390 px phone today (the
+   year buttons, the party table), which grows the phone's layout viewport past
+   the screen; the sheet must stay on the screen regardless (app/site-path.css). */
 test('site path on a portrait phone (390x844): the apps fold into a pill that opens a bottom sheet', themed, async () => {
   for (const [name, path, ready] of pathPages) {
     const { page, problems, seen } = await readPath({ width: 390, height: 844, isMobile: true, hasTouch: true }, path, ready);
@@ -324,35 +326,42 @@ test('site path on a portrait phone (390x844): the apps fold into a pill that op
       assert.equal(seen.pill, true, `${name}: the pill shows`);
       assert.equal(seen.pillTap, true, `${name}: the pill's tap area is 44 px tall`);
       assert.deepEqual(seen.crumbs, CRUMBS[name].slice(-1), `${name}: only the last crumb shows`);
-      if (name === 'MLA, Agiaon') assert.equal(seen.overflow, false, 'the MLA page fits the phone, so its Close button is clicked');
       for (const t of seen.targets) assert.ok(t.h >= 34 && t.w >= 44 && t.hits, `${name}: "${t.text}" is ${t.w}x${t.h}`);
       await page.click('.sp-pill');
       await page.waitForFunction(() => document.querySelector('#site-path-sheet')?.open);
       const sheet = await page.evaluate(() => {
         const d = document.querySelector('#site-path-sheet');
         const r = d.getBoundingClientRect();
+        // on the phone's screen: inside the visual viewport, whatever the page's width
+        const onScreen = (el) => {
+          const b = el.getBoundingClientRect();
+          return b.left >= 0 && b.right <= visualViewport.width && b.top >= 0 && b.bottom <= visualViewport.height;
+        };
         return {
           modal: d.matches(':modal'),
-          bottom: Math.round(r.bottom) === innerHeight,
+          // its bottom on the screen's bottom edge
+          bottom: Math.round(r.bottom) === Math.round(visualViewport.height),
+          closeOnScreen: onScreen(d.querySelector('.sp-close')),
+          rowsOnScreen: [...d.querySelectorAll('li a')].every((a) => {
+            const b = a.getBoundingClientRect();
+            return b.left >= 0 && b.right <= visualViewport.width;
+          }),
           apps: [...d.querySelectorAll('li a')].map((a) => [a.querySelector('.sp-name').textContent.replace(/\(.*\)/, '').trim(), a.getAttribute('href'), a.getAttribute('aria-current')]),
         };
       });
       assert.equal(sheet.modal, true, `${name}: the sheet is modal`);
       assert.equal(sheet.bottom, true, `${name}: the sheet sits at the bottom`);
+      assert.equal(sheet.closeOnScreen, true, `${name}: the Close button is fully on the phone's screen`);
+      assert.equal(sheet.rowsOnScreen, true, `${name}: every row of the sheet is within the screen's width`);
       assert.deepEqual(sheet.apps.find(([label]) => label === 'Election Atlas'), ['Election Atlas', '/elections/india/', 'true'], name);
       assert.ok(sheet.apps.length >= 5, `${name}: every app is listed`);
-      // Escape closes it everywhere. The Close button is clicked on the page that
-      // fits a 390 px phone: the national, state and MP pages are wider than the
-      // phone today (the year buttons and the party table), so the phone's layout
-      // viewport, and the fixed sheet with it, grows past the screen's right edge.
+      await page.click('.sp-close');
+      await page.waitForFunction(() => !document.querySelector('#site-path-sheet').open);
+      // Escape closes it too
+      await page.click('.sp-pill');
+      await page.waitForFunction(() => document.querySelector('#site-path-sheet')?.open);
       await page.keyboard.press('Escape');
       await page.waitForFunction(() => !document.querySelector('#site-path-sheet').open);
-      if (!seen.overflow) {
-        await page.click('.sp-pill');
-        await page.waitForFunction(() => document.querySelector('#site-path-sheet')?.open);
-        await page.click('.sp-close');
-        await page.waitForFunction(() => !document.querySelector('#site-path-sheet').open);
-      }
       assert.deepEqual(problems, [], name);
     } finally {
       await page.close();
