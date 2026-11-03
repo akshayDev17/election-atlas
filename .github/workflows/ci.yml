@@ -2,9 +2,10 @@ name: CI
 
 # On every pull request and push: the provenance gate and its negative tests, the
 # tool and Worker unit tests, the full JSON -> D1 -> JSON round trip in a local
-# SQLite built from the migration, and the Next.js frontend (type-checked build,
-# library tests, export contract, and a browser smoke over the assembled site).
-# No Cloudflare access.
+# SQLite built from the migration, the Next.js frontend (type-checked build,
+# library tests, export contract, and a browser smoke over the assembled site),
+# and the Worker with the real site-shell in local workerd (contract and the
+# browser smoke again, composed). No Cloudflare access.
 
 on:
   pull_request:
@@ -116,5 +117,30 @@ jobs:
         working-directory: frontend
         env:
           SMOKE_DIST: ${{ github.workspace }}/dist
+          CHROME_PATH: /usr/bin/google-chrome
+        run: npm run test:smoke
+
+      # The Worker against the real site-shell, in local workerd (no account),
+      # over the assembled site in dist/: every page composed byte for byte, the
+      # fail-open cases (unbound, site-shell not running, site-shell throwing),
+      # then the browser smoke again through the Worker, so each page draws and
+      # hydrates with site-shell's head block in it. site-themes is public, and
+      # its main branch is what deploys site-shell.
+      - uses: actions/checkout@v4
+        with:
+          repository: akshayDev17/site-themes
+          ref: main
+          path: site-themes
+
+      - name: Frontend — site-shell contract
+        working-directory: frontend
+        env:
+          SITE_THEMES_DIR: ${{ github.workspace }}/site-themes
+        run: npm run test:shell
+
+      - name: Frontend — browser smoke through the Worker and site-shell
+        working-directory: frontend
+        env:
+          SITE_THEMES_DIR: ${{ github.workspace }}/site-themes
           CHROME_PATH: /usr/bin/google-chrome
         run: npm run test:smoke

@@ -19,16 +19,31 @@
     "directory": "../dist",
     "binding": "ASSETS",
     // Assets first (free, no Worker invocation); the Worker runs only for the
-    // bill PDFs, which it streams from R2, and for the old address and the bare
-    // /elections address, which it redirects (308) to /elections/india/.
+    // bill PDFs, which it streams from R2, for the old address and the bare
+    // /elections address, which it redirects (308) to /elections/india/, and
+    // for the four pages, whose HTML it passes through site-shell for the
+    // shared theme. The pages are listed one by one so every chunk and data
+    // file stays free; a query (state/?s=IN-UP&y=2024) still matches, as
+    // patterns match the path only.
     "run_worker_first": [
       "/elections",
       "/elections/",
       "/elections/india/data/state-legislation/*",
       "/work/election-atlas",
-      "/work/election-atlas/*"
+      "/work/election-atlas/*",
+      "/elections/india/",
+      "/elections/india/state/",
+      "/elections/india/mp/",
+      "/elections/india/mla/"
     ]
   },
+
+  // The shared site parts (the theme, for now): the four pages' HTML goes
+  // through site-shell's compose() (akshayDev17/site-themes, shell/).
+  // site-shell must be deployed before this binding is, or this deploy fails.
+  // src/index.js fails open: if site-shell is down, the page is served exactly
+  // as built.
+  "services": [{ "binding": "SHELL", "service": "site-shell" }],
 
   "r2_buckets": [{ "binding": "DOCS", "bucket_name": "election-atlas-docs" }],
 

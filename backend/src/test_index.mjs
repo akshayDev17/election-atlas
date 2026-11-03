@@ -155,3 +155,106 @@ test("pages and data under /elections/india/ are the static assets", async () =>
   const res = await call("https://x/elections/india/state/?s=IN-UP");
   assert.equal(await res.text(), "asset /elections/india/state/");
 });
+
+// The site-shell hook, with stand-in bindings. The real compose() runs only in
+// workerd; that pairing is covered by frontend/shell-contract/contract.test.mjs.
+const HTML = '<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/></head><body>atlas</body></html>';
+
+/** ASSETS: answers every path with `respond(path)` and records what was asked. */
+function assets(respond = () => new Response(HTML, { headers: { "content-type": "text/html" } })) {
+  const calls = [];
+  return {
+    calls,
+    fetch: async (input) => {
+      const path = new URL(input instanceof Request ? input.url : input).pathname;
+      calls.push(path);
+      return respond(path);
+    },
+  };
+}
+
+/** SHELL: compose() marks the page (reading its body, as the RPC transfer does). */
+function shell({ fail } = {}) {
+  const calls = { compose: [] };
+  return {
+    calls,
+    compose: async (res, opts) => {
+      calls.compose.push(opts);
+      const body = await res.text();
+      if (fail) throw new Error(fail);
+      return new Response(body.replace('<meta charSet="utf-8"/>', "$&<script data-site-shell></script>"), {
+        headers: { "content-type": "text/html", "x-site-shell": `test; app=${opts.app}` },
+      });
+    },
+  };
+}
+
+const PAGES = ["/elections/india/", "/elections/india/state/", "/elections/india/mp/", "/elections/india/mla/"];
+
+test("with SHELL bound, the four pages are composed with the app name", async () => {
+  const e = { ASSETS: assets(), SHELL: shell() };
+  for (const path of [...PAGES, "/elections/india/state/?s=IN-UP&y=2024"]) {
+    const res = await worker.fetch(new Request(`https://x${path}`), e);
+    assert.equal(res.status, 200, path);
+    assert.equal(res.headers.get("x-site-shell"), "test; app=atlas", path);
+    assert.match(await res.text(), /<meta charSet="utf-8"\/><script data-site-shell><\/script>/, path);
+  }
+  assert.equal(e.SHELL.calls.compose.length, 5);
+  for (const opts of e.SHELL.calls.compose) assert.deepEqual(opts, { app: "atlas" });
+  assert.deepEqual(e.ASSETS.calls, [...PAGES, "/elections/india/state/"], "one ASSETS fetch per page when compose succeeds");
+});
+
+test("unbound: with no SHELL binding a page is served exactly as built", async () => {
+  const e = { ASSETS: assets() };
+  const res = await worker.fetch(new Request("https://x/elections/india/"), e);
+  assert.equal(res.status, 200);
+  assert.equal(res.headers.get("x-site-shell"), null);
+  assert.equal(await res.text(), HTML);
+});
+
+test("fail open: compose() rejecting (site-shell missing, unreachable or throwing) re-fetches the page as built", async (t) => {
+  const errors = t.mock.method(console, "error", () => {});
+  for (const fail of ['Worker "site-shell" not found.', "fault: compose threw"]) {
+    const built = () => new Response(HTML, {
+      headers: { "content-type": "text/html", etag: '"built"', "last-modified": "Tue, 03 Nov 2026 08:00:00 GMT" },
+    });
+    const e = { ASSETS: assets(built), SHELL: shell({ fail }) };
+    const res = await worker.fetch(new Request("https://x/elections/india/mp/?s=IN-UP&c=gorakhpur"), e);
+    assert.equal(res.status, 200);
+    assert.equal(res.headers.get("x-site-shell"), null);
+    assert.equal(res.headers.get("content-type"), "text/html");
+    assert.equal(res.headers.get("etag"), null, "no validator, so a later visit is never a 304 onto this copy");
+    assert.equal(res.headers.get("last-modified"), null);
+    assert.equal(await res.text(), HTML, "the page as built, not a 500 from the spent body");
+    assert.deepEqual(e.ASSETS.calls, ["/elections/india/mp/", "/elections/india/mp/"], "the same page fetched again");
+  }
+  assert.equal(errors.mock.callCount(), 2);
+  assert.match(String(errors.mock.calls[0].arguments[0]), /site-shell: compose failed/);
+});
+
+test("non-HTML and non-200 responses never reach compose()", async () => {
+  const responses = {
+    "/elections/india/data/state-legislation/IN-AP/bills/index.json": () =>
+      new Response("{}", { headers: { "content-type": "application/json", etag: 'W/"1"' } }),
+    "/elections/india/missing/": () => new Response("nope", { status: 404, headers: { "content-type": "text/html" } }),
+    "/elections/india/cached/": () => new Response(null, { status: 304, headers: { "content-type": "text/html" } }),
+  };
+  const e = { ASSETS: assets((path) => responses[path]()), SHELL: shell() };
+  for (const path of Object.keys(responses)) {
+    const res = await worker.fetch(new Request(`https://x${path}`), e);
+    assert.equal(res.headers.get("x-site-shell"), null, path);
+  }
+  assert.equal(e.SHELL.calls.compose.length, 0);
+  const json = await worker.fetch(new Request("https://x/elections/india/data/state-legislation/IN-AP/bills/index.json"), e);
+  assert.equal(json.headers.get("etag"), 'W/"1"', "validators kept");
+});
+
+test("redirects and bill PDFs never touch site-shell", async () => {
+  const e = { ...env({ [KEY]: BYTES }), SHELL: shell() };
+  for (const path of ["/elections", "/elections/", "/work/election-atlas/state/?s=IN-UP&y=2024"]) {
+    assert.equal((await worker.fetch(new Request(`https://x${path}`), e)).status, 308, path);
+  }
+  const pdf = await worker.fetch(new Request(`https://x${PDF}`), e);
+  assert.equal(pdf.headers.get("content-type"), "application/pdf");
+  assert.deepEqual(e.SHELL.calls, { compose: [] });
+});
