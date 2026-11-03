@@ -132,12 +132,40 @@ test('theme: a choice made with the header picker carries over to the next page'
   const select = await page.evaluateHandle(() => document.querySelector('header site-theme-picker').shadowRoot.querySelector('select'));
   // labelled for screen readers: the select sits inside a <label> whose text is "Theme"
   assert.equal(await select.evaluate((s) => s.labels?.[0]?.firstElementChild?.textContent), 'Theme');
-  await select.select('slate-dark');
-  assert.equal(await page.evaluate(() => document.documentElement.dataset.theme), 'slate-dark');
+  // the picker offers System, Classic Light and Classic Dark only
+  assert.deepEqual(await select.evaluate((s) => [...s.options].map((o) => o.value)), ['system', 'classic-light', 'classic-dark']);
+  await select.select('classic-dark');
+  assert.equal(await page.evaluate(() => document.documentElement.dataset.theme), 'classic-dark');
   await page.goto(`${origin}/elections/india/state/?s=IN-UP&y=2024`, { waitUntil: 'networkidle0' });
   await page.waitForFunction(() => document.querySelector('header site-theme-picker')?.shadowRoot?.querySelector('select'));
-  assert.equal(await page.evaluate(() => document.documentElement.dataset.theme), 'slate-dark');
-  assert.equal(await pickerValue(), 'slate-dark');
+  assert.equal(await page.evaluate(() => document.documentElement.dataset.theme), 'classic-dark');
+  assert.equal(await pickerValue(), 'classic-dark');
   await context.close();
   assert.deepEqual(problems, []);
 });
+
+/* Slate Light and Slate Dark were removed in site-themes v0.2.0. A reader who
+   stored one of them lands on System (Classic Light or Classic Dark through
+   prefers-color-scheme) from the first frame, with no error. */
+for (const [stored, scheme, expected] of [['slate-light', 'light', 'classic-light'], ['slate-dark', 'dark', 'classic-dark']]) {
+  test(`theme: a stored ${stored} falls back to System from the first frame`, async () => {
+    const context = await browser.createBrowserContext();
+    const page = await context.newPage();
+    const problems = [];
+    page.on('console', (m) => { if (m.type() === 'error') problems.push(`console: ${m.text()}`); });
+    page.on('pageerror', (e) => problems.push(`exception: ${e.message}`));
+    await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: scheme }]);
+    await page.evaluateOnNewDocument((id) => {
+      localStorage.setItem('site-theme', id);
+      requestAnimationFrame(() => { window.__firstFrameTheme = document.documentElement.dataset.theme; });
+    }, stored);
+    await page.goto(`${origin}/elections/india/?y=2024`, { waitUntil: 'networkidle0' });
+    await page.waitForFunction(() => document.querySelector('header site-theme-picker')?.shadowRoot?.querySelector('select'));
+    assert.equal(await page.evaluate(() => window.__firstFrameTheme), expected);
+    assert.equal(await page.evaluate(() => document.documentElement.dataset.theme), expected);
+    assert.equal(await page.evaluate(() =>
+      document.querySelector('header site-theme-picker').shadowRoot.querySelector('select').value), 'system');
+    await context.close();
+    assert.deepEqual(problems, []);
+  });
+}
