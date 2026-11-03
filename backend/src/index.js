@@ -16,15 +16,21 @@
 //     to the same path under /elections/india/, query kept, so old links, deep
 //     links and bill PDF URLs keep working.
 //
-//   /elections, /elections/
-//     No page lives there; both answer a permanent redirect (308) to
-//     /elections/india/, query kept. Other /elections/* paths are not claimed.
+//   /elections/, /elections, /elections/page/*
+//     The country list (frontend/landing/, written by backend/build_site.py):
+//     /elections/?page=N serves page N's prerendered HTML (the asset
+//     /elections/page/N/), and page 1 for no page or one the list does not have
+//     (the page's script then drops it from the address). /elections answers a
+//     permanent redirect (308) to /elections/, and /elections/page/N/ to
+//     /elections/?page=N, query kept, so the list has one address per page.
+//     The cards, search index, pictures and font under /elections/ stay plain
+//     static assets.
 //
-//   /elections/india/, state/, mp/, mla/ (the four pages)
+//   /elections/india/, state/, mp/, mla/ (the four pages), and /elections/
 //     Served from the assets, then passed through site-shell's compose() (the
 //     SHELL service binding, akshayDev17/site-themes shell/), which adds the
-//     shared site theme to the page's <head> as it streams out and fills the
-//     page's <site-slot name="site-path"> with the site path. The state, MP and
+//     shared site theme to the page's <head> as it streams out and fills an
+//     atlas page's <site-slot name="site-path"> with the site path. The state, MP and
 //     MLA pages first get their crumbs for the request's query written into
 //     that slot (sitepath.js). It fails open: with site-shell missing,
 //     unreachable or throwing, the page is served exactly as built. The shared
@@ -35,7 +41,8 @@ import { tailFiles, tailFor, tailQuery, withTail } from "./sitepath.js";
 
 const ATLAS_ROOT = "/elections/india/";
 const OLD_ROOT = "/work/election-atlas";
-const ELECTIONS_ROOT = "/elections";
+const LIST_ROOT = "/elections/";
+const LIST_PAGES = `${LIST_ROOT}page/`;
 const DOCS_PREFIX = `${ATLAS_ROOT}data/state-legislation/`;
 
 export default {
@@ -46,10 +53,36 @@ export default {
     if (url.pathname.startsWith(DOCS_PREFIX) && url.pathname.endsWith(".pdf")) {
       return servePdf(request, env, url);
     }
+    if (url.pathname === LIST_ROOT) {
+      const [res, refetch] = await listPage(request, env, url);
+      return withShell(res, env, refetch, "atlas", (page) => page);
+    }
     const page = () => env.ASSETS.fetch(request);
     return withShell(await page(), env, page, "atlas", (res) => withCrumbs(res, env, url));
   },
 };
+
+/**
+ * The page of the country list a query asks for: N for ?page=N, a whole number
+ * from 2 up; 1 for anything else. Whether page N exists is the assets' answer.
+ */
+export function listPageNumber(search) {
+  const raw = new URLSearchParams(search).get("page");
+  return raw !== null && /^[1-9]\d*$/.test(raw) ? Number(raw) : 1;
+}
+
+/** The asset behind /elections/?page=N, and its fetch (page 1 when page N is not built). */
+async function listPage(request, env, url) {
+  const n = listPageNumber(url.search);
+  const asset = (path) => () => env.ASSETS.fetch(new Request(new URL(path, url), request));
+  if (n > 1) {
+    const fetchN = asset(`${LIST_PAGES}${n}/`);
+    const res = await fetchN();
+    if (res.status !== 404) return [res, fetchN];
+  }
+  const fetch1 = asset(LIST_ROOT);
+  return [await fetch1(), fetch1];
+}
 
 /**
  * Passes an HTML page, readied by `prepare`, through site-shell's compose(),
@@ -104,13 +137,22 @@ async function readData(env, url, file) {
 
 /**
  * Where a redirected URL lives now: /work/election-atlas[/rest][?query] is
- * /elections/india/[rest][?query] on the same host, and the bare /elections or
- * /elections/ (no page lives there) is /elections/india/[?query]. null for any
+ * /elections/india/[rest][?query] on the same host; /elections is /elections/,
+ * and a prerendered list page /elections/page/N/ is /elections/?page=N (any
+ * other path under /elections/page/ is /elections/), query kept. null for any
  * other URL.
  */
 export function movedTo(url) {
   const { pathname } = url;
-  if (pathname === ELECTIONS_ROOT || pathname === `${ELECTIONS_ROOT}/`) return `${url.origin}${ATLAS_ROOT}${url.search}`;
+  if (pathname === LIST_ROOT.slice(0, -1)) return `${url.origin}${LIST_ROOT}${url.search}`;
+  if (pathname.startsWith(LIST_PAGES) || pathname === LIST_PAGES.slice(0, -1)) {
+    const n = /^\/elections\/page\/([1-9]\d*)\/?$/.exec(pathname)?.[1];
+    const query = new URLSearchParams(url.search);
+    query.delete("page");
+    if (n && n !== "1") query.set("page", n);
+    const search = query.toString();
+    return `${url.origin}${LIST_ROOT}${search ? `?${search}` : ""}`;
+  }
   if (pathname !== OLD_ROOT && !pathname.startsWith(`${OLD_ROOT}/`)) return null;
   const rest = pathname.slice(OLD_ROOT.length).replace(/^\//, "");
   return `${url.origin}${ATLAS_ROOT}${rest}${url.search}`;

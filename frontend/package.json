@@ -9,6 +9,7 @@
     "typecheck": "tsc --noEmit",
     "test:lib": "node --experimental-strip-types --test lib/*.test.ts",
     "test:export": "node --test export.test.mjs",
+    "test:landing": "node --test landing/landing.test.mjs",
     "test:smoke": "node --test smoke.test.mjs",
     "test:shell": "node --test shell-contract/contract.test.mjs"
   },
@@ -27,7 +28,9 @@
     "@types/react-dom": "19.3.0",
     "@types/topojson-client": "3.1.5",
     "@types/topojson-specification": "1.0.5",
+    "flag-icons": "7.2.3",
     "puppeteer-core": "23.11.1",
+    "sharp": "0.35.5",
     "typescript": "5.9.3",
     "wrangler": "4.152.0"
   }

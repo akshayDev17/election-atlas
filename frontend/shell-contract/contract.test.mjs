@@ -1,7 +1,7 @@
 // The atlas Worker against the real site-shell, in local workerd: each test is
 // one `wrangler dev` session over the assembled site, with no Cloudflare
 // account. It needs the assembled site in dist/ (`npm run build`, then
-// `python3 backend/build_site.py --out dist`) and a checkout of
+// `python3 backend/build_site.py --out dist --db <D1 copy>`) and a checkout of
 // akshayDev17/site-themes:
 //
 //   SITE_THEMES_DIR=/path/to/site-themes npm run test:shell
@@ -15,18 +15,22 @@ import { APP, DIST, SHELL, THROWING_SHELL, logMatching, shellAssetBase, siteThem
 const ROOT = '/elections/india/';
 const SITE = join(DIST, 'elections/india');
 const META = '<meta charSet="utf-8"/>';
-// Each path the Worker serves as a page, and the file behind it.
+// Each path the Worker serves as a page, and the file behind it (under dist/). The
+// country list serves page 1 for a page it does not have: the list today has one.
 const PAGES = {
-  [ROOT]: 'index.html',
-  [`${ROOT}?y=2024&t=stands`]: 'index.html',
-  [`${ROOT}state/`]: 'state/index.html',
-  [`${ROOT}state/?s=IN-UP&y=2024`]: 'state/index.html',
-  [`${ROOT}state/?s=IN-WB`]: 'state/index.html',
-  [`${ROOT}mp/?s=IN-UP&c=gorakhpur`]: 'mp/index.html',
-  [`${ROOT}mla/?s=IN-BR&c=agiaon`]: 'mla/index.html',
+  [ROOT]: 'elections/india/index.html',
+  [`${ROOT}?y=2024&t=stands`]: 'elections/india/index.html',
+  [`${ROOT}state/`]: 'elections/india/state/index.html',
+  [`${ROOT}state/?s=IN-UP&y=2024`]: 'elections/india/state/index.html',
+  [`${ROOT}state/?s=IN-WB`]: 'elections/india/state/index.html',
+  [`${ROOT}mp/?s=IN-UP&c=gorakhpur`]: 'elections/india/mp/index.html',
+  [`${ROOT}mla/?s=IN-BR&c=agiaon`]: 'elections/india/mla/index.html',
+  '/elections/': 'elections/index.html',
+  '/elections/?page=999': 'elections/index.html',
 };
-// The crumbs each path's site path ends with: the page's own, after the app
-// name, named from the data the page reads (backend/src/sitepath.js).
+// The crumbs each atlas path's site path ends with: the page's own, after the
+// app name, named from the data the page reads (backend/src/sitepath.js). The
+// country list has no site path slot.
 const INDIA = { label: 'India', href: ROOT };
 const TAILS = {
   [ROOT]: [{ label: 'India' }],
@@ -55,7 +59,7 @@ async function session(t, configs) {
   return s;
 }
 
-const asBuilt = (file) => readFileSync(join(SITE, file), 'utf8');
+const asBuilt = (file) => readFileSync(join(DIST, file), 'utf8');
 // The site path slot as React renders it, and its content.
 const SLOT = /(<site-slot name="site-path" data-tail=")([^"]*)(">)([\s\S]*?)(<\/site-slot>)/;
 const FILLED = '<!-- the slot\'s content -->';
@@ -103,7 +107,7 @@ function assertSitePath(content, tail, path) {
   assert.deepEqual(crumbs, want, `${path}: the page's crumbs`);
 }
 
-test('bound to site-shell: every page gains the theme head block and its site path, and nothing else', async (t) => {
+test('bound to site-shell: every page gains the theme head block, each atlas page its site path, and nothing else', async (t) => {
   const s = await session(t, [APP, SHELL]);
   for (const [path, file] of Object.entries(PAGES)) {
     const res = await fetch(`${s.origin}${path}`);
@@ -111,17 +115,24 @@ test('bound to site-shell: every page gains the theme head block and its site pa
     assert.equal(res.status, 200, path);
     assert.equal(res.headers.get('x-site-shell'), `${build.id}; app=atlas`, path);
     assert.equal(res.headers.get('etag'), null, `${path}: composed HTML carries no validator`);
-    const { page, content } = setAside(body);
-    assert.equal(page, composed(file, path), `${path}: the built page plus the head insertion and the path's crumbs`);
-    assertSitePath(content, TAILS[path], path);
-    assert.doesNotMatch(content, /class="back"/, `${path}: the page's own back link is replaced`);
+    if (TAILS[path]) {
+      const { page, content } = setAside(body);
+      assert.equal(page, composed(file, path), `${path}: the built page plus the head insertion and the path's crumbs`);
+      assertSitePath(content, TAILS[path], path);
+      assert.doesNotMatch(content, /class="back"/, `${path}: the page's own back link is replaced`);
+      assert.equal(body.match(/data-site-shell/g).length, 3, `${path}: one boot <script>, one tokens <style> and the path's <style>`);
+    } else {
+      assert.equal(body, composed(file, path), `${path}: the built page plus the head insertion`);
+      assert.equal(body.match(/data-site-shell/g).length, 2, `${path}: one boot <script> and one tokens <style>`);
+    }
     assert.ok(body.indexOf(META) < 1024, `${path}: <meta charset> stays inside the first 1024 bytes`);
-    assert.equal(body.match(/data-site-shell/g).length, 3, `${path}: one boot <script>, one tokens <style> and the path's <style>`);
   }
 
-  // Chunks and data stay static assets: never composed, validators and 304 kept.
-  const css = asBuilt('index.html').match(/href="(\/elections\/india\/_next\/static\/css\/[^"]+\.css)"/)[1];
-  for (const path of [css, `${ROOT}data/manifest.json`]) {
+  // Chunks, data and the list's cards, index and pictures stay static assets:
+  // never composed, validators and 304 kept.
+  const css = asBuilt('elections/india/index.html').match(/href="(\/elections\/india\/_next\/static\/css\/[^"]+\.css)"/)[1];
+  const picture = asBuilt('elections/index.html').match(/src="(\/elections\/img\/[^"]+\.webp)"/)[1];
+  for (const path of [css, `${ROOT}data/manifest.json`, '/elections/cards/1.html', '/elections/index.json', picture]) {
     const res = await fetch(`${s.origin}${path}`);
     assert.equal(res.status, 200, path);
     assert.equal(res.headers.get('x-site-shell'), null, path);
@@ -133,7 +144,7 @@ test('bound to site-shell: every page gains the theme head block and its site pa
   // The Classic Light fallback block the pages' CSS carries declares exactly
   // what site-shell's generated fallback.css does (frontend/app/site-fallback.css
   // copies it; the CSS minifier only drops spaces after commas).
-  const sheets = await Promise.all([...asBuilt('index.html').matchAll(/href="(\/elections\/india\/_next\/static\/css\/[^"]+\.css)"/g)]
+  const sheets = await Promise.all([...asBuilt('elections/india/index.html').matchAll(/href="(\/elections\/india\/_next\/static\/css\/[^"]+\.css)"/g)]
     .map(async ([, href]) => (await fetch(`${s.origin}${href}`)).text()));
   const declarations = (css) => {
     const block = css.match(/:where\(:root\)\{([^}]*)\}/)?.[1];
@@ -144,10 +155,10 @@ test('bound to site-shell: every page gains the theme head block and its site pa
     declarations(readFileSync(join(siteThemes, 'shell/generated/fallback.css'), 'utf8')),
     'the served Classic Light fallback matches site-shell\'s generated fallback.css');
 
-  // The redirects are unchanged.
+  // The redirects: the old address to the atlas, and the list's other addresses to it.
   for (const [from, to] of [
-    ['/elections', ROOT],
-    ['/elections/', ROOT],
+    ['/elections', '/elections/'],
+    ['/elections/page/2/', '/elections/?page=2'],
     ['/work/election-atlas/state/?s=IN-UP&y=2024', `${ROOT}state/?s=IN-UP&y=2024`],
   ]) {
     const res = await fetch(`${s.origin}${from}`, { redirect: 'manual' });

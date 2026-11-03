@@ -2,7 +2,7 @@
 """Assemble the Worker's static assets: the atlas at its full public path.
 
     npm --prefix frontend run build      # the Next.js static export, frontend/out
-    python3 backend/build_site.py --out dist [--data-from <exported data dir>]
+    python3 backend/build_site.py --out dist --db d1.sqlite [--data-from <exported data dir>]
 
 Copies the frontend's static export (--frontend, default frontend/out) and the
 repository's published files into dist/elections/india/, the path the atlas is
@@ -18,6 +18,12 @@ at the same path as an exported page or chunk is refused.
 the Lok Sabha files kept static (committed under data/ until their sources are
 re-verified). The bill PDFs are not assets: the Worker streams them from R2.
 
+--db <D1 copy> then writes the /elections page beside the atlas, into
+dist/elections/: the countries are derived from D1 (backend/d1/countries.py: a
+nation with a published national result whose country page the site now holds),
+and frontend/landing/build.mjs renders their cards, pages, search index and
+pictures (it needs `npm --prefix frontend ci` for its packages).
+
 --complete-against <data dir> refuses a site that lacks any results/ or cabinet/
 file that directory holds: every data file the pages read before the move must
 be either exported from D1 or committed here. With --pending-ok the missing files
@@ -25,12 +31,16 @@ are listed as pending instead (a deploy made before every import day has run);
 the pages then show "not available yet" for them.
 """
 import argparse
+import json
 import shutil
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(REPO / 'backend' / 'd1'))
+import countries as country_list  # noqa: E402
 MOUNT = Path('elections/india')
 NOT_PUBLISHED = {'backend', 'frontend', 'README.md', 'LICENSE', 'node_modules', 'dist'}
 
@@ -85,6 +95,21 @@ def build(out, data_from=None, frontend=None):
     return site
 
 
+def build_landing(out, db):
+    """Derives the listed countries from D1 and renders /elections from them."""
+    listed, skipped = country_list.derive(db, out)
+    for code, why in skipped:
+        print(f'build_site: {code} not on /elections: {why}')
+    if not listed:
+        sys.exit('build_site: D1 holds no country with a published national result and a country page')
+    with tempfile.TemporaryDirectory() as tmp:
+        path = Path(tmp) / 'countries.json'
+        path.write_text(json.dumps(listed, ensure_ascii=False), encoding='utf-8')
+        subprocess.run(['node', str(REPO / 'frontend' / 'landing' / 'build.mjs'), '--countries', str(path), '--site', str(out)],
+                       check=True)
+    return listed
+
+
 def missing_against(site, old_data):
     old_data = Path(old_data)
     return [p.relative_to(old_data).as_posix() for p in sorted(old_data.rglob('*.json'))
@@ -97,11 +122,13 @@ def main(argv=None):
     ap.add_argument('--out', default=str(REPO / 'dist'))
     ap.add_argument('--data-from', help='directory of data files exported from D1')
     ap.add_argument('--frontend', help='the Next.js static export (default frontend/out)')
+    ap.add_argument('--db', required=True, help='SQLite copy of the D1 database: the /elections page lists the countries it holds')
     ap.add_argument('--complete-against', help='data directory whose results/ and cabinet/ files must all be present')
     ap.add_argument('--pending-ok', action='store_true',
                     help='list files missing against --complete-against as pending instead of failing')
     args = ap.parse_args(argv)
     site = build(args.out, args.data_from, args.frontend)
+    build_landing(args.out, args.db)
     if args.complete_against:
         missing = missing_against(site, args.complete_against)
         if missing and args.pending_ok:

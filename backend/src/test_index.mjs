@@ -1,7 +1,7 @@
 // node --experimental-strip-types --test backend/src/test_index.mjs
 import assert from "node:assert/strict";
 import test from "node:test";
-import worker, { byteSpan, movedTo, parseRange, r2Key } from "./index.js";
+import worker, { byteSpan, listPageNumber, movedTo, parseRange, r2Key } from "./index.js";
 import { tailFiles, tailFor, tailQuery, withTail } from "./sitepath.js";
 
 const PDF = "/elections/india/data/state-legislation/IN-AP/bills/documents/f6d43f9459-bills.pdf";
@@ -126,12 +126,29 @@ test("a HEAD or ranged request to the old address is redirected too, never serve
   assert.equal(res.status, 308);
 });
 
-test("the bare /elections address answers 308 to /elections/india/, query kept", async () => {
+test("/elections answers 308 to the country list at /elections/, query kept", async () => {
   const cases = [
-    ["https://x/elections", "https://x/elections/india/"],
-    ["https://x/elections/", "https://x/elections/india/"],
-    ["https://x/elections?y=2024", "https://x/elections/india/?y=2024"],
-    ["https://x/elections/?s=IN-UP&y=2024", "https://x/elections/india/?s=IN-UP&y=2024"],
+    ["https://x/elections", "https://x/elections/"],
+    ["https://x/elections?page=2", "https://x/elections/?page=2"],
+  ];
+  for (const [from, to] of cases) {
+    const res = await call(from);
+    assert.equal(res.status, 308, from);
+    assert.equal(res.headers.get("location"), to, from);
+  }
+});
+
+test("a prerendered list page's own path answers 308 to /elections/?page=N", async () => {
+  const cases = [
+    ["https://x/elections/page/2/", "https://x/elections/?page=2"],
+    ["https://x/elections/page/12", "https://x/elections/?page=12"],
+    ["https://x/elections/page/3/?q=x", "https://x/elections/?q=x&page=3"],
+    ["https://x/elections/page/1/", "https://x/elections/"],
+    ["https://x/elections/page/0/", "https://x/elections/"],
+    ["https://x/elections/page/abc/", "https://x/elections/"],
+    ["https://x/elections/page/2/index.html", "https://x/elections/"],
+    ["https://x/elections/page/", "https://x/elections/"],
+    ["https://x/elections/page", "https://x/elections/"],
   ];
   for (const [from, to] of cases) {
     const res = await call(from);
@@ -141,8 +158,58 @@ test("the bare /elections address answers 308 to /elections/india/, query kept",
 });
 
 test("other /elections paths are not redirected", () => {
-  for (const u of ["https://x/elections/usa/", "https://x/elections/india", "https://x/electionsx", "https://x/elections//"]) {
+  for (const u of ["https://x/elections/", "https://x/elections/?page=2", "https://x/elections/usa/",
+    "https://x/elections/india", "https://x/electionsx", "https://x/elections//", "https://x/elections/pages/2/",
+    "https://x/elections/cards/1.html", "https://x/elections/index.json"]) {
     assert.equal(movedTo(new URL(u)), null, u);
+  }
+});
+
+test("listPageNumber reads ?page=N for a whole N from 2 up, and 1 for anything else", () => {
+  const cases = [["", 1], ["?page=1", 1], ["?page=2", 2], ["?page=41", 41], ["?page=0", 1], ["?page=-2", 1],
+    ["?page=2.5", 1], ["?page=02", 1], ["?page=abc", 1], ["?page=", 1], ["?y=2024", 1], ["?page=3&page=4", 3]];
+  for (const [search, n] of cases) assert.equal(listPageNumber(search), n, search);
+});
+
+/** ASSETS for the list: `built` holds the pages that exist; anything else is a 404. */
+function listAssets(built) {
+  const calls = [];
+  return {
+    calls,
+    fetch: async (req) => {
+      const path = new URL(req.url).pathname;
+      calls.push(path);
+      return path in built
+        ? new Response(built[path], { headers: { "content-type": "text/html" } })
+        : new Response("Not Found", { status: 404, headers: { "content-type": "text/html" } });
+    },
+  };
+}
+
+test("/elections/?page=N serves page N's prerendered page, and page 1 for no page or a page not built", async () => {
+  const built = { "/elections/": "page 1", "/elections/page/2/": "page 2", "/elections/page/3/": "page 3" };
+  const cases = [
+    ["/elections/", "page 1", ["/elections/"]],
+    ["/elections/?page=1", "page 1", ["/elections/"]],
+    ["/elections/?page=2", "page 2", ["/elections/page/2/"]],
+    ["/elections/?page=3#c-x", "page 3", ["/elections/page/3/"]],
+    ["/elections/?page=9", "page 1", ["/elections/page/9/", "/elections/"]],
+    ["/elections/?page=abc", "page 1", ["/elections/"]],
+    ["/elections/?page=0", "page 1", ["/elections/"]],
+  ];
+  for (const [path, body, fetched] of cases) {
+    const e = { ASSETS: listAssets(built) };
+    const res = await worker.fetch(new Request(`https://x${path}`), e);
+    assert.equal(res.status, 200, path);
+    assert.equal(await res.text(), body, path);
+    assert.deepEqual(e.ASSETS.calls, fetched, path);
+  }
+});
+
+test("the list's cards, search index, pictures and font are plain static assets", async () => {
+  for (const path of ["/elections/cards/1.html", "/elections/index.json", "/elections/img/india-map-2024-360.webp", "/elections/fonts/newsreader.woff2"]) {
+    const res = await call(`https://x${path}`);
+    assert.equal(await res.text(), `asset ${path}`, path);
   }
 });
 
@@ -213,6 +280,27 @@ test("with SHELL bound, the four pages are composed with the app name", async ()
   ]);
 });
 
+test("with SHELL bound, the country list is composed, page N too", async () => {
+  const e = { ASSETS: assets(), SHELL: shell() };
+  for (const path of ["/elections/", "/elections/?page=2"]) {
+    const res = await worker.fetch(new Request(`https://x${path}`), e);
+    assert.equal(res.status, 200, path);
+    assert.equal(res.headers.get("x-site-shell"), "test; app=atlas", path);
+    assert.match(await res.text(), /<meta charSet="utf-8"\/><script data-site-shell><\/script>/, path);
+  }
+  assert.deepEqual(e.ASSETS.calls, ["/elections/", "/elections/page/2/"]);
+});
+
+test("fail open: the country list's page N is fetched again as built, not page 1", async (t) => {
+  t.mock.method(console, "error", () => {});
+  const e = { ASSETS: assets(), SHELL: shell({ fail: "fault: compose threw" }) };
+  const res = await worker.fetch(new Request("https://x/elections/?page=2"), e);
+  assert.equal(res.status, 200);
+  assert.equal(res.headers.get("x-site-shell"), null);
+  assert.equal(await res.text(), HTML);
+  assert.deepEqual(e.ASSETS.calls, ["/elections/page/2/", "/elections/page/2/"]);
+});
+
 test("unbound: with no SHELL binding a page is served exactly as built", async () => {
   const e = { ASSETS: assets() };
   const res = await worker.fetch(new Request("https://x/elections/india/"), e);
@@ -263,7 +351,7 @@ test("non-HTML and non-200 responses never reach compose()", async () => {
 
 test("redirects and bill PDFs never touch site-shell", async () => {
   const e = { ...env({ [KEY]: BYTES }), SHELL: shell() };
-  for (const path of ["/elections", "/elections/", "/work/election-atlas/state/?s=IN-UP&y=2024"]) {
+  for (const path of ["/elections", "/elections/page/2/", "/work/election-atlas/state/?s=IN-UP&y=2024"]) {
     assert.equal((await worker.fetch(new Request(`https://x${path}`), e)).status, 308, path);
   }
   const pdf = await worker.fetch(new Request(`https://x${PDF}`), e);

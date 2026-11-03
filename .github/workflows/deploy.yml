@@ -3,10 +3,10 @@ name: Deploy
 # Builds the Next.js frontend, exports the atlas's data files from D1, refuses to
 # deploy unless they are what the pinned github.io commit committed and the
 # provenance gate passes over both the export and D1 itself, then deploys the
-# Worker. The atlas is served at /elections/india/; the bare /elections and
-# /elections/ addresses and the old address /work/election-atlas/* answer 308 to
-# it. The config carries no routes: the four live routes are attached outside it
-# by portfolio-app.
+# Worker. The atlas is served at /elections/india/ and the country list, derived
+# from D1, at /elections/; the old address /work/election-atlas/* answers 308 to
+# the atlas. The config carries no routes: the four live routes are attached
+# outside it by portfolio-app.
 
 on:
   workflow_dispatch:
@@ -91,8 +91,14 @@ jobs:
           PENDING_OK: ${{ inputs.pending_ok && '--pending-ok' || '' }}
         run: |
           # shellcheck disable=SC2086
-          python3 backend/build_site.py --out dist --data-from exported \
+          python3 backend/build_site.py --out dist --data-from exported --db d1.sqlite \
             --complete-against atlas-source/work/election-atlas/data $PENDING_OK
+
+      - name: The country list's tests, over the assembled site
+        working-directory: frontend
+        env:
+          LANDING_DIST: ${{ github.workspace }}/dist
+        run: npm run test:landing
 
       - name: Provenance gate over the export and over D1
         run: python3 tools/check_provenance.py dist/elections/india/data --db d1.sqlite
@@ -161,6 +167,15 @@ jobs:
           want="$base/elections/india/state/?s=IN-UP&y=2024"
           got=$(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' "$base/work/election-atlas/state/?s=IN-UP&y=2024")
           echo "$got /work/election-atlas/state/?s=IN-UP&y=2024"; test "$got" = "308 $want"
+          # the country list: /elections answers 308 to it, it lists India (D1 holds
+          # its published result and its page exists), and its search index answers
+          got=$(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' "$base/elections?page=1")
+          echo "$got /elections?page=1"; test "$got" = "308 $base/elections/?page=1"
+          code=$(curl -s -o list.html -w '%{http_code}' "$base/elections/")
+          echo "$code /elections/"; test "$code" = 200
+          grep -q '<a class="btn" href="/elections/india/">Open India</a>' list.html
+          code=$(curl -s -o /dev/null -w '%{http_code}' "$base/elections/index.json")
+          echo "$code /elections/index.json"; test "$code" = 200
           # every page passes through site-shell (the SHELL binding), and the picker
           # script it links at the shared /_site/ path answers on the site, where
           # akshayprabhakant.com/_site/* is routed to site-shell
@@ -168,6 +183,8 @@ jobs:
             shell=$(curl -s -D - -o page.html "$base/elections/india/$p" | tr -d '\r' | sed -n 's/^x-site-shell: //Ip')
             echo "x-site-shell: $shell /elections/india/$p"; test -n "$shell"
           done
+          shell=$(curl -s -D - -o /dev/null "$base/elections/" | tr -d '\r' | sed -n 's/^x-site-shell: //Ip')
+          echo "x-site-shell: $shell /elections/"; test -n "$shell"
           js=$(grep -oE '"/_site/[0-9a-f]{12}/site\.js"' page.html | tr -d '"' | head -1)
           code=$(curl -s -o /dev/null -w '%{http_code}' "https://akshayprabhakant.com$js")
           echo "$code $js"; test -n "$js" && test "$code" = 200

@@ -1,0 +1,27 @@
+{
+ "note": "Other names a reader may search a country by, keyed by ISO 3166-1 alpha-2 code (the code D1 gives a nation). Search only: which countries the /elections page lists comes from D1 (backend/d1/countries.py), never from this file.",
+ "aliases": {
+  "AT": ["Österreich"],
+  "CH": ["Schweiz", "Suisse", "Svizzera"],
+  "CZ": ["Czechia"],
+  "DE": ["Deutschland"],
+  "DK": ["Danmark"],
+  "ES": ["España"],
+  "FI": ["Suomi"],
+  "GB": ["UK", "Britain", "Great Britain"],
+  "GR": ["Hellas", "Ellada"],
+  "HU": ["Magyarország"],
+  "IE": ["Éire"],
+  "IN": ["Bharat"],
+  "IT": ["Italia"],
+  "JP": ["Nippon", "Nihon"],
+  "KR": ["Korea", "Republic of Korea"],
+  "NL": ["Holland"],
+  "NO": ["Norge"],
+  "PL": ["Polska"],
+  "SE": ["Sverige"],
+  "TR": ["Türkiye"],
+  "TW": ["Republic of China"],
+  "US": ["USA", "US", "America", "United States of America"]
+ }
+}
