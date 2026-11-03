@@ -27,6 +27,7 @@ import type {
 } from '@/lib/types';
 import { HoverCard, type HoverCardHandle } from './HoverCard';
 import { Pager } from './Pager';
+import { SitePath } from './SitePath';
 import { Monogram, OfficialPhotoLink, Swatch } from './Member';
 
 type GeoProps = Record<string, string>;
@@ -325,7 +326,7 @@ export default function NationalView() {
         <header className="masthead">
           <div className="mh-top">
             <div className="mh-left">
-              <a className="back" href="/">← Akshay Prabhakant</a>
+              <SitePath tail={[{ label: 'India' }]} fallback={'<a class="back" href="/">← Akshay Prabhakant</a>'} />
               <p className="lbl">Election Atlas of India</p>
             </div>
             <div className="mh-tools">

@@ -9,11 +9,16 @@ a permanent redirect to `/elections/india/`, query kept in both.
 
 The shared site theme comes from site-shell (`akshayDev17/site-themes`, `shell/`). The Worker
 binds it as `SHELL` and passes each of the four pages' HTML through its `compose()`, which adds
-the theme's boot script and tokens right after `<meta charset>`; the page loads site-shell's own
-files (its picker script) from `akshayprabhakant.com/_site/*`, which is routed to site-shell, not
-to this Worker. It fails open: with site-shell missing, unreachable or throwing, the page is served
-exactly as built, and the `:where(:root)` Classic Light block (`frontend/app/site-fallback.css`)
-keeps every shared token defined. The frontend bundles no theme code: each header renders a plain
+the theme's boot script and tokens right after `<meta charset>`, and fills each masthead's
+`<site-slot name="site-path">` (`frontend/components/SitePath.tsx`) with the site path: the
+switcher between the site's apps, then the page's own crumbs (India / state / seat). A page's HTML
+is one file for every query, so the Worker first writes the crumbs for the request's query into
+the slot, named from the same data files the page reads (`backend/src/sitepath.js`). The page
+loads site-shell's own files (its picker script) from `akshayprabhakant.com/_site/*`, which is
+routed to site-shell, not to this Worker. It fails open: with site-shell missing, unreachable or
+throwing, the page is served exactly as built, its slot showing the page's own back link, and the
+`:where(:root)` Classic Light block (`frontend/app/site-fallback.css`) keeps every shared token
+defined. The frontend bundles no theme code: each header renders a plain
 `<site-theme-picker hide-label>`, which site-shell's script defines. So `next dev`, which has no
 Worker in front of it, shows Classic Light from the fallback block and no picker. For theme work,
 use the harness in `frontend/shell-contract/` and the browser smoke with `SITE_THEMES_DIR` (below):

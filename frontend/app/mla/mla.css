@@ -25,7 +25,9 @@ a{color:var(--ink)}
 
 .page{max-width:52rem;margin:0 auto;display:flex;flex-direction:column;gap:var(--s4)}
 .mh{display:flex;align-items:baseline;justify-content:space-between;gap:var(--s4);flex-wrap:wrap}
-.mh-tools{display:flex;align-items:baseline;gap:var(--s4);flex-wrap:wrap}
+/* The site path (site-shell) is wider than the old back link and pushes the tools
+   onto the next row; margin-left keeps them at the right, where they sat beside it. */
+.mh-tools{display:flex;align-items:baseline;gap:var(--s4);flex-wrap:wrap;margin-left:auto}
 /* The shared theme picker (site-shell's site.js): a labelled native <select> that draws
    itself from the theme tokens. Only its type is set here, to the masthead's
    mono so it reads as one of the instruments beside it. */

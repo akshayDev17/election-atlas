@@ -23,10 +23,15 @@
 //   /elections/india/, state/, mp/, mla/ (the four pages)
 //     Served from the assets, then passed through site-shell's compose() (the
 //     SHELL service binding, akshayDev17/site-themes shell/), which adds the
-//     shared site theme to the page's <head> as it streams out. It fails open:
-//     with site-shell missing, unreachable or throwing, the page is served
-//     exactly as built. The shared files the composed page links live at
-//     /_site/*, which is routed to site-shell itself, not to this Worker.
+//     shared site theme to the page's <head> as it streams out and fills the
+//     page's <site-slot name="site-path"> with the site path. The state, MP and
+//     MLA pages first get their crumbs for the request's query written into
+//     that slot (sitepath.js). It fails open: with site-shell missing,
+//     unreachable or throwing, the page is served exactly as built. The shared
+//     files the composed page links live at /_site/*, which is routed to
+//     site-shell itself, not to this Worker.
+
+import { tailFiles, tailFor, tailQuery, withTail } from "./sitepath.js";
 
 const ATLAS_ROOT = "/elections/india/";
 const OLD_ROOT = "/work/election-atlas";
@@ -42,24 +47,25 @@ export default {
       return servePdf(request, env, url);
     }
     const page = () => env.ASSETS.fetch(request);
-    return withShell(await page(), env, page, "atlas");
+    return withShell(await page(), env, page, "atlas", (res) => withCrumbs(res, env, url));
   },
 };
 
 /**
- * Passes an HTML page through site-shell's compose(), failing open: with no
- * binding, or when site-shell is missing, unreachable or throws, the visitor
- * gets the page exactly as built. The page's body went to site-shell with the
- * call, so the fallback fetches the page again (a static asset, so free);
- * returning `res` there would answer 500 ("Body has already been used").
+ * Passes an HTML page, readied by `prepare`, through site-shell's compose(),
+ * failing open: with no binding, or when site-shell is missing, unreachable or
+ * throws, the visitor gets the page exactly as built. The page's body went to
+ * site-shell with the call, so the fallback fetches the page again (a static
+ * asset, so free); returning `res` there would answer 500 ("Body has already
+ * been used").
  * That copy carries no validator, like a composed page, so the browser never
  * revalidates it into a 304 once site-shell is back.
  */
-async function withShell(res, env, refetch, app) {
+async function withShell(res, env, refetch, app, prepare) {
   const type = res.headers.get("content-type") || "";
   if (!env.SHELL || res.status !== 200 || !type.startsWith("text/html")) return res;
   try {
-    return await env.SHELL.compose(res, { app });
+    return await env.SHELL.compose(await prepare(res), { app });
   } catch (err) {
     console.error("site-shell: compose failed, serving the page as built:", String(err));
     const page = await refetch();
@@ -67,6 +73,32 @@ async function withShell(res, env, refetch, app) {
     headers.delete("etag");
     headers.delete("last-modified");
     return new Response(page.body, { status: page.status, statusText: page.statusText, headers });
+  }
+}
+
+/**
+ * The page with its site path crumbs for this request written into its slot
+ * (sitepath.js), read from the same data files the page reads. The national
+ * page, whose crumb is fixed, is returned untouched.
+ */
+async function withCrumbs(res, env, url) {
+  const query = tailQuery(url);
+  if (!query) return res;
+  const files = tailFiles(query);
+  const docs = Object.fromEntries(await Promise.all(files.map(async (f) => [f, await readData(env, url, f)])));
+  const headers = new Headers(res.headers);
+  headers.delete("content-length");
+  const html = withTail(await res.text(), tailFor(query, docs));
+  return new Response(html, { status: res.status, statusText: res.statusText, headers });
+}
+
+/** A data file from the assets, parsed; null when it is missing or not JSON. */
+async function readData(env, url, file) {
+  try {
+    const res = await env.ASSETS.fetch(new URL(`${ATLAS_ROOT}data/${file}`, url));
+    return res.ok ? await res.json() : null;
+  } catch {
+    return null;
   }
 }
 

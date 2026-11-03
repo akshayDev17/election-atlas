@@ -35,6 +35,7 @@ import type {
 import { HoverCard, type HoverCardHandle } from './HoverCard';
 import { Monogram, OfficialPhotoLink, Swatch } from './Member';
 import { Pager } from './Pager';
+import { SitePath } from './SitePath';
 
 type GeoProps = Record<string, string | number>;
 type GeoFeature = Feature<Geometry, GeoProps>;
@@ -476,7 +477,10 @@ export default function StateView() {
         <header className="masthead">
           <div className="mh-top">
             <div className="mh-left">
-              <a className="back" href={pageURL('')}>← India</a>
+              <SitePath
+                tail={[{ label: 'India', href: pageURL('') }, { label: 'State' }]}
+                fallback={`<a class="back" href="${pageURL('')}">← India</a>`}
+              />
               <h1 className="lbl" id="eyebrow">{name ? `Election Atlas of ${name}` : 'Election Atlas of India'}</h1>
             </div>
             <div className="mh-tools">
