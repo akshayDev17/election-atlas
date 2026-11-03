@@ -352,7 +352,7 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 1280, height: 800
 
 /* The national, state and MP pages are wider than a 390 px phone today (the
    year buttons, the party table), which grows the phone's layout viewport past
-   the screen; the sheet must stay on the screen regardless (app/site-path.css). */
+   the screen; the sheet must stay on the screen regardless (site-shell's own .sp-sheet rule). */
 test('site path on a portrait phone (390x844): the apps fold into a pill that opens a bottom sheet', themed, async () => {
   for (const [name, path, ready] of pathPages) {
     const { page, problems, seen } = await readPath({ width: 390, height: 844, isMobile: true, hasTouch: true }, path, ready);
