@@ -13,10 +13,13 @@ the theme's boot script and tokens right after `<meta charset>`; the page loads 
 files (its picker script) from `akshayprabhakant.com/_site/*`, which is routed to site-shell, not
 to this Worker. It fails open: with site-shell missing, unreachable or throwing, the page is served
 exactly as built, and the `:where(:root)` Classic Light block (`frontend/app/site-fallback.css`)
-keeps every shared token defined. The frontend still bundles the `site-themes` package too, so
-`next dev`, which has no Worker in front of it, shows the theme as before. **Deploy order:**
-site-shell must exist before this Worker is deployed with the binding, or `wrangler deploy`
-refuses.
+keeps every shared token defined. The frontend bundles no theme code: each header renders a plain
+`<site-theme-picker hide-label>`, which site-shell's script defines. So `next dev`, which has no
+Worker in front of it, shows Classic Light from the fallback block and no picker. For theme work,
+use the harness in `frontend/shell-contract/` and the browser smoke with `SITE_THEMES_DIR` (below):
+they serve `dist/` through this Worker and the real site-shell, with `/_site/*` answered from
+site-shell's files as the zone route does. **Deploy order:** site-shell must exist before this
+Worker is deployed with the binding, or `wrangler deploy` refuses.
 
 This repository started from a single commit of that site's `work/election-atlas` tree
 (`backend/atlas-source.json` names the commit), carrying published data only: no
@@ -57,7 +60,6 @@ Nothing but published data reaches D1, the exported files or the site:
 | `r2-upload.yml` | manual | uploads every manifest-listed PDF of the pinned commit to R2, verifying sha256 before and after |
 | `d1-import.yml` | manual, `day` = 1 or 2 | applies migrations, then imports one day (1: assembly, cabinets, by-elections; 2: Lok Sabha), printing D1's rows written; the free plan allows 100,000 a day |
 | `deploy.yml` | manual | builds the frontend, exports D1, diffs it against the committed JSON, runs the gate, deploys the Worker, and smoke-tests the preview (including the old address's redirect, and that every page is composed by site-shell) |
-| `site-themes-bump.yml` | daily, manual | re-enables itself each run (so the 60-day inactivity auto-disable never stops it); when `akshayDev17/site-themes` has a newer `vX.Y.Z` tag than the one `frontend/package.json` pins, moves the pin, checks the frontend still builds, pushes `site-themes/bump-<tag>` and opens a PR (needs "Allow GitHub Actions to create and approve pull requests"; without it the run fails with the compare link) |
 
 The Worker config (`backend/wrangler.jsonc`) carries **no routes**, and CI and the deploy refuse one that does (`backend/check_no_routes.py`). The owner's approved routes (`akshayprabhakant.com/elections`, `/elections/*`, `/work/election-atlas` and `/work/election-atlas/*`) are attached outside this config, in a step of their own.
 

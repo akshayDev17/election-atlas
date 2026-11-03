@@ -1,11 +1,10 @@
 import type { Metadata, Viewport } from 'next';
-import { bootScript } from 'site-themes';
-// The shared themes, bundled into this build: imported here, before any page's
-// own stylesheet, so each page's alias block reads tokens that already exist.
-import 'site-themes/themes.css';
-// Classic Light for the shared tokens if no theme reaches the page (site-shell's
-// composed <head> and the bundled themes.css both missing). Zero specificity:
-// any theme rule wins over it.
+// The shared site theme is not bundled: in production the Worker passes each
+// page through site-shell, which adds the theme's boot script and tokens right
+// after <meta charset> and links the script that defines <site-theme-picker>.
+// This block keeps every shared token defined (Classic Light) when no theme
+// reaches the page: `next dev`, or site-shell down. Zero specificity, so the
+// composed theme always wins over it.
 import './site-fallback.css';
 
 // Each page imports its own stylesheet (the four pages have always been styled
@@ -19,14 +18,12 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { width: 'device-width', initialScale: 1 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  // suppressHydrationWarning: the boot script sets data-theme on <html> before
-  // React hydrates, so the server HTML and the live element differ on purpose.
+  // suppressHydrationWarning: site-shell's boot script sets data-theme on <html>
+  // before React hydrates, so the server HTML and the live element differ on
+  // purpose.
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* First in <head>: sets <html data-theme> from the shared site-theme
-            choice before first paint. Inline, so nothing is fetched for it. */}
-        <script dangerouslySetInnerHTML={{ __html: bootScript }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         {/* eslint-disable-next-line @next/next/no-page-custom-font */}

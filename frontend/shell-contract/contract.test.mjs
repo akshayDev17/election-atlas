@@ -72,6 +72,20 @@ test('bound to site-shell: every page gains the theme head block after <meta cha
     assert.equal((await fetch(`${s.origin}${path}`, { headers: { 'if-none-match': etag } })).status, 304, path);
   }
 
+  // The Classic Light fallback block the pages' CSS carries declares exactly
+  // what site-shell's generated fallback.css does (frontend/app/site-fallback.css
+  // copies it; the CSS minifier only drops spaces after commas).
+  const sheets = await Promise.all([...asBuilt('index.html').matchAll(/href="(\/elections\/india\/_next\/static\/css\/[^"]+\.css)"/g)]
+    .map(async ([, href]) => (await fetch(`${s.origin}${href}`)).text()));
+  const declarations = (css) => {
+    const block = css.match(/:where\(:root\)\{([^}]*)\}/)?.[1];
+    assert.ok(block, 'no :where(:root) block');
+    return block.split(';').map((d) => d.trim().replace(/\s*,\s*/g, ',')).filter(Boolean);
+  };
+  assert.deepEqual(declarations(sheets.join('\n')),
+    declarations(readFileSync(join(siteThemes, 'shell/generated/fallback.css'), 'utf8')),
+    'the served Classic Light fallback matches site-shell\'s generated fallback.css');
+
   // The redirects are unchanged.
   for (const [from, to] of [
     ['/elections', ROOT],

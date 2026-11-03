@@ -9,7 +9,6 @@ import { geoMercator, geoPath } from 'd3-geo';
 import type { Feature, FeatureCollection, Geometry } from 'geojson';
 import { feature } from 'topojson-client';
 import type { Topology } from 'topojson-specification';
-import { ThemePicker } from 'site-themes/react';
 import {
   memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState,
   type CSSProperties, type ReactNode,
@@ -499,7 +498,7 @@ export default function StateView() {
                   );
                 })}
               </div>
-              <ThemePicker hideLabel />
+              <site-theme-picker hide-label="" />
             </div>
           </div>
           <hr className="hair" style={{ marginTop: 'var(--s4)' }} />

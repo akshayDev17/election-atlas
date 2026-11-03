@@ -143,11 +143,37 @@ for (const [name, path, ready, expect] of PAGES) {
   });
 }
 
-/* The shared site theme. A stored choice must already be on <html> at the first
-   frame (the head boot script runs before anything paints), and a choice made
-   with the header picker on one page must hold on the next page, through the one
-   `site-theme` localStorage key every app on the origin shares. */
-test('theme: a stored choice is on the first frame of every page', async () => {
+/* Without site-shell (the static export served as built: site-shell down, or
+   unbound), no theme reaches the page. It must still draw in Classic Light from
+   the :where(:root) fallback block, pin no theme, and leave the picker an empty
+   element, with no error (the page tests above already cover errors). */
+test('no site-shell: the page draws in Classic Light from the fallback block', { skip: !!siteThemes && 'site-shell composes this run' }, async () => {
+  const page = await browser.newPage();
+  await page.goto(`${origin}/elections/india/?y=2024`, { waitUntil: 'networkidle0' });
+  await page.waitForSelector('#map path.pc', { timeout: 15000 });
+  const seen = await page.evaluate(() => {
+    const cs = getComputedStyle(document.documentElement);
+    return {
+      theme: document.documentElement.dataset.theme ?? null,
+      surface: cs.getPropertyValue('--surface').trim(),
+      accent: cs.getPropertyValue('--accent').trim(),
+      scheme: cs.colorScheme,
+      picker: !!customElements.get('site-theme-picker'),
+      inHeader: !!document.querySelector('header site-theme-picker'),
+    };
+  });
+  await page.close();
+  assert.deepEqual(seen, { theme: null, surface: '#EEF1F8', accent: '#3A4BD8', scheme: 'light', picker: false, inHeader: true });
+});
+
+/* The shared site theme, which only site-shell supplies: run these through the
+   Worker (SITE_THEMES_DIR). A stored choice must already be on <html> at the
+   first frame (the composed head boot script runs before anything paints), and a
+   choice made with the header picker on one page must hold on the next page,
+   through the one `site-theme` localStorage key every app on the origin shares. */
+const themed = { skip: !siteThemes && 'the theme comes from site-shell: set SITE_THEMES_DIR' };
+
+test('theme: a stored choice is on the first frame of every page', themed, async () => {
   // its own profile, so the stored choice does not leak into the other tests
   const context = await browser.createBrowserContext();
   for (const [name, path, ready] of PAGES) {
@@ -165,7 +191,7 @@ test('theme: a stored choice is on the first frame of every page', async () => {
   await context.close();
 });
 
-test('theme: a choice made with the header picker carries over to the next page', async () => {
+test('theme: a choice made with the header picker carries over to the next page', themed, async () => {
   const context = await browser.createBrowserContext();
   const page = await context.newPage();
   const problems = [];
@@ -191,11 +217,11 @@ test('theme: a choice made with the header picker carries over to the next page'
   assert.deepEqual(problems, []);
 });
 
-/* Slate Light and Slate Dark were removed in site-themes v0.2.0. A reader who
+/* Slate Light and Slate Dark were removed from the shared themes. A reader who
    stored one of them lands on System (Classic Light or Classic Dark through
    prefers-color-scheme) from the first frame, with no error. */
 for (const [stored, scheme, expected] of [['slate-light', 'light', 'classic-light'], ['slate-dark', 'dark', 'classic-dark']]) {
-  test(`theme: a stored ${stored} falls back to System from the first frame`, async () => {
+  test(`theme: a stored ${stored} falls back to System from the first frame`, themed, async () => {
     const context = await browser.createBrowserContext();
     const page = await context.newPage();
     const problems = [];

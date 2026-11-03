@@ -17,7 +17,6 @@ import {
 import type { PartiesDoc, RegionsDoc, SymbolsDoc } from '@/lib/types';
 import { Monogram, OfficialPhotoLink } from './Member';
 import { Pager } from './Pager';
-import { ThemePicker } from 'site-themes/react';
 
 type Query = { S: string; C: string };
 type Loaded = {
@@ -112,7 +111,7 @@ export default function MpView() {
           <a className="back" id="back" href={pageURL('state', { s: query?.S })}>← State</a>
           <div className="mh-tools">
             <p className="lbl">Election Atlas of India</p>
-            <ThemePicker hideLabel />
+            <site-theme-picker hide-label="" />
           </div>
         </header>
         <hr className="hair" />
