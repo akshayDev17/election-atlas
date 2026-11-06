@@ -27,6 +27,7 @@ import type {
 } from '@/lib/types';
 import { HoverCard, type HoverCardHandle } from './HoverCard';
 import { Pager } from './Pager';
+import { revealPressed } from './revealPressed';
 import { SitePath } from './SitePath';
 import { Monogram, OfficialPhotoLink, Swatch } from './Member';
 
@@ -315,6 +316,9 @@ export default function NationalView() {
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
   }, [hideCard]);
+
+  // On a phone the year strip scrolls sideways: keep the chosen year in view.
+  useEffect(() => { revealPressed(document.getElementById('years')); }, [core, year]);
 
   const yearsList = core?.manifest.elections.ls.years ?? [];
   const standsOk = core && year != null ? standsAvailable(core.avail, year) : false;
