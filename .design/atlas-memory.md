@@ -38,8 +38,9 @@ party, and a 9px coloured square is *literally* the party swatch (`#card .sw`,
   filled. The map is always height-bound on a normal viewport, so its width is derived.
 - At 1440x900 the map is **649px wide** in a 1325px column. Multiplying 731 by 0.884 gives
   646, not 877 — a critic got this backwards and built a whole fix on it. Divide.
-- `--map-spill:1` holds **0 forced page scroll** at every viewport tested (1440x900,
-  1280x720, 1024x768, 900x700, 390x800, 360x640). That is the page's primary constraint.
+- `--map-spill:1` holds **0 forced page scroll** at every side-by-side viewport tested
+  (1440x900, 1280x720, 1024x768, 900x700). That is the page's primary constraint there;
+  below 56rem the page flows instead (see `atlas-level1-table-direction.md`, LAYOUT).
 - 743 party codes polled nationally in 2024. `seats>0 OR share>=0.5%` gives **48 parties
   covering 96.6%** of the vote.
 
