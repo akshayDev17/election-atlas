@@ -53,10 +53,12 @@ it is occupying dead ground.
 Column measure stays fixed (`17rem`–`19rem`) rather than proportional: a table
 whose columns move as the window changes is a table you have to re-read.
 
-**Below 60rem** the map keeps the height it has and the table moves beneath it
-into a bounded region with its own scroll, so the *page* still never scrolls.
-The page-level no-scroll rule is the primary constraint and is preserved at
-every viewport; on a phone the table scrolls inside its own box instead.
+**Below 56rem** the page stops being one screen and flows, as the state page
+does: the map comes first, width-bound but never taller than the screen, then
+the table at its own height, then the credits. The no-scroll rule holds only
+while the two columns sit side by side. (A bounded table region does not work:
+since the pager the table is its own height and has nothing to scroll, so it
+ran on under the footer credits.)
 
 ## TYPOGRAPHY
 

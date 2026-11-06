@@ -495,3 +495,53 @@ for (const width of [360, 390, 412]) {
     assert.deepEqual(wrong, []);
   });
 }
+
+/* The footer credits come after everything above them: no row, list item,
+   heading or control of the page is drawn under the footer. The national page
+   is one screen on a desktop, and on a phone it flows, so the party table pushes
+   the footer down rather than running on under it (at 390 px the table once
+   overflowed a bounded region and the credits sat across its BJP and INC rows).
+   Every atlas page, on each phone width, a tablet and a desktop one, in both themes. */
+async function readFooterOverlaps(context, viewport, theme, path, ready) {
+  const page = await context.newPage();
+  await page.setViewport(viewport);
+  if (theme) await page.evaluateOnNewDocument((id) => localStorage.setItem('site-theme', id), theme);
+  await page.goto(origin + path, { waitUntil: 'networkidle0' });
+  await page.waitForSelector(ready, { timeout: 15000 });
+  const seen = await page.evaluate(() => {
+    const footer = document.querySelector('footer.credits');
+    if (!footer) return null;
+    const fb = footer.getBoundingClientRect();
+    return [...document.querySelectorAll('td,th,tr,li,p,h1,h2,h3,button,a')]
+      .filter((el) => !footer.contains(el) && !el.contains(footer))
+      .filter((el) => {
+        const r = el.getBoundingClientRect();
+        return r.width > 0 && r.height > 0 && getComputedStyle(el).visibility !== 'hidden'
+          && r.bottom > fb.top + 1 && r.top < fb.bottom - 1 && r.right > fb.left && r.left < fb.right;
+      })
+      .map((el) => `${el.tagName.toLowerCase()} "${el.textContent.trim().replace(/\s+/g, ' ').slice(0, 24)}"`);
+  });
+  await page.close();
+  return seen;
+}
+
+for (const viewport of [
+  ...[360, 390, 412].map((width) => ({ width, height: 844, isMobile: true, hasTouch: true, deviceScaleFactor: 3 })),
+  { width: 800, height: 1000 },
+  { width: 1280, height: 800 },
+]) {
+  test(`footer at ${viewport.width} px: nothing on any atlas page is drawn under the credits`, async () => {
+    const wrong = [];
+    for (const theme of PHONE_THEMES) {
+      const context = await browser.createBrowserContext();
+      for (const [name, path, ready] of PAGES.filter(([n]) => n !== 'country list')) {
+        const hits = await readFooterOverlaps(context, viewport, theme, path, ready);
+        const label = theme ? `${name} (${theme})` : name;
+        if (hits === null) wrong.push(`${label}: no footer.credits`);
+        else if (hits.length) wrong.push(`${label}: ${hits.length} under the credits: ${hits.slice(0, 4).join(', ')}`);
+      }
+      await context.close();
+    }
+    assert.deepEqual(wrong, []);
+  });
+}

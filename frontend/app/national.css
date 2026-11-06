@@ -511,15 +511,20 @@ site-theme-picker::part(select){font-family:var(--mono);font-size:.6875rem;lette
 
 /* ── responsive ───────────────────────────────────────────────────────── */
 /* Side by side until the map can no longer hold its shape in the width left
-   over. Below that the table moves under the plate into a bounded region with
-   its own scroll, so the PAGE still never scrolls: the no-scroll rule is the
-   primary constraint here, so the table gives ground rather than the map. */
+   over. Below that the page is no longer one screen: it flows, as the state
+   page does. The map comes first, width-bound as on any narrow screen but never
+   taller than the screen, then the table at its own height, then the credits.
+   (Bounding the table instead left it nowhere to scroll: since the pager it is
+   its own height, so it ran on past main and the credits sat across its rows,
+   while the map shrank with the screen's height to a thumbnail.) */
 @media (max-width:56rem){
+  main,.field{min-height:auto}
   .field{
     grid-template-columns:minmax(0,1fr);
-    grid-template-rows:minmax(0,3fr) minmax(0,2fr);
+    grid-template-rows:auto auto;
     gap:var(--s4);
   }
+  #map{height:auto;max-height:calc(100svh - var(--s6))}
   .ntable{border-top:1px solid var(--rule-2);padding-top:var(--s2)}
   /* The belt fills width the height-bound map can never use. On a narrow screen
      the map is width-bound, so that land does not exist and the belt would only
