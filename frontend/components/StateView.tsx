@@ -35,6 +35,7 @@ import type {
 import { HoverCard, type HoverCardHandle } from './HoverCard';
 import { Monogram, OfficialPhotoLink, Swatch } from './Member';
 import { Pager } from './Pager';
+import { revealPressed } from './revealPressed';
 import { SitePath } from './SitePath';
 
 type GeoProps = Record<string, string | number>;
@@ -463,6 +464,10 @@ export default function StateView() {
     const shapes = which === 'ac' ? core?.acShapes : core?.pcShapes;
     return !!shapes && focus[which].size > 0 && shapes.some(s => focus[which].has(s.key));
   };
+
+  // On a phone the year strips scroll sideways: keep each chosen year in view.
+  useEffect(() => { revealPressed(document.getElementById('years-ac')); }, [core, acYear]);
+  useEffect(() => { revealPressed(document.getElementById('years-pc')); }, [core, lsYear]);
 
   const lsYears = core?.manifest.elections.ls.years ?? [];
   const symbolFor = (code: string | undefined) => {

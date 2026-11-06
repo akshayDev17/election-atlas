@@ -530,6 +530,15 @@ site-theme-picker::part(select){font-family:var(--mono);font-size:.6875rem;lette
 @media (max-width:44rem){
   #card{min-width:0;max-width:calc(100vw - 20px)}
 }
+/* On a phone the general-election years are wider than the screen. The strip
+   scrolls sideways inside its own box (the chosen year is scrolled into view),
+   so the page lays out at the screen's width and the browser never zooms the
+   whole page out to fit it. */
+@media (max-width:40rem){
+  .mh-tools{min-width:0;max-width:100%}
+  .years{min-width:0;max-width:calc(100% + 8px);overflow-x:auto;overscroll-behavior-x:contain;
+    padding:4px;margin:-4px -4px -10px}
+}
 @media (prefers-reduced-motion:reduce){
   #map .pc,#map .stf,#map .st,#map .scrim,#map .lift,.year,#card,
   .ntable td,.ntable tbody tr,.ntable .sw,.tense-opt,

@@ -228,6 +228,13 @@ td:first-child{text-align:left;padding-right:var(--s4)}
 .credits p{margin:0}
 .credits a{color:inherit;text-decoration:underline;text-underline-offset:2px}
 
+/* On a phone the works ledger must fit the screen, or the browser zooms the
+   whole page out to fit it: a work's stage ("Work partially completed") wraps
+   inside its pill, and a work's text breaks a long run of letters anywhere. */
+@media (max-width:40rem){
+  .stage{white-space:normal}
+  .wdesc,.wmeta{overflow-wrap:anywhere}
+}
 @media (max-width:48rem){
   .portrait{width:100%;max-width:12rem;flex:none}
   .fund{grid-template-columns:repeat(2,1fr);row-gap:var(--s4)}

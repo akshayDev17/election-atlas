@@ -14,6 +14,8 @@
 // draw its content with zero console errors, no uncaught exception and no failed
 // request: a page fetches only the files availability.json lists, so even a
 // missing file never costs a 404.
+// On a phone (360, 390 and 412 px) every page must also lay out at exactly the
+// screen's width, so the browser never zooms the whole page out.
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync, statSync } from 'node:fs';
 import { createServer, request } from 'node:http';
@@ -441,3 +443,55 @@ test('no site-shell: each page keeps its back link', { skip: !!siteThemes && 'si
     assert.deepEqual(back, [text, href], path);
   }
 });
+
+/* On a phone every page lays out at exactly the screen's width: nothing pokes
+   past the right edge, so the browser never zooms the whole page out to fit it
+   (a 581 px year strip on a 390 px phone shrank every page's type by a third).
+   A row that needs more room, like the year strip, scrolls inside its own box.
+   Both themes, where site-shell supplies them. */
+const PHONE_THEMES = siteThemes ? ['classic-light', 'classic-dark'] : [null];
+
+/* The page's layout width and, when it is wider than the screen, the elements
+   reaching furthest past the screen's right edge (none is the page's own box).
+   A mobile browser widens its layout viewport to hold content wider than the
+   screen and zooms out, so innerWidth alone grows with the overflow: both it
+   and scrollWidth are compared with the screen's own width. */
+async function readLayoutWidth(context, viewport, theme, path, ready) {
+  const page = await context.newPage();
+  await page.setViewport(viewport);
+  if (theme) await page.evaluateOnNewDocument((id) => localStorage.setItem('site-theme', id), theme);
+  await page.goto(origin + path, { waitUntil: 'networkidle0' });
+  await page.waitForSelector(ready, { timeout: 15000 });
+  const seen = await page.evaluate((screenWidth) => {
+    const root = document.documentElement;
+    const past = [...document.body.querySelectorAll('*')]
+      .map((el) => ({ el, right: Math.round(el.getBoundingClientRect().right) }))
+      .filter(({ right }) => right > screenWidth)
+      .sort((a, b) => b.right - a.right)
+      .slice(0, 3)
+      .map(({ el, right }) => `${el.tagName.toLowerCase()}${el.id ? `#${el.id}` : ''}${el.classList.length ? `.${[...el.classList].join('.')}` : ''} → ${right}`);
+    return { scrollWidth: root.scrollWidth, innerWidth, theme: root.dataset.theme ?? null, past };
+  }, viewport.width);
+  await page.close();
+  return seen;
+}
+
+for (const width of [360, 390, 412]) {
+  test(`phone at ${width} px: every page lays out at exactly the screen's width`, async () => {
+    const viewport = { width, height: 800, isMobile: true, hasTouch: true, deviceScaleFactor: 3 };
+    const wrong = [];
+    for (const theme of PHONE_THEMES) {
+      const context = await browser.createBrowserContext();
+      for (const [name, path, ready] of PAGES) {
+        const seen = await readLayoutWidth(context, viewport, theme, path, ready);
+        const label = theme ? `${name} (${theme})` : name;
+        if (seen.theme !== theme) wrong.push(`${label}: draws in ${seen.theme}`);
+        if (seen.scrollWidth !== width || seen.innerWidth !== width) {
+          wrong.push(`${label}: lays out at ${seen.scrollWidth} px (innerWidth ${seen.innerWidth}); past the edge: ${seen.past.join(', ')}`);
+        }
+      }
+      await context.close();
+    }
+    assert.deepEqual(wrong, []);
+  });
+}
