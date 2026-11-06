@@ -254,4 +254,6 @@ td:first-child{text-align:left;padding-right:var(--s4)}
   /* at 12px a one-line stage pill ("Work Partially Completed") would push the
      works table past the screen, so it wraps instead */
   .stage{white-space:normal}
+  .att-bar{margin-top:var(--s4)}
+  .att-tick span{top:auto;bottom:calc(100% + 2px);line-height:1}
 }
