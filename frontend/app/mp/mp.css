@@ -240,3 +240,18 @@ td:first-child{text-align:left;padding-right:var(--s4)}
   .hero{flex-direction:column}
   .face{width:100%;max-width:12rem;aspect-ratio:3/4}
 }
+
+/* ── phones: no text under 12px ──────────────────────────────────────────
+   The apparatus type (labels, captions, table text) is set at 8-11px for a
+   desktop screen. On a phone that reads as too small, so under 640px every
+   one of those sizes is raised to 12px, and the 11px reading text to 13px.
+   Only sizes change here; the desktop declarations above stay as they are. */
+@media (max-width:640px){
+  .lbl,.back,.srcrow,.src,.block h3,.fstep .s,.wf,.wmeta,.stage,.wdate,.bill-meta,.qhead-label,.q-meta,.q-toggle,
+  .fstep .k,.g-cap,.bd .pk,th,.ls-cap,.q-type,.q-answered,.info,.photo-link,.credits,.att-tick span{font-size:.75rem}
+  site-theme-picker::part(select),.sub,.caveat,.role,.brow .bl,.brow .bv,table,.amt,.pager button,.bill-no,
+  .cross,.void p{font-size:.8125rem}
+  /* at 12px a one-line stage pill ("Work Partially Completed") would push the
+     works table past the screen, so it wraps instead */
+  .stage{white-space:normal}
+}

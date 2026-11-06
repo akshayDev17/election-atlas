@@ -536,3 +536,20 @@ site-theme-picker::part(select){font-family:var(--mono);font-size:.6875rem;lette
   .belt-view::before,.belt-view::after,.belt-card .belt-face,.belt-card .belt-name,
   .find-line,.search-clear,.pager button{transition:none}
 }
+
+/* ── phones: no text under 12px ──────────────────────────────────────────
+   The apparatus type (labels, captions, table text) is set at 8-11px for a
+   desktop screen. On a phone that reads as too small, so under 640px every
+   one of those sizes is raised to 12px, and the 11px reading text to 13px.
+   Only sizes change here; the desktop declarations above stay as they are. */
+@media (max-width:640px){
+  .lbl,.back,.search-count,.search-clear,#card .sub,#card .open,.belt-asof,
+  .find-label,.reset,.ntable th,#card th,.photo-link,.credits{font-size:.75rem}
+  .caveat,site-theme-picker::part(select),.reset.loud,.ntable table,.pager button,.pager-ell,
+  #card .meta,#card table,.belt-empty,#card .min-list,.void p{font-size:.8125rem}
+  /* the table's fixed number columns grow with their text (13/11), or a
+     twelve-digit vote count runs into the share beside it */
+  .ntable th:nth-child(2){width:5rem}
+  .ntable th:nth-child(3){width:6.75rem}
+  .ntable th:nth-child(4){width:4.25rem}
+}

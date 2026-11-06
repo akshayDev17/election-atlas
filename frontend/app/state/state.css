@@ -393,3 +393,15 @@ td .d{font-weight:500;letter-spacing:.02em}
 #map-pc .stf{fill:var(--c);stroke:none}
 .panels.ready .stf{transition:fill .22s var(--ease)}
 @media (prefers-reduced-motion:reduce){ .stf{transition:none} }
+
+/* ── phones: no text under 12px ──────────────────────────────────────────
+   The apparatus type (labels, captions, table text) is set at 8-11px for a
+   desktop screen. On a phone that reads as too small, so under 640px every
+   one of those sizes is raised to 12px, and the 11px reading text to 13px.
+   Only sizes change here; the desktop declarations above stay as they are. */
+@media (max-width:640px){
+  .lbl,.back,.tier,.search-count,.search-clear,
+  #card .sub,#card th,#card .bye-title,.reset,th,.belt-asof,.find-label,.photo-link,.credits{font-size:.75rem}
+  .caveat,site-theme-picker::part(select),#card .meta,#card table,#card .bye table,#card .vacant-note,
+  table,.pager button,.pager-ell,.reset.loud,.void p{font-size:.8125rem}
+}
