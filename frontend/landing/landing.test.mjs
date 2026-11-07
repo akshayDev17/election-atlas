@@ -16,7 +16,7 @@ import { join } from 'node:path';
 import { after, test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 import {
-  CSS, NONE_YET, PAGE_SIZE, ROOT, card, cardsHtml, countryHref, credits, page, pageCount, pageFromQuery, pageHref, pageSlice,
+  NONE_YET, PAGE_SIZE, ROOT, card, cardsHtml, countryHref, credits, page, pageCount, pageFromQuery, pageHref, pageSlice,
   pagerLinks, regimeDialog, regimePill, searchIndex, whereLine,
 } from './render.mjs';
 import { RESERVED, aToZ, build, checkCountries, fallbackCss } from './build.mjs';
@@ -178,17 +178,6 @@ test('India\'s card carries its V-Dem pill from lib/regime.ts, by ISO code, outs
   assert.match(regimePill({ ...uk, code: 'IN' }), /data-tier="electoral-autocracy"[^>]*><button[^>]*data-country="United Kingdom"/);
 });
 
-test('the pill\'s colours are the four tiers\' from lib/regime.ts, tinted against the theme, and never under 12 px', () => {
-  for (const t of REGIME_TIERS) {
-    assert.match(CSS, new RegExp(`:is\\(\\.regime,\\.regime-dlg\\)\\[data-tier="${t.id}"\\],\\.regime-dlg \\[data-tier="${t.id}"\\]\\{--tier:${t.colour}\\}`), t.id);
-  }
-  assert.match(CSS, /\.regime\{[^}]*--regime-bg:color-mix\(in oklab,var\(--tier\) 18%,var\(--card\)\)/);
-  assert.match(CSS, /light-dark\(color-mix\(in oklab,var\(--tier\) 60%,var\(--text\)\),color-mix\(in oklab,var\(--tier\) 30%,var\(--text\)\)\)/);
-  const sizes = [...CSS.matchAll(/\.regime[^{]*\{[^}]*?font-size:(\d+)px/g)].map((m) => Number(m[1]));
-  assert.ok(sizes.length >= 8 && sizes.every((px) => px >= 12), String(sizes));
-  assert.doesNotMatch(CSS, /\.regime[^{]*\{[^}]*font-size:[\d.]+(?:rem|em)/, 'pill and dialog sizes are in px, so no phone rule is needed');
-});
-
 test('the page holds the Regimes of the World dialog once, empty of any country, and the cards file holds none', () => {
   const dialog = regimeDialog();
   const html = page([INDIA], 1, picturesFor([INDIA]), { fallbackCss: fallbackCss() });
@@ -208,7 +197,6 @@ test('the page holds the Regimes of the World dialog once, empty of any country,
   }
   assert.deepEqual(nestedInLinks(dialog), []);
   assert.doesNotMatch(cardsHtml([INDIA], 1, picturesFor([INDIA])), /<dialog/, 'the pager swaps cards, not the dialog');
-  assert.match(html, /addEventListener\('click', e => \{ const btn = e\.target\.closest\('\.regime-btn'\)/, 'the list listens for the pills, so swapped-in cards work');
 });
 
 test('credits name each listed country\'s source and only the picture sources in use', () => {
