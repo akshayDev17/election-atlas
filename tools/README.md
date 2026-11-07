@@ -149,8 +149,9 @@ Each stops with an error on a source shape it does not expect.
   - the removed dummy files never come back, by path or by bytes
 - run: `python3 tools/check_provenance.py data` (add `--db <SQLite copy of D1>` to check D1 too)
 - negative tests: `python3 -m unittest discover -s tools -p 'test_*.py'`
-- CI: `.github/workflows/ci.yml` on every pull request, and `deploy.yml` over the D1
-  export and D1 itself before every deploy
+- CI: `.github/workflows/ci.yml` on every pull request and push to main, and
+  `deploy.yml` (dispatched by hand, or called by `ci.yml` after a passing push to
+  main) over the D1 export and D1 itself before every deploy
 
 ## Data file conventions
 

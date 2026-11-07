@@ -6,7 +6,8 @@ name: CI
 # library tests, export contract, and a browser smoke over the assembled site),
 # the /elections country list derived from that D1 and its tests,
 # and the Worker with the real site-shell in local workerd (contract and the
-# browser smoke again, composed). No Cloudflare access.
+# browser smoke again, composed). The tests need no Cloudflare access; on a push
+# to main that passes them, the deploy job calls deploy.yml, which does.
 
 on:
   pull_request:
