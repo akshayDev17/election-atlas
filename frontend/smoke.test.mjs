@@ -718,7 +718,9 @@ for (const theme of PHONE_THEMES) {
 }
 
 /* On a phone the dialog fits the screen's width, scrolls inside itself for the
-   rest, and sets no text under 12 px; the pill itself is 12 px or more. */
+   rest, and sets no text under 12 px; the pill itself is 12 px or more. A tap on
+   the backdrop above it closes it and nothing else: the tap's click must not
+   fall through to the page beneath (the masthead's links, the map). */
 for (const width of [360, 390, 412]) {
   test(`regime dialog at ${width} px: fits the width, scrolls, no text under 12 px`, async () => {
     const wrong = [];
@@ -735,14 +737,23 @@ for (const width of [360, 390, 412]) {
           .filter((el) => [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim()))
           .map((el) => [el.className, parseFloat(getComputedStyle(el).fontSize)]);
         return {
-          right: Math.round(b.right), bottom: Math.round(b.bottom), innerWidth, innerHeight,
+          top: b.top, right: Math.round(b.right), bottom: Math.round(b.bottom), innerWidth, innerHeight,
           scrolls: d.scrollHeight > d.clientHeight + 1, sideways: d.scrollWidth > d.clientWidth + 1,
           small: texts.filter(([, fs]) => fs < 12).map(([c, fs]) => `${c}:${fs}`),
         };
       }, width);
-      await page.keyboard.press('Escape');
+      const before = await page.evaluate(() => location.pathname + location.search);
+      await page.touchscreen.tap(width / 2, Math.max(2, seen.top / 2));
+      await page.waitForFunction(() => !document.querySelector('dialog.regime-dlg').open);
+      await new Promise((r) => setTimeout(r, 300));
+      const after = await page.evaluate(() => ({
+        url: location.pathname + location.search, open: document.querySelector('dialog.regime-dlg')?.open ?? null,
+      }));
       await context.close();
       const label = theme ?? 'static';
+      if (seen.top < 4) wrong.push(`${label}: no backdrop above the dialog to tap (top ${seen.top})`);
+      if (after.url !== before) wrong.push(`${label}: the backdrop tap fell through and navigated to ${after.url}`);
+      if (after.open !== false) wrong.push(`${label}: the dialog is ${after.open === null ? 'gone' : 'open again'} after the backdrop tap`);
       if (seen.right > width || seen.innerWidth !== width) wrong.push(`${label}: dialog right edge ${seen.right} (innerWidth ${seen.innerWidth})`);
       if (seen.bottom > seen.innerHeight) wrong.push(`${label}: dialog runs under the screen bottom`);
       if (!seen.scrolls) wrong.push(`${label}: the dialog does not scroll inside itself`);
