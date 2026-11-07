@@ -17,7 +17,7 @@ import { after, test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 import {
   NONE_YET, PAGE_SIZE, ROOT, card, cardsHtml, countryHref, credits, page, pageCount, pageFromQuery, pageHref, pageSlice,
-  pagerLinks, regimeDialog, regimePill, searchIndex, whereLine,
+  pagerLinks, regimeDialog, regimePill, searchIndex, whereLine, CSS, TIER_CSS,
 } from './render.mjs';
 import { RESERVED, aToZ, build, checkCountries, fallbackCss } from './build.mjs';
 import { MAP_ONLY, RESULT_MAPS, flagShapeSvg, pictureOf, rasterise } from './pictures.mjs';
@@ -197,6 +197,26 @@ test('the page holds the Regimes of the World dialog once, empty of any country,
   }
   assert.deepEqual(nestedInLinks(dialog), []);
   assert.doesNotMatch(cardsHtml([INDIA], 1, picturesFor([INDIA])), /<dialog/, 'the pager swaps cards, not the dialog');
+});
+
+test('the stylesheet paints each tier in V-Dem\'s exact colour from lib/regime.ts, its dark set and inks beside it, flat on the pill', () => {
+  const html = page([INDIA], 1, picturesFor([INDIA]), { fallbackCss: '' });
+  assert.ok(html.includes(TIER_CSS), 'the page carries the tier rules');
+  for (const t of REGIME_TIERS) {
+    const sel = `:is(.regime,.regime-dlg)[data-tier="${t.id}"],.regime-dlg [data-tier="${t.id}"]`;
+    // for every browser, the light values; where light-dark() is supported, both themes' values
+    assert.ok(TIER_CSS.includes(`${sel}{--tier:${t.colour};--tier-ink:${t.ink}}`), t.id);
+    assert.ok(TIER_CSS.includes(`${sel}{--tier:light-dark(${t.colour},${t.colourDark});--tier-ink:light-dark(${t.ink},${t.inkDark})}`), t.id);
+  }
+  assert.match(TIER_CSS, /@supports \(color:light-dark\(black,white\)\)\{:is\(\.regime/);
+  // the pill is the tier itself: fill, border and ink come from --tier and --tier-ink, with no tint into the card
+  assert.match(CSS, /\.regime\{[^}]*--regime-bg:var\(--tier\);--regime-ink:var\(--tier-ink\);--regime-line:var\(--tier\)/);
+  assert.doesNotMatch(CSS.match(/\.regime\{[^}]*\}/)[0], /color-mix\(in oklab,var\(--tier\)/, 'the pill\'s fill is not mixed into the card');
+  assert.doesNotMatch(CSS, /\.regime-btn:hover[^{]*\{[^}]*(background|border-color)/, 'hover keeps the exact fill and border');
+  // no colour but the tiers' own (and the backdrop's fallback for --text) is written into the pill's and dialog's rules
+  const hexes = [...CSS.matchAll(/\.regime[^{]*\{[^}]*\}/g)].flatMap(([rule]) => rule.match(/#[0-9a-fA-F]{6}\b/g) ?? []);
+  const own = REGIME_TIERS.flatMap((t) => [t.colour, t.colourDark, t.ink, t.inkDark]);
+  assert.deepEqual([...new Set(hexes.map((h) => h.toLowerCase()))].sort(), [...new Set([...own, '#0f1220'])].sort());
 });
 
 test('credits name each listed country\'s source and only the picture sources in use', () => {

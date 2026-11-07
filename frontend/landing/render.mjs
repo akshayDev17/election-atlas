@@ -271,6 +271,17 @@ lb.addEventListener('mousedown', e => { const li = e.target.closest('[role=optio
 q.addEventListener('blur', () => setTimeout(close, 120));
 `;
 
+/* Per tier, the pill's and the dialog's --tier (the fill) and --tier-ink (the
+   text on it), from lib/regime.ts: V-Dem's exact hex and its ink first, for
+   every browser, then the light/dark pair through light-dark() where it is
+   supported, which follows the theme's own color-scheme (site-shell sets it
+   per theme; the fallback block is light). A custom property is only checked
+   when it is used, so an unsupported light-dark() there would void the fill:
+   hence the @supports gate rather than a plain fallback. */
+const tierSelector = (t) => `:is(.regime,.regime-dlg)[data-tier="${t.id}"],.regime-dlg [data-tier="${t.id}"]`;
+export const TIER_CSS = REGIME_TIERS.map((t) => `${tierSelector(t)}{--tier:${t.colour};--tier-ink:${t.ink}}`).join('\n')
+  + `\n@supports (color:light-dark(black,white)){${REGIME_TIERS.map((t) => `${tierSelector(t)}{--tier:light-dark(${t.colour},${t.colourDark});--tier-ink:light-dark(${t.ink},${t.inkDark})}`).join('')}}`;
+
 export const CSS = `
 @font-face{font-family:"Newsreader";src:url(${ROOT}fonts/newsreader.woff2) format("woff2");font-weight:400 500;font-style:normal;font-display:swap}
 :root{--pad:clamp(16px,3.4vw,56px);--ease:cubic-bezier(.2,0,0,1)}
@@ -321,26 +332,26 @@ site-theme-picker{font-size:15px;min-height:24px}
 .pager .off{color:var(--text-muted);background:transparent}
 .foot{padding:100px var(--pad) 40px;font-size:15px;color:var(--text-muted);display:flex;gap:8px 24px;flex-wrap:wrap}
 /* ── the V-Dem regime pill on each card, and the page's one dialog ──────
-   The one coloured, non-party thing on a card, so its hue is the data source's
-   own: --tier is the legend swatch of Figure 4, "Regimes of the World, 2025", in
-   the V-Dem Democracy Report 2026 (lib/regime.ts states the four; change them
-   there and here together). The pill never shows that value flat: the fill is
-   the tier tinted into the card's ground (--card) and the text is the tier drawn
-   toward the theme's ink (--text), 60% in a light theme and 30% in a dark one
-   through light-dark() (50% where it is unsupported), so both follow the theme
-   and the text keeps AA contrast. No text here goes under 12px on any screen. */
-.regime{--tier:var(--text-muted);--regime-bg:color-mix(in oklab,var(--tier) 18%,var(--card));--regime-ink:color-mix(in oklab,var(--tier) 50%,var(--text));--regime-line:color-mix(in oklab,var(--tier) 45%,var(--card));
+   The one coloured, non-party thing on a card, so its colour is the data
+   source's own, flat: --tier is V-Dem's legend swatch of Figure 4, "Regimes of
+   the World, 2025", in the Democracy Report 2026, exactly, on a light theme, and
+   on a dark theme the tier derived from it by the rule lib/regime.ts states
+   (colourDark); --tier-ink is the text that contrasts more with that fill
+   (regime.ts: ink, inkDark), AA or better in both themes (TIER_CSS above sets
+   both per data-tier). The pill's fill and border and the dialog's tier dot and
+   leading edge are --tier itself; only the dialog's headings draw the tier
+   toward the theme's ink (--text), since the flat hex would not read as text
+   on the card. No text here goes under 12px on any screen. */
+.regime{--tier:var(--text-muted);--tier-ink:var(--card);--regime-bg:var(--tier);--regime-ink:var(--tier-ink);--regime-line:var(--tier);--regime-split:color-mix(in oklab,var(--tier-ink) 40%,transparent);
   display:inline-flex;align-items:stretch;max-width:100%;margin-top:10px;font-family:var(--font-mono);font-size:13px;line-height:1.2;letter-spacing:.02em;color:var(--regime-ink)}
-:is(.regime,.regime-dlg)[data-tier="closed-autocracy"],.regime-dlg [data-tier="closed-autocracy"]{--tier:#78130d}
-:is(.regime,.regime-dlg)[data-tier="electoral-autocracy"],.regime-dlg [data-tier="electoral-autocracy"]{--tier:#b27570}
-:is(.regime,.regime-dlg)[data-tier="electoral-democracy"],.regime-dlg [data-tier="electoral-democracy"]{--tier:#766f95}
-:is(.regime,.regime-dlg)[data-tier="liberal-democracy"],.regime-dlg [data-tier="liberal-democracy"]{--tier:#1f0561}
-.regime-btn,.regime-link{appearance:none;margin:0;cursor:pointer;background:var(--regime-bg);color:inherit;border:1px solid var(--regime-line);font:inherit;letter-spacing:inherit;text-decoration:none;transition:background-color .18s var(--ease),border-color .18s var(--ease)}
+${TIER_CSS}
+.regime-btn,.regime-link{appearance:none;margin:0;cursor:pointer;background:var(--regime-bg);color:inherit;border:1px solid var(--regime-line);font:inherit;letter-spacing:inherit;text-decoration:none;transition:box-shadow .18s var(--ease)}
 .regime-btn{padding:4px 8px 4px 10px;border-radius:999px 0 0 999px;border-inline-end:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
-.regime-link{display:inline-flex;align-items:center;padding:0 8px 0 6px;border-radius:0 999px 999px 0;border-inline-start:1px solid var(--regime-line)}
-.regime-btn:hover,.regime-link:hover{background:color-mix(in oklab,var(--tier) 28%,var(--card));border-color:color-mix(in oklab,var(--tier) 60%,var(--card))}
+.regime-link{display:inline-flex;align-items:center;padding:0 8px 0 6px;border-radius:0 999px 999px 0;border-inline-start:1px solid var(--regime-split)}
+/* Hover keeps the tier's exact fill and border: a 1px ring of the ink inside the edge. */
+.regime-btn:hover,.regime-link:hover{box-shadow:inset 0 0 0 1px var(--regime-ink)}
 .regime-btn:focus-visible,.regime-link:focus-visible{outline:2px solid var(--focus);outline-offset:2px;position:relative;z-index:1}
-.regime-dlg{--tier:var(--text-muted);width:min(40rem,calc(100vw - 32px));max-width:none;max-height:min(85dvh,calc(100dvh - 32px));margin:auto;padding:0;border:1px solid var(--line-strong);border-radius:6px;background:var(--card);color:var(--text);box-shadow:var(--shadow-hover);overscroll-behavior:contain;font-size:16px;line-height:1.5}
+.regime-dlg{--tier:var(--text-muted);--tier-ink:var(--card);width:min(40rem,calc(100vw - 32px));max-width:none;max-height:min(85dvh,calc(100dvh - 32px));margin:auto;padding:0;border:1px solid var(--line-strong);border-radius:6px;background:var(--card);color:var(--text);box-shadow:var(--shadow-hover);overscroll-behavior:contain;font-size:16px;line-height:1.5}
 .regime-dlg::backdrop{background:color-mix(in oklab,var(--text,#0F1220) 55%,transparent)}
 .regime-dlg-body{padding:24px}
 .regime-dlg .lbl{font-family:var(--font-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted)}
@@ -364,10 +375,11 @@ site-theme-picker{font-size:15px;min-height:24px}
 .regime-dlg-foot ul{margin-top:8px;padding-inline-start:1.1em;list-style:disc;font-family:var(--font-mono);font-size:12px;line-height:1.6;color:var(--text-muted)}
 .regime-dlg-foot li+li{margin-top:4px}
 .regime-dlg-foot a{color:var(--text);text-decoration:underline;text-underline-offset:2px}
-/* Per theme, through the theme's own color-scheme: lighter text on a dark ground,
-   darker on a light one. A custom property takes any value, so this sits under
-   @supports: a browser without light-dark() keeps the 50% value above. */
-@supports (color:light-dark(black,white)){.regime,.regime-own,.regime-tiers li{--regime-ink:light-dark(color-mix(in oklab,var(--tier) 60%,var(--text)),color-mix(in oklab,var(--tier) 30%,var(--text)))}}
+/* The dialog's headings, per theme, through the theme's own color-scheme:
+   lighter text on a dark ground, darker on a light one. A custom property takes
+   any value, so this sits under @supports: a browser without light-dark() keeps
+   the 50% value above. */
+@supports (color:light-dark(black,white)){.regime-own,.regime-tiers li{--regime-ink:light-dark(color-mix(in oklab,var(--tier) 60%,var(--text)),color-mix(in oklab,var(--tier) 30%,var(--text)))}}
 @container (max-width:420px){
   .card{grid-template-columns:104px minmax(0,1fr);grid-template-rows:auto;column-gap:16px;row-gap:12px;padding:16px}
   .fig{grid-row:1/4;grid-column:1;align-self:start}.fig img,.fig svg{inset:6px;width:calc(100% - 12px);height:calc(100% - 12px)}

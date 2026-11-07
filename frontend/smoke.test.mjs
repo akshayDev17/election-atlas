@@ -24,6 +24,7 @@ import { after, before, test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 import puppeteer from 'puppeteer-core';
 import { APP, SHELL, shellAssetBase, siteThemes, startSession } from './shell-contract/session.mjs';
+import { REGIME_TIERS } from './lib/regime.ts';
 
 const DIST = process.env.SMOKE_DIST ?? fileURLToPath(new URL('../dist/', import.meta.url));
 const CHROME = process.env.CHROME_PATH
@@ -740,9 +741,14 @@ for (const width of [1440, 1280]) {
   });
 }
 
-/* WCAG AA on the pill's text and on each tier's heading in the dialog, in both
-   themes: the tints are mixed from the theme's own tokens, so each theme is
-   measured as drawn. */
+/* The pill is painted in V-Dem's exact colour: in a light theme the tier's hex
+   as the Democracy Report 2026 prints it in Figure 4's legend, flat, with the
+   ink lib/regime.ts chose for it; in Classic Dark the dark set derived from it
+   (regime.ts: colourDark, inkDark). Each tier's fill and ink are read back from
+   the page for India's pill switched through all four tiers, as drawn, and WCAG
+   AA holds on the pill's text and on each tier's heading in the dialog, in both
+   themes (the dialog's headings are mixed from the theme's own tokens, so each
+   theme is measured as drawn). */
 const contrastScript = `(() => {
   const lin = (c) => { c /= 255; return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4; };
   // color-mix() resolves to color(srgb …) or oklab(…), so read every colour back through a canvas pixel
@@ -752,8 +758,17 @@ const contrastScript = `(() => {
   const ratio = (a, b) => { const x = lum(rgb(a)), y = lum(rgb(b)); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); };
   const bgOf = (el) => { for (let e = el; e; e = e.parentElement) { const c = getComputedStyle(e).backgroundColor; if (c !== 'rgba(0, 0, 0, 0)' && c !== 'transparent') return c; } return getComputedStyle(document.documentElement).backgroundColor; };
   const out = {};
-  const btn = document.querySelector('#c-india .regime-btn');
-  out.pill = ratio(getComputedStyle(btn).color, getComputedStyle(btn).backgroundColor);
+  const pill = document.querySelector('#c-india .regime'), btn = pill.querySelector('.regime-btn'), link = pill.querySelector('.regime-link');
+  const rated = pill.dataset.tier;
+  out.pills = {};
+  for (const tier of ${JSON.stringify(REGIME_TIERS.map((t) => t.id))}) {
+    pill.dataset.tier = tier;
+    const b = getComputedStyle(btn), l = getComputedStyle(link);
+    out.pills[tier] = { fill: rgb(b.backgroundColor).join(','), ink: rgb(b.color).join(','), border: rgb(b.borderTopColor).join(','),
+      linkFill: rgb(l.backgroundColor).join(','), linkBorder: rgb(l.borderTopColor).join(','), ratio: ratio(b.color, b.backgroundColor) };
+  }
+  pill.dataset.tier = rated;
+  out.pill = out.pills[rated].ratio;
   for (const li of document.querySelectorAll('.regime-tiers li')) {
     const h = li.querySelector('h3');
     out[li.dataset.tier] = ratio(getComputedStyle(h).color, bgOf(h));
@@ -765,14 +780,22 @@ const contrastScript = `(() => {
   return out;
 })()`;
 
+const channels = (hex) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16)).join(',');
 for (const theme of PHONE_THEMES) {
-  test(`regime pill${theme ? ` (${theme})` : ''}: AA contrast on the pill and on every tier in the dialog`, async () => {
+  test(`regime pill${theme ? ` (${theme})` : ''}: V-Dem's exact colour per tier, and AA contrast on the pill and on every tier in the dialog`, async () => {
     const context = await browser.createBrowserContext();
     const page = await openList(context, { width: 1280, height: 800 }, theme);
     await page.click(PILL);
     await page.waitForSelector('dialog.regime-dlg[open]');
-    const ratios = await page.evaluate(contrastScript);
+    const { pills, ...ratios } = await page.evaluate(contrastScript);
     await context.close();
+    const dark = theme === 'classic-dark';
+    const expected = Object.fromEntries(REGIME_TIERS.map((t) => {
+      const fill = channels(dark ? t.colourDark : t.colour), ink = channels(dark ? t.inkDark : t.ink);
+      return [t.id, { fill, ink, border: fill, linkFill: fill, linkBorder: fill }];
+    }));
+    assert.deepEqual(Object.fromEntries(Object.entries(pills).map(([id, { ratio, ...p }]) => [id, p])), expected, 'the pill is the tier\'s own colour, flat, with its ink');
+    for (const [id, { ratio }] of Object.entries(pills)) ratios[`pill:${id}`] = ratio;
     const low = Object.entries(ratios).filter(([, r]) => r < 4.5).map(([k, r]) => `${k}: ${r.toFixed(2)}`);
     assert.deepEqual(low, [], JSON.stringify(ratios));
   });

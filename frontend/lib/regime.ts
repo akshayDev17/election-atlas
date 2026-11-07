@@ -21,15 +21,31 @@ export type RegimeTier = {
   id: RegimeTierId;
   /* As V-Dem writes it: "Electoral autocracy". */
   label: string;
-  /* Legend swatch fill of Figure 4, "Regimes of the World, 2025", in the V-Dem
-     Democracy Report 2026 (p. 10; read from the PDF's vector fills). The report's
-     convention: autocracies in reds (closed darkest), democracies in blues
-     (liberal darkest). Nothing reads this field at runtime: the country list's
-     stylesheet (landing/render.mjs, CSS) restates the four values as --tier per
-     data-tier (.regime, .regime-dlg) and tints them against the theme's own
-     tokens so the text keeps AA contrast in both themes. Change a value here and
-     there together; regime.test.ts pins these four. */
+  /* V-Dem's own colour for the tier, exactly: the legend swatch fill of Figure 4,
+     "Regimes of the World, 2025", in the V-Dem Democracy Report 2026 (p. 10),
+     read from the fill operators of the legend rectangles in the PDF's vector
+     content (the page's own raster image, sampled at the swatch centres, agrees
+     to within one unit). The report's convention: autocracies in reds (closed
+     darkest), democracies in blues (liberal darkest). The pill's fill, border
+     and the dialog's tier markers are this value, flat, in a light theme
+     (landing/render.mjs writes the CSS from this list); regime.test.ts pins
+     the four. */
   colour: string;
+  /* The same tier on the dark theme's card, from `colour` by one rule: the same
+     OKLCH hue and chroma, with the lightness set above the dark card (Classic
+     Dark --card #1B2032, L 0.248) by 0.8 of the distance V-Dem's hex sits below
+     the white card, L' = 0.248 + 0.8 × (1 − L), and the chroma reduced only as
+     far as sRGB needs. Each tier keeps its distance from its ground, so the two
+     extremes stay the most emphatic, as on white; 0.8 is the smallest scale at
+     which every fill reads against the dark card at 3:1 or better and every
+     `inkDark` reaches AA. */
+  colourDark: string;
+  /* The pill's text on `colour`: white or the site's darkest ink (#0F1220),
+     whichever contrasts more; every pair is WCAG AA (4.5:1) or better, which
+     regime.test.ts measures. */
+  ink: string;
+  /* The pill's text on `colourDark`, chosen the same way. */
+  inkDark: string;
   /* What a regime in this tier has, in V-Dem's terms (codebook v16, v2x_regime). */
   criteria: string;
   /* The measured cut-offs V-Dem applies (codebook v16, v2x_regime, "Aggregation"). */
@@ -38,22 +54,22 @@ export type RegimeTier = {
 
 export const REGIME_TIERS: readonly RegimeTier[] = [
   {
-    id: 'closed-autocracy', label: 'Closed autocracy', colour: '#78130d',
+    id: 'closed-autocracy', label: 'Closed autocracy', colour: '#78130d', colourDark: '#f88b7b', ink: '#ffffff', inkDark: '#0f1220',
     criteria: 'No multi-party elections for the chief executive or the legislature: either the legislature is not chosen in multi-party elections, or the chief executive is not elected, directly or indirectly, through them.',
     cutoffs: 'No basic multi-party competition in elections (1 of 4 or lower on V-Dem’s multi-party elections indicator), or no legislative or executive elections at all.',
   },
   {
-    id: 'electoral-autocracy', label: 'Electoral autocracy', colour: '#b27570',
+    id: 'electoral-autocracy', label: 'Electoral autocracy', colour: '#b27570', colourDark: '#995f5a', ink: '#0f1220', inkDark: '#ffffff',
     criteria: 'Multi-party elections for the chief executive and the legislature exist in law, but the country fails at least one democratic test: the elections are not free and fair, competition between parties is not real in practice, or the country falls short of V-Dem’s minimum for Dahl’s requisites of polyarchy on its Electoral Democracy Index (suffrage, clean elections, an elected executive, freedom of expression and alternative sources of information, and freedom of association).',
     cutoffs: 'Above 1 of 4 on multi-party elections, but not above 2 of 4 on both multi-party and free-and-fair elections, or not above 0.5 on the Electoral Democracy Index.',
   },
   {
-    id: 'electoral-democracy', label: 'Electoral democracy', colour: '#766f95',
+    id: 'electoral-democracy', label: 'Electoral democracy', colour: '#766f95', colourDark: '#8079a0', ink: '#ffffff', inkDark: '#0f1220',
     criteria: 'Multi-party elections that are free and fair in practice, and at least V-Dem’s minimum for Dahl’s requisites of polyarchy on the Electoral Democracy Index, but at least one liberal requirement is not met: equal access to justice for men and women, transparent and predictable enforcement of the law, or the liberal principles V-Dem measures on its Liberal Component Index (respect for personal liberties, the rule of law, and judicial and legislative constraints on the executive).',
     cutoffs: 'Above 2 of 4 on multi-party elections and on free-and-fair elections, and above 0.5 on the Electoral Democracy Index, without meeting every liberal cut-off below.',
   },
   {
-    id: 'liberal-democracy', label: 'Liberal democracy', colour: '#1f0561',
+    id: 'liberal-democracy', label: 'Liberal democracy', colour: '#1f0561', colourDark: '#c5c7ff', ink: '#ffffff', inkDark: '#0f1220',
     criteria: 'Everything an electoral democracy has, and the liberal requirements too: access to justice for men and women, transparent enforcement of the law, and the liberal principles of respect for personal liberties, the rule of law, and judicial and legislative constraints on the executive.',
     cutoffs: 'The electoral democracy cut-offs, plus above 0.8 on the Liberal Component Index and above 3 of 4 on transparent law enforcement and on access to justice for men and for women.',
   },
