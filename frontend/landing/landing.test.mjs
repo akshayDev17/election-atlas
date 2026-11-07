@@ -46,7 +46,7 @@ const INDIA = {
 /** INDIA's record under `codes`' names, A to Z: paging fixtures only. */
 const NAMES = { AU: 'Australia', CA: 'Canada', DE: 'Germany', FR: 'France', GB: 'United Kingdom', IL: 'Israel', JP: 'Japan', NP: 'Nepal', RS: 'Serbia', ES: 'Spain', LK: 'Sri Lanka', UY: 'Uruguay' };
 function several(codes) {
-  return [INDIA, ...codes.map((code) => ({ ...INDIA, code, name: NAMES[code], slug: NAMES[code].toLowerCase().replace(/ /g, '-'), seats: null, history: null }))]
+  return [INDIA, ...codes.map((code) => ({ ...INDIA, code, name: NAMES[code], slug: NAMES[code].toLowerCase().replace(/ /g, '-'), seats: null }))]
     .sort((a, b) => a.name.localeCompare(b.name, 'en'));
 }
 const picturesFor = (list) => Object.fromEntries(list.map((c) => [c.code, pictureOf(c, OUTLINES)]));
@@ -135,7 +135,7 @@ test('every card carries its name as text, links its country page and shows the 
   assert.match(html, /<abbr title="Indian National Congress">INC<\/abbr>, 99 of 542 · 21.2%/);
   assert.match(html, /645,362,531 votes polled/);
   assert.match(html, /aria-label="BJP 239, INC 99 of 542 seats"/);
-  assert.match(html, /href="\/elections\/india\/\?y=1980">History: 10 elections →<\/a>/);
+  assert.doesNotMatch(html, /History:|\?y=/, 'the index\'s history field draws nothing: the card links its country page only through its title and Open button');
   assert.match(html, /<img src="\/elections\/img\/india-map-2024-360.webp"[^>]+alt="Map of India, 2024 Lok Sabha election: each of the 2 constituencies with a result/);
   assert.doesNotMatch(html.match(/<figure class="fig">[\s\S]*?<\/figure>/)[0], /<svg/, 'a result map has no outline stroke over it');
   assert.equal(countryHref(INDIA), `${ROOT}india/`);
@@ -149,7 +149,6 @@ test('a flag-shape card draws the 1px edge stroke over the flag and keeps its te
   assert.match(html, /<img src="\/elections\/img\/united-kingdom-flag-360.webp"[^>]+alt="Outline of United Kingdom filled with its national flag"/);
   assert.match(html, new RegExp(`<svg viewBox="${pic.viewBox}" aria-hidden="true"><path d="M`));
   assert.match(html, />United Kingdom<\/a><\/h2>/);
-  assert.doesNotMatch(html, /History:/, 'no history link without more than one election');
 });
 
 /* Every interactive element inside an <a> in `html`: none is allowed (a button
@@ -273,7 +272,7 @@ test('a picture is the result map where the atlas draws one, else the flag shape
 
 test('India and the USA are drawn only as result maps: never a flag shape, though both have an outline and a flag', async () => {
   assert.deepEqual([...MAP_ONLY].sort(), ['IN', 'US']);
-  const us = { ...INDIA, code: 'US', name: 'United States', slug: 'united-states', seats: null, history: null };
+  const us = { ...INDIA, code: 'US', name: 'United States', slug: 'united-states', seats: null };
   assert.ok(OUTLINES.US && OUTLINES.IN, 'an outline exists for each, so a flag shape could be drawn');
   assert.throws(() => pictureOf(us, OUTLINES), /no picture for United States \(US\): it is drawn only as a result map, and the atlas has no result map for it/);
   assert.throws(() => pictureOf({ ...INDIA, seats: null }, OUTLINES), /no picture for India \(IN\): it is drawn only as a result map, and D1 names no seat winners/);
@@ -319,7 +318,7 @@ test('one country: page 1, its cards, the search index, its pictures and the fon
 });
 
 test('the builder puts the derived list A to Z itself, as the page\'s locale orders accented names', async () => {
-  const as = (code, name) => ({ ...INDIA, code, name, slug: name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase(), seats: null, history: null });
+  const as = (code, name) => ({ ...INDIA, code, name, slug: name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase(), seats: null });
   const derived = [as('AL', 'Albania'), as('AX', 'Åland'), as('TM', 'Turkmenistan'), as('TR', 'Türkiye')];
   const root = site(derived);
   await build({ countries: derived, site: root });

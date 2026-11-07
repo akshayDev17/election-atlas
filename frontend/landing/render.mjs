@@ -132,8 +132,6 @@ export function card(c, pic) {
   const labels = ['Most seats', 'Next'];
   const bar = e.top.map((t, j) => `<i style="--sw:${colourOf(t, j)};width:${(t.seats / e.total * 100).toFixed(2)}%"></i>`).join('');
   const rows = e.top.map((t, j) => `<div><dt><i style="--sw:${colourOf(t, j)}"></i>${labels[j]}</dt><dd>${partyLine(t, e.total)}</dd></div>`).join('');
-  const history = c.history && c.history.elections > 1
-    ? `<a href="${href}?y=${c.history.first}">History: ${plural(c.history.elections, 'election', 'elections')} →</a>` : '';
   return `<li><article class="card" id="c-${c.slug}" aria-labelledby="h-${c.slug}">
   <figure class="fig">${figure(c, pic)}</figure>
   <div class="txt">
@@ -144,7 +142,7 @@ export function card(c, pic) {
     <dl class="res">${rows}</dl>
     <p class="st">${nf(e.votesPolled)} votes polled</p>
   </div>
-  <p class="go"><a class="btn" href="${href}">Open ${esc(c.name)}</a>${history}</p>
+  <p class="go"><a class="btn" href="${href}">Open ${esc(c.name)}</a></p>
 </article></li>`;
 }
 
