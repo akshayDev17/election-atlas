@@ -91,6 +91,121 @@ main{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;padding:0 var
 }
 .back:hover{color:var(--ink)}
 .back:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:2px}
+/* The rule between the tools and the caveat, with the regime pill as its label
+   at the start and the hairline running on from it. The tools row above is full
+   at 1280 (years, tense, picker), so the pill takes a row of its own rather
+   than wrapping that one; the masthead grows by the pill's height and no more. */
+.mh-rule{display:flex;align-items:center;gap:var(--s3);min-width:0}
+.mh-rule .hair{flex:1 1 auto;min-width:var(--s5)}
+
+/* ── the V-Dem regime pill ────────────────────────────────────────────── *
+ * The one coloured, non-party thing in the masthead, so its hue is the data
+ * source's own: --tier is the legend swatch of Figure 4, "Regimes of the
+ * World, 2025", in the V-Dem Democracy Report 2026 (p. 10), reds for
+ * autocracies and blues for democracies. The pill never shows that value flat:
+ * the fill is the tier tinted into the theme's ground (--paper) and the text is
+ * the tier drawn toward the theme's ink (--ink), so both follow the theme with
+ * no light-only colour. Measured (WCAG, lib/regime.ts colours):
+ *   Classic Light, text 60% tier in --ink on 18% tier in --paper: 5.6:1 at worst
+ *   Classic Dark, text 30%: 7.1:1 at worst on the dialog's --card ground
+ *   (liberal democracy's #1f0561 is nearly black, so the dark theme pulls
+ *   its text further toward --ink)
+ *   fallback for a browser without light-dark(), 50%: 4.6:1 at worst. */
+.regime{
+  --tier:var(--muted);
+  --regime-bg:color-mix(in oklab,var(--tier) 18%,var(--paper));
+  --regime-ink:color-mix(in oklab,var(--tier) 50%,var(--ink));
+  --regime-line:color-mix(in oklab,var(--tier) 45%,var(--paper));
+  display:inline-flex;align-items:stretch;max-width:100%;
+  font-family:var(--mono);font-size:.6875rem;line-height:1.2;letter-spacing:.02em;
+  color:var(--regime-ink);
+}
+:is(.regime,.regime-dlg)[data-tier="closed-autocracy"],.regime-dlg [data-tier="closed-autocracy"]{--tier:#78130d}
+:is(.regime,.regime-dlg)[data-tier="electoral-autocracy"],.regime-dlg [data-tier="electoral-autocracy"]{--tier:#b27570}
+:is(.regime,.regime-dlg)[data-tier="electoral-democracy"],.regime-dlg [data-tier="electoral-democracy"]{--tier:#766f95}
+:is(.regime,.regime-dlg)[data-tier="liberal-democracy"],.regime-dlg [data-tier="liberal-democracy"]{--tier:#1f0561}
+.regime-btn,.regime-link{
+  appearance:none;margin:0;cursor:pointer;
+  background:var(--regime-bg);color:inherit;border:1px solid var(--regime-line);
+  font:inherit;letter-spacing:inherit;text-decoration:none;
+  transition:background-color .18s var(--ease),border-color .18s var(--ease);
+}
+.regime-btn{
+  padding:4px 8px 4px 10px;border-radius:999px 0 0 999px;border-inline-end:0;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;
+}
+.regime-link{
+  display:inline-flex;align-items:center;padding:0 8px 0 6px;border-radius:0 999px 999px 0;
+  border-inline-start:1px solid var(--regime-line);
+}
+.regime-btn:hover,.regime-link:hover{
+  background:color-mix(in oklab,var(--tier) 28%,var(--paper));
+  border-color:color-mix(in oklab,var(--tier) 60%,var(--paper));
+}
+.regime-btn:focus-visible,.regime-link:focus-visible{outline:2px solid var(--ink);outline-offset:2px;position:relative;z-index:1}
+/* The dialog: what Regimes of the World is and the four tiers, this nation's
+   marked in its colour. Paper and ink are the theme's; the tier colours are
+   the same tints as the pill, so the list reads as the pill unfolded. */
+.regime-dlg{
+  --tier:var(--muted);
+  width:min(40rem,calc(100vw - 2*var(--s4)));max-width:none;
+  max-height:min(85dvh,calc(100dvh - 2*var(--s4)));
+  margin:auto;padding:0;border:1px solid var(--rule-2);border-radius:var(--r2);
+  background:var(--card,var(--paper));color:var(--ink);
+  box-shadow:var(--shadow-hover,0 20px 40px -20px rgba(0,0,0,.4));
+  overscroll-behavior:contain;
+}
+.regime-dlg::backdrop{background:color-mix(in oklab,var(--text,#0F1220) 55%,transparent)}
+.regime-dlg-body{padding:var(--s5) var(--s5) var(--s5)}
+.regime-dlg-head{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--s4);
+  padding-bottom:var(--s4);border-bottom:1px solid var(--rule)}
+.regime-dlg h2{margin:var(--s1) 0 0;font-family:var(--serif);font-weight:500;font-size:1.375rem;line-height:1.25;letter-spacing:-.01em}
+.regime-own{color:var(--regime-ink);--regime-ink:color-mix(in oklab,var(--tier) 50%,var(--ink))}
+.regime-asof{margin-top:var(--s1);font-family:var(--mono);font-size:.6875rem;letter-spacing:.04em;color:var(--muted)}
+.regime-close{
+  appearance:none;flex:0 0 auto;width:2rem;height:2rem;margin:-4px -6px 0 0;padding:0;cursor:pointer;
+  background:none;border:1px solid transparent;border-radius:999px;
+  font-family:var(--serif);font-size:1.5rem;line-height:1;color:var(--muted);
+  transition:color .18s var(--ease),border-color .18s var(--ease);
+}
+.regime-close:hover{color:var(--ink);border-color:var(--rule-2)}
+.regime-close:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.regime-intro{margin:var(--s4) 0 0;font-size:.9375rem;line-height:1.6;color:var(--text-body,var(--ink))}
+.regime-tiers{list-style:none;margin:var(--s5) 0 0;padding:0;display:flex;flex-direction:column;gap:var(--s3)}
+.regime-tiers li{
+  --regime-ink:color-mix(in oklab,var(--tier) 50%,var(--ink));
+  padding:var(--s3) var(--s4);border:1px solid var(--rule);border-radius:var(--r2);
+  border-inline-start:3px solid var(--tier);
+}
+/* this nation's tier: the pill's own tint as the row's ground */
+.regime-tiers li[aria-current="true"]{
+  background:color-mix(in oklab,var(--tier) 18%,var(--paper));
+  border-color:color-mix(in oklab,var(--tier) 45%,var(--paper));border-inline-start-color:var(--tier);
+}
+.regime-tiers h3{display:flex;align-items:center;flex-wrap:wrap;gap:var(--s2);margin:0;
+  font-family:var(--mono);font-size:.8125rem;font-weight:500;letter-spacing:.03em;color:var(--regime-ink)}
+.regime-dot{width:.625rem;height:.625rem;border-radius:50%;background:var(--tier);
+  box-shadow:0 0 0 1px var(--regime-ink)}
+.regime-tag{margin-inline-start:auto;padding:1px 8px;border-radius:999px;
+  background:var(--regime-ink);color:var(--paper);font-size:.625rem;font-weight:400;letter-spacing:.06em;text-transform:uppercase}
+.regime-tiers p{margin:var(--s2) 0 0;font-size:.875rem;line-height:1.55;color:var(--text-body,var(--ink))}
+.regime-cut{font-family:var(--mono);font-size:.6875rem;line-height:1.5;color:var(--muted)}
+.regime-cut .lbl{display:inline;margin-inline-end:var(--s1);font-size:inherit;letter-spacing:.1em}
+.regime-dlg-foot{margin-top:var(--s5);padding-top:var(--s4);border-top:1px solid var(--rule)}
+.regime-dlg-foot ul{margin:var(--s2) 0 0;padding-inline-start:1.1em;font-family:var(--mono);font-size:.6875rem;line-height:1.6;color:var(--muted)}
+.regime-dlg-foot li+li{margin-top:var(--s1)}
+.regime-dlg-foot a{color:var(--ink);text-decoration:underline;text-underline-offset:2px}
+.regime-dlg-foot a:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:2px}
+/* Per theme, through the theme's own color-scheme: lighter text on the dark
+   ground, darker on the light. A custom property takes any value, so this sits
+   under @supports rather than as a second declaration, or a browser without
+   light-dark() would keep the unusable value instead of the 50% one above. Last
+   in the section: the same property set later on the same selector would win. */
+@supports (color:light-dark(black,white)){
+  .regime,.regime-own,.regime-tiers li{
+    --regime-ink:light-dark(color-mix(in oklab,var(--tier) 60%,var(--ink)),color-mix(in oklab,var(--tier) 30%,var(--ink)))
+  }
+}
 .years{display:flex;align-items:baseline;gap:2px;margin-bottom:-6px}
 .year{
   appearance:none;background:none;border:0;cursor:pointer;
@@ -548,7 +663,7 @@ site-theme-picker::part(select){font-family:var(--mono);font-size:.6875rem;lette
   #map .pc,#map .stf,#map .st,#map .scrim,#map .lift,.year,#card,
   .ntable td,.ntable tbody tr,.ntable .sw,.tense-opt,
   .belt-view::before,.belt-view::after,.belt-card .belt-face,.belt-card .belt-name,
-  .find-line,.search-clear,.pager button{transition:none}
+  .find-line,.search-clear,.pager button,.regime-btn,.regime-link,.regime-close{transition:none}
 }
 
 /* ── phones: no text under 12px ──────────────────────────────────────────
@@ -558,9 +673,11 @@ site-theme-picker::part(select){font-family:var(--mono);font-size:.6875rem;lette
    Only sizes change here; the desktop declarations above stay as they are. */
 @media (max-width:640px){
   .lbl,.back,.search-count,.search-clear,#card .sub,#card .open,.belt-asof,
-  .find-label,.reset,.ntable th,#card th,.photo-link,.credits{font-size:.75rem}
+  .find-label,.reset,.ntable th,#card th,.photo-link,.credits,.regime-tag{font-size:.75rem}
   .caveat,site-theme-picker::part(select),.reset.loud,.ntable table,.pager button,.pager-ell,
-  #card .meta,#card table,.belt-empty,#card .min-list,.void p{font-size:.8125rem}
+  #card .meta,#card table,.belt-empty,#card .min-list,.void p,
+  .regime,.regime-asof,.regime-cut,.regime-dlg-foot ul{font-size:.8125rem}
+  .regime-dlg-body{padding:var(--s4)}
   /* the table's fixed number columns grow with their text (13/11), or a
      twelve-digit vote count runs into the share beside it */
   .ntable th:nth-child(2){width:5rem}

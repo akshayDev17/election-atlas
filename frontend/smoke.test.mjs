@@ -360,7 +360,8 @@ async function readPath(viewport, path, ready) {
       headingUnder: !!heading && heading.getBoundingClientRect().top >= (trail ?? row).getBoundingClientRect().bottom - 1,
       targets,
       hits,
-      sheet: !!document.querySelector('dialog, .sp-pill, .sp-sheet'),
+      // no app-local site-path sheet: the only dialog a page owns is the regime pill's
+      sheet: !!document.querySelector('dialog:not(.regime-dlg), .sp-pill, .sp-sheet'),
       backLink: !!document.querySelector('header .back'),
     };
   }, HEADING);
@@ -541,6 +542,223 @@ for (const viewport of [
         else if (hits.length) wrong.push(`${label}: ${hits.length} under the credits: ${hits.slice(0, 4).join(', ')}`);
       }
       await context.close();
+    }
+    assert.deepEqual(wrong, []);
+  });
+}
+
+/* The V-Dem regime pill in the national masthead (components/RegimePill.tsx):
+   "V-Dem · Electoral autocracy" for India, a button that opens the native
+   <dialog> explaining Regimes of the World with India's tier marked, and the
+   slanted-arrow link to India's page on the data source in a new tab. The
+   dialog closes on Escape, on the backdrop and with its close button, and focus
+   returns to the pill each time. Both themes, where site-shell supplies them. */
+async function openNational(context, viewport, theme) {
+  const page = await context.newPage();
+  await page.setViewport(viewport);
+  if (theme) await page.evaluateOnNewDocument((id) => localStorage.setItem('site-theme', id), theme);
+  await page.goto(`${origin}/elections/india/?y=2024`, { waitUntil: 'networkidle0' });
+  await page.waitForSelector('#map path.pc', { timeout: 15000 });
+  return page;
+}
+
+const dialogOpen = (page) => page.evaluate(() => document.querySelector('dialog.regime-dlg')?.open ?? null);
+const focusedIsPill = (page) => page.evaluate(() => document.activeElement?.classList.contains('regime-btn'));
+
+test('regime pill: India reads as V-Dem rates it, and the dialog opens, closes three ways and gives focus back', async () => {
+  const context = await browser.createBrowserContext();
+  const page = await openNational(context, { width: 1440, height: 900 }, PHONE_THEMES[0]);
+  const pill = await page.evaluate(() => {
+    const btn = document.querySelector('.masthead .regime-btn');
+    const link = document.querySelector('.masthead .regime-link');
+    return {
+      text: btn?.textContent, haspopup: btn?.getAttribute('aria-haspopup'),
+      controls: !!document.getElementById(btn?.getAttribute('aria-controls') ?? ''),
+      href: link?.getAttribute('href'), target: link?.getAttribute('target'), rel: link?.getAttribute('rel'),
+      name: link?.getAttribute('aria-label'),
+    };
+  });
+  assert.deepEqual(pill, {
+    text: 'V-Dem · Electoral autocracy', haspopup: 'dialog', controls: true,
+    href: 'https://ourworldindata.org/grapher/political-regime?country=~IND', target: '_blank', rel: 'noopener',
+    name: 'India’s V-Dem rating on Our World in Data (opens in a new tab)',
+  });
+  assert.equal(await dialogOpen(page), false);
+
+  // keyboard: the pill is a tab stop; Enter opens, Escape closes, focus returns
+  await page.focus('.masthead .regime-btn');
+  await page.keyboard.press('Enter');
+  await page.waitForSelector('dialog.regime-dlg[open]');
+  const shown = await page.evaluate(() => {
+    const d = document.querySelector('dialog.regime-dlg');
+    const own = d.querySelector('.regime-tiers li[aria-current="true"]');
+    return {
+      title: d.querySelector('h2').textContent,
+      asof: d.querySelector('.regime-asof').textContent,
+      tiers: [...d.querySelectorAll('.regime-tiers h3')].map((h) => h.firstChild.nextSibling.textContent.trim()),
+      own: own?.dataset.tier, ownTag: own?.querySelector('.regime-tag')?.textContent,
+      headingInk: getComputedStyle(d.querySelector('.regime-own')).color,
+      ownRowInk: own ? getComputedStyle(own.querySelector('h3')).color : null,
+      rowInks: new Set([...d.querySelectorAll('.regime-tiers h3')].map((h) => getComputedStyle(h).color)).size,
+      criteria: [...d.querySelectorAll('.regime-tiers li > p:first-of-type')].map((p) => p.textContent),
+      sources: [...d.querySelectorAll('.regime-dlg-foot a')].map((a) => a.href),
+      labelled: d.getAttribute('aria-labelledby') === d.querySelector('h2').id,
+    };
+  });
+  assert.equal(shown.title, 'India is rated an electoral autocracy');
+  assert.equal(shown.asof, 'V-Dem v16 (2026), data year 2025');
+  assert.deepEqual(shown.tiers, ['Closed autocracy', 'Electoral autocracy', 'Electoral democracy', 'Liberal democracy']);
+  assert.equal(shown.own, 'electoral-autocracy');
+  assert.equal(shown.ownTag, 'India, 2025');
+  assert.equal(shown.rowInks, 4, 'each tier row draws its heading in its own tier ink');
+  assert.equal(shown.headingInk, shown.ownRowInk, 'the title names the tier in that tier\'s ink, as its row does');
+  assert.ok(shown.labelled);
+  // the criteria V-Dem uses, each named somewhere in the four tiers
+  for (const term of ['multi-party', 'free and fair', 'suffrage', 'freedom of expression', 'freedom of association', 'rule of law', 'judicial and legislative constraints']) {
+    assert.ok(shown.criteria.some((c) => c.includes(term)), term);
+  }
+  assert.ok(shown.sources.some((u) => u.includes('codebook_v16.pdf')), 'codebook');
+  assert.ok(shown.sources.some((u) => u.includes('10.17645/pag.v6i1.1214')), '2018 article');
+  await page.keyboard.press('Escape');
+  await page.waitForFunction(() => !document.querySelector('dialog.regime-dlg').open);
+  assert.ok(await focusedIsPill(page), 'focus returns to the pill after Escape');
+
+  // mouse: click opens, the close button closes
+  await page.click('.masthead .regime-btn');
+  await page.waitForSelector('dialog.regime-dlg[open]');
+  await page.click('dialog.regime-dlg .regime-close');
+  await page.waitForFunction(() => !document.querySelector('dialog.regime-dlg').open);
+  assert.ok(await focusedIsPill(page), 'focus returns to the pill after the close button');
+
+  // a click on the backdrop closes; one inside the dialog does not
+  await page.click('.masthead .regime-btn');
+  await page.waitForSelector('dialog.regime-dlg[open]');
+  await page.click('dialog.regime-dlg .regime-intro');
+  assert.equal(await dialogOpen(page), true, 'a click on the dialog\'s own text keeps it open');
+  // a drag that starts on the dialog's text and ends on the backdrop is a selection, not a dismissal
+  const intro = await page.$eval('dialog.regime-dlg .regime-intro', (el) => { const r = el.getBoundingClientRect(); return { x: r.left + 20, y: r.top + 8 }; });
+  await page.mouse.move(intro.x, intro.y);
+  await page.mouse.down();
+  await page.mouse.move(8, 8, { steps: 4 });
+  await page.mouse.up();
+  assert.equal(await dialogOpen(page), true, 'a selection dragged out onto the backdrop keeps it open');
+  // a click on the dialog's own box edge (where a scrollbar sits) is inside the box
+  const edge = await page.$eval('dialog.regime-dlg', (el) => { const r = el.getBoundingClientRect(); return { x: r.right - 2, y: r.top + r.height / 2 }; });
+  await page.mouse.click(edge.x, edge.y);
+  assert.equal(await dialogOpen(page), true, 'a click on the dialog\'s own edge keeps it open');
+  // a right-click on the backdrop is not a dismissal, and leaves nothing behind: a
+  // keyboard activation inside the dialog afterwards (a click at 0,0) keeps it open
+  await page.mouse.click(8, 8, { button: 'right' });
+  assert.equal(await dialogOpen(page), true, 'a right-click on the backdrop keeps it open');
+  await page.evaluate(() => {
+    const a = document.querySelector('dialog.regime-dlg .regime-dlg-foot a');
+    a.addEventListener('click', (e) => e.preventDefault(), { once: true });
+    a.focus();
+  });
+  await page.keyboard.press('Enter');
+  assert.equal(await dialogOpen(page), true, 'activating a link inside by keyboard keeps it open');
+  await page.mouse.click(8, 8);
+  await page.waitForFunction(() => !document.querySelector('dialog.regime-dlg').open);
+  assert.ok(await focusedIsPill(page), 'focus returns to the pill after a backdrop click');
+  await context.close();
+});
+
+/* The pill takes one row of its own under the tools and nothing else moves: the
+   tools row (years, tense, picker) stays one line at 1440 and 1280, as before. */
+for (const width of [1440, 1280]) {
+  test(`regime pill at ${width} px: the tools row above it still fits on one line`, async () => {
+    const context = await browser.createBrowserContext();
+    const page = await openNational(context, { width, height: 800 }, PHONE_THEMES[0]);
+    const seen = await page.evaluate(() => {
+      const r = (sel) => document.querySelector(sel).getBoundingClientRect();
+      return { tools: Math.round(r('.mh-top').height), rule: Math.round(r('.mh-rule').height), pill: Math.round(r('.regime').height) };
+    });
+    await context.close();
+    assert.ok(seen.tools <= 30, `tools row ${seen.tools} px: it wrapped`);
+    assert.equal(seen.rule, seen.pill, 'the rule row is the pill\'s own height');
+  });
+}
+
+/* WCAG AA on the pill's text and on each tier's heading in the dialog, in both
+   themes: the tints are mixed from the theme's own tokens, so each theme is
+   measured as drawn. */
+const contrastScript = `(() => {
+  const lin = (c) => { c /= 255; return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4; };
+  // color-mix() resolves to color(srgb …) or oklab(…), so read every colour back through a canvas pixel
+  const ctx = document.createElement('canvas').getContext('2d', { willReadFrequently: true });
+  const rgb = (s) => { ctx.fillStyle = s; ctx.fillRect(0, 0, 1, 1); return [...ctx.getImageData(0, 0, 1, 1).data.slice(0, 3)]; };
+  const lum = ([r, g, b]) => 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
+  const ratio = (a, b) => { const x = lum(rgb(a)), y = lum(rgb(b)); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); };
+  const bgOf = (el) => { for (let e = el; e; e = e.parentElement) { const c = getComputedStyle(e).backgroundColor; if (c !== 'rgba(0, 0, 0, 0)' && c !== 'transparent') return c; } return getComputedStyle(document.documentElement).backgroundColor; };
+  const out = {};
+  const btn = document.querySelector('.masthead .regime-btn');
+  out.pill = ratio(getComputedStyle(btn).color, getComputedStyle(btn).backgroundColor);
+  for (const li of document.querySelectorAll('.regime-tiers li')) {
+    const h = li.querySelector('h3');
+    out[li.dataset.tier] = ratio(getComputedStyle(h).color, bgOf(h));
+  }
+  const own = document.querySelector('.regime-tag');
+  out.tag = ratio(getComputedStyle(own).color, getComputedStyle(own).backgroundColor);
+  const title = document.querySelector('.regime-own');
+  out.title = ratio(getComputedStyle(title).color, bgOf(title));
+  return out;
+})()`;
+
+for (const theme of PHONE_THEMES) {
+  test(`regime pill${theme ? ` (${theme})` : ''}: AA contrast on the pill and on every tier in the dialog`, async () => {
+    const context = await browser.createBrowserContext();
+    const page = await openNational(context, { width: 1280, height: 800 }, theme);
+    await page.click('.masthead .regime-btn');
+    await page.waitForSelector('dialog.regime-dlg[open]');
+    const ratios = await page.evaluate(contrastScript);
+    await context.close();
+    const low = Object.entries(ratios).filter(([, r]) => r < 4.5).map(([k, r]) => `${k}: ${r.toFixed(2)}`);
+    assert.deepEqual(low, [], JSON.stringify(ratios));
+  });
+}
+
+/* On a phone the dialog fits the screen's width, scrolls inside itself for the
+   rest, and sets no text under 12 px; the pill itself is 12 px or more. A tap on
+   the backdrop above it closes it and nothing else: the tap's click must not
+   fall through to the page beneath (the masthead's links, the map). */
+for (const width of [360, 390, 412]) {
+  test(`regime dialog at ${width} px: fits the width, scrolls, no text under 12 px`, async () => {
+    const wrong = [];
+    for (const theme of PHONE_THEMES) {
+      const context = await browser.createBrowserContext();
+      const page = await openNational(context, { width, height: 800, isMobile: true, hasTouch: true, deviceScaleFactor: 3 }, theme);
+      await page.tap('.masthead .regime-btn');
+      await page.waitForSelector('dialog.regime-dlg[open]');
+      const seen = await page.evaluate((w) => {
+        const d = document.querySelector('dialog.regime-dlg');
+        const b = d.getBoundingClientRect();
+        const texts = [d.querySelector('.regime-dlg-body'), document.querySelector('.masthead .regime')]
+          .flatMap((root) => [root, ...root.querySelectorAll('*')])
+          .filter((el) => [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim()))
+          .map((el) => [el.className, parseFloat(getComputedStyle(el).fontSize)]);
+        return {
+          top: b.top, right: Math.round(b.right), bottom: Math.round(b.bottom), innerWidth, innerHeight,
+          scrolls: d.scrollHeight > d.clientHeight + 1, sideways: d.scrollWidth > d.clientWidth + 1,
+          small: texts.filter(([, fs]) => fs < 12).map(([c, fs]) => `${c}:${fs}`),
+        };
+      }, width);
+      const before = await page.evaluate(() => location.pathname + location.search);
+      await page.touchscreen.tap(width / 2, Math.max(2, seen.top / 2));
+      await page.waitForFunction(() => !document.querySelector('dialog.regime-dlg').open);
+      await new Promise((r) => setTimeout(r, 300));
+      const after = await page.evaluate(() => ({
+        url: location.pathname + location.search, open: document.querySelector('dialog.regime-dlg')?.open ?? null,
+      }));
+      await context.close();
+      const label = theme ?? 'static';
+      if (seen.top < 4) wrong.push(`${label}: no backdrop above the dialog to tap (top ${seen.top})`);
+      if (after.url !== before) wrong.push(`${label}: the backdrop tap fell through and navigated to ${after.url}`);
+      if (after.open !== false) wrong.push(`${label}: the dialog is ${after.open === null ? 'gone' : 'open again'} after the backdrop tap`);
+      if (seen.right > width || seen.innerWidth !== width) wrong.push(`${label}: dialog right edge ${seen.right} (innerWidth ${seen.innerWidth})`);
+      if (seen.bottom > seen.innerHeight) wrong.push(`${label}: dialog runs under the screen bottom`);
+      if (!seen.scrolls) wrong.push(`${label}: the dialog does not scroll inside itself`);
+      if (seen.sideways) wrong.push(`${label}: the dialog scrolls sideways`);
+      if (seen.small.length) wrong.push(`${label}: under 12 px: ${seen.small.join(', ')}`);
     }
     assert.deepEqual(wrong, []);
   });
