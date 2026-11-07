@@ -159,12 +159,16 @@ export function resolveMember(input: {
   };
 }
 
+/* The result shown is the Election Commission of India's, so the ECI is
+   named as its publisher in every branch, in the same words the national,
+   state and MLA pages use; the other sources follow. */
 export function caveatText(hasRecord: boolean, hasMplads: boolean): string {
   const sources = [
-    hasRecord ? 'the Lok Sabha record (sansad.in)' : 'the 2024 result (Election Commission of India)',
+    hasRecord ? 'the Lok Sabha record (sansad.in)' : null,
     hasMplads ? 'MPLADS (eSAKSHI portal)' : null,
   ].filter(Boolean);
-  return `Figures from official sources: ${sources.join(' and ')}. ` +
+  return 'Result: Election Commission of India statistical reports. ' +
+    (sources.length ? `Figures from official sources: ${sources.join(' and ')}. ` : '') +
     (hasRecord ? 'Every question and bill links to its official document. ' : '') +
     'Where a section says “not available yet”, that data has not been added.';
 }

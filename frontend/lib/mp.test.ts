@@ -112,10 +112,16 @@ test('age counts a birthday only once it has passed', () => {
   assert.equal(ageFrom('', NOW), '');
 });
 
-test('the caveat names only the sources the page actually used', () => {
+test('the caveat always credits the ECI for the result, then only the sources the page actually used', () => {
+  const eci = 'Result: Election Commission of India statistical reports. ';
   assert.equal(caveatText(false, false),
-    'Figures from official sources: the 2024 result (Election Commission of India). Where a section says “not available yet”, that data has not been added.');
-  assert.match(caveatText(true, true), /the Lok Sabha record \(sansad\.in\) and MPLADS \(eSAKSHI portal\)\. Every question and bill/);
+    eci + 'Where a section says “not available yet”, that data has not been added.');
+  assert.equal(caveatText(true, true),
+    eci + 'Figures from official sources: the Lok Sabha record (sansad.in) and MPLADS (eSAKSHI portal). ' +
+    'Every question and bill links to its official document. Where a section says “not available yet”, that data has not been added.');
+  assert.equal(caveatText(false, true),
+    eci + 'Figures from official sources: MPLADS (eSAKSHI portal). Where a section says “not available yet”, that data has not been added.');
+  assert.match(caveatText(true, false), /^Result: Election Commission of India statistical reports\. Figures from official sources: the Lok Sabha record \(sansad\.in\)\. Every question and bill/);
 });
 
 test('a missing section says "not available yet" and carries no figure', () => {
