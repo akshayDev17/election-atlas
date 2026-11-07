@@ -157,3 +157,17 @@ jobs:
           SITE_THEMES_DIR: ${{ github.workspace }}/site-themes
           CHROME_PATH: /usr/bin/google-chrome
         run: npm run test:smoke
+
+  # A push to main (a merge) that passes the tests deploys by itself, through the
+  # same deploy workflow a manual dispatch runs: the D1 export and diff, the
+  # provenance gates, the Worker deploy and the smoke test. pending_ok is never
+  # set here, so a merge that bumps backend/atlas-source.json fails this job
+  # before anything is uploaded until the D1 import has run; a manual dispatch
+  # follows the import. Skipped on pull_request.
+  deploy:
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/deploy.yml
+    with:
+      pending_ok: false
+    secrets: inherit

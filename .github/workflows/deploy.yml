@@ -15,13 +15,17 @@ on:
         description: 'Deploy before every import day has run: list the data files D1 does not hold yet as pending (the pages show "not available yet") instead of failing'
         type: boolean
         default: false
+  # Called by ci.yml after the tests pass on a push to main, so a merge deploys
+  # by itself; the same gates run, with pending_ok false.
+  workflow_call:
+    inputs:
+      pending_ok:
+        description: 'Deploy before every import day has run: list the data files D1 does not hold yet as pending (the pages show "not available yet") instead of failing'
+        type: boolean
+        default: false
 
 permissions:
   contents: read
-
-concurrency:
-  group: deploy
-  cancel-in-progress: false
 
 env:
   WRANGLER: npx --yes wrangler@4.151.1
@@ -29,6 +33,11 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    # One deploy at a time, never cancelled halfway, whether this workflow was
+    # dispatched by hand or called from ci.yml.
+    concurrency:
+      group: deploy
+      cancel-in-progress: false
     environment: production
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
