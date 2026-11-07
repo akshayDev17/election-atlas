@@ -202,13 +202,17 @@ test('the page holds the Regimes of the World dialog once, empty of any country,
 test('the stylesheet paints each tier in V-Dem\'s exact colour from lib/regime.ts, its dark set and inks beside it, flat on the pill', () => {
   const html = page([INDIA], 1, picturesFor([INDIA]), { fallbackCss: '' });
   assert.ok(html.includes(TIER_CSS), 'the page carries the tier rules');
+  const DARK = 'html[data-theme="classic-dark"] ';
   for (const t of REGIME_TIERS) {
-    const sel = `:is(.regime,.regime-dlg)[data-tier="${t.id}"],.regime-dlg [data-tier="${t.id}"]`;
-    // for every browser, the light values; where light-dark() is supported, both themes' values
-    assert.ok(TIER_CSS.includes(`${sel}{--tier:${t.colour};--tier-ink:${t.ink}}`), t.id);
-    assert.ok(TIER_CSS.includes(`${sel}{--tier:light-dark(${t.colour},${t.colourDark});--tier-ink:light-dark(${t.ink},${t.inkDark})}`), t.id);
+    // the light values by default; the dark set under the theme attribute site-shell resolves on <html>
+    const fill = (on) => `${on}:is(.regime,.regime-dlg)[data-tier="${t.id}"],${on}.regime-dlg [data-tier="${t.id}"]`;
+    assert.ok(TIER_CSS.includes(`${fill('')}{--tier:${t.colour}}.regime[data-tier="${t.id}"]{--tier-ink:${t.ink}}`), t.id);
+    assert.ok(TIER_CSS.includes(`${fill(DARK)}{--tier:${t.colourDark}}${DARK}.regime[data-tier="${t.id}"]{--tier-ink:${t.inkDark}}`), t.id);
   }
-  assert.match(TIER_CSS, /@supports \(color:light-dark\(black,white\)\)\{:is\(\.regime/);
+  assert.doesNotMatch(TIER_CSS, /@supports|light-dark\(/, 'the theme attribute, not a colour function a browser may lack, selects the set');
+  // --tier-ink is the pill's alone: the dialog declares and reads only --tier
+  assert.doesNotMatch(TIER_CSS, /\.regime-dlg[^{]*\{[^}]*--tier-ink/);
+  assert.doesNotMatch(CSS.match(/\.regime-dlg\{[^}]*\}/)[0], /--tier-ink/);
   // the pill is the tier itself: fill, border and ink come from --tier and --tier-ink, with no tint into the card
   assert.match(CSS, /\.regime\{[^}]*--regime-bg:var\(--tier\);--regime-ink:var\(--tier-ink\);--regime-line:var\(--tier\)/);
   assert.doesNotMatch(CSS.match(/\.regime\{[^}]*\}/)[0], /color-mix\(in oklab,var\(--tier\)/, 'the pill\'s fill is not mixed into the card');

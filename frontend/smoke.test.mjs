@@ -759,15 +759,23 @@ const contrastScript = `(() => {
   const bgOf = (el) => { for (let e = el; e; e = e.parentElement) { const c = getComputedStyle(e).backgroundColor; if (c !== 'rgba(0, 0, 0, 0)' && c !== 'transparent') return c; } return getComputedStyle(document.documentElement).backgroundColor; };
   const out = {};
   const pill = document.querySelector('#c-india .regime'), btn = pill.querySelector('.regime-btn'), link = pill.querySelector('.regime-link');
-  const rated = pill.dataset.tier;
-  out.pills = {};
-  for (const tier of ${JSON.stringify(REGIME_TIERS.map((t) => t.id))}) {
-    pill.dataset.tier = tier;
-    const b = getComputedStyle(btn), l = getComputedStyle(link);
-    out.pills[tier] = { fill: rgb(b.backgroundColor).join(','), ink: rgb(b.color).join(','), border: rgb(b.borderTopColor).join(','),
-      linkFill: rgb(l.backgroundColor).join(','), linkBorder: rgb(l.borderTopColor).join(','), ratio: ratio(b.color, b.backgroundColor) };
-  }
-  pill.dataset.tier = rated;
+  const html = document.documentElement, rated = pill.dataset.tier, opened = html.dataset.theme;
+  const readPills = () => {
+    const pills = {};
+    for (const tier of ${JSON.stringify(REGIME_TIERS.map((t) => t.id))}) {
+      pill.dataset.tier = tier;
+      const b = getComputedStyle(btn), l = getComputedStyle(link);
+      pills[tier] = { fill: rgb(b.backgroundColor).join(','), ink: rgb(b.color).join(','), border: rgb(b.borderTopColor).join(','),
+        linkFill: rgb(l.backgroundColor).join(','), linkBorder: rgb(l.borderTopColor).join(','), ratio: ratio(b.color, b.backgroundColor) };
+    }
+    pill.dataset.tier = rated;
+    return pills;
+  };
+  // as the page opened, then under each theme attribute site-shell resolves to
+  out.pills = readPills();
+  out.pillsBy = {};
+  for (const theme of ['classic-light', 'classic-dark']) { html.dataset.theme = theme; out.pillsBy[theme] = readPills(); }
+  if (opened === undefined) delete html.dataset.theme; else html.dataset.theme = opened;
   out.pill = out.pills[rated].ratio;
   for (const li of document.querySelectorAll('.regime-tiers li')) {
     const h = li.querySelector('h3');
@@ -787,14 +795,17 @@ for (const theme of PHONE_THEMES) {
     const page = await openList(context, { width: 1280, height: 800 }, theme);
     await page.click(PILL);
     await page.waitForSelector('dialog.regime-dlg[open]');
-    const { pills, ...ratios } = await page.evaluate(contrastScript);
+    const { pills, pillsBy, ...ratios } = await page.evaluate(contrastScript);
     await context.close();
-    const dark = theme === 'classic-dark';
-    const expected = Object.fromEntries(REGIME_TIERS.map((t) => {
+    const expected = (dark) => Object.fromEntries(REGIME_TIERS.map((t) => {
       const fill = channels(dark ? t.colourDark : t.colour), ink = channels(dark ? t.inkDark : t.ink);
       return [t.id, { fill, ink, border: fill, linkFill: fill, linkBorder: fill }];
     }));
-    assert.deepEqual(Object.fromEntries(Object.entries(pills).map(([id, { ratio, ...p }]) => [id, p])), expected, 'the pill is the tier\'s own colour, flat, with its ink');
+    const painted = (set) => Object.fromEntries(Object.entries(set).map(([id, { ratio, ...p }]) => [id, p]));
+    assert.deepEqual(painted(pills), expected(theme === 'classic-dark'), 'the pill is the tier\'s own colour, flat, with its ink');
+    // the theme attribute alone selects the set: either set from a page opened in either theme
+    assert.deepEqual(painted(pillsBy['classic-light']), expected(false), 'the light set under data-theme=classic-light');
+    assert.deepEqual(painted(pillsBy['classic-dark']), expected(true), 'the dark set under data-theme=classic-dark');
     for (const [id, { ratio }] of Object.entries(pills)) ratios[`pill:${id}`] = ratio;
     const low = Object.entries(ratios).filter(([, r]) => r < 4.5).map(([k, r]) => `${k}: ${r.toFixed(2)}`);
     assert.deepEqual(low, [], JSON.stringify(ratios));

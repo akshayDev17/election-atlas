@@ -58,9 +58,8 @@ test('the dark set follows the one rule regime.ts states, and every ink is the b
       const better = contrast(WHITE, fill) >= contrast(DARKEST, fill) ? WHITE : DARKEST;
       assert.equal(ink, better, `${t.id}: ink on ${fill}`);
       assert.ok(contrast(ink, fill) >= 4.5, `${t.id}: ${ink} on ${fill} is ${contrast(ink, fill).toFixed(2)}:1`);
-      // the fill itself stands on its card (WCAG 1.4.11's 3:1 for a component's edge), except
-      // V-Dem's own electoral-autocracy pink on white, which is V-Dem's value as printed
-      if (!(fill === t.colour && t.id === 'electoral-autocracy')) assert.ok(contrast(fill, card) >= 3, `${t.id}: ${fill} on ${card} is ${contrast(fill, card).toFixed(2)}:1`);
+      // the fill itself stands on its card (WCAG 1.4.11's 3:1 for a component's edge)
+      assert.ok(contrast(fill, card) >= 3, `${t.id}: ${fill} on ${card} is ${contrast(fill, card).toFixed(2)}:1`);
     }
   }
   // the four dark fills stay apart from one another

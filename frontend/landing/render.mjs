@@ -271,16 +271,19 @@ lb.addEventListener('mousedown', e => { const li = e.target.closest('[role=optio
 q.addEventListener('blur', () => setTimeout(close, 120));
 `;
 
-/* Per tier, the pill's and the dialog's --tier (the fill) and --tier-ink (the
-   text on it), from lib/regime.ts: V-Dem's exact hex and its ink first, for
-   every browser, then the light/dark pair through light-dark() where it is
-   supported, which follows the theme's own color-scheme (site-shell sets it
-   per theme; the fallback block is light). A custom property is only checked
-   when it is used, so an unsupported light-dark() there would void the fill:
-   hence the @supports gate rather than a plain fallback. */
-const tierSelector = (t) => `:is(.regime,.regime-dlg)[data-tier="${t.id}"],.regime-dlg [data-tier="${t.id}"]`;
-export const TIER_CSS = REGIME_TIERS.map((t) => `${tierSelector(t)}{--tier:${t.colour};--tier-ink:${t.ink}}`).join('\n')
-  + `\n@supports (color:light-dark(black,white)){${REGIME_TIERS.map((t) => `${tierSelector(t)}{--tier:light-dark(${t.colour},${t.colourDark});--tier-ink:light-dark(${t.ink},${t.inkDark})}`).join('')}}`;
+/* Per tier, --tier (the fill) on the pill and on the dialog's markers, and
+   --tier-ink (the text on the fill) on the pill alone, which is all that reads
+   it, from lib/regime.ts: V-Dem's exact hex and its ink by default, and the dark
+   set where <html> carries the theme site-shell always resolves to (its boot
+   script sets data-theme to classic-light or classic-dark on the first frame;
+   without it, the fallback block is light). Keyed on the attribute, not on a
+   colour function a browser may lack, so no theme ever shows the other's set. */
+const tierRules = (dark) => REGIME_TIERS.map((t) => {
+  const on = dark ? 'html[data-theme="classic-dark"] ' : '';
+  return `${on}:is(.regime,.regime-dlg)[data-tier="${t.id}"],${on}.regime-dlg [data-tier="${t.id}"]{--tier:${dark ? t.colourDark : t.colour}}`
+    + `${on}.regime[data-tier="${t.id}"]{--tier-ink:${dark ? t.inkDark : t.ink}}`;
+}).join('\n');
+export const TIER_CSS = `${tierRules(false)}\n${tierRules(true)}`;
 
 export const CSS = `
 @font-face{font-family:"Newsreader";src:url(${ROOT}fonts/newsreader.woff2) format("woff2");font-weight:400 500;font-style:normal;font-display:swap}
@@ -338,10 +341,11 @@ site-theme-picker{font-size:15px;min-height:24px}
    on a dark theme the tier derived from it by the rule lib/regime.ts states
    (colourDark); --tier-ink is the text that contrasts more with that fill
    (regime.ts: ink, inkDark), AA or better in both themes (TIER_CSS above sets
-   both per data-tier). The pill's fill and border and the dialog's tier dot and
-   leading edge are --tier itself; only the dialog's headings draw the tier
-   toward the theme's ink (--text), since the flat hex would not read as text
-   on the card. No text here goes under 12px on any screen. */
+   both per data-tier, the dark set by html[data-theme]). The pill's fill and
+   border and the dialog's tier dot and leading edge are --tier itself; only
+   the dialog's headings draw the tier toward the theme's ink (--text), since
+   the flat hex would not read as text on the card. No text here goes under
+   12px on any screen. */
 .regime{--tier:var(--text-muted);--tier-ink:var(--card);--regime-bg:var(--tier);--regime-ink:var(--tier-ink);--regime-line:var(--tier);--regime-split:color-mix(in oklab,var(--tier-ink) 40%,transparent);
   display:inline-flex;align-items:stretch;max-width:100%;margin-top:10px;font-family:var(--font-mono);font-size:13px;line-height:1.2;letter-spacing:.02em;color:var(--regime-ink)}
 ${TIER_CSS}
@@ -351,7 +355,7 @@ ${TIER_CSS}
 /* Hover keeps the tier's exact fill and border: a 1px ring of the ink inside the edge. */
 .regime-btn:hover,.regime-link:hover{box-shadow:inset 0 0 0 1px var(--regime-ink)}
 .regime-btn:focus-visible,.regime-link:focus-visible{outline:2px solid var(--focus);outline-offset:2px;position:relative;z-index:1}
-.regime-dlg{--tier:var(--text-muted);--tier-ink:var(--card);width:min(40rem,calc(100vw - 32px));max-width:none;max-height:min(85dvh,calc(100dvh - 32px));margin:auto;padding:0;border:1px solid var(--line-strong);border-radius:6px;background:var(--card);color:var(--text);box-shadow:var(--shadow-hover);overscroll-behavior:contain;font-size:16px;line-height:1.5}
+.regime-dlg{--tier:var(--text-muted);width:min(40rem,calc(100vw - 32px));max-width:none;max-height:min(85dvh,calc(100dvh - 32px));margin:auto;padding:0;border:1px solid var(--line-strong);border-radius:6px;background:var(--card);color:var(--text);box-shadow:var(--shadow-hover);overscroll-behavior:contain;font-size:16px;line-height:1.5}
 .regime-dlg::backdrop{background:color-mix(in oklab,var(--text,#0F1220) 55%,transparent)}
 .regime-dlg-body{padding:24px}
 .regime-dlg .lbl{font-family:var(--font-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted)}
