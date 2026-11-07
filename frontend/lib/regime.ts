@@ -22,8 +22,11 @@ export type RegimeTier = {
   /* Legend swatch fill of Figure 4, "Regimes of the World, 2025", in the V-Dem
      Democracy Report 2026 (p. 10; read from the PDF's vector fills). The report's
      convention: autocracies in reds (closed darkest), democracies in blues
-     (liberal darkest). The page tints these against the theme's own tokens
-     (app/national.css, .regime) so the text keeps AA contrast in both themes. */
+     (liberal darkest). Nothing reads this field at runtime: app/national.css
+     restates the four values as --tier per data-tier (.regime, .regime-dlg) and
+     tints them against the theme's own tokens so the text keeps AA contrast in
+     both themes. Change a value here and there together; regime.test.ts pins
+     these four. */
   colour: string;
   /* What a regime in this tier has, in V-Dem's terms (codebook v16, v2x_regime). */
   criteria: string;
