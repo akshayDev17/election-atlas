@@ -597,6 +597,9 @@ test('regime pill: India reads as V-Dem rates it, and the dialog opens, closes t
       asof: d.querySelector('.regime-asof').textContent,
       tiers: [...d.querySelectorAll('.regime-tiers h3')].map((h) => h.firstChild.nextSibling.textContent.trim()),
       own: own?.dataset.tier, ownTag: own?.querySelector('.regime-tag')?.textContent,
+      headingInk: getComputedStyle(d.querySelector('.regime-own')).color,
+      ownRowInk: own ? getComputedStyle(own.querySelector('h3')).color : null,
+      rowInks: new Set([...d.querySelectorAll('.regime-tiers h3')].map((h) => getComputedStyle(h).color)).size,
       criteria: [...d.querySelectorAll('.regime-tiers li > p:first-of-type')].map((p) => p.textContent),
       sources: [...d.querySelectorAll('.regime-dlg-foot a')].map((a) => a.href),
       labelled: d.getAttribute('aria-labelledby') === d.querySelector('h2').id,
@@ -607,6 +610,8 @@ test('regime pill: India reads as V-Dem rates it, and the dialog opens, closes t
   assert.deepEqual(shown.tiers, ['Closed autocracy', 'Electoral autocracy', 'Electoral democracy', 'Liberal democracy']);
   assert.equal(shown.own, 'electoral-autocracy');
   assert.equal(shown.ownTag, 'India, 2025');
+  assert.equal(shown.rowInks, 4, 'each tier row draws its heading in its own tier ink');
+  assert.equal(shown.headingInk, shown.ownRowInk, 'the title names the tier in that tier\'s ink, as its row does');
   assert.ok(shown.labelled);
   // the criteria V-Dem uses, each named somewhere in the four tiers
   for (const term of ['multi-party', 'free and fair', 'suffrage', 'freedom of expression', 'freedom of association', 'rule of law', 'judicial and legislative constraints']) {
@@ -630,6 +635,17 @@ test('regime pill: India reads as V-Dem rates it, and the dialog opens, closes t
   await page.waitForSelector('dialog.regime-dlg[open]');
   await page.click('dialog.regime-dlg .regime-intro');
   assert.equal(await dialogOpen(page), true, 'a click on the dialog\'s own text keeps it open');
+  // a drag that starts on the dialog's text and ends on the backdrop is a selection, not a dismissal
+  const intro = await page.$eval('dialog.regime-dlg .regime-intro', (el) => { const r = el.getBoundingClientRect(); return { x: r.left + 20, y: r.top + 8 }; });
+  await page.mouse.move(intro.x, intro.y);
+  await page.mouse.down();
+  await page.mouse.move(8, 8, { steps: 4 });
+  await page.mouse.up();
+  assert.equal(await dialogOpen(page), true, 'a selection dragged out onto the backdrop keeps it open');
+  // a click on the dialog's own box edge (where a scrollbar sits) is inside the box
+  const edge = await page.$eval('dialog.regime-dlg', (el) => { const r = el.getBoundingClientRect(); return { x: r.right - 2, y: r.top + r.height / 2 }; });
+  await page.mouse.click(edge.x, edge.y);
+  assert.equal(await dialogOpen(page), true, 'a click on the dialog\'s own edge keeps it open');
   await page.mouse.click(8, 8);
   await page.waitForFunction(() => !document.querySelector('dialog.regime-dlg').open);
   assert.ok(await focusedIsPill(page), 'focus returns to the pill after a backdrop click');
@@ -672,6 +688,8 @@ const contrastScript = `(() => {
   }
   const own = document.querySelector('.regime-tag');
   out.tag = ratio(getComputedStyle(own).color, getComputedStyle(own).backgroundColor);
+  const title = document.querySelector('.regime-own');
+  out.title = ratio(getComputedStyle(title).color, bgOf(title));
   return out;
 })()`;
 

@@ -8,8 +8,14 @@
    The dialog is the native <dialog>, opened modally: Escape closes it (the
    browser's cancel), so does a click on the backdrop or the close button, and
    focus returns to the pill's button when it closes. */
-import { useCallback, useId, useRef, type MouseEvent } from 'react';
+import { useCallback, useId, useRef, type MouseEvent, type PointerEvent } from 'react';
 import { REGIME_TIERS, VDEM, regimePillText, regimeTier, type NationRegime } from '@/lib/regime';
+
+function outsideBox(e: { clientX: number; clientY: number }, el: HTMLElement | null): boolean {
+  if (!el) return false;
+  const r = el.getBoundingClientRect();
+  return e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom;
+}
 
 export function RegimePill({ nation }: { nation: NationRegime }) {
   const dialog = useRef<HTMLDialogElement>(null);
@@ -22,10 +28,19 @@ export function RegimePill({ nation }: { nation: NationRegime }) {
     if (d && !d.open) d.showModal();
   }, []);
   const close = useCallback(() => dialog.current?.close(), []);
-  /* A click on the backdrop lands on the <dialog> itself (its box has no
-     padding; the body inside it takes every click on content). */
+  /* Pointer events on the backdrop are dispatched to the <dialog> itself, as
+     are those on its own scrollbar and a click whose press and release straddle
+     the body and the backdrop (the click goes to their common ancestor). So the
+     backdrop closes only when the press and the click both fall outside the
+     dialog's box; a keyboard click, at (0,0), never follows an outside press. */
+  const pressedOutside = useRef(false);
+  const onPointerDown = useCallback((e: PointerEvent<HTMLDialogElement>) => {
+    pressedOutside.current = outsideBox(e, dialog.current);
+  }, []);
   const onBackdrop = useCallback((e: MouseEvent<HTMLDialogElement>) => {
-    if (e.target === dialog.current) close();
+    const pressed = pressedOutside.current;
+    pressedOutside.current = false;
+    if (pressed && outsideBox(e, dialog.current)) close();
   }, [close]);
   const onClose = useCallback(() => { opener.current?.focus(); }, []);
 
@@ -51,13 +66,13 @@ export function RegimePill({ nation }: { nation: NationRegime }) {
       <dialog
         ref={dialog} id={`${id}-dialog`} className="regime-dlg" data-tier={tier.id}
         aria-labelledby={`${id}-title`}
-        onClick={onBackdrop} onClose={onClose}
+        onPointerDown={onPointerDown} onClick={onBackdrop} onClose={onClose}
       >
         <div className="regime-dlg-body">
           <header className="regime-dlg-head">
             <div>
               <p className="lbl">V-Dem · Regimes of the World</p>
-              <h2 id={`${id}-title`}>{nation.name} is rated an <span className="regime-own">{tier.label.toLowerCase()}</span></h2>
+              <h2 id={`${id}-title`}>{nation.name} is rated {/^[aeiou]/i.test(tier.label) ? 'an' : 'a'} <span className="regime-own">{tier.label.toLowerCase()}</span></h2>
               <p className="regime-asof">V-Dem {VDEM.version} ({VDEM.released}), data year {VDEM.dataYear}</p>
             </div>
             <button type="button" className="regime-close" aria-label="Close" onClick={close}>×</button>

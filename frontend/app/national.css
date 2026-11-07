@@ -120,10 +120,10 @@ main{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;padding:0 var
   font-family:var(--mono);font-size:.6875rem;line-height:1.2;letter-spacing:.02em;
   color:var(--regime-ink);
 }
-.regime[data-tier="closed-autocracy"],.regime-dlg [data-tier="closed-autocracy"]{--tier:#78130d}
-.regime[data-tier="electoral-autocracy"],.regime-dlg [data-tier="electoral-autocracy"]{--tier:#b27570}
-.regime[data-tier="electoral-democracy"],.regime-dlg [data-tier="electoral-democracy"]{--tier:#766f95}
-.regime[data-tier="liberal-democracy"],.regime-dlg [data-tier="liberal-democracy"]{--tier:#1f0561}
+:is(.regime,.regime-dlg)[data-tier="closed-autocracy"],.regime-dlg [data-tier="closed-autocracy"]{--tier:#78130d}
+:is(.regime,.regime-dlg)[data-tier="electoral-autocracy"],.regime-dlg [data-tier="electoral-autocracy"]{--tier:#b27570}
+:is(.regime,.regime-dlg)[data-tier="electoral-democracy"],.regime-dlg [data-tier="electoral-democracy"]{--tier:#766f95}
+:is(.regime,.regime-dlg)[data-tier="liberal-democracy"],.regime-dlg [data-tier="liberal-democracy"]{--tier:#1f0561}
 .regime-btn,.regime-link{
   appearance:none;margin:0;cursor:pointer;
   background:var(--regime-bg);color:inherit;border:1px solid var(--regime-line);
