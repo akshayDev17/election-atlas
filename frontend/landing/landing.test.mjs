@@ -17,11 +17,12 @@ import { after, test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 import {
   NONE_YET, PAGE_SIZE, ROOT, card, cardsHtml, countryHref, credits, page, pageCount, pageFromQuery, pageHref, pageSlice,
-  pagerLinks, searchIndex, whereLine,
+  pagerLinks, regimeDialog, regimePill, searchIndex, whereLine,
 } from './render.mjs';
 import { RESERVED, aToZ, build, checkCountries, fallbackCss } from './build.mjs';
 import { MAP_ONLY, RESULT_MAPS, flagShapeSvg, pictureOf, rasterise } from './pictures.mjs';
 import { listPageNumber } from '../../backend/src/index.js';
+import { NATION_REGIMES, REGIME_TIERS, VDEM, regimePillText } from '../lib/regime.ts';
 
 const here = fileURLToPath(new URL('.', import.meta.url));
 const repo = join(here, '../..');
@@ -136,7 +137,7 @@ test('every card carries its name as text, links its country page and shows the 
   assert.match(html, /aria-label="BJP 239, INC 99 of 542 seats"/);
   assert.match(html, /href="\/elections\/india\/\?y=1980">History: 10 elections →<\/a>/);
   assert.match(html, /<img src="\/elections\/img\/india-map-2024-360.webp"[^>]+alt="Map of India, 2024 Lok Sabha election: each of the 2 constituencies with a result/);
-  assert.doesNotMatch(html, /<svg/, 'a result map has no outline stroke over it');
+  assert.doesNotMatch(html.match(/<figure class="fig">[\s\S]*?<\/figure>/)[0], /<svg/, 'a result map has no outline stroke over it');
   assert.equal(countryHref(INDIA), `${ROOT}india/`);
 });
 
@@ -149,6 +150,53 @@ test('a flag-shape card draws the 1px edge stroke over the flag and keeps its te
   assert.match(html, new RegExp(`<svg viewBox="${pic.viewBox}" aria-hidden="true"><path d="M`));
   assert.match(html, />United Kingdom<\/a><\/h2>/);
   assert.doesNotMatch(html, /History:/, 'no history link without more than one election');
+});
+
+/* Every interactive element inside an <a> in `html`: none is allowed (a button
+   or a link nested in a link is invalid HTML and a tap that goes two places). */
+const nestedInLinks = (html) => [...html.matchAll(/<a\b[^>]*>([\s\S]*?)<\/a>/g)]
+  .flatMap(([, inner]) => inner.match(/<(?:a|button|input|select|textarea|dialog)\b/g) ?? []);
+
+test('India\'s card carries its V-Dem pill from lib/regime.ts, by ISO code, outside every link', () => {
+  const html = card(INDIA, pictureOf(INDIA, OUTLINES));
+  const pill = regimePill(INDIA);
+  assert.equal(regimePillText(NATION_REGIMES.IN), 'V-Dem · Electoral autocracy');
+  assert.equal(pill,
+    '<span class="regime" data-tier="electoral-autocracy">'
+    + '<button type="button" class="regime-btn" aria-haspopup="dialog" aria-controls="regime-dialog" data-country="India" title="What this rating means">V-Dem · Electoral autocracy</button>'
+    + '<a class="regime-link" href="https://ourworldindata.org/grapher/political-regime?country=~IND" target="_blank" rel="noopener" aria-label="India’s V-Dem rating on Our World in Data (opens in a new tab)" title="India’s V-Dem rating on Our World in Data (opens in a new tab)">'
+    + '<svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true" focusable="false"><path d="M4 12 12 4M5.5 4H12v6.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></span>');
+  // once, right after the meta line, inside the card's text block
+  assert.equal(html.split(pill).length, 2);
+  assert.match(html, /<p class="meta">2024 · 18th Lok Sabha general election<\/p>\s*<span class="regime"/);
+  assert.deepEqual(nestedInLinks(html), [], 'nothing interactive inside the card\'s links');
+  // the tier is read from the card's code, never the template: the same record under another code draws none
+  const uk = several(['GB']).find((c) => c.code === 'GB');
+  assert.equal(regimePill(uk), '');
+  assert.doesNotMatch(card(uk, pictureOf(uk, OUTLINES)), /regime/);
+  assert.equal(regimePill({ ...INDIA, code: 'GB' }), '');
+  assert.match(regimePill({ ...uk, code: 'IN' }), /data-tier="electoral-autocracy"[^>]*><button[^>]*data-country="United Kingdom"/);
+});
+
+test('the page holds the Regimes of the World dialog once, empty of any country, and the cards file holds none', () => {
+  const dialog = regimeDialog();
+  const html = page([INDIA], 1, picturesFor([INDIA]), { fallbackCss: fallbackCss() });
+  assert.equal(html.split('<dialog id="regime-dialog"').length, 2, 'one dialog');
+  assert.equal(html.split('<dialog ').length, 2, 'and no other');
+  assert.ok(html.includes(dialog));
+  assert.match(dialog, /^<dialog id="regime-dialog" class="regime-dlg" aria-labelledby="regime-title">/);
+  assert.match(dialog, /<h2 id="regime-title"><span class="regime-who"><\/span> is rated <span class="regime-art"><\/span> <span class="regime-own"><\/span><\/h2>/);
+  assert.match(dialog, new RegExp(`<p class="regime-asof">V-Dem ${VDEM.version} \\(${VDEM.released}\\), data year ${VDEM.dataYear}</p>`));
+  assert.match(dialog, /<button type="button" class="regime-close" aria-label="Close">×<\/button>/);
+  assert.deepEqual([...dialog.matchAll(/<li data-tier="([^"]+)"><h3><span class="regime-dot" aria-hidden="true"><\/span><span class="regime-name">([^<]+)<\/span><span class="regime-tag" hidden><\/span><\/h3>/g)].map((m) => [m[1], m[2]]),
+    REGIME_TIERS.map((t) => [t.id, t.label]));
+  for (const t of REGIME_TIERS) assert.ok(dialog.includes(`<p>${t.criteria}</p><p class="regime-cut"><span class="lbl">Cut-offs</span> ${t.cutoffs}</p>`), t.id);
+  assert.doesNotMatch(dialog, /aria-current|data-tier="[^"]*"[^>]*class="regime-dlg"/, 'no country marked until a pill opens it');
+  for (const url of [VDEM.codebookURL, VDEM.articleURL, VDEM.reportURL, VDEM.dataURL, VDEM.countryGraphURL]) {
+    assert.ok(dialog.includes(`<a href="${url}" target="_blank" rel="noopener">`), url);
+  }
+  assert.deepEqual(nestedInLinks(dialog), []);
+  assert.doesNotMatch(cardsHtml([INDIA], 1, picturesFor([INDIA])), /<dialog/, 'the pager swaps cards, not the dialog');
 });
 
 test('credits name each listed country\'s source and only the picture sources in use', () => {
@@ -340,4 +388,12 @@ test('the built /elections: every card links a country page that exists, and sea
   assert.deepEqual(slugs, index.map((o) => o.s));
   assert.ok(!existsSync(join(out, 'page', String(pages + 1))));
   assert.ok(index.some((o) => o.s === 'india'), 'India is listed: D1 holds its published result and its page exists');
+  // India's card carries its V-Dem pill, in the page and in the cards file alike, and the page its one dialog
+  const first = JSON.parse(readFileSync(join(out, 'cards/1.json'), 'utf8')).html;
+  const whole = readFileSync(join(out, 'index.html'), 'utf8');
+  for (const html of [first, whole]) {
+    assert.match(html, /<article class="card" id="c-india"[\s\S]*?<span class="regime" data-tier="electoral-autocracy"><button type="button" class="regime-btn"[^>]*>V-Dem · Electoral autocracy<\/button>[\s\S]*?<\/article>/);
+  }
+  assert.equal(whole.split('<dialog id="regime-dialog"').length, 2);
+  assert.doesNotMatch(first, /<dialog/);
 });

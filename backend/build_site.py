@@ -22,7 +22,9 @@ re-verified). The bill PDFs are not assets: the Worker streams them from R2.
 dist/elections/: the countries are derived from D1 (backend/d1/countries.py: a
 nation with a published national result whose country page the site now holds),
 and frontend/landing/build.mjs renders their cards, pages, search index and
-pictures (it needs `npm --prefix frontend ci` for its packages).
+pictures (it needs `npm --prefix frontend ci` for its packages, and runs under
+node's --experimental-strip-types: the cards' V-Dem pill reads
+frontend/lib/regime.ts, the module the atlas's own tests read).
 
 --complete-against <data dir> refuses a site that lacks any results/ or cabinet/
 file that directory holds: every data file the pages read before the move must
@@ -112,8 +114,8 @@ def build_landing(out, db, pending_ok=False):
     with tempfile.TemporaryDirectory() as tmp:
         path = Path(tmp) / 'countries.json'
         path.write_text(json.dumps(listed, ensure_ascii=False), encoding='utf-8')
-        subprocess.run(['node', str(REPO / 'frontend' / 'landing' / 'build.mjs'), '--countries', str(path), '--site', str(out)],
-                       check=True)
+        subprocess.run(['node', '--experimental-strip-types', str(REPO / 'frontend' / 'landing' / 'build.mjs'),
+                        '--countries', str(path), '--site', str(out)], check=True)
     return listed
 
 

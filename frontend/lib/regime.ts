@@ -1,5 +1,7 @@
 /* A nation's political regime as V-Dem's Regimes of the World (RoW) rates it,
-   for the pill in a nation page's masthead and the dialog behind it.
+   for the pill on the nation's card on the /elections country list and the
+   dialog behind it (frontend/landing/render.mjs reads this module by the card's
+   ISO code; node strips the types). Nothing on the nation's own page shows it.
 
    The tier is data, not markup. Each nation's tier below is the V-Dem RoW 2025
    value (V-Dem v16, released 2026; data year 2025), read as Our World in Data
@@ -22,11 +24,11 @@ export type RegimeTier = {
   /* Legend swatch fill of Figure 4, "Regimes of the World, 2025", in the V-Dem
      Democracy Report 2026 (p. 10; read from the PDF's vector fills). The report's
      convention: autocracies in reds (closed darkest), democracies in blues
-     (liberal darkest). Nothing reads this field at runtime: app/national.css
-     restates the four values as --tier per data-tier (.regime, .regime-dlg) and
-     tints them against the theme's own tokens so the text keeps AA contrast in
-     both themes. Change a value here and there together; regime.test.ts pins
-     these four. */
+     (liberal darkest). Nothing reads this field at runtime: the country list's
+     stylesheet (landing/render.mjs, CSS) restates the four values as --tier per
+     data-tier (.regime, .regime-dlg) and tints them against the theme's own
+     tokens so the text keeps AA contrast in both themes. Change a value here and
+     there together; regime.test.ts pins these four. */
   colour: string;
   /* What a regime in this tier has, in V-Dem's terms (codebook v16, v2x_regime). */
   criteria: string;
@@ -85,8 +87,8 @@ export type NationRegime = {
   externalLabel: string;
 };
 
-/* The nations the atlas has a page for, by ISO alpha-2 code. V-Dem RoW 2025 tier
-   as read from VDEM.dataURL. */
+/* The nations the atlas has a page for, by ISO alpha-2 code (the country list's
+   `c.code`). V-Dem RoW 2025 tier as read from VDEM.dataURL. */
 export const NATION_REGIMES: Readonly<Record<string, NationRegime>> = {
   IN: {
     name: 'India', tier: 'electoral-autocracy',

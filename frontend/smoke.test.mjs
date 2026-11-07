@@ -360,7 +360,7 @@ async function readPath(viewport, path, ready) {
       headingUnder: !!heading && heading.getBoundingClientRect().top >= (trail ?? row).getBoundingClientRect().bottom - 1,
       targets,
       hits,
-      // no app-local site-path sheet: the only dialog a page owns is the regime pill's
+      // no app-local site-path sheet: the only dialog a page owns is the country list's regime dialog
       sheet: !!document.querySelector('dialog:not(.regime-dlg), .sp-pill, .sp-sheet'),
       backLink: !!document.querySelector('header .back'),
     };
@@ -547,56 +547,71 @@ for (const viewport of [
   });
 }
 
-/* The V-Dem regime pill in the national masthead (components/RegimePill.tsx):
-   "V-Dem · Electoral autocracy" for India, a button that opens the native
-   <dialog> explaining Regimes of the World with India's tier marked, and the
-   slanted-arrow link to India's page on the data source in a new tab. The
-   dialog closes on Escape, on the backdrop and with its close button, and focus
-   returns to the pill each time. Both themes, where site-shell supplies them. */
-async function openNational(context, viewport, theme) {
+/* The V-Dem regime pill on each country card of /elections (landing/render.mjs:
+   regimePill, regimeDialog and the dialog wiring in CLIENT): "V-Dem · Electoral
+   autocracy" on India's card, a button that opens the page's one native <dialog>
+   explaining Regimes of the World with India's tier marked, and the slanted-arrow
+   link to India's view on the data source in a new tab. Neither sits inside one
+   of the card's links and neither opens the country page. The dialog closes on
+   Escape, on the backdrop and with its close button, and focus returns to the
+   pill each time. Both themes, where site-shell supplies them. The nation page
+   shows none of it. */
+async function openList(context, viewport, theme) {
   const page = await context.newPage();
   await page.setViewport(viewport);
   if (theme) await page.evaluateOnNewDocument((id) => localStorage.setItem('site-theme', id), theme);
-  await page.goto(`${origin}/elections/india/?y=2024`, { waitUntil: 'networkidle0' });
-  await page.waitForSelector('#map path.pc', { timeout: 15000 });
+  await page.goto(`${origin}/elections/`, { waitUntil: 'networkidle0' });
+  await page.waitForSelector('#c-india .regime-btn', { timeout: 15000 });
   return page;
 }
-
+const PILL = '#c-india .regime-btn';
 const dialogOpen = (page) => page.evaluate(() => document.querySelector('dialog.regime-dlg')?.open ?? null);
-const focusedIsPill = (page) => page.evaluate(() => document.activeElement?.classList.contains('regime-btn'));
+const focusedIsPill = (page) => page.evaluate(() => document.activeElement?.classList.contains('regime-btn') && !!document.activeElement.closest('#c-india'));
+const here = (page) => page.evaluate(() => location.pathname + location.search);
 
-test('regime pill: India reads as V-Dem rates it, and the dialog opens, closes three ways and gives focus back', async () => {
+test('regime pill on India\'s card: reads as V-Dem rates it, sits outside the card\'s links, and its dialog opens, closes three ways and gives focus back', async () => {
   const context = await browser.createBrowserContext();
-  const page = await openNational(context, { width: 1440, height: 900 }, PHONE_THEMES[0]);
+  const page = await openList(context, { width: 1440, height: 900 }, PHONE_THEMES[0]);
+  const problems = [];
+  page.on('console', (m) => { if (isProblem(m)) problems.push(`console: ${m.text()}`); });
+  page.on('pageerror', (e) => problems.push(`exception: ${e.message}`));
   const pill = await page.evaluate(() => {
-    const btn = document.querySelector('.masthead .regime-btn');
-    const link = document.querySelector('.masthead .regime-link');
+    const btn = document.querySelector('#c-india .regime-btn');
+    const link = document.querySelector('#c-india .regime-link');
     return {
       text: btn?.textContent, haspopup: btn?.getAttribute('aria-haspopup'),
       controls: !!document.getElementById(btn?.getAttribute('aria-controls') ?? ''),
+      inLink: !!btn?.closest('a') || !!link?.parentElement?.closest('a'),
+      onCard: !!btn?.closest('article.card') && !!link?.closest('article.card'),
       href: link?.getAttribute('href'), target: link?.getAttribute('target'), rel: link?.getAttribute('rel'),
       name: link?.getAttribute('aria-label'),
+      dialogs: document.querySelectorAll('dialog').length,
+      tabbable: [btn, link].every((el) => el && el.tabIndex >= 0),
     };
   });
   assert.deepEqual(pill, {
-    text: 'V-Dem · Electoral autocracy', haspopup: 'dialog', controls: true,
+    text: 'V-Dem · Electoral autocracy', haspopup: 'dialog', controls: true, inLink: false, onCard: true,
     href: 'https://ourworldindata.org/grapher/political-regime?country=~IND', target: '_blank', rel: 'noopener',
-    name: 'India’s V-Dem rating on Our World in Data (opens in a new tab)',
+    name: 'India’s V-Dem rating on Our World in Data (opens in a new tab)', dialogs: 1, tabbable: true,
   });
   assert.equal(await dialogOpen(page), false);
 
   // keyboard: the pill is a tab stop; Enter opens, Escape closes, focus returns
-  await page.focus('.masthead .regime-btn');
+  await page.focus(PILL);
   await page.keyboard.press('Enter');
   await page.waitForSelector('dialog.regime-dlg[open]');
+  assert.equal(await here(page), '/elections/', 'the pill opens the dialog, not the country page');
   const shown = await page.evaluate(() => {
     const d = document.querySelector('dialog.regime-dlg');
     const own = d.querySelector('.regime-tiers li[aria-current="true"]');
     return {
+      tier: d.dataset.tier,
       title: d.querySelector('h2').textContent,
       asof: d.querySelector('.regime-asof').textContent,
-      tiers: [...d.querySelectorAll('.regime-tiers h3')].map((h) => h.firstChild.nextSibling.textContent.trim()),
+      tiers: [...d.querySelectorAll('.regime-tiers .regime-name')].map((el) => el.textContent),
       own: own?.dataset.tier, ownTag: own?.querySelector('.regime-tag')?.textContent,
+      otherTags: [...d.querySelectorAll('.regime-tiers li:not([aria-current]) .regime-tag')].filter((t) => !t.hidden).length,
+      who: [...d.querySelectorAll('.regime-who')].map((el) => el.textContent),
       headingInk: getComputedStyle(d.querySelector('.regime-own')).color,
       ownRowInk: own ? getComputedStyle(own.querySelector('h3')).color : null,
       rowInks: new Set([...d.querySelectorAll('.regime-tiers h3')].map((h) => getComputedStyle(h).color)).size,
@@ -605,11 +620,14 @@ test('regime pill: India reads as V-Dem rates it, and the dialog opens, closes t
       labelled: d.getAttribute('aria-labelledby') === d.querySelector('h2').id,
     };
   });
+  assert.equal(shown.tier, 'electoral-autocracy');
   assert.equal(shown.title, 'India is rated an electoral autocracy');
   assert.equal(shown.asof, 'V-Dem v16 (2026), data year 2025');
   assert.deepEqual(shown.tiers, ['Closed autocracy', 'Electoral autocracy', 'Electoral democracy', 'Liberal democracy']);
   assert.equal(shown.own, 'electoral-autocracy');
   assert.equal(shown.ownTag, 'India, 2025');
+  assert.equal(shown.otherTags, 0, 'only the country\'s own tier is tagged');
+  assert.deepEqual(shown.who, ['India', 'India'], 'the title and the sources name the country');
   assert.equal(shown.rowInks, 4, 'each tier row draws its heading in its own tier ink');
   assert.equal(shown.headingInk, shown.ownRowInk, 'the title names the tier in that tier\'s ink, as its row does');
   assert.ok(shown.labelled);
@@ -624,14 +642,14 @@ test('regime pill: India reads as V-Dem rates it, and the dialog opens, closes t
   assert.ok(await focusedIsPill(page), 'focus returns to the pill after Escape');
 
   // mouse: click opens, the close button closes
-  await page.click('.masthead .regime-btn');
+  await page.click(PILL);
   await page.waitForSelector('dialog.regime-dlg[open]');
   await page.click('dialog.regime-dlg .regime-close');
   await page.waitForFunction(() => !document.querySelector('dialog.regime-dlg').open);
   assert.ok(await focusedIsPill(page), 'focus returns to the pill after the close button');
 
   // a click on the backdrop closes; one inside the dialog does not
-  await page.click('.masthead .regime-btn');
+  await page.click(PILL);
   await page.waitForSelector('dialog.regime-dlg[open]');
   await page.click('dialog.regime-dlg .regime-intro');
   assert.equal(await dialogOpen(page), true, 'a click on the dialog\'s own text keeps it open');
@@ -660,22 +678,65 @@ test('regime pill: India reads as V-Dem rates it, and the dialog opens, closes t
   await page.mouse.click(8, 8);
   await page.waitForFunction(() => !document.querySelector('dialog.regime-dlg').open);
   assert.ok(await focusedIsPill(page), 'focus returns to the pill after a backdrop click');
+  assert.equal(await here(page), '/elections/', 'nothing so far has left the list');
+
+  // The pills come and go with their cards (the pager swaps cards in from
+  // /elections/cards/N.json), so the list listens, not each pill: a card swapped
+  // in just now opens the dialog the same way.
+  await page.evaluate(async () => {
+    const ol = document.querySelector('.list');
+    ol.innerHTML = (await (await fetch('/elections/cards/1.json')).json()).html;
+  });
+  await page.click(PILL);
+  await page.waitForSelector('dialog.regime-dlg[open]');
+  assert.equal(await page.evaluate(() => document.querySelector('dialog.regime-dlg h2').textContent), 'India is rated an electoral autocracy');
+  await page.keyboard.press('Escape');
+  await page.waitForFunction(() => !document.querySelector('dialog.regime-dlg').open);
+  assert.ok(await focusedIsPill(page), 'focus returns to the swapped-in pill');
   await context.close();
+  assert.deepEqual(problems, []);
 });
 
-/* The pill takes one row of its own under the tools and nothing else moves: the
-   tools row (years, tense, picker) stays one line at 1440 and 1280, as before. */
+/* On a desktop the card grows by the pill's own row and nothing else on it moves:
+   the picture, the title and the meta line stay where they were, what is above
+   the pill stays put, and what follows it moves down by exactly the pill's row.
+   (At 1440 the card is one column with the pill under the meta line; at 1280 the
+   cards are narrow enough for the two-column layout, where the pill takes its
+   own row under the result lines.) */
 for (const width of [1440, 1280]) {
-  test(`regime pill at ${width} px: the tools row above it still fits on one line`, async () => {
+  test(`regime pill at ${width} px: the card grows by the pill's row alone`, async () => {
     const context = await browser.createBrowserContext();
-    const page = await openNational(context, { width, height: 800 }, PHONE_THEMES[0]);
-    const seen = await page.evaluate(() => {
-      const r = (sel) => document.querySelector(sel).getBoundingClientRect();
-      return { tools: Math.round(r('.mh-top').height), rule: Math.round(r('.mh-rule').height), pill: Math.round(r('.regime').height) };
+    const page = await openList(context, { width, height: 900 }, PHONE_THEMES[0]);
+    const read = () => page.evaluate(() => {
+      const card = document.querySelector('#c-india');
+      const r = (sel) => { const b = card.querySelector(sel).getBoundingClientRect(); return [Math.round(b.left), Math.round(b.top), Math.round(b.width), Math.round(b.height)]; };
+      const c = card.getBoundingClientRect();
+      return {
+        card: [Math.round(c.width), Math.round(c.height)], fig: r('.fig'), h2: r('h2'), meta: r('.meta'), seatbar: r('.seatbar'), res: r('.res'), st: r('.st'), go: r('.go'),
+        pill: card.querySelector('.regime') ? r('.regime') : null, scrollWidth: document.documentElement.scrollWidth,
+        text: card.querySelector('.regime-btn')?.textContent, clipped: (() => { const b = card.querySelector('.regime-btn'); return b && b.scrollWidth > b.clientWidth; })(),
+      };
     });
+    const withPill = await read();
+    await page.addStyleTag({ content: '.regime{display:none!important}' });
+    const without = await read();
     await context.close();
-    assert.ok(seen.tools <= 30, `tools row ${seen.tools} px: it wrapped`);
-    assert.equal(seen.rule, seen.pill, 'the rule row is the pill\'s own height');
+    assert.ok(withPill.pill, 'the pill is on the card');
+    assert.equal(withPill.clipped, false, `the pill shows its whole text, "${withPill.text}"`);
+    assert.equal(withPill.scrollWidth, width, 'the page lays out at the window\'s width');
+    for (const k of ['fig', 'h2', 'meta']) assert.deepEqual(withPill[k], without[k], `the ${k} does not move for the pill`);
+    assert.equal(withPill.card[0], without.card[0], 'the card is no wider for the pill');
+    const grew = withPill.card[1] - without.card[1];
+    assert.ok(grew > 0 && grew <= withPill.pill[3] + 13, `the card grows by the pill's row: ${grew} px for a ${withPill.pill[3]} px pill`);
+    for (const k of ['seatbar', 'res', 'st', 'go']) {
+      const below = withPill[k][1] >= withPill.pill[1] + withPill.pill[3] - 1;
+      const moved = withPill[k][1] - without[k][1];
+      // rounded rects: a sub-pixel row height may land a pixel either way
+      assert.ok(Math.abs(moved - (below ? grew : 0)) <= 1, `${k}, ${below ? 'under' : 'above'} the pill, ${below ? `moves down by the pill's row (${moved} for ${grew})` : `does not move (${moved})`}`);
+    }
+    assert.ok(withPill.pill[1] >= withPill.meta[1] + withPill.meta[3] - 1, 'the pill sits under the meta line');
+    assert.ok(withPill.pill[1] + withPill.pill[3] <= withPill.go[1] + 1, 'and above the buttons');
+    assert.ok(withPill.pill[0] >= withPill.fig[0] + withPill.fig[2] - 1 || withPill.pill[1] >= withPill.fig[1] + withPill.fig[3] - 1, 'and clear of the picture');
   });
 }
 
@@ -691,13 +752,13 @@ const contrastScript = `(() => {
   const ratio = (a, b) => { const x = lum(rgb(a)), y = lum(rgb(b)); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); };
   const bgOf = (el) => { for (let e = el; e; e = e.parentElement) { const c = getComputedStyle(e).backgroundColor; if (c !== 'rgba(0, 0, 0, 0)' && c !== 'transparent') return c; } return getComputedStyle(document.documentElement).backgroundColor; };
   const out = {};
-  const btn = document.querySelector('.masthead .regime-btn');
+  const btn = document.querySelector('#c-india .regime-btn');
   out.pill = ratio(getComputedStyle(btn).color, getComputedStyle(btn).backgroundColor);
   for (const li of document.querySelectorAll('.regime-tiers li')) {
     const h = li.querySelector('h3');
     out[li.dataset.tier] = ratio(getComputedStyle(h).color, bgOf(h));
   }
-  const own = document.querySelector('.regime-tag');
+  const own = document.querySelector('.regime-tiers li[aria-current="true"] .regime-tag');
   out.tag = ratio(getComputedStyle(own).color, getComputedStyle(own).backgroundColor);
   const title = document.querySelector('.regime-own');
   out.title = ratio(getComputedStyle(title).color, bgOf(title));
@@ -707,8 +768,8 @@ const contrastScript = `(() => {
 for (const theme of PHONE_THEMES) {
   test(`regime pill${theme ? ` (${theme})` : ''}: AA contrast on the pill and on every tier in the dialog`, async () => {
     const context = await browser.createBrowserContext();
-    const page = await openNational(context, { width: 1280, height: 800 }, theme);
-    await page.click('.masthead .regime-btn');
+    const page = await openList(context, { width: 1280, height: 800 }, theme);
+    await page.click(PILL);
     await page.waitForSelector('dialog.regime-dlg[open]');
     const ratios = await page.evaluate(contrastScript);
     await context.close();
@@ -717,43 +778,78 @@ for (const theme of PHONE_THEMES) {
   });
 }
 
-/* On a phone the dialog fits the screen's width, scrolls inside itself for the
-   rest, and sets no text under 12 px; the pill itself is 12 px or more. A tap on
-   the backdrop above it closes it and nothing else: the tap's click must not
-   fall through to the page beneath (the masthead's links, the map). */
+/* On a phone the card is two columns, the picture beside the text: the pill
+   takes a row of its own under the result lines, inside the card, clear of the
+   picture and the title, its whole text showing in 12 px type or more. A tap on it opens
+   the dialog, which fits the screen's width, scrolls inside itself for the rest
+   and sets no text under 12 px; a tap on the backdrop above it closes it and
+   nothing else: the tap's click must not fall through to the page beneath (the
+   card's links). Both themes. */
 for (const width of [360, 390, 412]) {
-  test(`regime dialog at ${width} px: fits the width, scrolls, no text under 12 px`, async () => {
+  test(`regime pill at ${width} px: on its own row, clear of the picture and the title, whole; its dialog fits, scrolls and closes on a backdrop tap`, async () => {
     const wrong = [];
     for (const theme of PHONE_THEMES) {
       const context = await browser.createBrowserContext();
-      const page = await openNational(context, { width, height: 800, isMobile: true, hasTouch: true, deviceScaleFactor: 3 }, theme);
-      await page.tap('.masthead .regime-btn');
+      const page = await openList(context, { width, height: 800, isMobile: true, hasTouch: true, deviceScaleFactor: 3 }, theme);
+      const label = theme ?? 'static';
+      await page.$eval('#c-india', (el) => el.scrollIntoView({ block: 'start' }));
+      const card = await page.evaluate(() => {
+        const card = document.querySelector('#c-india');
+        const box = (el) => { const b = el.getBoundingClientRect(); return { l: b.left, t: b.top, r: b.right, b: b.bottom }; };
+        const overlaps = (a, b) => a.l < b.r - 1 && b.l < a.r - 1 && a.t < b.b - 1 && b.t < a.b - 1;
+        const pill = box(card.querySelector('.regime')), fig = box(card.querySelector('.fig')), h2 = box(card.querySelector('h2')), c = box(card);
+        const btn = card.querySelector('.regime-btn');
+        const small = [card.querySelector('.regime'), ...card.querySelectorAll('.regime *')]
+          .filter((el) => [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim()))
+          .map((el) => [el.className, parseFloat(getComputedStyle(el).fontSize)])
+          .filter(([, fs]) => fs < 12).map(([c, fs]) => `${c}:${fs}`);
+        return {
+          twoColumn: getComputedStyle(card).gridTemplateColumns.split(' ').length === 2,
+          onPicture: overlaps(pill, fig), onTitle: overlaps(pill, h2), underPicture: pill.t >= fig.b - 1,
+          inside: pill.l >= c.l && pill.r <= c.r && pill.t >= c.t && pill.b <= c.b,
+          underResults: pill.t >= box(card.querySelector('.st')).b - 1, aboveButtons: pill.b <= box(card.querySelector('.go')).t + 1,
+          clipped: btn.scrollWidth > btn.clientWidth, text: btn.textContent,
+          small,
+        };
+      });
+      if (!card.twoColumn) wrong.push(`${label}: the card is not in its two-column layout`);
+      if (card.onPicture) wrong.push(`${label}: the pill overlaps the picture`);
+      if (card.onTitle) wrong.push(`${label}: the pill overlaps the title`);
+      if (!card.underPicture) wrong.push(`${label}: the pill is not under the picture`);
+      if (!card.inside) wrong.push(`${label}: the pill pokes out of the card`);
+      if (!card.underResults || !card.aboveButtons) wrong.push(`${label}: the pill is not between the result lines and the buttons`);
+      if (card.clipped) wrong.push(`${label}: the pill truncates its text, "${card.text}"`);
+      if (card.small.length) wrong.push(`${label}: pill text under 12 px: ${card.small.join(', ')}`);
+
+      await page.tap(PILL);
       await page.waitForSelector('dialog.regime-dlg[open]');
-      const seen = await page.evaluate((w) => {
+      const seen = await page.evaluate(() => {
         const d = document.querySelector('dialog.regime-dlg');
         const b = d.getBoundingClientRect();
-        const texts = [d.querySelector('.regime-dlg-body'), document.querySelector('.masthead .regime')]
-          .flatMap((root) => [root, ...root.querySelectorAll('*')])
+        const texts = [d.querySelector('.regime-dlg-body'), ...d.querySelectorAll('.regime-dlg-body *')]
           .filter((el) => [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim()))
           .map((el) => [el.className, parseFloat(getComputedStyle(el).fontSize)]);
         return {
           top: b.top, right: Math.round(b.right), bottom: Math.round(b.bottom), innerWidth, innerHeight,
           scrolls: d.scrollHeight > d.clientHeight + 1, sideways: d.scrollWidth > d.clientWidth + 1,
           small: texts.filter(([, fs]) => fs < 12).map(([c, fs]) => `${c}:${fs}`),
+          title: d.querySelector('h2').textContent,
         };
-      }, width);
-      const before = await page.evaluate(() => location.pathname + location.search);
+      });
+      const before = await here(page);
       await page.touchscreen.tap(width / 2, Math.max(2, seen.top / 2));
       await page.waitForFunction(() => !document.querySelector('dialog.regime-dlg').open);
       await new Promise((r) => setTimeout(r, 300));
       const after = await page.evaluate(() => ({
         url: location.pathname + location.search, open: document.querySelector('dialog.regime-dlg')?.open ?? null,
+        focusOnPill: document.activeElement?.classList.contains('regime-btn') ?? false,
       }));
       await context.close();
-      const label = theme ?? 'static';
+      if (seen.title !== 'India is rated an electoral autocracy') wrong.push(`${label}: the dialog says "${seen.title}"`);
       if (seen.top < 4) wrong.push(`${label}: no backdrop above the dialog to tap (top ${seen.top})`);
-      if (after.url !== before) wrong.push(`${label}: the backdrop tap fell through and navigated to ${after.url}`);
+      if (after.url !== before || before !== '/elections/') wrong.push(`${label}: the page moved from ${before} to ${after.url}`);
       if (after.open !== false) wrong.push(`${label}: the dialog is ${after.open === null ? 'gone' : 'open again'} after the backdrop tap`);
+      if (!after.focusOnPill) wrong.push(`${label}: focus did not return to the pill`);
       if (seen.right > width || seen.innerWidth !== width) wrong.push(`${label}: dialog right edge ${seen.right} (innerWidth ${seen.innerWidth})`);
       if (seen.bottom > seen.innerHeight) wrong.push(`${label}: dialog runs under the screen bottom`);
       if (!seen.scrolls) wrong.push(`${label}: the dialog does not scroll inside itself`);
@@ -763,3 +859,20 @@ for (const width of [360, 390, 412]) {
     assert.deepEqual(wrong, []);
   });
 }
+
+/* The nation page shows none of it: no pill, arrow or dialog in its masthead, and
+   the hairline under the tools is back to a rule on its own. */
+test('national masthead: no regime pill, arrow or dialog; the pill lives on the country list', async () => {
+  const page = await browser.newPage();
+  await page.setViewport({ width: 1440, height: 900 });
+  await page.goto(`${origin}/elections/india/?y=2024`, { waitUntil: 'networkidle0' });
+  await page.waitForSelector('#map path.pc', { timeout: 15000 });
+  const seen = await page.evaluate(() => ({
+    pill: document.querySelectorAll('.regime, .regime-btn, .regime-link, .mh-rule').length,
+    dialogs: document.querySelectorAll('dialog').length,
+    vdem: /V-Dem/.test(document.body.innerText),
+    rule: !!document.querySelector('header.masthead > hr.hair, .masthead hr.hair'),
+  }));
+  await page.close();
+  assert.deepEqual(seen, { pill: 0, dialogs: 0, vdem: false, rule: true });
+});

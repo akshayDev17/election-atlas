@@ -1,4 +1,4 @@
-// The V-Dem regime data behind the masthead pill: every nation names a tier the
+// The V-Dem regime data behind the country cards' pill: every nation names a tier the
 // catalogue has, the four tiers are V-Dem's four with its own colours, and India
 // reads as V-Dem rates it (RoW 2025: electoral autocracy).
 import assert from 'node:assert/strict';
