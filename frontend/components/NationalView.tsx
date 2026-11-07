@@ -16,7 +16,6 @@ import {
   lsStateAvailable, nf, notAvailable, parentsOf, partOfText, pc1, resultRegion, titleCase, unionRoster,
 } from '@/lib/atlas';
 import { DATA, pageURL } from '@/lib/base';
-import { NATION_REGIMES } from '@/lib/regime';
 import {
   NAT_DEFAULT, PAGE_SIZE, RANK_LABEL, aggregate, aggregateStates, belowCutMessage, byeNote, compactPortfolio,
   memberMatches, nationalRows, partyMatches, portfolioList, regionLeader, resolveSeats, seatLabel,
@@ -28,7 +27,6 @@ import type {
 } from '@/lib/types';
 import { HoverCard, type HoverCardHandle } from './HoverCard';
 import { Pager } from './Pager';
-import { RegimePill } from './RegimePill';
 import { revealPressed } from './revealPressed';
 import { SitePath } from './SitePath';
 import { Monogram, OfficialPhotoLink, Swatch } from './Member';
@@ -364,12 +362,7 @@ export default function NationalView() {
               <site-theme-picker hide-label="" />
             </div>
           </div>
-          {/* The rule under the tools carries the V-Dem regime pill as its label:
-              the one row the masthead gains, at the pill's own height. */}
-          <div className="mh-rule" style={{ marginTop: 'var(--s4)' }}>
-            <RegimePill nation={NATION_REGIMES.IN} />
-            <hr className="hair" />
-          </div>
+          <hr className="hair" style={{ marginTop: 'var(--s4)' }} />
           <p className="caveat">Results: Election Commission of India statistical reports. Cabinets: the Prime Minister’s Office and the Press Information Bureau. Where a view says “not available yet”, that data has not been added.</p>
         </header>
 

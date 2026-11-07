@@ -2,7 +2,9 @@
 // from D1 (backend/d1/countries.py). backend/build_site.py runs it; by hand:
 //
 //   python3 backend/d1/countries.py --db d1.sqlite --site dist --out countries.json
-//   node frontend/landing/build.mjs --countries countries.json --site dist
+//   node --experimental-strip-types frontend/landing/build.mjs --countries countries.json --site dist
+//
+// (the type stripping is for lib/regime.ts, which render.mjs reads for the cards' V-Dem pill)
 //
 // Writes, under <site>/elections/:
 //   index.html           page 1, whole (the Worker serves it at /elections/)
@@ -87,7 +89,7 @@ export async function build({ countries: derived, site, outlines = readJson(join
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const { values } = parseArgs({ options: { countries: { type: 'string' }, site: { type: 'string' } } });
   if (!values.countries || !values.site) {
-    console.error('usage: node frontend/landing/build.mjs --countries <countries.json> --site <dist>');
+    console.error('usage: node --experimental-strip-types frontend/landing/build.mjs --countries <countries.json> --site <dist>');
     process.exit(2);
   }
   try {
