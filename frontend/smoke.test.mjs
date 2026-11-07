@@ -646,6 +646,17 @@ test('regime pill: India reads as V-Dem rates it, and the dialog opens, closes t
   const edge = await page.$eval('dialog.regime-dlg', (el) => { const r = el.getBoundingClientRect(); return { x: r.right - 2, y: r.top + r.height / 2 }; });
   await page.mouse.click(edge.x, edge.y);
   assert.equal(await dialogOpen(page), true, 'a click on the dialog\'s own edge keeps it open');
+  // a right-click on the backdrop is not a dismissal, and leaves nothing behind: a
+  // keyboard activation inside the dialog afterwards (a click at 0,0) keeps it open
+  await page.mouse.click(8, 8, { button: 'right' });
+  assert.equal(await dialogOpen(page), true, 'a right-click on the backdrop keeps it open');
+  await page.evaluate(() => {
+    const a = document.querySelector('dialog.regime-dlg .regime-dlg-foot a');
+    a.addEventListener('click', (e) => e.preventDefault(), { once: true });
+    a.focus();
+  });
+  await page.keyboard.press('Enter');
+  assert.equal(await dialogOpen(page), true, 'activating a link inside by keyboard keeps it open');
   await page.mouse.click(8, 8);
   await page.waitForFunction(() => !document.querySelector('dialog.regime-dlg').open);
   assert.ok(await focusedIsPill(page), 'focus returns to the pill after a backdrop click');

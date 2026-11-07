@@ -8,7 +8,7 @@
    The dialog is the native <dialog>, opened modally: Escape closes it (the
    browser's cancel), so does a click on the backdrop or the close button, and
    focus returns to the pill's button when it closes. */
-import { useCallback, useId, useRef, type MouseEvent, type PointerEvent } from 'react';
+import { useCallback, useId, useRef, type PointerEvent } from 'react';
 import { REGIME_TIERS, VDEM, regimePillText, regimeTier, type NationRegime } from '@/lib/regime';
 
 function outsideBox(e: { clientX: number; clientY: number }, el: HTMLElement | null): boolean {
@@ -29,20 +29,22 @@ export function RegimePill({ nation }: { nation: NationRegime }) {
   }, []);
   const close = useCallback(() => dialog.current?.close(), []);
   /* Pointer events on the backdrop are dispatched to the <dialog> itself, as
-     are those on its own scrollbar and a click whose press and release straddle
-     the body and the backdrop (the click goes to their common ancestor). So the
-     backdrop closes only when the press and the click both fall outside the
-     dialog's box; a keyboard click, at (0,0), never follows an outside press. */
+     are those on its own scrollbar and on its edges. So a tap or click on the
+     backdrop is a primary press and release that both fall outside the dialog's
+     box: the press is remembered, the release decides, and a cancelled press or
+     the dialog closing forgets it. Keyboard activation of anything inside never
+     presses, so it never closes. */
   const pressedOutside = useRef(false);
   const onPointerDown = useCallback((e: PointerEvent<HTMLDialogElement>) => {
-    pressedOutside.current = outsideBox(e, dialog.current);
+    pressedOutside.current = e.button === 0 && e.isPrimary && outsideBox(e, dialog.current);
   }, []);
-  const onBackdrop = useCallback((e: MouseEvent<HTMLDialogElement>) => {
+  const onPointerUp = useCallback((e: PointerEvent<HTMLDialogElement>) => {
     const pressed = pressedOutside.current;
     pressedOutside.current = false;
-    if (pressed && outsideBox(e, dialog.current)) close();
+    if (pressed && e.button === 0 && outsideBox(e, dialog.current)) close();
   }, [close]);
-  const onClose = useCallback(() => { opener.current?.focus(); }, []);
+  const forgetPress = useCallback(() => { pressedOutside.current = false; }, []);
+  const onClose = useCallback(() => { pressedOutside.current = false; opener.current?.focus(); }, []);
 
   return (
     <>
@@ -66,7 +68,7 @@ export function RegimePill({ nation }: { nation: NationRegime }) {
       <dialog
         ref={dialog} id={`${id}-dialog`} className="regime-dlg" data-tier={tier.id}
         aria-labelledby={`${id}-title`}
-        onPointerDown={onPointerDown} onClick={onBackdrop} onClose={onClose}
+        onPointerDown={onPointerDown} onPointerUp={onPointerUp} onPointerCancel={forgetPress} onClose={onClose}
       >
         <div className="regime-dlg-body">
           <header className="regime-dlg-head">
