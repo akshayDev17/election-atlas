@@ -195,9 +195,7 @@ main{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;padding:0 var
 .regime-dlg-foot ul{margin:var(--s2) 0 0;padding-inline-start:1.1em;font-family:var(--mono);font-size:.6875rem;line-height:1.6;color:var(--muted)}
 .regime-dlg-foot li+li{margin-top:var(--s1)}
 .regime-dlg-foot a{color:var(--ink);text-decoration:underline;text-underline-offset:2px}
-.regime-more{display:inline-flex;align-items:center;gap:var(--s1);margin-top:var(--s4);
-  font-family:var(--mono);font-size:.75rem;letter-spacing:.03em;color:var(--ink);text-decoration:underline;text-underline-offset:3px}
-.regime-more:focus-visible,.regime-dlg-foot a:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:2px}
+.regime-dlg-foot a:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:2px}
 /* Per theme, through the theme's own color-scheme: lighter text on the dark
    ground, darker on the light. A custom property takes any value, so this sits
    under @supports rather than as a second declaration, or a browser without
@@ -208,7 +206,6 @@ main{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;padding:0 var
     --regime-ink:light-dark(color-mix(in oklab,var(--tier) 60%,var(--ink)),color-mix(in oklab,var(--tier) 30%,var(--ink)))
   }
 }
-.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .years{display:flex;align-items:baseline;gap:2px;margin-bottom:-6px}
 .year{
   appearance:none;background:none;border:0;cursor:pointer;

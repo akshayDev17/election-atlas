@@ -581,7 +581,7 @@ test('regime pill: India reads as V-Dem rates it, and the dialog opens, closes t
   assert.deepEqual(pill, {
     text: 'V-Dem · Electoral autocracy', haspopup: 'dialog', controls: true,
     href: 'https://ourworldindata.org/grapher/political-regime?country=~IND', target: '_blank', rel: 'noopener',
-    name: 'India’s V-Dem regime history on Our World in Data (opens in a new tab)',
+    name: 'India’s V-Dem rating on Our World in Data (opens in a new tab)',
   });
   assert.equal(await dialogOpen(page), false);
 

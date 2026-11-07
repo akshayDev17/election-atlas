@@ -94,13 +94,6 @@ export function RegimePill({ nation }: { nation: NationRegime }) {
               <li><a href={VDEM.reportURL} target="_blank" rel="noopener">{VDEM.reportCitation}</a> (the tier colours are its map legend).</li>
               <li>{nation.name}’s tier as read from <a href={VDEM.dataURL} target="_blank" rel="noopener">Our World in Data’s chart of V-Dem {VDEM.version}</a>; V-Dem’s own <a href={VDEM.countryGraphURL} target="_blank" rel="noopener">Country Graph</a> plots the underlying indices.</li>
             </ul>
-            <a className="regime-more" href={nation.externalURL} target="_blank" rel="noopener">
-              {nation.name} on Our World in Data
-              <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true" focusable="false">
-                <path d="M4 12 12 4M5.5 4H12v6.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              <span className="sr-only"> (opens in a new tab)</span>
-            </a>
           </footer>
         </div>
       </dialog>

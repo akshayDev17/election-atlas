@@ -8,7 +8,6 @@ import { NATION_REGIMES, REGIME_TIERS, VDEM, regimePillText, regimeTier } from '
 test('the four tiers are V-Dem\'s, autocracies then democracies, each with criteria and a colour', () => {
   assert.deepEqual(REGIME_TIERS.map(t => t.id),
     ['closed-autocracy', 'electoral-autocracy', 'electoral-democracy', 'liberal-democracy']);
-  assert.deepEqual(REGIME_TIERS.map(t => t.kind), ['autocracy', 'autocracy', 'democracy', 'democracy']);
   for (const t of REGIME_TIERS) {
     assert.match(t.colour, /^#[0-9a-f]{6}$/, t.id);
     assert.ok(t.criteria.length > 80 && t.cutoffs.length > 40, t.id);
@@ -20,7 +19,6 @@ test('the four tiers are V-Dem\'s, autocracies then democracies, each with crite
 
 test('every nation names a tier the catalogue has and an https page of its own', () => {
   for (const [code, n] of Object.entries(NATION_REGIMES)) {
-    assert.equal(n.iso2, code);
     assert.ok(REGIME_TIERS.some(t => t.id === n.tier), `${code}: ${n.tier}`);
     assert.match(n.externalURL, /^https:\/\//, code);
     assert.match(n.externalLabel, /new tab/, `${code}: the link says it opens a new tab`);

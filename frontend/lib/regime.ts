@@ -19,8 +19,6 @@ export type RegimeTier = {
   id: RegimeTierId;
   /* As V-Dem writes it: "Electoral autocracy". */
   label: string;
-  /* The kind of regime, for grouping the four: V-Dem's democracy/autocracy split. */
-  kind: 'autocracy' | 'democracy';
   /* Legend swatch fill of Figure 4, "Regimes of the World, 2025", in the V-Dem
      Democracy Report 2026 (p. 10; read from the PDF's vector fills). The report's
      convention: autocracies in reds (closed darkest), democracies in blues
@@ -35,22 +33,22 @@ export type RegimeTier = {
 
 export const REGIME_TIERS: readonly RegimeTier[] = [
   {
-    id: 'closed-autocracy', label: 'Closed autocracy', kind: 'autocracy', colour: '#78130d',
+    id: 'closed-autocracy', label: 'Closed autocracy', colour: '#78130d',
     criteria: 'No multi-party elections for the chief executive or the legislature: either the legislature is not chosen in multi-party elections, or the chief executive is not elected, directly or indirectly, through them.',
-    cutoffs: 'No basic multi-party competition in elections (below 1 of 4 on V-Dem’s multi-party elections indicator), or no legislative or executive elections at all.',
+    cutoffs: 'No basic multi-party competition in elections (1 of 4 or lower on V-Dem’s multi-party elections indicator), or no legislative or executive elections at all.',
   },
   {
-    id: 'electoral-autocracy', label: 'Electoral autocracy', kind: 'autocracy', colour: '#b27570',
+    id: 'electoral-autocracy', label: 'Electoral autocracy', colour: '#b27570',
     criteria: 'Multi-party elections for the chief executive and the legislature exist in law, but the country fails at least one democratic test: the elections are not free and fair, competition between parties is not real in practice, or the country falls short of V-Dem’s minimum for Dahl’s requisites of polyarchy on its Electoral Democracy Index (suffrage, clean elections, an elected executive, freedom of expression and alternative sources of information, and freedom of association).',
     cutoffs: 'Above 1 of 4 on multi-party elections, but not above 2 of 4 on both multi-party and free-and-fair elections, or not above 0.5 on the Electoral Democracy Index.',
   },
   {
-    id: 'electoral-democracy', label: 'Electoral democracy', kind: 'democracy', colour: '#766f95',
+    id: 'electoral-democracy', label: 'Electoral democracy', colour: '#766f95',
     criteria: 'Multi-party elections that are free and fair in practice, and at least V-Dem’s minimum for Dahl’s requisites of polyarchy on the Electoral Democracy Index, but at least one liberal requirement is not met: equal access to justice for men and women, transparent and predictable enforcement of the law, or the liberal principles V-Dem measures on its Liberal Component Index (respect for personal liberties, the rule of law, and judicial and legislative constraints on the executive).',
     cutoffs: 'Above 2 of 4 on multi-party elections and on free-and-fair elections, and above 0.5 on the Electoral Democracy Index, without meeting every liberal cut-off below.',
   },
   {
-    id: 'liberal-democracy', label: 'Liberal democracy', kind: 'democracy', colour: '#1f0561',
+    id: 'liberal-democracy', label: 'Liberal democracy', colour: '#1f0561',
     criteria: 'Everything an electoral democracy has, and the liberal requirements too: access to justice for men and women, transparent enforcement of the law, and the liberal principles of respect for personal liberties, the rule of law, and judicial and legislative constraints on the executive.',
     cutoffs: 'The electoral democracy cut-offs, plus above 0.8 on the Liberal Component Index and above 3 of 4 on transparent law enforcement and on access to justice for men and for women.',
   },
@@ -75,8 +73,6 @@ export const VDEM = {
 } as const;
 
 export type NationRegime = {
-  /* ISO 3166-1 alpha-2, the key the atlas's country data uses elsewhere. */
-  iso2: string;
   name: string;
   tier: RegimeTierId;
   /* The nation's own page on the data source, for the pill's external link.
@@ -90,9 +86,9 @@ export type NationRegime = {
    as read from VDEM.dataURL. */
 export const NATION_REGIMES: Readonly<Record<string, NationRegime>> = {
   IN: {
-    iso2: 'IN', name: 'India', tier: 'electoral-autocracy',
+    name: 'India', tier: 'electoral-autocracy',
     externalURL: 'https://ourworldindata.org/grapher/political-regime?country=~IND',
-    externalLabel: 'India’s V-Dem regime history on Our World in Data (opens in a new tab)',
+    externalLabel: 'India’s V-Dem rating on Our World in Data (opens in a new tab)',
   },
 };
 
