@@ -28,7 +28,7 @@ export type RegimeTier = {
      stylesheet (landing/render.mjs, CSS) restates the four values as --tier per
      data-tier (.regime, .regime-dlg) and tints them against the theme's own
      tokens so the text keeps AA contrast in both themes. Change a value here and
-     there together; regime.test.ts and landing.test.mjs pin these four. */
+     there together; regime.test.ts pins these four. */
   colour: string;
   /* What a regime in this tier has, in V-Dem's terms (codebook v16, v2x_regime). */
   criteria: string;
