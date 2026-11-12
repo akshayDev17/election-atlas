@@ -334,7 +334,7 @@ is no MLA page to source. Proven live from four independent official sources, on
   to create a legislature only *"for the Union territory of Puducherry"*; Article 239AA covers Delhi; Article 240
   lists A&N, Lakshadweep, DNH, Daman & Diu and Puducherry — **Chandigarh is in none of them.**
 - **§6 — Represented in Parliament only.** One Lok Sabha seat; no Rajya Sabha seat of its own.
-  **MPLADS for that MP** — eSAKSHI `STATE_ID 7` → `python3 tools/fetch-mplads.py IN-CH 7` →
+  **MPLADS for that MP** — eSAKSHI `STATE_ID 7` → `python3 countries/IN/harvest/fetch-mplads.py IN-CH 7` →
   `data/mplads/IN-CH/chandigarh.json`, **MP MANISH TEWARI** (constituency CHANDIGARH), **113 works**.
   **18th Lok Sabha:** Allocated Limit **₹17,83,51,443.75 (₹17.84 Cr)** · Works Recommended **113 (₹7,83,83,199 /
   ₹7.84 Cr)** · Works Sanctioned **95 (₹6,63,83,199 / ₹6.64 Cr)** · Works Completed **32 (₹1,61,40,977 /
@@ -436,7 +436,7 @@ entitlement**.**
   - No dedicated fund portal exists: `mlalad.py.gov.in`, `mla.py.gov.in`, `ladfund.py.gov.in`,
     `vidhayaknidhi.py.gov.in` **all NXDOMAIN** — the GOs are the source.
 - **MPLADS (the MP tier, not the MLA tier).** eSAKSHI `STATE_ID 26` →
-  `python3 tools/fetch-mplads.py IN-PY 26` → `data/mplads/IN-PY/puducherry.json`,
+  `python3 countries/IN/harvest/fetch-mplads.py IN-PY 26` → `data/mplads/IN-PY/puducherry.json`,
   **MP Vaithilingam Ve**, 76 works. **18th Lok Sabha:** Allocated **₹20,93,68,972.11 (₹20.94 Cr)** ·
   Recommended **76 (₹15,54,91,559 / ₹15.55 Cr)** · Sanctioned **33 (₹5,78,35,559 / ₹5.78 Cr)** ·
   Completed **13 (₹2,27,17,559 / ₹2.27 Cr)** · Expenditure **₹3,35,57,935 (₹3.36 Cr)**.
@@ -580,12 +580,12 @@ legislature, so neither has an MLA page to source. Verified live, jointly and se
   2026-01-07. Election administration exists; a legislature does not.
 - **✅ THE ONE PER-MEMBER DATASET THAT EXISTS FOR EACH IS PARLIAMENTARY — and both were fetched.**
   Each UT elects **one Lok Sabha MP** and has **no Rajya Sabha seat of its own**:
-  - **A&N — eSAKSHI `STATE_ID 35`** → `python3 tools/fetch-mplads.py IN-AN 35` →
+  - **A&N — eSAKSHI `STATE_ID 35`** → `python3 countries/IN/harvest/fetch-mplads.py IN-AN 35` →
     `data/mplads/IN-AN/andamanandnicobarislands.json`, **MP BISHNU PADA RAY**, 29 works.
     **18th Lok Sabha:** Allocated Limit **₹14,70,00,000 (₹14.70 Cr)** · Works Recommended **29 (₹7,96,15,803 /
     ₹7.96 Cr)** · Works Sanctioned **13 (₹3,62,32,528 / ₹3.62 Cr)** · Works Completed **0** ·
     Expenditure **₹1,55,21,947 (₹1.55 Cr)**.
-  - **Lakshadweep — eSAKSHI `STATE_ID 19`** → `python3 tools/fetch-mplads.py IN-LD 19` →
+  - **Lakshadweep — eSAKSHI `STATE_ID 19`** → `python3 countries/IN/harvest/fetch-mplads.py IN-LD 19` →
     `data/mplads/IN-LD/lakshadweep.json`, **MP MUHAMMED HAMDULLAH SAYEED**, 30 works.
     **18th Lok Sabha:** Allocated Limit **₹15,39,42,460.41 (₹15.39 Cr)** · Works Recommended **30
     (₹9,51,71,350 / ₹9.52 Cr)** · Works Sanctioned **26 (₹5,94,47,173 / ₹5.94 Cr)** · Works Completed
@@ -685,7 +685,7 @@ The negative is established from five independent official sources, three of the
   Ladakh elects exactly **one Lok Sabha MP** (1-Ladakh PC) and, being a UT without a legislature, has **no
   Rajya Sabha seat of its own**. eSAKSHI (`mplads.mospi.gov.in`) carries Ladakh as **`STATE_ID 130`**
   (confirmed live from `/getStateData`: `{'STATE_NAME': 'Ladakh', 'STATE_ID': 130}`), and
-  `python3 tools/fetch-mplads.py IN-LA 130` **succeeds**:
+  `python3 countries/IN/harvest/fetch-mplads.py IN-LA 130` **succeeds**:
   - **Wrote `data/mplads/IN-LA/ladakh.json` + `index.json`** — constituency `LADAKH` (const_id 214),
     **MP `Mohamed Haneefa`** (mp_id 3043914).
   - **18th Lok Sabha (tenure 7) tiles, fetched 2026-09-18:** Allocated Limit **₹16,11,14,542 (₹16.11 Cr)** ·
@@ -2973,7 +2973,7 @@ the scheme's legal record is now reachable in principle.**
   **Consequence, stated plainly: the gazette makes Bihar's fund RULES officially citable *if* the notification
   number is known — but I did NOT locate a Vidhayak Nidhi notification this run, so the ₹4 crore figure stays
   unverified.**
-- **MPLADS — the MP tier, retrieved.** eSAKSHI **`STATE_ID 6`** → `python3 tools/fetch-mplads.py IN-BR 6` →
+- **MPLADS — the MP tier, retrieved.** eSAKSHI **`STATE_ID 6`** → `python3 countries/IN/harvest/fetch-mplads.py IN-BR 6` →
   **41 per-MP rows + index in `data/mplads/IN-BR/`, 5,873 work rows, ₹614.65 crore of allocated limits summed.**
   ⚠️ **41 rows for 40 seats: `ujjarpur` is returned TWICE by the portal** (40 distinct `constituency_key`s) —
   de-duplicate on the key, and do not report 41 Bihar MPs.
@@ -2990,7 +2990,7 @@ state id.**
 - ✅ **MPLADS is the real per-representative fund for this jurisdiction, and it works.**
   eSAKSHI carries the merged UT as **one state entry — `The Dadra And Nagar Haveli And Daman And Diu`,
   `STATE_ID 10`** (from `POST /rest/PreLoginDashboardData/getStateData`), and both seats resolve under it:
-  `python3 tools/fetch-mplads.py IN-DH 10` → 2 per-MP files + index in `data/mplads/IN-DH/`, **63 work rows**.
+  `python3 countries/IN/harvest/fetch-mplads.py IN-DH 10` → 2 per-MP files + index in `data/mplads/IN-DH/`, **63 work rows**.
   | Seat | MP | Allocated limit | Recommended | Sanctioned | Completed | Expenditure |
   |---|---|---|---|---|---|---|
   | **Daman and Diu** | **PATEL UMESHBHAI BABUBHAI** | **₹24.51 Cr** | 61 | 2 | 1 | ₹0.24 Cr |
@@ -3053,7 +3053,7 @@ is genuinely login-gated. This is a "rules ✓ / data ✗" state, not an absent 
   sanctioned, of which 1,815 were completed" — is NO LONGER on the live page** (0 hits for `9,062`,
   `34,255`, `1,815` on today's `MLALADS.aspx`). Treat it as a figure that *was* published, not one that is.
 - **MPLADS — the MP tier works and is per-MP.** eSAKSHI **`STATE_ID 8`** →
-  `python3 tools/fetch-mplads.py IN-CT 8` → 11 per-MP files + index in `data/mplads/IN-CT/`, **2,304 work rows**:
+  `python3 countries/IN/harvest/fetch-mplads.py IN-CT 8` → 11 per-MP files + index in `data/mplads/IN-CT/`, **2,304 work rows**:
   Raigarh(ST) ₹15.97 Cr (138/136/77) · Durg ₹14.70 Cr (219/182/70) · Korba ₹15.52 Cr (320/304/138) ·
   Kanker(ST) ₹16.47 Cr (87/73/29) · Janjgir Champa(SC) ₹15.04 Cr (344/344/254) · Mahasamund ₹15.30 Cr
   (179/168/75) · Bilaspur ₹14.70 Cr (134/125/41) · Bastar(ST) ₹14.70 Cr (206/173/41) · Raipur ₹15.38 Cr
@@ -3148,7 +3148,7 @@ missing is utilisation.**
 - ❌ **What is still NOT published per MLA: works recommended, works sanctioned, works completed and
   expenditure.** Allocation ✅ / sanction orders ⚠️ (35/70) / utilisation ❌.
 - **MPLADS (the MP tier, not the MLA tier).** eSAKSHI **`STATE_ID 11`** →
-  `python3 tools/fetch-mplads.py IN-DL 11` → 7 per-MP files + index in `data/mplads/IN-DL/`, **593 work rows**:
+  `python3 countries/IN/harvest/fetch-mplads.py IN-DL 11` → 7 per-MP files + index in `data/mplads/IN-DL/`, **593 work rows**:
   **Chandini Chowk / Praveen Khandelwal** ₹14.75 Cr alloc, 69 rec / 61 sanct / 35 comp · **East Delhi /
   Harsh Malhotra** ₹14.71 Cr, 113 / 109 / 53 · **New Delhi / Bansuri Swaraj** ₹15.43 Cr, 113 / 79 / 43 ·
   **North East Delhi / Manoj Tiwari** **₹22.58 Cr**, 24 / 15 / 6 · **North West Delhi (SC) / Yogendra
@@ -3266,7 +3266,7 @@ notifications are issued by the **Administration/Administrator** — the UT's ac
 tier: **CCDA** (Councillor Constituency Development Allocation, **₹1.50 crore per councillor** from FY 2023-24,
 per the UT administration's own Kargil press release of 02-02-2023 — **for councillors**) and **MPLADS** for
 Ladakh's **single MP** (eSAKSHI `STATE_ID 130`; 18th Lok Sabha: **₹16.11 crore allocated, 55 works recommended,
-21 sanctioned, 0 completed, ₹0.60 crore spent** — fetched 2026-09-18 via `tools/fetch-mplads.py IN-LA 130`).
+21 sanctioned, 0 completed, ₹0.60 crore spent** — fetched 2026-09-18 via `countries/IN/harvest/fetch-mplads.py IN-LA 130`).
 ⚠️ Recon's Ladakh MPLADS figures (₹14.70 Cr / 450 recommended / 341 sanctioned / 101 completed) **do not
 reproduce on either the 17th or the 18th Lok Sabha** and do not name a tenure — treat them as stale.
 
@@ -3838,10 +3838,10 @@ consolidated allocation or expenditure figure". The first is flatly wrong; the s
 **Punjab — the *parliamentary* tier is a different answer: both figures ARE published.** For Punjab's
 **MPs** (Lok Sabha), unlike its MLAs, fund and attendance are both retrievable per member — already
 implemented in this repo:
-- **Fund** — `tools/fetch-mplads.py IN-PB 1` (eSAKSHI / `mplads.mospi.gov.in/digigov/`, house 2 = Lok
+- **Fund** — `countries/IN/harvest/fetch-mplads.py IN-PB 1` (eSAKSHI / `mplads.mospi.gov.in/digigov/`, house 2 = Lok
   Sabha). Live-run: **13 constituencies**; Bathinda (Harsimrat Kaur Badal) **391 works**, Gurdaspur
   (Sukhjinder Singh Randhawa) **337 works** — per-MP, per-work, with amounts.
-- **Attendance** — `tools/fetch-sansad-record.py 4433 18 IN-PB bhatinda` (`sansad.in/api_ls/member/getMemberAttendanceByMpsno`).
+- **Attendance** — `countries/IN/harvest/fetch-sansad-record.py 4433 18 IN-PB bhatinda` (`sansad.in/api_ls/member/getMemberAttendanceByMpsno`).
   Live-run: **107/156 across 8 sessions**. Same call also returns questions (88 for that MP) and bills.
 - So if the MLA figure is unavailable, the **MP analogue is not** — worth stating explicitly rather than
   letting "Punjab publishes no attendance" stand unqualified.

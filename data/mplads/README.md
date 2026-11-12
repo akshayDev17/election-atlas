@@ -5,7 +5,7 @@
 - `IN-UP/{constituency_key}.json` — one MP's MPLADS record: `tiles`, `charts`, `works`.
 - `IN-UP/index.json` — index mapping `constituency_key` → MP (`mp_name`, `mp_id`, `works` count, `file`).
 
-These are produced by `tools/fetch-mplads.py` (curl-only against the eSAKSHI portal). News is **not fetched yet** — this file records the decision before we do.
+These are produced by `countries/IN/harvest/fetch-mplads.py` (curl-only against the eSAKSHI portal). News is **not fetched yet** — this file records the decision before we do.
 
 ---
 
@@ -134,7 +134,7 @@ Notes on the design:
 ## Parliamentary record (profile · attendance · questions · bills)
 
 A third data domain (Sansad / Lok Sabha), distinct from MPLADS and news. Recipe in
-`tools/sansad-record-recipe.md`. Same two-layer shape: a throwaway v1 JSON for
+`countries/IN/harvest/sansad-record-recipe.md`. Same two-layer shape: a throwaway v1 JSON for
 GitHub Pages, and PostgreSQL for the long term.
 
 **Provenance is the whole point here.** Every bill, question and attendance figure

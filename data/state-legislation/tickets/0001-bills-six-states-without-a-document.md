@@ -48,4 +48,4 @@ before it can be called a working source.
 
 - `data/mla/SOURCE-REGISTRY.md` — the Bills section's per-state status column and detail blocks
 - `data/mla/SOURCES.md` — the frozen recon evidence (never edited)
-- `tools/state-legislation/harvest-bills/` — the harvester that produced these counts
+- `countries/IN/harvest/state-legislation/harvest-bills/` — the harvester that produced these counts

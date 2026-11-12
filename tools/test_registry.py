@@ -8,6 +8,7 @@ is recorded as all-rights-reserved with its terms URL; and the gates refuse a
 publisher or host the registry does not name while a second country's registry
 is picked up without any edit to a gate.
 """
+import importlib
 import json
 import sys
 import tempfile
@@ -112,10 +113,16 @@ class GatesReadTheRegistry(unittest.TestCase):
                      'licence_url': None, 'licence_checked': None}]}))
             pubs = registry.publishers(Path(t))
             self.assertEqual(sorted(pubs), ['eci', 'gb-parliament'])
-            hosts = {pid: tuple(entry['hosts']) for pid, entry in pubs.items()}
-            with mock.patch.object(validate, 'PUBLISHER_HOSTS', hosts):
-                self.assertTrue(validate.host_allowed('gb-parliament', 'https://electionresults.parliament.uk/x.csv'))
-                self.assertFalse(validate.host_allowed('eci', 'https://electionresults.parliament.uk/x.csv'))
+            read_registry = registry.publishers
+            try:
+                with mock.patch.object(registry, 'publishers', lambda: read_registry(Path(t))):
+                    importlib.reload(validate)
+                    gb = validate.validate(record('gb-parliament', 'https://electionresults.parliament.uk/x.csv'))
+                    eci = validate.validate(record('eci', 'https://electionresults.parliament.uk/x.csv'))
+            finally:
+                importlib.reload(validate)
+            self.assertEqual(gb, [])
+            self.assertTrue(any('does not belong to eci' in p for p in eci), eci)
 
 
 if __name__ == '__main__':
