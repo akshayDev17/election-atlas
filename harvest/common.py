@@ -11,7 +11,7 @@ the hash of a file that was really fetched. It defaults to `_research/harvest/`
 (gitignored) and can be moved with --cache.
 
 Fetches use curl, because this machine's Python SSL bundle is broken (see
-tools/README.md). A country's harvesters import this module as `harvest.common`
+countries/IN/harvest/README.md). A country's harvesters import this module as `harvest.common`
 with the repository root on sys.path.
 """
 import datetime as dt

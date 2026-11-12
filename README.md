@@ -75,7 +75,7 @@ Nothing but published data reaches D1, the exported files or the site:
 3. `tools/check_provenance.py <data> --db <D1 copy>` runs over the export and over D1 before every deploy, and fails if D1's publisher allow-list differs from the registry.
 4. CI runs the negative tests on every pull request: planted synthetic or dummy data must fail each check.
 
-The publisher allow-list lives in one place, `countries/<CC>/sources.json` (today `countries/IN/sources.json`): each publisher's id, hosts, licence, terms URL and when the terms were read, plus each election's official source and the second table its harvester cross-checks. Both gates read it (`harvest/registry.py`); `harvest/validate.py` passes a URL whose host is one of its publisher's hosts or a subdomain of one, and `tools/check_provenance.py` passes one whose host, after a leading `www.` is dropped, is exactly a registered host. Adding a publisher is an edit there plus a migration, never an edit to a gate.
+The publisher allow-list lives in one place, `countries/<CC>/sources.json` (today `countries/IN/sources.json`), which both gates read; its fields and how each gate matches a host are in `tools/README.md`. Adding a publisher is an edit there plus a migration, never an edit to a gate.
 
 ## Workflows (GitHub Actions, `production` environment)
 
