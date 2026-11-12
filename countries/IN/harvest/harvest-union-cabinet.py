@@ -31,8 +31,8 @@ minister also takes them, with the Sansad member number, from the as-it-stands
 roster entry for the same minister (exact name, or an entry in SWORN_ALIASES).
 
 Usage (from the repository root):
-    python3 tools/harvest-union-cabinet.py
-    python3 tools/harvest-union-cabinet.py --cache /tmp/harvest --dry-run
+    python3 countries/IN/harvest/harvest-union-cabinet.py
+    python3 countries/IN/harvest/harvest-union-cabinet.py --cache /tmp/harvest --dry-run
 """
 import argparse
 import html
@@ -42,9 +42,9 @@ import re
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-from harvest_common import DATA, DEFAULT_CACHE, SourceShapeError, fetch, source_block, write_json  # noqa: E402
-from validate_records import require_valid  # noqa: E402
+sys.path.insert(0, str(Path(__file__).resolve().parents[3]))  # the repository root
+from harvest.common import DATA, DEFAULT_CACHE, SourceShapeError, fetch, source_block, write_json  # noqa: E402
+from harvest.validate import require_valid  # noqa: E402
 
 _spec = importlib.util.spec_from_file_location("join_sansad", Path(__file__).resolve().parent / "join-sansad.py")
 js = importlib.util.module_from_spec(_spec)

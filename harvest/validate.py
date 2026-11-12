@@ -4,14 +4,14 @@
 Every harvester calls validate() on each document before writing it, and the
 same checks run from the command line over files already on disk:
 
-    python3 tools/validate_records.py data/results/ac data/cabinet/state/IN-UP/2022.json
-    python3 tools/validate_records.py --cache _research/harvest data/results/ls/byel
+    python3 harvest/validate.py data/results/ac data/cabinet/state/IN-UP/2022.json
+    python3 harvest/validate.py --cache _research/harvest data/results/ls/byel
 
 A document passes only if:
   - its top-level `provenance` is "published", and so is every nested `provenance`;
   - it has a `source` object, and every source block (`source` and each entry of
-    `sources`) names a publisher on the allow-list and a https URL whose host
-    belongs to that publisher;
+    `sources`) names a publisher registered in a country's sources.json
+    (harvest/registry.py) and a https URL whose host belongs to that publisher;
   - every source block carries a 64-hex `sha256` and a `fetched_at`; the sha256
     must equal the hash of the cached file that URL was fetched into (always
     inside a harvester and with an explicit --cache; without --cache the harvest
@@ -32,21 +32,13 @@ import sys
 from pathlib import Path
 from urllib.parse import urlparse
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-from harvest_common import DEFAULT_CACHE, cache_path, sha256_bytes  # noqa: E402
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from harvest.common import DEFAULT_CACHE, cache_path, sha256_bytes  # noqa: E402
+from harvest.registry import host_matches, publishers  # noqa: E402
 
-# publisher id -> hosts it publishes from (a host matches itself or any subdomain)
-PUBLISHER_HOSTS = {
-    "eci": ("eci.gov.in",),
-    # ramnathkovind.nic.in is the President's Secretariat archive of President
-    # Kovind's term (2017-22); presidentofindia.gov.in does not carry those releases
-    "president-secretariat": ("presidentofindia.gov.in", "ramnathkovind.nic.in"),
-    "pmindia": ("pmindia.gov.in",),
-    "pib": ("pib.gov.in",),
-    "sansad": ("sansad.in",),
-    "upcmo": ("upcmo.up.nic.in",),
-    "mospi-mplads": ("mplads.mospi.gov.in",),
-}
+# publisher id -> hosts it publishes from, read from countries/*/sources.json
+# (a host matches itself or any subdomain)
+PUBLISHER_HOSTS = {pid: tuple(entry["hosts"]) for pid, entry in publishers().items()}
 
 FORBIDDEN = re.compile(r"synthetic|dummy|invented|placeholder|fake|mock", re.I)
 METADATA_KEY = re.compile(r"^_?(note|source|caveat|provenance)", re.I)
@@ -57,8 +49,7 @@ def host_allowed(publisher: str, url: str) -> bool:
     hosts = PUBLISHER_HOSTS.get(publisher)
     if not hosts:
         return False
-    host = (urlparse(url).hostname or "").lower()
-    return any(host == h or host.endswith("." + h) for h in hosts)
+    return host_matches(urlparse(url).hostname, hosts)
 
 
 def source_blocks(doc: dict):
@@ -75,7 +66,7 @@ def check_source(where: str, block, cache, unchecked=None) -> list:
     problems = []
     publisher, url = block.get("publisher"), block.get("url") or ""
     if publisher not in PUBLISHER_HOSTS:
-        problems.append(f"{where}.publisher {publisher!r} is not on the allow-list")
+        problems.append(f"{where}.publisher {publisher!r} is not on the allow-list (no country's sources.json registers it)")
     if not url.startswith("https://"):
         problems.append(f"{where}.url {url!r} is not https")
     elif publisher in PUBLISHER_HOSTS and not host_allowed(publisher, url):
@@ -139,7 +130,7 @@ def require_valid(docs: dict, cache) -> None:
     for path, doc in docs.items():
         report += [f"{path}: {p}" for p in validate(doc, cache)]
     if report:
-        raise SystemExit("validate_records: refusing to write\n  " + "\n  ".join(report))
+        raise SystemExit("validate: refusing to write\n  " + "\n  ".join(report))
 
 
 def iter_json(paths):
@@ -159,7 +150,7 @@ def main(argv=None) -> int:
     strict = args.cache is not None
     cache = args.cache or (str(DEFAULT_CACHE) if DEFAULT_CACHE.is_dir() else None)
     if cache is None:
-        print("validate_records: sha256 NOT checked: no harvest cache (pass --cache DIR)")
+        print("validate: sha256 NOT checked: no harvest cache (pass --cache DIR)")
     failed = 0
     checked = 0
     for path in iter_json(args.paths):
@@ -178,7 +169,7 @@ def main(argv=None) -> int:
             failed += 1
             for p in problems:
                 print(f"{path}: {p}")
-    print(f"validate_records: {checked} checked, {failed} failed")
+    print(f"validate: {checked} checked, {failed} failed")
     return 1 if failed or not checked else 0
 
 

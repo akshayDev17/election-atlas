@@ -15,10 +15,10 @@ Pipeline (as agreed):
   3. Reconcile: the current list is the source of truth; changes are provenance.
 
 Usage:
-  python3 tools/fetch-cabinet.py --cycle 2024 \
+  python3 countries/IN/harvest/fetch-cabinet.py --cycle 2024 \
       --communique https://www.pib.gov.in/PressReleasePage.aspx?PRID=2289455 \
       --out data/cabinet/union/2024.json
-  python3 tools/fetch-cabinet.py --cycle 2024 --dry-run
+  python3 countries/IN/harvest/fetch-cabinet.py --cycle 2024 --dry-run
 
 Notes / honest limits of this version:
   - party / constituency / state are NOT in the PM India list, so they

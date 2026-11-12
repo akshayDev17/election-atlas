@@ -1,0 +1,130 @@
+# India's harvesters
+
+India's published-data harvesters and builders. Run from the repository root
+(paths below are relative to it). Their sources and the second table each one
+cross-checks are recorded in `countries/IN/sources.json`; the repository-wide
+gates are documented in `tools/README.md`.
+
+## Setup
+
+- Python dependencies are pinned in `requirements.txt`:
+  `python3 -m venv .venv && .venv/bin/pip install -r requirements.txt`,
+  then run the scripts with `.venv/bin/python`.
+
+## Published-data harvesters
+
+Every file these write carries `"provenance": "published"` and a `source`
+(`publisher`, `url`, `sha256`, `fetched_at`) for each file it was read from.
+Downloads are kept in `_research/harvest/` (gitignored; move it with `--cache`),
+and each harvester runs `harvest/validate.py` over its output before writing.
+Each stops with an error on a source shape it does not expect.
+
+| script | writes | source |
+| --- | --- | --- |
+| `harvest-ac-results.py` | `data/results/ac/{STATE}/{cycle}.json` + `-detail.json` | ECI statistical reports, table 10 (cross-checked against tables 5 and 9) |
+| `harvest-ls-byel.py` | `data/results/ls/byel/{2014,2019,2024}.json` | ECI by-election index cards |
+| `harvest-union-cabinet.py` | `data/cabinet/union/{2014,2024}.json` and `{2014,2024}-sworn-in.json` | President's Secretariat releases, PM India, PIB (2024 `changes`), Sansad |
+| `harvest-up-cabinet.py` | `data/cabinet/state/IN-UP/2022.json` | Chief Minister's Office, Uttar Pradesh |
+
+- run: `.venv/bin/python countries/IN/harvest/harvest-ac-results.py` (each takes `--dry-run`)
+
+## Tests
+
+`python3 -m unittest discover -s countries/IN/tests -p 'test_*.py'` (CI runs them
+with the exported data copied into `data/`):
+
+- `test_harvest_ac_results.py` and `test_harvest_ls_byel.py`: party codes, assembly
+  colour entries (winner plus other parties' votes), and by-election term assembly.
+- `test_ls_legacy_results.py`: the 1980-2004 Lok Sabha state files put Delhi and Goa,
+  Daman & Diu in their own regions, read a winner whose long name runs into the party
+  column (Dhenkanal 1991, INC), and count Srinagar's unopposed return (1980 and 1989,
+  JKN) with its report page.
+- `test_harvest_union_cabinet.py`: sworn-in ministers take party, seat and Sansad id
+  from the as-it-stands roster only by exact name or an explicit alias; join-sansad
+  joins only by exact name or alias; and every `mpsno` on both 2024 rosters is that
+  minister's own seat in `data/members/ls/2024.json`, with the same state and
+  constituency.
+
+## Succession
+
+1. `build-ls-results.py`
+   - builds Lok Sabha result files
+2. `eci_pdf.py`
+   - PDF fallback, auto-invoked by the above
+3. `fetch-cabinet.py`
+   - fetches the Union Council of Ministers
+4. `join-sansad.py`
+   - enriches the cabinet with party / state / constituency / Sansad member number
+5. `tools/build-availability.py`
+   - rewrites `data/availability.json` after any data file is added or removed
+6. `tools/check_provenance.py`
+   - the provenance gate; must pass before anything is published
+
+## Scripts
+
+### build-ls-results.py
+
+- source: ECI Statistical Reports (retrieved into `_research/eci/`, gitignored)
+  - `https://www.eci.gov.in/`
+  - `https://results.eci.gov.in/`
+- output: `data/results/ls/pc/{year}.json` + state files
+- run: `python3 countries/IN/harvest/build-ls-results.py --year 2024`
+- verify: `python3 countries/IN/harvest/build-ls-results.py --year 2024 --check`
+- pre-2008 years (1980–2004, state level only): the script downloads each year's
+  report and the three party lists it reads into `_research/harvest/` and records
+  each file's `url`, `sha256` and `fetched_at` in the state file's `source` /
+  `sources`, so `harvest/validate.py` passes for them
+  - `--check` downloads nothing: it reads those inputs from `_research/eci/` and stops,
+    naming the file, if one is not there
+  - a seat the report records as returned unopposed (its one candidate, no votes)
+    still counts, and the region lists it under `unopposed` with the report's PDF page
+
+### build-ls-detail.py
+
+- source: ECI table 33 (constituency-wise detailed result), cached as for `build-ls-results.py`
+- output: `data/results/ls/detail/{year}.json`
+- run: `python3 countries/IN/harvest/build-ls-detail.py . 2024 data/results/ls/detail/2024.json`
+
+### eci_pdf.py
+
+- recovers a constituency × candidate table from an ECI PDF
+- used by `build-ls-results.py` for years with no XLS (e.g. 2009, 2014)
+- not run directly
+
+### fetch-cabinet.py
+
+- source: PM India portfolios + PIB communiqués
+  - `https://www.pmindia.gov.in/en/news_updates/portfolios-of-the-union-council-of-ministers-2/`
+  - `https://www.pib.gov.in/PressReleasePage.aspx` (reshuffles)
+- output: name / rank / portfolio + `changes` (reshuffles)
+- run: `python3 countries/IN/harvest/fetch-cabinet.py --cycle 2024 --out data/cabinet/union/2024.json`
+- reshuffles: `--communique <pib-url>` (repeatable)
+- preview: `--dry-run`
+
+### join-sansad.py
+
+- source: Parliament of India member directory
+  - Lok Sabha: `https://sansad.in/api_ls/member`
+  - Rajya Sabha: `https://sansad.in/api_rs/member/in-council-of-ministers`
+- adds: party, state, constituency, and `mpsno` (Lok Sabha) or `house: "rs"` (Rajya Sabha);
+  no portrait is downloaded
+- matches a minister only by exact name or an entry in its `ALIASES`; a minister
+  matched neither way is printed and left without state, constituency or id (no
+  sansad.in link), keeping only a party already on its own record
+- run: `python3 countries/IN/harvest/join-sansad.py --cycle 2024 --in <fetched.json> --out <enriched.json>`
+- options: `--dry-run`
+
+### Recipes
+
+- `mplads-recipe.md` and `sansad-record-recipe.md`: how the MPLADS and Sansad
+  record files are fetched (`fetch-mplads.py`, `fetch-sansad-record.py`).
+- `state-legislation/harvest-bills/`: the state bill harvester (`harvest-bills.md`).
+- `reference-arpit-bhayani-news.md`: reference notes for the MP-page news fetcher.
+
+## Notes
+
+- fetches use `curl` (this machine's Python SSL bundle is broken)
+- cabinet artifacts land in `data/cabinet/union/`
+- party colours + symbol images have no `.gov.in` source; symbol names only:
+  - `https://www.eci.gov.in/eci-backend/public/api/list-of-political-party`
+  - `https://www.eci.gov.in/eci-backend/public/api/recognition-derecognition`

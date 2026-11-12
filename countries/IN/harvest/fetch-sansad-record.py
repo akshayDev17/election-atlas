@@ -6,13 +6,13 @@ data/parliament/<STATE>/<constituency_key>.json — curl-only; stdlib + pypdf
 
 Covers: profile (name, DOB, party, constituency), attendance (per session, summed),
 questions (metadata + official PDF/DOCX URLs), bills (Private Members', filtered by
-introducer name). Recipe + field schema in tools/sansad-record-recipe.md.
+introducer name). Recipe + field schema in countries/IN/harvest/sansad-record-recipe.md.
 
 Usage:
-  python3 tools/fetch-sansad-record.py 5144 18 IN-UP gorakhpur
-  python3 tools/fetch-sansad-record.py --list            # dump LS18 members (mpsno -> name)
-  python3 tools/fetch-sansad-record.py --replies data/parliament/IN-UP/gorakhpur.json
-  python3 tools/fetch-sansad-record.py --replies ... --limit 3   # smoke-test the extractor
+  python3 countries/IN/harvest/fetch-sansad-record.py 5144 18 IN-UP gorakhpur
+  python3 countries/IN/harvest/fetch-sansad-record.py --list            # dump LS18 members (mpsno -> name)
+  python3 countries/IN/harvest/fetch-sansad-record.py --replies data/parliament/IN-UP/gorakhpur.json
+  python3 countries/IN/harvest/fetch-sansad-record.py --replies ... --limit 3   # smoke-test the extractor
 
 The reply TEXT of a question is not fetched in the metadata pass — it lives in the
 per-question DOCX (`word/document.xml`), which must be downloaded + unzipped one at
@@ -258,7 +258,7 @@ def fetch_record(mpsno, loksabha, state_code, constituency_key):
         "bills": bills,
         "fetched_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
     }
-    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # the repository root
+    root = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", ".."))  # the repository root
     dest = os.path.join(root, "data", "parliament", state_code, f"{constituency_key}.json")
     os.makedirs(os.path.dirname(dest), exist_ok=True)
     with open(dest, "w", encoding="utf-8") as f:

@@ -13,14 +13,15 @@ The input is the data directory of the github.io repository at a pinned commit
            Lok Sabha by-elections (results/ls/byel)
     day 2  Lok Sabha general elections (results/ls/{year}, pc/, detail/)
 
-Every document passes tools/validate_records.py before any SQL is written; one
+Every document passes harvest/validate.py before any SQL is written; one
 violation refuses the whole run. The Lok Sabha files that predate the harvest
 schema carry no sha256 in their own `source` block; their sources come from
-backend/d1/ls-sources.json: the files re-fetched from the Election Commission on
-2026-11-02 that rebuild them byte for byte. A Lok Sabha file with neither its own
-sha256 nor a reproduced registry entry is not imported (see --list-static).
+countries/IN/inputs/ls-sources.json: the files re-fetched from the Election
+Commission on 2026-11-02 that rebuild them byte for byte. A Lok Sabha file with
+neither its own sha256 nor a reproduced registry entry is not imported (see
+--list-static).
 
-A file under backend/d1/inputs/ replaces the pinned data file at the same path:
+A file under countries/IN/inputs/ replaces the pinned data file at the same path:
 the Lok Sabha 1980-2004 state files, rebuilt after the move, are imported from there.
 
 Row ids are 48-bit hashes of natural keys, so rows shared by both days (sources,
@@ -37,11 +38,11 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parent.parent
-sys.path.insert(0, str(REPO / 'tools'))
-from validate_records import validate  # noqa: E402
+sys.path.insert(0, str(REPO))
+from harvest.validate import validate  # noqa: E402
 
-LS_SOURCES = HERE / 'ls-sources.json'
-INPUTS = HERE / 'inputs'
+INPUTS = REPO / 'countries' / 'IN' / 'inputs'
+LS_SOURCES = INPUTS / 'ls-sources.json'
 SHA256 = re.compile(r'^[0-9a-f]{64}$')
 DELIMITATION = 2008
 STATEMENT_BYTES = 90_000          # D1 caps one SQL statement at 100 KB
@@ -84,7 +85,9 @@ def load_json(path):
 
 class Inputs:
     """The import's input files: the pinned atlas data directory, with any file under
-    the overlay directory (backend/d1/inputs) replacing the one at the same path."""
+    the overlay directory (countries/IN/inputs) replacing the one at the same path.
+    Only files at a data path (a family) count as overlaid: the overlay directory also
+    holds its own README and the Lok Sabha source registry."""
 
     def __init__(self, data_dir, overlay=None):
         self.data_dir = Path(data_dir)
@@ -103,12 +106,13 @@ class Inputs:
 
     def overlaid(self):
         return [] if self.overlay is None else sorted(
-            p.relative_to(self.overlay).as_posix() for p in self.overlay.rglob('*.json'))
+            rel for rel in (p.relative_to(self.overlay).as_posix() for p in self.overlay.rglob('*.json'))
+            if family_of(rel))
 
 
 def uses_registry(rel, doc):
     """A Lok Sabha file built before the harvest schema names its source without a
-    sha256; its verified sources come from backend/d1/ls-sources.json instead."""
+    sha256; its verified sources come from countries/IN/inputs/ls-sources.json instead."""
     src = doc.get('source') if isinstance(doc, dict) else None
     return family_of(rel) in LS_LEGACY and not (isinstance(src, dict) and SHA256.match(src.get('sha256') or ''))
 
@@ -145,7 +149,7 @@ def doc_sources(rel, doc, registry):
 
 
 def validate_all(docs, registry):
-    """tools/validate_records.py over every document; for a legacy Lok Sabha file the
+    """harvest/validate.py over every document; for a legacy Lok Sabha file the
     record checked is its own metadata plus the registry's sources."""
     report = []
     for rel, doc in docs.items():
@@ -158,7 +162,7 @@ def validate_all(docs, registry):
             problems = validate(doc, None, [])
         report += [f'{rel}: {p}' for p in problems]
     if report:
-        raise SystemExit('validate_records: refusing to import\n  ' + '\n  '.join(report))
+        raise SystemExit('validate: refusing to import\n  ' + '\n  '.join(report))
 
 
 # ── the model: every row of every table, tagged with the day that writes it ─────
@@ -615,7 +619,7 @@ def main(argv=None):
     ap.add_argument('--out', help='write the SQL here')
     ap.add_argument('--registry', default=str(LS_SOURCES))
     ap.add_argument('--inputs', default=str(INPUTS),
-                    help='files here replace the data directory\'s at the same path (default backend/d1/inputs)')
+                    help='files here replace the data directory\'s at the same path (default countries/IN/inputs)')
     ap.add_argument('--years', help='comma-separated election years: import only those years\' documents '
                     '(e.g. 2024,2014 to fit a day\'s write allowance); others are left for a later run')
     ap.add_argument('--max-rows', type=int, help='refuse (exit 1, no SQL written) if the estimated rows written '

@@ -8,8 +8,8 @@ No cookie / session / CSRF needed. The only hard requirement is the request
 Content-Type; the payload is a CSV "combo" string in one of three envelopes.
 
 Usage:
-  python3 tools/fetch-mplads.py IN-UP 33            # full state
-  python3 tools/fetch-mplads.py IN-UP 33 --limit 3  # first 3 constituencies (smoke test)
+  python3 countries/IN/harvest/fetch-mplads.py IN-UP 33            # full state
+  python3 countries/IN/harvest/fetch-mplads.py IN-UP 33 --limit 3  # first 3 constituencies (smoke test)
 
 eSAKSHI state_id (house 2 = Lok Sabha): UP = 33.  List them with --states.
 """
@@ -135,7 +135,7 @@ def extract_works(report):
 
 def fetch_state(state_code, state_id, limit=0):
     abbr = state_code.split("-", 1)[-1]  # IN-UP -> UP (the portal's disambiguation suffix)
-    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # the repository root
+    root = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", ".."))  # the repository root
     outdir = os.path.join(root, "data", "mplads", state_code)
     os.makedirs(outdir, exist_ok=True)
     print(f"=== {state_code} (state_id {state_id}, Lok Sabha, 18th tenure) -> {outdir} ===")

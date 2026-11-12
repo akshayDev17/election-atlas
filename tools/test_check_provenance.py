@@ -6,6 +6,7 @@ Each negative case plants one violation in an otherwise clean copy of a minimal
 atlas tree and asserts the checker exits non-zero: proof the gate can fail.
 """
 import json
+import sqlite3
 import subprocess
 import sys
 import tempfile
@@ -189,6 +190,73 @@ class Remote(unittest.TestCase):
         r = self.run_remote()
         self.assertEqual(r.returncode, 1, r.stdout)
         self.assertIn('not served', r.stdout)
+
+
+class RegistryAgainstD1(unittest.TestCase):
+    """--db fails when D1's publisher allow-list and countries/*/sources.json differ."""
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.root = Path(self.tmp.name)
+        self.data = self.root / 'data'
+        write(self.data, 'manifest.json', MANIFEST)
+        write(self.data, 'results/ls/pc/2024.json', PUBLISHED_PC)
+        write(self.root, 'index.html', '<p>Results: Election Commission of India.</p>')
+        self.db = self.root / 'd1.sqlite'
+        con = sqlite3.connect(self.db)
+        for m in sorted((TOOLS.parent / 'backend' / 'migrations').glob('*.sql')):
+            con.executescript(m.read_text(encoding='utf-8'))
+        con.commit()
+        con.close()
+
+    def tearDown(self):
+        self.tmp.cleanup()
+
+    def run_db(self):
+        return subprocess.run([sys.executable, str(CHECKER), str(self.data), '--db', str(self.db)],
+                              capture_output=True, text=True)
+
+    def test_the_migrations_publisher_check_equals_the_registry(self):
+        r = self.run_db()
+        self.assertEqual(r.returncode, 0, r.stdout)
+
+    def test_a_publisher_d1_allows_but_the_registry_does_not_fails(self):
+        con = sqlite3.connect(self.db)
+        con.executescript("""PRAGMA foreign_keys = OFF;
+            DROP TABLE source;
+            CREATE TABLE source (
+              id INTEGER PRIMARY KEY,
+              publisher TEXT NOT NULL CHECK (publisher IN
+                ('eci', 'president-secretariat', 'pmindia', 'pib', 'sansad', 'upcmo', 'mospi-mplads', 'wikipedia')),
+              url TEXT NOT NULL CHECK (url LIKE 'https://%'),
+              sha256 TEXT NOT NULL CHECK (length(sha256) = 64),
+              fetched_at TEXT NOT NULL, UNIQUE (url, sha256));""")
+        con.commit()
+        con.close()
+        r = self.run_db()
+        self.assertEqual(r.returncode, 1, r.stdout)
+        self.assertIn("CHECK on source.publisher names 'wikipedia', which no countries/*/sources.json registers", r.stdout)
+
+    def test_a_publisher_table_missing_a_registered_publisher_fails(self):
+        con = sqlite3.connect(self.db)
+        con.executescript("""CREATE TABLE publisher (id TEXT PRIMARY KEY);
+            INSERT INTO publisher VALUES ('president-secretariat'), ('pmindia'), ('pib'), ('sansad'),
+                                         ('upcmo'), ('mospi-mplads');""")
+        con.commit()
+        con.close()
+        r = self.run_db()
+        self.assertEqual(r.returncode, 1, r.stdout)
+        self.assertIn("publisher table lacks registry publisher 'eci'", r.stdout)
+
+    def test_a_schema_with_no_publisher_allow_list_fails(self):
+        con = sqlite3.connect(self.db)
+        con.executescript("""PRAGMA foreign_keys = OFF;
+            CREATE TABLE source2 AS SELECT * FROM source; DROP TABLE source; ALTER TABLE source2 RENAME TO source;""")
+        con.commit()
+        con.close()
+        r = self.run_db()
+        self.assertEqual(r.returncode, 1, r.stdout)
+        self.assertIn('no publisher allow-list', r.stdout)
 
 
 class RealData(unittest.TestCase):

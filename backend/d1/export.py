@@ -145,7 +145,7 @@ def export(db_path):
 
 def compare(files, old_dir, overlay=None):
     """Per-file verdict against the committed data: 'bytes', 'semantic' or 'DIFFERENT'.
-    A file under `overlay` (backend/d1/inputs) is the committed one where it exists."""
+    A file under `overlay` (countries/IN/inputs) is the committed one where it exists."""
     verdicts = {}
     for rel, raw in files.items():
         old = Path(old_dir) / rel
@@ -167,7 +167,7 @@ def main(argv=None):
     ap.add_argument('--db', required=True, help='SQLite copy of the D1 database')
     ap.add_argument('--out', required=True, help='data directory to write the files into')
     ap.add_argument('--compare', help='committed data directory to compare the export against')
-    ap.add_argument('--overlay', help='files here are the committed ones where they exist (backend/d1/inputs)')
+    ap.add_argument('--overlay', help='files here are the committed ones where they exist (countries/IN/inputs)')
     args = ap.parse_args(argv)
     files = export(args.db)
     for rel, raw in files.items():

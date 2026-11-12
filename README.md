@@ -51,7 +51,9 @@ history, no bill PDFs and no stored portraits. `CONTEXT.md` defines the terms us
 | `frontend/` | the pages: Next.js 15 + React 19 + TypeScript, a static export with basePath `/elections/india` (national, `state/`, `mp/`, `mla/`), built the way the other apps on the site build theirs |
 | `frontend/landing/` | the `/elections` country list: its renderer, card pictures, outlines (`outlines.json`, keyed by ISO code), search aliases and font; `backend/build_site.py --db` runs it over the countries `backend/d1/countries.py` derives from D1 |
 | `data/` | data the pages read that is not in D1: geometry, regions, parties, MPLADS, Sansad records, member directory, bill indexes, `manifest.json`, `availability.json` |
-| `tools/` | the harvesters and the provenance gate (`tools/README.md`) |
+| `countries/IN/` | everything India-specific: `sources.json` (the publisher registry and each election's source and cross-check), `harvest/` (the harvesters, `countries/IN/harvest/README.md`), `inputs/` (import inputs) and `tests/` |
+| `harvest/` | country-neutral harvest code: fetch-and-hash plumbing, the registry reader and the per-record gate `harvest/validate.py` |
+| `tools/` | the repo-wide gates and builders: the provenance gate and its negative tests, `build-availability.py` (`tools/README.md`) |
 | `backend/` | the Cloudflare Worker, its D1 schema, import and export, and the deploy checks |
 | `.design/` | design notes (not published) |
 
@@ -59,19 +61,21 @@ history, no bill PDFs and no stored portraits. `CONTEXT.md` defines the terms us
 
 - **D1 `election-atlas` is the system of record for results and councils of ministers.** `backend/migrations/0001_init.sql` is the schema. Every fact row is `provenance = 'published'` by a CHECK constraint and names a `source` row: an allow-listed government publisher, an https URL, the sha256 of the fetched file and when it was fetched.
 - **The JSON under `data/results/` and `data/cabinet/` is a build artifact.** The deploy exports it from D1 (`backend/d1/export.py`) at the same paths and in the same shape the pages have always read.
-- **Import inputs.** The import reads the data of the pinned github.io commit, except where `backend/d1/inputs/` holds a file at the same path. That covers the Lok Sabha 1980–2004 state files, rebuilt from the ECI reports after the move (`backend/d1/inputs/README.md`).
+- **Import inputs.** The import reads the data of the pinned github.io commit, except where `countries/IN/inputs/` holds a file at the same path. That covers the Lok Sabha 1980–2004 state files, rebuilt from the ECI reports after the move (`countries/IN/inputs/README.md`).
 - **A nation's V-Dem regime tier is frontend config, not data the pages fetch.** `frontend/lib/regime.ts` holds each nation's Regimes of the World tier (V-Dem v16, 2026; data year 2025, as Our World in Data publishes it) and V-Dem's four tier definitions, for the pill on each country's card on `/elections` and the dialog behind it (the country list's renderer reads that module by the card's ISO code, so `build_site.py` runs it under node's type stripping; the nation page itself shows no pill). It is neither in D1 nor under `data/`: the provenance gate is for government-published election facts, and a V-Dem rating is a research classification with its own source, cited in that file.
-- **`data/members/ls/2024.json` stays committed and is not in D1.** Its source block names the Sansad directory without a sha256, so it passes `check_provenance.py` but not `validate_records.py` until it is re-harvested.
+- **`data/members/ls/2024.json` stays committed and is not in D1.** Its source block names the Sansad directory without a sha256, so it passes `check_provenance.py` but not `harvest/validate.py` until it is re-harvested.
 - **The state bill PDFs live in the R2 bucket `election-atlas-docs`.** They are stored under their atlas-relative path, and the Worker streams them with Range support at their old URLs. Each bill manifest (`data/state-legislation/IN-XX/bills/manifest.json`) records the source URL, sha256, size and fetch time of every PDF.
 
 ## The provenance gate
 
 Nothing but published data reaches D1, the exported files or the site:
 
-1. `tools/validate_records.py` runs over every record inside `backend/d1/ingest.py` before any SQL is written.
+1. `harvest/validate.py` runs over every record inside `backend/d1/ingest.py` before any SQL is written.
 2. D1's CHECK constraints refuse any other provenance, a missing source, a publisher off the allow-list, a URL that is not https, or a missing sha256.
-3. `tools/check_provenance.py <data> --db <D1 copy>` runs over the export and over D1 before every deploy.
+3. `tools/check_provenance.py <data> --db <D1 copy>` runs over the export and over D1 before every deploy, and fails if D1's publisher allow-list differs from the registry.
 4. CI runs the negative tests on every pull request: planted synthetic or dummy data must fail each check.
+
+The publisher allow-list lives in one place, `countries/<CC>/sources.json` (today `countries/IN/sources.json`): each publisher's id, hosts, licence, terms URL and when the terms were read, plus each election's official source and the second table its harvester cross-checks. Both gates read it (`harvest/registry.py`); a URL passes when its host is a registered host or a subdomain of one. Adding a publisher is an edit there plus a migration, never an edit to a gate.
 
 ## Workflows (GitHub Actions, `production` environment)
 

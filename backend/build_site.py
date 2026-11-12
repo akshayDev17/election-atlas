@@ -11,7 +11,8 @@ tracks are candidates among the repository's files (never build output or a
 checkout of another repository lying in the work tree), and "published" follows
 the rule GitHub Pages applied: any path with a segment starting with "." or "_"
 is left out (Jekyll skipped those), and so is what belongs to this repository
-rather than the site (backend/, frontend/ sources, the README). A committed file
+rather than the site (backend/, frontend/, countries/ and harvest/ sources, the
+README). A committed file
 at the same path as an exported page or chunk is refused.
 
 --data-from overlays the data files exported from D1 (backend/d1/export.py) and
@@ -45,7 +46,7 @@ REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / 'backend' / 'd1'))
 import countries as country_list  # noqa: E402
 MOUNT = Path('elections/india')
-NOT_PUBLISHED = {'backend', 'frontend', 'README.md', 'LICENSE', 'node_modules', 'dist'}
+NOT_PUBLISHED = {'backend', 'frontend', 'countries', 'harvest', 'README.md', 'LICENSE', 'node_modules', 'dist'}
 
 
 def tracked_files(root):

@@ -7,7 +7,7 @@ The parser tests feed eci_pdf.parse_pdf rows copied from the ECI reports, as
 (x0, x1, text) fragments in place of pdfminer's layout; the data tests read the
 published state files data/results/ls/{year}.json.
 
-    python3 tools/test_ls_legacy_results.py
+    python3 countries/IN/tests/test_ls_legacy_results.py
 """
 import collections
 import importlib.util
@@ -20,12 +20,12 @@ from unittest import mock
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-ATLAS = HERE.parent
-sys.path.insert(0, str(HERE))
+HARVEST = HERE.parent / "harvest"
+ATLAS = HERE.parents[2]
 
 
 def load(name, file):
-    spec = importlib.util.spec_from_file_location(name, HERE / file)
+    spec = importlib.util.spec_from_file_location(name, HARVEST / file)
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
     return mod

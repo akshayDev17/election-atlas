@@ -1,0 +1,134 @@
+{
+ "schema": 1,
+ "country": "IN",
+ "name": "India",
+ "note": "India's source registry. `publishers` is the allow-list the provenance gate reads (harvest/validate.py inside every harvester and the import, tools/check_provenance.py over the export and D1): a record's source must name one of these ids and an https URL whose host is one of its hosts or a subdomain of one. `check_provenance.py --db` also fails when D1's own publisher allow-list differs from this list, so adding a publisher is a reviewed change here plus a migration, never an edit to the gate. `licence` is what the publisher's own terms page said when it was read on `licence_checked`; `unchecked` means no terms page was found. `elections` and `councils` record, per harvested family, the official table each harvester reads and the second table it cross-checks before writing.",
+ "publishers": [
+  {
+   "id": "eci",
+   "name": "Election Commission of India",
+   "hosts": ["eci.gov.in"],
+   "licence": "all-rights-reserved",
+   "licence_url": "https://www.eci.gov.in/terms-and-conditions",
+   "licence_checked": "2026-11-07",
+   "licence_note": "The Terms and Conditions linked from the site's footer are written for the ECINET app and say: \"All content, including logos, UI design, and database structures, is the exclusive property of the ECI and is protected under Indian copyright laws.\" No reuse licence is stated anywhere on the site, and /copyright-policy is a 404. The atlas publishes these results as the Election Commission of India's, with visible attribution to the Commission on the page (owner decision of 2026-11-07, the stated exception to the explicit-licence rule)."
+  },
+  {
+   "id": "president-secretariat",
+   "name": "President's Secretariat",
+   "hosts": ["presidentofindia.gov.in", "ramnathkovind.nic.in"],
+   "licence": "permission-required-with-attribution",
+   "licence_url": "https://www.presidentofindia.gov.in/copyright-policy",
+   "licence_checked": "2026-11-07",
+   "licence_note": "\"This contents of this website may not be reproduced partially or fully, without due permission from The President of India, If referred to as a part of another publication, the source must be appropriately acknowledged.\" ramnathkovind.nic.in is the Secretariat's archive of President Kovind's term (2017-22), where the releases on the 2017-19 Union reshuffles are published; presidentofindia.gov.in does not carry them."
+  },
+  {
+   "id": "pmindia",
+   "name": "Prime Minister's Office",
+   "hosts": ["pmindia.gov.in"],
+   "licence": "reproduce-free-with-attribution",
+   "licence_url": "https://www.pmindia.gov.in/en/website-policies/",
+   "licence_checked": "2026-11-07",
+   "licence_note": "\"Material featured on this website may be reproduced free of charge. However, the material has to be reproduced accurately and not to be used in a derogatory manner or in a misleading context. Wherever the material is being published or issued to others, the source must be prominently acknowledged.\""
+  },
+  {
+   "id": "pib",
+   "name": "Press Information Bureau",
+   "hosts": ["pib.gov.in"],
+   "licence": "unchecked",
+   "licence_url": null,
+   "licence_checked": null,
+   "licence_note": "No copyright or terms page was found on pib.gov.in on 2026-11-07."
+  },
+  {
+   "id": "sansad",
+   "name": "Parliament of India (Sansad)",
+   "hosts": ["sansad.in"],
+   "licence": "unchecked",
+   "licence_url": null,
+   "licence_checked": null,
+   "licence_note": "sansad.in links a privacy policy and no copyright or terms page (2026-11-07)."
+  },
+  {
+   "id": "upcmo",
+   "name": "Chief Minister's Office, Uttar Pradesh",
+   "hosts": ["upcmo.up.nic.in"],
+   "licence": "unchecked",
+   "licence_url": null,
+   "licence_checked": null,
+   "licence_note": "No copyright or terms page was found on upcmo.up.nic.in on 2026-11-07."
+  },
+  {
+   "id": "mospi-mplads",
+   "name": "MPLADS eSAKSHI portal, Ministry of Statistics and Programme Implementation",
+   "hosts": ["mplads.mospi.gov.in"],
+   "licence": "unchecked",
+   "licence_url": null,
+   "licence_checked": null,
+   "licence_note": "No copyright or terms page was found on mplads.mospi.gov.in on 2026-11-07."
+  }
+ ],
+ "elections": [
+  {
+   "id": "ls",
+   "name": "Lok Sabha general elections",
+   "house": "ls",
+   "publisher": "eci",
+   "harvester": "countries/IN/harvest/build-ls-results.py",
+   "writes": ["results/ls/{year}.json", "results/ls/pc/{year}.json"],
+   "source": "ECI Statistical Reports: the constituency-wise detailed result (table 33; XLS for 2019 and 2024, PDF for 2009 and 2014, and each year's report volume PDF for 1980-2004), read with the list of political parties (table 3) as the abbreviation bridge.",
+   "cross_check": "The state-wise seats won and valid votes polled by party (table 17): the states total must equal the seats built from table 33 exactly, compared on the ECI's own state labels. 2009 has no state-wise table; its check is the third-party comparison recorded in ECI-SOURCES.md.",
+   "second_table_note": "The 1980-2004 state files are imported from countries/IN/inputs/, with their sources in countries/IN/inputs/ls-sources.json."
+  },
+  {
+   "id": "ls-detail",
+   "name": "Lok Sabha general elections, every candidate per seat",
+   "house": "ls",
+   "publisher": "eci",
+   "harvester": "countries/IN/harvest/build-ls-detail.py",
+   "writes": ["results/ls/detail/{year}.json"],
+   "source": "ECI table 33, the constituency-wise detailed result, read through build-ls-results.py's sheet reader.",
+   "cross_check": "Each seat must join to the PC geometry (data/geo/india-pcs.json) by state and number; the file is the same table as the pc/ file, so its totals are the pc/ file's."
+  },
+  {
+   "id": "ls-byel",
+   "name": "Lok Sabha by-elections",
+   "house": "ls",
+   "publisher": "eci",
+   "harvester": "countries/IN/harvest/harvest-ls-byel.py",
+   "writes": ["results/ls/byel/{term}.json"],
+   "source": "ECI by-election index cards: the combined workbooks of the Statistical Reports page (2014 to June 2018), the old site's by-election file pages (July 2018 to 2024) and the new backend's election-result categories (2025 on).",
+   "cross_check": "Each card against itself and the geometry: candidate votes must add up to the card's valid-votes total, the candidate count must equal \"Contested\", and the PC must join to data/geo/india-pcs.json by state and number with a matching name. A card that fails stays an event in its seat with no winner."
+  },
+  {
+   "id": "ac",
+   "name": "State legislative assembly elections",
+   "house": "vs",
+   "publisher": "eci",
+   "harvester": "countries/IN/harvest/harvest-ac-results.py",
+   "writes": ["results/ac/{state}/{cycle}.json", "results/ac/{state}/{cycle}-detail.json"],
+   "source": "Each state cycle's ECI statistical report, table 10 (detailed results, one row per candidate).",
+   "cross_check": "Two other tables of the same report, and the harvester stops if either disagrees: seats won per party must equal table 5 (performance of political parties) and contesting candidates must equal table 9 (candidate data summary). Tamil Nadu 2016 is held because its tables 5 and 10 disagree."
+  }
+ ],
+ "councils": [
+  {
+   "id": "union",
+   "name": "Union Council of Ministers",
+   "publishers": ["president-secretariat", "pmindia", "pib", "sansad"],
+   "harvester": "countries/IN/harvest/harvest-union-cabinet.py",
+   "writes": ["cabinet/union/{year}-sworn-in.json", "cabinet/union/{year}.json"],
+   "source": "The President's Secretariat press communiques (sworn-in rosters, portfolio allocations and reshuffles), PM India's current \"Portfolios of the Union Council of Ministers\", and the PIB release each later change is transcribed from.",
+   "cross_check": "The as-it-stands roster is checked name-for-name and portfolio-for-portfolio against PM India's list; every transcribed change must appear verbatim in the fetched release; party, state, constituency and member number come from the Sansad directory only on an exact name match or an explicit alias."
+  },
+  {
+   "id": "IN-UP",
+   "name": "Uttar Pradesh council of ministers",
+   "publishers": ["upcmo"],
+   "harvester": "countries/IN/harvest/harvest-up-cabinet.py",
+   "writes": ["cabinet/state/IN-UP/{cycle}.json"],
+   "source": "The Chief Minister's Office pages for the Cabinet, Ministers of State (Independent Charge) and Ministers of State.",
+   "cross_check": "None from a second table: each page's rows must have exactly four cells with serials running 1..n and a designation the page is expected to carry, or the harvest stops."
+  }
+ ]
+}

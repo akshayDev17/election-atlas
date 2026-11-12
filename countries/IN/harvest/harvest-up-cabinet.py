@@ -19,8 +19,8 @@ the harvest. The sworn-in roster of 2022 and the 2012 and 2017 ministries have
 no official machine-readable source yet and are not produced.
 
 Usage (from the repository root):
-    python3 tools/harvest-up-cabinet.py
-    python3 tools/harvest-up-cabinet.py --cache /tmp/harvest --dry-run
+    python3 countries/IN/harvest/harvest-up-cabinet.py
+    python3 countries/IN/harvest/harvest-up-cabinet.py --cache /tmp/harvest --dry-run
 """
 import argparse
 import html
@@ -28,9 +28,9 @@ import re
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-from harvest_common import DATA, DEFAULT_CACHE, SourceShapeError, fetch, source_block, write_json  # noqa: E402
-from validate_records import require_valid  # noqa: E402
+sys.path.insert(0, str(Path(__file__).resolve().parents[3]))  # the repository root
+from harvest.common import DATA, DEFAULT_CACHE, SourceShapeError, fetch, source_block, write_json  # noqa: E402
+from harvest.validate import require_valid  # noqa: E402
 
 BASE = "https://upcmo.up.nic.in/"
 PAGES = [  # page, heading it must carry, designation -> rank

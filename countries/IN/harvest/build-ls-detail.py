@@ -2,18 +2,18 @@
 """Build results/ls/detail/{year}.json (every candidate per Lok Sabha seat) from ECI
 table 33, the constituency-wise detailed result.
 
-    python3 tools/build-ls-detail.py . 2024 data/results/ls/detail/2024.json
+    python3 countries/IN/harvest/build-ls-detail.py . 2024 data/results/ls/detail/2024.json
 
 Reads the table through build-ls-results.py's own sheet reader and joins seats with
 its GeoIndex, so the keys match the pc/ files. Run with the table cached in
 _research/eci/ under the name build-ls-results.py's YEARS gives it. On 2026-11-02
 it rebuilt the committed 2019 and 2024 detail files byte for byte from the files
-recorded in backend/d1/ls-sources.json.
+recorded in countries/IN/inputs/ls-sources.json.
 """
 import importlib.util, json, os, sys
 
 atlas, year, out = sys.argv[1], int(sys.argv[2]), sys.argv[3]
-spec = importlib.util.spec_from_file_location("build_ls", os.path.join(atlas, "tools", "build-ls-results.py"))
+spec = importlib.util.spec_from_file_location("build_ls", os.path.join(atlas, "countries", "IN", "harvest", "build-ls-results.py"))
 b = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(b)
 
