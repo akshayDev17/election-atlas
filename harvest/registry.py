@@ -3,17 +3,18 @@
 Each country keeps `countries/<CC>/sources.json`. Its `publishers` list is the
 allow-list every gate reads: harvest/validate.py (inside the harvesters and the
 import) and tools/check_provenance.py (over the export and over D1). A record's
-source must name one of these publisher ids and an https URL whose host is one
-of the publisher's hosts or a subdomain of one.
+source must name one of these publisher ids and an https URL on one of their
+hosts: harvest/validate.py accepts one of the named publisher's hosts or a
+subdomain of one; check_provenance.py drops a leading www. and requires the host
+to be exactly one of the registered hosts.
 
-    from harvest.registry import publishers, host_of_publisher
+    from harvest.registry import publishers, host_matches
 
 Adding a publisher is an edit to its country's registry plus a migration that
 mirrors it into D1; `check_provenance.py --db` fails while the two differ.
 """
 import json
 from pathlib import Path
-from urllib.parse import urlparse
 
 REPO = Path(__file__).resolve().parents[1]
 COUNTRIES = REPO / "countries"
@@ -57,18 +58,3 @@ def host_matches(host: str, hosts) -> bool:
     """A host matches a registry host when it is that host or a subdomain of it."""
     host = (host or "").lower()
     return any(host == h or host.endswith("." + h) for h in hosts)
-
-
-def host_of_publisher(publisher: str, url: str, registry: dict) -> bool:
-    """True when `url` is https on one of `publisher`'s hosts (or a subdomain)."""
-    entry = registry.get(publisher)
-    if not entry:
-        return False
-    u = urlparse(url or "")
-    return u.scheme == "https" and host_matches(u.hostname, entry["hosts"])
-
-
-def host_of_any_publisher(url: str, registry: dict) -> bool:
-    """True when `url` is https on some registered publisher's host (or a subdomain)."""
-    u = urlparse(url or "")
-    return u.scheme == "https" and any(host_matches(u.hostname, e["hosts"]) for e in registry.values())

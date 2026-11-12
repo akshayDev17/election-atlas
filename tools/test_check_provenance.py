@@ -82,6 +82,22 @@ class ProvenanceGate(unittest.TestCase):
             **PUBLISHED_PC, 'source': {'publisher': 'x', 'url': 'https://example.com/r.xlsx'}})
         self.assertFails('not https on an allowed publisher host')
 
+    def test_source_on_a_subdomain_of_a_registered_host_fails(self):
+        write(self.data, 'results/ls/pc/2024.json', {
+            **PUBLISHED_PC, 'source': {'publisher': 'eci', 'url': 'https://results.eci.gov.in/r.xlsx'}})
+        self.assertFails("'https://results.eci.gov.in/r.xlsx' is not https on an allowed publisher host")
+
+    def test_source_on_a_registered_host_with_www_passes(self):
+        write(self.data, 'results/ls/pc/2024.json', {
+            **PUBLISHED_PC, 'source': {'publisher': 'eci', 'url': 'https://www.old.eci.gov.in/r.xlsx'}})
+        r = run_checker(self.data)
+        self.assertEqual(r.returncode, 0, r.stdout)
+
+    def test_source_over_http_fails(self):
+        write(self.data, 'results/ls/pc/2024.json', {
+            **PUBLISHED_PC, 'source': {'publisher': 'eci', 'url': 'http://www.eci.gov.in/r.xlsx'}})
+        self.assertFails("'http://www.eci.gov.in/r.xlsx' is not https on an allowed publisher host")
+
     def test_forbidden_word_in_nested_metadata_fails(self):
         write(self.data, 'mplads/IN-UP/index.json', {'mps': [{'note_source': 'invented for a demo'}]})
         self.assertFails("metadata says 'invented'")
@@ -247,6 +263,16 @@ class RegistryAgainstD1(unittest.TestCase):
         r = self.run_db()
         self.assertEqual(r.returncode, 1, r.stdout)
         self.assertIn("publisher table lacks registry publisher 'eci'", r.stdout)
+
+    def test_a_d1_source_on_a_subdomain_of_a_registered_host_fails(self):
+        con = sqlite3.connect(self.db)
+        con.execute("INSERT INTO source (publisher, url, sha256, fetched_at) VALUES (?, ?, ?, ?)",
+                    ('eci', 'https://results.eci.gov.in/r.xlsx', '0' * 64, '2026-11-01T00:00:00Z'))
+        con.commit()
+        con.close()
+        r = self.run_db()
+        self.assertEqual(r.returncode, 1, r.stdout)
+        self.assertIn("url 'https://results.eci.gov.in/r.xlsx' is not https on an allowed publisher host", r.stdout)
 
     def test_a_schema_with_no_publisher_allow_list_fails(self):
         con = sqlite3.connect(self.db)

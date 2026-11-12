@@ -13,6 +13,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
@@ -111,9 +112,10 @@ class GatesReadTheRegistry(unittest.TestCase):
                      'licence_url': None, 'licence_checked': None}]}))
             pubs = registry.publishers(Path(t))
             self.assertEqual(sorted(pubs), ['eci', 'gb-parliament'])
-            self.assertTrue(registry.host_of_publisher('gb-parliament', 'https://electionresults.parliament.uk/x.csv', pubs))
-            self.assertFalse(registry.host_of_publisher('eci', 'https://electionresults.parliament.uk/x.csv', pubs))
-            self.assertFalse(registry.host_of_any_publisher('http://www.eci.gov.in/x', pubs))
+            hosts = {pid: tuple(entry['hosts']) for pid, entry in pubs.items()}
+            with mock.patch.object(validate, 'PUBLISHER_HOSTS', hosts):
+                self.assertTrue(validate.host_allowed('gb-parliament', 'https://electionresults.parliament.uk/x.csv'))
+                self.assertFalse(validate.host_allowed('eci', 'https://electionresults.parliament.uk/x.csv'))
 
 
 if __name__ == '__main__':

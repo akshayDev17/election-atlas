@@ -17,8 +17,9 @@ below are relative to it). A country's own harvesters live under
 allow-list: each publisher's `id`, `hosts`, `licence`, `licence_url` and
 `licence_checked`, and per election the official table its harvester reads and
 the second table it cross-checks before writing. `harvest/registry.py` reads
-every country's file; a source URL passes when its host is a registered host or
-a subdomain of one. Adding a publisher is an edit there plus a migration that
+every country's file. `harvest/validate.py` passes a source URL whose host is
+one of its publisher's hosts or a subdomain of one; `check_provenance.py` drops a
+leading `www.` and requires the host to be exactly a registered host. Adding a publisher is an edit there plus a migration that
 mirrors it into D1, never an edit to a gate. `python3 -m unittest tools/test_registry.py`
 checks the registry's shape and that both gates read it.
 

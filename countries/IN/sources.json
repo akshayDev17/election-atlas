@@ -2,12 +2,12 @@
  "schema": 1,
  "country": "IN",
  "name": "India",
- "note": "India's source registry. `publishers` is the allow-list the provenance gate reads (harvest/validate.py inside every harvester and the import, tools/check_provenance.py over the export and D1): a record's source must name one of these ids and an https URL whose host is one of its hosts or a subdomain of one. `check_provenance.py --db` also fails when D1's own publisher allow-list differs from this list, so adding a publisher is a reviewed change here plus a migration, never an edit to the gate. `licence` is what the publisher's own terms page said when it was read on `licence_checked`; `unchecked` means no terms page was found. `elections` and `councils` record, per harvested family, the official table each harvester reads and the second table it cross-checks before writing.",
+ "note": "India's source registry. `publishers` is the allow-list the provenance gate reads (harvest/validate.py inside every harvester and the import, tools/check_provenance.py over the export and D1): a record's source must name one of these ids and an https URL on one of its hosts (harvest/validate.py also accepts a subdomain of one; check_provenance.py drops a leading www. and otherwise requires the exact host). `check_provenance.py --db` also fails when D1's own publisher allow-list differs from this list, so adding a publisher is a reviewed change here plus a migration, never an edit to the gate. `licence` is what the publisher's own terms page said when it was read on `licence_checked`; `unchecked` means no terms page was found. `elections` and `councils` record, per harvested family, the official table each harvester reads and the second table it cross-checks before writing.",
  "publishers": [
   {
    "id": "eci",
    "name": "Election Commission of India",
-   "hosts": ["eci.gov.in"],
+   "hosts": ["eci.gov.in", "old.eci.gov.in"],
    "licence": "all-rights-reserved",
    "licence_url": "https://www.eci.gov.in/terms-and-conditions",
    "licence_checked": "2026-11-07",

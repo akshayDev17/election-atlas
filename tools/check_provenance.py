@@ -12,7 +12,8 @@ Checks, each listed in full before the exit:
    "provenance": "published" and names its source by an https URL on a
    registered publisher's host (source.url, or every sources[].url). The
    publishers are the `publishers` of every countries/<CC>/sources.json
-   (harvest/registry.py); a host matches itself or any subdomain.
+   (harvest/registry.py); after a leading www. is dropped, the host must be
+   exactly one of their hosts.
 2. No JSON file anywhere under the data directory carries a forbidden word
    (synthetic, dummy, invented, placeholder, fake, mock) in a metadata field:
    any key named note*, source*, _note, caveat or provenance, at any depth.
@@ -52,10 +53,11 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from harvest.registry import host_of_any_publisher, publishers  # noqa: E402
+from harvest.registry import publishers  # noqa: E402
 
 # publisher id -> registry entry, from every countries/<CC>/sources.json
 PUBLISHERS = publishers()
+ALLOWED_HOSTS = {h for entry in PUBLISHERS.values() for h in entry['hosts']}
 FORBIDDEN = re.compile(r'\b(synthetic|dummy|invented|placeholder|fake|mock)', re.I)
 METADATA_KEY = re.compile(r'^(note.*|source.*|_note|caveat|provenance)$', re.I)
 PROVENANCE_DIRS = ('results', 'cabinet', 'members')
@@ -125,7 +127,11 @@ CYCLE_PATH = re.compile(r'^(?:results/ac|cabinet/state)/(IN-[A-Z]{2})/(\d{4})(?:
 
 
 def host_allowed(url):
-    return host_of_any_publisher(url, PUBLISHERS)
+    u = urlparse(url or '')
+    host = (u.hostname or '').lower()
+    if host.startswith('www.'):
+        host = host[4:]
+    return u.scheme == 'https' and host in ALLOWED_HOSTS
 
 
 def source_urls(doc):
