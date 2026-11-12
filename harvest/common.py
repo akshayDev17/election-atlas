@@ -6,12 +6,13 @@ cache, and stamps the output with where the bytes came from:
     "provenance": "published",
     "source": {"publisher": ..., "url": ..., "sha256": ..., "fetched_at": ...}
 
-The cache is what lets validate_records.py prove the sha256 in an output file is
+The cache is what lets harvest/validate.py prove the sha256 in an output file is
 the hash of a file that was really fetched. It defaults to `_research/harvest/`
 (gitignored) and can be moved with --cache.
 
 Fetches use curl, because this machine's Python SSL bundle is broken (see
-tools/README.md).
+countries/IN/harvest/README.md). A country's harvesters import this module as `harvest.common`
+with the repository root on sys.path.
 """
 import datetime as dt
 import hashlib

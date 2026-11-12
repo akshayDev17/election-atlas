@@ -86,7 +86,7 @@ jobs:
       - name: Write the data files from D1 and diff them against the committed JSON
         run: |
           python3 backend/d1/export.py --db d1.sqlite --out exported \
-            --compare atlas-source/work/election-atlas/data --overlay backend/d1/inputs
+            --compare atlas-source/work/election-atlas/data --overlay countries/IN/inputs
 
       - name: Build the frontend (Next.js static export, type-checked)
         working-directory: frontend

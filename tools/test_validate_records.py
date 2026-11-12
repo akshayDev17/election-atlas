@@ -12,9 +12,9 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-from harvest_common import cache_path, sha256_bytes  # noqa: E402
-from validate_records import main, validate  # noqa: E402
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from harvest.common import cache_path, sha256_bytes  # noqa: E402
+from harvest.validate import main, validate  # noqa: E402
 
 URL = "https://www.eci.gov.in/eci-backend/public/all_files/example/10-Detailed-Results.xlsx"
 BODY = b"published bytes"
@@ -91,7 +91,7 @@ class Gate(unittest.TestCase):
     def test_command_line_checks_sha256_against_the_harvest_cache_by_default(self):
         bad = self.cache / "bad-sha.json"
         bad.write_text(json.dumps(record(source=dict(record()["source"], sha256="0" * 64))))
-        with mock.patch("validate_records.DEFAULT_CACHE", self.cache):
+        with mock.patch("harvest.validate.DEFAULT_CACHE", self.cache):
             code, out = self.run_cli(str(bad))
         self.assertEqual(code, 1)
         self.assertIn("sha256 does not match", out)
@@ -99,7 +99,7 @@ class Gate(unittest.TestCase):
     def test_command_line_says_when_sha256_was_not_checked(self):
         good = self.cache / "good.json"
         good.write_text(json.dumps(record()))
-        with mock.patch("validate_records.DEFAULT_CACHE", self.cache / "absent"):
+        with mock.patch("harvest.validate.DEFAULT_CACHE", self.cache / "absent"):
             code, out = self.run_cli(str(good))
         self.assertEqual(code, 0)
         self.assertIn("sha256 NOT checked", out)
@@ -108,7 +108,7 @@ class Gate(unittest.TestCase):
         other = record(source=dict(record()["source"], url="https://www.eci.gov.in/not-fetched.xlsx"))
         path = self.cache / "other.json"
         path.write_text(json.dumps(other))
-        with mock.patch("validate_records.DEFAULT_CACHE", self.cache):
+        with mock.patch("harvest.validate.DEFAULT_CACHE", self.cache):
             code, out = self.run_cli(str(path))
         self.assertEqual(code, 0)
         self.assertIn("sha256 NOT checked", out)

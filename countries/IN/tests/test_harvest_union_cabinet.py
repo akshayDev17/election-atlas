@@ -2,22 +2,22 @@
 """Sworn-in ministers get the Sansad id and party the as-it-stands roster holds,
 even when the communique spells their name differently, and never a guessed one.
 
-    python3 tools/test_harvest_union_cabinet.py
+    python3 countries/IN/tests/test_harvest_union_cabinet.py
 """
 import importlib.util
 import json
 import re
-import sys
 import unittest
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-sys.path.insert(0, str(HERE))
-spec = importlib.util.spec_from_file_location("harvest_union_cabinet", HERE / "harvest-union-cabinet.py")
+HARVEST = HERE.parent / "harvest"
+REPO = HERE.parents[2]
+spec = importlib.util.spec_from_file_location("harvest_union_cabinet", HARVEST / "harvest-union-cabinet.py")
 huc = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(huc)
 
-UNION = HERE.parent / "data" / "cabinet" / "union"
+UNION = REPO / "data" / "cabinet" / "union"
 
 
 def ids(m):
@@ -94,9 +94,9 @@ class RosterLinksPointAtTheMinister(unittest.TestCase):
     in data/members/ls/2024.json, with the same state and constituency."""
 
     def setUp(self):
-        seats = json.loads((HERE.parent / "data" / "members" / "ls" / "2024.json").read_text(encoding="utf-8"))
+        seats = json.loads((REPO / "data" / "members" / "ls" / "2024.json").read_text(encoding="utf-8"))
         self.by_mpsno = {m["mpsno"]: m for m in seats["members"].values()}
-        regions = json.loads((HERE.parent / "data" / "regions.json").read_text(encoding="utf-8"))["regions"]
+        regions = json.loads((REPO / "data" / "regions.json").read_text(encoding="utf-8"))["regions"]
         self.state_code = {huc.js.norm_state(n): r["code"] for r in regions for n in [r["name"], *r.get("sourceNames", [])]}
 
     def audit(self, roster):

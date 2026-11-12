@@ -56,7 +56,7 @@ only place the registered electorate is recorded.
 }
 ```
 
-The 1980–2004 files are built by `tools/build-ls-results.py` from each year's ECI
+The 1980–2004 files are built by `countries/IN/harvest/build-ls-results.py` from each year's ECI
 report PDF. Their `source` is that report, with its `sha256` and `fetched_at`, and
 `sources` lists the ECI party lists the builder reads party codes from. A region
 there may also carry `unopposed`: each seat the report prints as returned
@@ -144,13 +144,13 @@ build for any file that does not, and for any metadata that calls itself
 synthetic, dummy, invented, placeholder, fake or mock.
 
 Harvested files also carry the fetched file's `sha256` and `fetched_at` in
-`source`. `tools/validate_records.py` runs in every harvester before it writes,
+`source`. `harvest/validate.py` runs in every harvester before it writes,
 and refuses a record whose provenance, publisher, host or sha256 is wrong:
 
 | path | harvested by | cross-checked against |
 | --- | --- | --- |
-| `ac/` | `tools/harvest-ac-results.py`, from each report's table 10 | its tables 5 and 9 |
-| `ls/byel/` | `tools/harvest-ls-byel.py`, from ECI's by-election index cards | the PC geometry |
+| `ac/` | `countries/IN/harvest/harvest-ac-results.py`, from each report's table 10 | its tables 5 and 9 |
+| `ls/byel/` | `countries/IN/harvest/harvest-ls-byel.py`, from ECI's by-election index cards | the PC geometry |
 
 ---
 
@@ -193,7 +193,7 @@ that only a file could state.
 **The Lok Sabha hover card shows no candidates on 2009 and 2014.** `ls/detail/`
 covers 2019 and 2024 only. Both years have colouring data, so the maps draw
 correctly and the card names the seat. Closing it is a re-run of the extractor
-in `tools/`, not new work.
+in `countries/IN/harvest/`, not new work.
 
 ---
 

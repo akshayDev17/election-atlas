@@ -14,7 +14,7 @@ Sources:
   - Rajya Sabha: https://sansad.in/api_rs/member/in-council-of-ministers
 
 Usage:
-  python3 tools/join-sansad.py --cycle 2024 \
+  python3 countries/IN/harvest/join-sansad.py --cycle 2024 \
       --in  _research/cabinet-fetched/2024.json \
       --out _research/cabinet-fetched/2024.enriched.json
 """
@@ -165,7 +165,7 @@ def main():
         doc = {"members": members}
 
     by_norm, by_nospace = build_lookup()
-    regions = json.load(open(Path(__file__).parent.parent / "data" / "regions.json", encoding="utf-8"))
+    regions = json.load(open(Path(__file__).resolve().parents[3] / "data" / "regions.json", encoding="utf-8"))
     state_to_code = {}
     for r in regions["regions"]:
         for s in r.get("sourceNames", []):

@@ -10,7 +10,10 @@ Checks, each listed in full before the exit:
 
 1. Every JSON file under results/, cabinet/ and members/ declares top-level
    "provenance": "published" and names its source by an https URL on a
-   government publisher's host (source.url, or every sources[].url).
+   registered publisher's host (source.url, or every sources[].url). The
+   publishers are the `publishers` of every countries/<CC>/sources.json
+   (harvest/registry.py); after a leading www. is dropped, the host must be
+   exactly one of their hosts.
 2. No JSON file anywhere under the data directory carries a forbidden word
    (synthetic, dummy, invented, placeholder, fake, mock) in a metadata field:
    any key named note*, source*, _note, caveat or provenance, at any depth.
@@ -26,9 +29,11 @@ Checks, each listed in full before the exit:
 5. With --db (a SQLite copy of the election-atlas D1 database, from
    `wrangler d1 export`): no row of a provenance-bearing table is anything but
    published, none lacks a source_id or names a source that does not exist, and
-   every source is an allow-listed publisher on an allowed https host with a
+   every source is a registered publisher on one of its https hosts with a
    sha256 and a fetched_at. The schema's CHECK constraints already refuse such
-   rows; this catches a schema that drifted away from them.
+   rows; this catches a schema that drifted away from them. D1's own publisher
+   allow-list (the `publisher` table once there is one; until then the CHECK on
+   source.publisher) must name exactly the registry's publishers.
 6. With --remote BASE: checks 1 to 4 run over what BASE actually serves. Every
    JSON file under DATA_DIR, the pages, the chunks the served pages load and
    manifest.json are fetched from BASE (the atlas root URL) and checked as
@@ -47,13 +52,12 @@ import urllib.request
 from pathlib import Path
 from urllib.parse import urlparse
 
-ALLOWED_HOSTS = {
-    'eci.gov.in', 'old.eci.gov.in', 'presidentofindia.gov.in', 'pmindia.gov.in',
-    'pib.gov.in', 'sansad.in', 'upcmo.up.nic.in', 'mplads.mospi.gov.in',
-    # The President's Secretariat archive for 2017-22 (Ram Nath Kovind's term),
-    # where its press releases on the 2017-19 Union reshuffles are published.
-    'ramnathkovind.nic.in',
-}
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from harvest.registry import publishers  # noqa: E402
+
+# publisher id -> registry entry, from every countries/<CC>/sources.json
+PUBLISHERS = publishers()
+ALLOWED_HOSTS = {h for entry in PUBLISHERS.values() for h in entry['hosts']}
 FORBIDDEN = re.compile(r'\b(synthetic|dummy|invented|placeholder|fake|mock)', re.I)
 METADATA_KEY = re.compile(r'^(note.*|source.*|_note|caveat|provenance)$', re.I)
 PROVENANCE_DIRS = ('results', 'cabinet', 'members')
@@ -237,7 +241,33 @@ def check(data_dir):
 
 PROVENANCE_TABLES = ('term', 'document', 'region_tally', 'region_party_tally', 'contest', 'ministry',
                      'minister_tenure')
-PUBLISHERS = ('eci', 'president-secretariat', 'pmindia', 'pib', 'sansad', 'upcmo', 'mospi-mplads')
+PUBLISHER_CHECK = re.compile(r"publisher\s+TEXT[^,]*?\bIN\s*\(([^)]*)\)", re.S | re.I)
+
+
+def d1_publishers(con, tables):
+    """The publisher allow-list D1 itself enforces, and where it was read from: the
+    `publisher` table where the schema has one, else the CHECK on source.publisher."""
+    if 'publisher' in tables:
+        return {r[0] for r in con.execute('SELECT id FROM publisher')}, 'publisher table'
+    if 'source' in tables:
+        sql = con.execute("SELECT sql FROM sqlite_master WHERE type = 'table' AND name = 'source'").fetchone()[0]
+        m = PUBLISHER_CHECK.search(sql or '')
+        if m:
+            return set(re.findall(r"'([^']*)'", m.group(1))), 'CHECK on source.publisher'
+    return None, None
+
+
+def check_registry(con, tables):
+    """D1's publisher allow-list must be exactly the registry's publishers."""
+    d1, where = d1_publishers(con, tables)
+    if d1 is None:
+        return ['D1: no publisher allow-list (neither a publisher table nor a CHECK on source.publisher)']
+    errs = []
+    for pid in sorted(set(PUBLISHERS) - d1):
+        errs.append(f'D1: {where} lacks registry publisher {pid!r}')
+    for pid in sorted(d1 - set(PUBLISHERS)):
+        errs.append(f'D1: {where} names {pid!r}, which no countries/*/sources.json registers')
+    return errs
 
 
 def check_db(db_path):
@@ -248,6 +278,7 @@ def check_db(db_path):
     for t in PROVENANCE_TABLES + ('source',):
         if t not in tables:
             errs.append(f'D1: table {t} is missing')
+    errs += check_registry(con, tables)
     for t in PROVENANCE_TABLES:
         if t not in tables:
             continue
@@ -266,7 +297,7 @@ def check_db(db_path):
         for sid, publisher, url, sha, fetched in con.execute(
                 'SELECT id, publisher, url, sha256, fetched_at FROM source'):
             if publisher not in PUBLISHERS:
-                errs.append(f'D1: source {sid} publisher {publisher!r} is not on the allow-list')
+                errs.append(f'D1: source {sid} publisher {publisher!r} is not on the allow-list (no country\'s sources.json registers it)')
             if not host_allowed(url):
                 errs.append(f'D1: source {sid} url {url!r} is not https on an allowed publisher host')
             if not re.fullmatch(r'[0-9a-f]{64}', sha or ''):

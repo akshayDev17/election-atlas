@@ -92,7 +92,7 @@ jobs:
           assert not bad, bad
           PY
           python3 backend/d1/export.py --db d1.sqlite --out exported --compare atlas-source/work/election-atlas/data \
-            --overlay backend/d1/inputs
+            --overlay countries/IN/inputs
 
       # The data files are build artifacts here: materialize them from the export
       # so the tools that read data/results and data/cabinet can be tested. The
@@ -104,10 +104,13 @@ jobs:
           python3 tools/check_provenance.py dist/elections/india/data --db d1.sqlite
           python3 dist/elections/india/tools/build-availability.py --check
 
-      - name: Tool tests, with the exported data in place
+      # tools/: the gate's negative tests and the source registry's; countries/IN/tests:
+      # India's harvester tests, which read the exported results and cabinets.
+      - name: Gate, registry and harvester tests, with the exported data in place
         run: |
           cp -R exported/. data/
           python3 -m unittest discover -s tools -p 'test_*.py' -v
+          python3 -m unittest discover -s countries/IN/tests -p 'test_*.py' -v
 
       # The /elections page: pagination and its address, the search index, the
       # card, the builder's refusals, the pictures, and the built list itself

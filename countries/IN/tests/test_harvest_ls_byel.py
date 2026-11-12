@@ -2,16 +2,15 @@
 """By-election term files: unusable cards stay events in their seat, and only
 the elected marker (never a name's own last letter) is stripped from a winner.
 
-    python3 tools/test_harvest_ls_byel.py
+    python3 countries/IN/tests/test_harvest_ls_byel.py
 """
 import importlib.util
-import sys
 import unittest
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-sys.path.insert(0, str(HERE))
-spec = importlib.util.spec_from_file_location("harvest_ls_byel", HERE / "harvest-ls-byel.py")
+HARVEST = HERE.parent / "harvest"
+spec = importlib.util.spec_from_file_location("harvest_ls_byel", HARVEST / "harvest-ls-byel.py")
 byel = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(byel)
 

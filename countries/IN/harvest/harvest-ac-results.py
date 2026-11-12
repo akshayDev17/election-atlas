@@ -24,9 +24,9 @@ unless named with --only (see its comment for why). The PDF-only cycles (UP 2012
 HR 2014, OD 2014, BR 2015, CT 2013, CT 2018) are not, and stay "not available yet".
 
 Usage (from the repository root):
-    python3 tools/harvest-ac-results.py                 # all cycles
-    python3 tools/harvest-ac-results.py --only IN-UP:2022
-    python3 tools/harvest-ac-results.py --cache /tmp/harvest --dry-run
+    python3 countries/IN/harvest/harvest-ac-results.py                 # all cycles
+    python3 countries/IN/harvest/harvest-ac-results.py --only IN-UP:2022
+    python3 countries/IN/harvest/harvest-ac-results.py --cache /tmp/harvest --dry-run
 """
 import argparse
 import collections
@@ -37,10 +37,10 @@ import re
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-from harvest_common import (DATA, DEFAULT_CACHE, SourceShapeError, cell, fetch,  # noqa: E402
+sys.path.insert(0, str(Path(__file__).resolve().parents[3]))  # the repository root
+from harvest.common import (DATA, DEFAULT_CACHE, SourceShapeError, cell, fetch,  # noqa: E402
                             num, sheets, source_block, write_json)
-from validate_records import require_valid  # noqa: E402
+from harvest.validate import require_valid  # noqa: E402
 
 API = "https://www.eci.gov.in/eci-backend/public/api/election-result?category_id={}"
 OLD = "https://old.eci.gov.in/files/file/{id}-{slug}/"

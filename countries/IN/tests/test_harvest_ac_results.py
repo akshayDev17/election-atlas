@@ -1,21 +1,21 @@
 #!/usr/bin/env python3
 """Assembly files must carry the party codes the rest of the atlas uses.
 
-    python3 tools/test_harvest_ac_results.py
+    python3 countries/IN/tests/test_harvest_ac_results.py
 """
 import importlib.util
 import json
-import sys
 import unittest
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-sys.path.insert(0, str(HERE))
-spec = importlib.util.spec_from_file_location("harvest_ac_results", HERE / "harvest-ac-results.py")
+HARVEST = HERE.parent / "harvest"
+REPO = HERE.parents[2]
+spec = importlib.util.spec_from_file_location("harvest_ac_results", HARVEST / "harvest-ac-results.py")
 ac = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(ac)
 
-code_for = ac.party_code_map(json.loads((HERE.parent / "data" / "parties.json").read_text()))
+code_for = ac.party_code_map(json.loads((REPO / "data" / "parties.json").read_text()))
 TABLE_3 = {"AAAP": "Aam Aadmi Party", "CPIM": "Communist Party of India  (Marxist)",
            "CPI(ML)(L)": "Communist Party of India  (Marxist-Leninist)  (Liberation)"}
 

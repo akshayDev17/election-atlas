@@ -37,8 +37,8 @@ the index cards cover polls, and no published source with the vacancy date has
 been harvested.
 
 Usage (from the repository root):
-    python3 tools/harvest-ls-byel.py
-    python3 tools/harvest-ls-byel.py --cache /tmp/harvest --dry-run
+    python3 countries/IN/harvest/harvest-ls-byel.py
+    python3 countries/IN/harvest/harvest-ls-byel.py --cache /tmp/harvest --dry-run
 """
 import argparse
 import datetime as dt
@@ -51,10 +51,10 @@ from functools import lru_cache
 from pathlib import Path
 from urllib.parse import unquote
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-from harvest_common import (DATA, DEFAULT_CACHE, UA, SourceShapeError, cell,  # noqa: E402
+sys.path.insert(0, str(Path(__file__).resolve().parents[3]))  # the repository root
+from harvest.common import (DATA, DEFAULT_CACHE, UA, SourceShapeError, cell,  # noqa: E402
                             fetch, num, sheets, source_block, write_json)
-from validate_records import require_valid  # noqa: E402
+from harvest.validate import require_valid  # noqa: E402
 
 OLD_BYE = "https://old.eci.gov.in/ByeElection/"
 COMBINED_WORKBOOKS = [  # 2014 to June 2018, as linked from www.eci.gov.in/statistical-reports

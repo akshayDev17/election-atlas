@@ -14,7 +14,7 @@ from urllib.parse import quote_plus
 
 from models import Capability, FetchMode, ResolvedState, SourceTier, Variant
 
-REPO_ROOT = Path(__file__).resolve().parents[3]
+REPO_ROOT = Path(__file__).resolve().parents[5]
 REGISTRY_PATH = REPO_ROOT / "data" / "mla" / "SOURCE-REGISTRY.md"
 
 # name-in-table -> ISO code

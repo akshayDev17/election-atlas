@@ -9,7 +9,7 @@ name: Import into D1
 #
 # Applies outstanding migrations first, leaves out every document of the day that
 # D1 already holds (so a re-run, or a file added later, imports only what is
-# missing), validates every record (tools/validate_records.py) before any SQL
+# missing), validates every record (harvest/validate.py) before any SQL
 # exists, and prints D1's own rows-written count for the import.
 
 on:
