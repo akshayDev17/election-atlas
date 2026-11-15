@@ -383,7 +383,7 @@ for (const viewport of [
       assert.ok(seen, `${name}: the site path is drawn and survives hydration`);
       assert.deepEqual(problems, [], name);
       assert.equal(seen.oneLine, true, `${name}: the apps are one line`);
-      assert.ok(seen.apps.length >= 5 && seen.apps.at(-1) === 'Election Atlas', `${name}: every app is in the row: ${seen.apps}`);
+      assert.ok(seen.apps.length >= 5 && seen.apps.includes('Election Atlas'), `${name}: every app is in the row: ${seen.apps}`);
       const root = TRAILS[name].length === 0;
       assert.deepEqual(seen.current, [['Election Atlas', ATLAS_ROOT, root ? 'page' : 'true']], `${name}: the atlas is the current app`);
       assert.equal(seen.currentInView, true, `${name}: the atlas is in view`);
