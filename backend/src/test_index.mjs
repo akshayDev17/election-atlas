@@ -1,7 +1,7 @@
 // node --experimental-strip-types --test backend/src/test_index.mjs
 import assert from "node:assert/strict";
 import test from "node:test";
-import worker, { byteSpan, listPageNumber, movedTo, parseRange, r2Key } from "./index.js";
+import worker, { byteSpan, listPageNumber, movedTo, notOurs, parseRange, r2Key } from "./index.js";
 import { tailFiles, tailFor, tailQuery, withTail } from "./sitepath.js";
 
 const PDF = "/elections/india/data/state-legislation/IN-AP/bills/documents/f6d43f9459-bills.pdf";
@@ -471,4 +471,54 @@ test("crumbs never cost the page: unreadable data falls back to the query, and t
   assert.equal(res.status, 200);
   assert.equal(res.headers.get("x-site-shell"), "test; app=atlas");
   assert.match(await res.text(), /data-tail="\[\{&quot;label&quot;:&quot;India&quot;,&quot;href&quot;:&quot;\/elections\/india\/&quot;\},\{&quot;label&quot;:&quot;IN-BR&quot;\}\]"/);
+});
+
+// The routes elections* and work/election-atlas* also catch paths that only
+// share the prefix's text; those belong to the origin and must reach it as sent.
+const LOOKALIKES = ["/electionsfoo", "/electionsfoo?x=1", "/elections.html", "/elections-x/y?x=1", "/elections%2F", "/elections%2fcards%2f1.json",
+  "/work/election-atlasfoo", "/work/election-atlasfoo?x=1", "/work/election-atlas.html", "/work/election-atlas-x/y"];
+
+test("a path that only shares a prefix's text is not ours; the prefixes and their paths are", () => {
+  for (const u of LOOKALIKES) assert.equal(notOurs(new URL(`https://x${u}`).pathname), true, u);
+  for (const u of ["/elections", "/elections/", "/elections/india/state/", "/elections/page/2/",
+    "/work/election-atlas", "/work/election-atlas/", "/work/election-atlas/mp", "/", "/work/", "/graphfoo", "/_site/x.css"]) {
+    assert.equal(notOurs(u), false, u);
+  }
+});
+
+test("a lookalike path goes to the origin as the very same Request, never to the assets, R2 or site-shell", async (t) => {
+  const seen = [];
+  t.mock.method(globalThis, "fetch", async (req) => {
+    seen.push(req);
+    return new Response("origin 404", { status: 404, headers: { "x-github-request-id": "1" } });
+  });
+  const e = { ASSETS: assets(), SHELL: shell(), DOCS: fakeR2({}) };
+  for (const path of LOOKALIKES) {
+    const req = new Request(`https://x${path}`, { method: "POST", body: "b", headers: { "x-k": "v" } });
+    const res = await worker.fetch(req, e);
+    assert.equal(seen.at(-1), req, path);
+    assert.equal(res.status, 404, path);
+    assert.equal(res.headers.get("x-github-request-id"), "1", path);
+    assert.equal(await res.text(), "origin 404", path);
+  }
+  assert.equal(seen.length, LOOKALIKES.length);
+  assert.deepEqual(e.ASSETS.calls, []);
+  assert.deepEqual(e.SHELL.calls, { compose: [] });
+});
+
+test("the bare prefixes with a query are redirected into the app, query kept byte for byte, never to the origin", async (t) => {
+  const origin = t.mock.method(globalThis, "fetch", async () => new Response("origin"));
+  const cases = [
+    ["https://x/elections?x=1", "https://x/elections/?x=1"],
+    ["https://x/elections?q=a%20b&page=3", "https://x/elections/?q=a%20b&page=3"],
+    ["https://x/elections?", "https://x/elections/"],
+    ["https://x/work/election-atlas?x=1", "https://x/elections/india/?x=1"],
+    ["https://x/work/election-atlas?s=IN-UP&y=2024", "https://x/elections/india/?s=IN-UP&y=2024"],
+  ];
+  for (const [from, to] of cases) {
+    const res = await call(from);
+    assert.equal(res.status, 308, from);
+    assert.equal(res.headers.get("location"), to, from);
+  }
+  assert.equal(origin.mock.callCount(), 0);
 });

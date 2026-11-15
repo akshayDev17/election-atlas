@@ -4,6 +4,16 @@
 // served by Cloudflare's asset layer without invoking this script. The script runs
 // only for the paths listed in wrangler.jsonc `assets.run_worker_first`:
 //
+//   /elections<anything>, /work/election-atlas<anything> that is not the prefix
+//   or under it (/electionsfoo, /elections.html, /work/election-atlasfoo)
+//     Passed to the origin untouched (fetch(request)). The zone routes are
+//     elections* and work/election-atlas*, the only patterns that also match
+//     /elections?x (a route matches the whole URL, query included, and cannot
+//     contain a query), so they catch these unrelated paths too. Most are not
+//     in run_worker_first: the assets lookup runs first, finds nothing, and the
+//     Worker runs. The few the assets would answer with the country list
+//     (/elections.html, /elections%2F…) are listed there.
+//
 //   /elections/india/data/state-legislation/*
 //     The state bill PDFs there live in the R2 bucket election-atlas-docs under the
 //     same path relative to the atlas root (data/state-legislation/IN-XX/bills/
@@ -44,10 +54,12 @@ const OLD_ROOT = "/work/election-atlas";
 const LIST_ROOT = "/elections/";
 const LIST_PAGES = `${LIST_ROOT}page/`;
 const DOCS_PREFIX = `${ATLAS_ROOT}data/state-legislation/`;
+const PREFIXES = [LIST_ROOT.slice(0, -1), OLD_ROOT];
 
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    if (notOurs(url.pathname)) return fetch(request);
     const moved = movedTo(url);
     if (moved) return Response.redirect(moved, 308);
     if (url.pathname.startsWith(DOCS_PREFIX) && url.pathname.endsWith(".pdf")) {
@@ -61,6 +73,15 @@ export default {
     return withShell(await page(), env, page, "atlas", (res) => withCrumbs(res, env, url));
   },
 };
+
+/**
+ * Whether a path only shares the text of a prefix (/electionsfoo,
+ * /work/election-atlas.html) without being the prefix or under it: such a path
+ * belongs to the origin.
+ */
+export function notOurs(pathname) {
+  return PREFIXES.some((p) => pathname.startsWith(p) && pathname !== p && !pathname.startsWith(`${p}/`));
+}
 
 /**
  * The page of the country list a query asks for: N for ?page=N, a whole number

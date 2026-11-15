@@ -3,8 +3,8 @@
 
     python3 backend/check_no_routes.py backend/wrangler.jsonc
 
-The owner's approved routes (akshayprabhakant.com/elections, /elections/*,
-/work/election-atlas and /work/election-atlas/*) are live but attached outside
+The owner's approved routes (akshayprabhakant.com/elections* and
+/work/election-atlas*) are live but attached outside
 this config by portfolio-app, so the config must carry no `route`/`routes`
 (top level or in any environment) and no custom domain.
 """
