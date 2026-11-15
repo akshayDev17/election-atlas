@@ -7,10 +7,12 @@
   // the date the sibling frontends use
   "compatibility_date": "2026-10-10",
 
-  // No "routes" here. The owner's approved routes (akshayprabhakant.com/elections,
-  // /elections/*, /work/election-atlas and /work/election-atlas/*) are live but
+  // No "routes" here. The owner's approved routes (akshayprabhakant.com/elections*
+  // and /work/election-atlas*, which replaced the exact-path-plus-/* pairs so a
+  // query on the bare path, /elections?x, reaches the Worker) are live but
   // attached outside this config by portfolio-app; the deploy workflow refuses a
-  // config with routes.
+  // config with routes. src/index.js passes every other path those patterns
+  // catch (/electionsfoo) to the origin.
   "workers_dev": true,
 
   "assets": {
@@ -30,6 +32,15 @@
     // matches, as patterns match the path only.
     "run_worker_first": [
       "/elections",
+      // Not the list's paths: the assets would answer them with the list
+      // (/elections.html and an escaped slash, /elections%2F…, both resolve to
+      // elections/index.html), but they only share the prefix's text, so the
+      // Worker hands them to the origin, like every other such path the route
+      // elections* catches (/electionsfoo finds no asset and reaches the
+      // Worker anyway).
+      "/elections.html",
+      "/elections%2F*",
+      "/elections%2f*",
       "/elections/",
       "/elections/page/*",
       "/elections/india/data/state-legislation/*",

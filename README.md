@@ -86,7 +86,7 @@ The publisher allow-list lives in one place, `countries/<CC>/sources.json` (toda
 | `d1-import.yml` | manual, `day` = 1 or 2 | applies migrations, then imports one day (1: assembly, cabinets, by-elections; 2: Lok Sabha), printing D1's rows written; the free plan allows 100,000 a day |
 | `deploy.yml` | manual, and automatically after a passing push to main | builds the frontend, exports D1, diffs it against the committed JSON, derives the country list from that D1, runs the gate, deploys the Worker, and smoke-tests the preview (including the old address's redirect, the country list, and that every page is composed by site-shell) |
 
-The Worker config (`backend/wrangler.jsonc`) carries **no routes**, and CI and the deploy refuse one that does (`backend/check_no_routes.py`). The owner's approved routes (`akshayprabhakant.com/elections`, `/elections/*`, `/work/election-atlas` and `/work/election-atlas/*`) are attached outside this config, in a step of their own.
+The Worker config (`backend/wrangler.jsonc`) carries **no routes**, and CI and the deploy refuse one that does (`backend/check_no_routes.py`). The owner's approved routes (`akshayprabhakant.com/elections*` and `/work/election-atlas*`) are attached outside this config, in a step of their own. They end in a bare `*` because a route matches the whole URL, query included, and cannot contain a query, so only that form matches `/elections?x`; the Worker passes every other path they catch (`/electionsfoo`, `/work/election-atlasfoo`) to the origin untouched.
 
 `backend/check_urls.py` replays the URL inventory (`.atlas-cutover/url-inventory.tsv` in the github.io repository) against any host: every old URL must redirect to its `/elections/india/` twin, which must then serve what it served before.
 
