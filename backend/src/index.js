@@ -2,7 +2,8 @@
 //
 // The atlas is a static export (frontend/, Next.js) under /elections/india/,
 // served by Cloudflare's asset layer without invoking this script. The script runs
-// only for the paths listed in wrangler.jsonc `assets.run_worker_first`:
+// for the paths listed in wrangler.jsonc `assets.run_worker_first`, and for any
+// routed path the assets do not have:
 //
 //   /elections<anything>, /work/election-atlas<anything> that is not the prefix
 //   or under it (/electionsfoo, /elections.html, /work/election-atlasfoo)
