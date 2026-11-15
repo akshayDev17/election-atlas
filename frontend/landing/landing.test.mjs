@@ -23,6 +23,7 @@ import { RESERVED, aToZ, build, checkCountries, fallbackCss } from './build.mjs'
 import { MAP_ONLY, RESULT_MAPS, flagShapeSvg, pictureOf, rasterise } from './pictures.mjs';
 import { listPageNumber } from '../../backend/src/index.js';
 import { NATION_REGIMES, REGIME_TIERS, VDEM, regimePillText } from '../lib/regime.ts';
+import { ICON } from '../lib/icon.ts';
 
 const here = fileURLToPath(new URL('.', import.meta.url));
 const repo = join(here, '../..');
@@ -253,7 +254,8 @@ test('the page loads its own font and nothing from another host, and never fades
   assert.match(html, /<link rel="preload" href="\/elections\/fonts\/newsreader\.woff2" as="font" type="font\/woff2" crossorigin>/);
   assert.match(html, /@font-face\{font-family:"Newsreader";src:url\(\/elections\/fonts\/newsreader\.woff2\)/);
   const loads = [...html.matchAll(/<(?:link|script|img)\b[^>]*\b(?:href|src)="([^"]+)"/g)].map((m) => m[1]);
-  for (const url of loads) assert.ok(url.startsWith('/elections/') || url === 'data:,', url);
+  for (const url of loads) assert.ok(url.startsWith('/elections/') || url === ICON, url);
+  assert.match(html, /<link rel="icon" href="data:image\/svg\+xml,%3Csvg%20/, 'the ballot-box tab icon, inline');
   assert.doesNotMatch(html, /@keyframes|animation:|opacity:0/, 'no entrance motion');
   assert.match(html, /:where\(:root\)\{color-scheme:light;--surface:#EEF1F8/, 'the Classic Light fallback block');
 });

@@ -13,6 +13,7 @@
 // the atlas's TypeScript tests read, so build.mjs runs under node's type stripping
 // (backend/build_site.py passes --experimental-strip-types; the landing tests do).
 import { NATION_REGIMES, REGIME_TIERS, VDEM, regimePillText } from '../lib/regime.ts';
+import { ICON } from '../lib/icon.ts';
 
 export const ROOT = '/elections/';
 export const PAGE_SIZE = 10;
@@ -419,7 +420,7 @@ ${regimeDialog()}` : `<p class="where">${NONE_YET}</p>`;
 <title>${n > 1 ? `Election Atlas: page ${n}` : 'Election Atlas'}</title>
 <meta name="description" content="The latest national election result for each country the Election Atlas holds, from that country’s own election authority.">
 <link rel="canonical" href="${pageHref(n)}">
-<link rel="icon" href="data:,">
+<link rel="icon" href="${ICON}">
 <link rel="preload" href="${ROOT}fonts/newsreader.woff2" as="font" type="font/woff2" crossorigin>
 <style>${fallbackCss.trim()}
 ${CSS.trim()}</style>

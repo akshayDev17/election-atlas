@@ -35,6 +35,15 @@ test('every page and asset a page links is under /elections/india/, but the way 
   }
 });
 
+test('every page carries the ballot-box tab icon inline, never an empty one', () => {
+  for (const page of PAGES) {
+    const head = readFileSync(join(out, page), 'utf8').split('</head>')[0];
+    const icons = [...head.matchAll(/<link rel="icon" href="([^"]*)"/g)].map((m) => m[1]);
+    assert.deepEqual(icons.length, 1, `${page}: ${icons.length} icon links`);
+    assert.match(icons[0], /^data:image\/svg\+xml,%3Csvg%20/, `${page}: ${icons[0].slice(0, 30)}`);
+  }
+});
+
 test('chunks are content-hashed', () => {
   const chunks = all.filter((p) => p.startsWith('_next/static/') && /\.(js|css)$/.test(p));
   assert.ok(chunks.length > 0);
